@@ -312,7 +312,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
     -- brightness adjustment
     awful.key({ }, "XF86MonBrightnessDown", function() awful.util.spawn("/home/yorick/dotfiles/bin/brightne.sh down") end),
-    awful.key({ }, "XF86MonBrightnessUp", function() awful.util.spawn("/home/yorick/dotfiles/bin/brightne.sh up") end)
+    awful.key({ }, "XF86MonBrightnessUp", function() awful.util.spawn("/home/yorick/dotfiles/bin/brightne.sh up") end),
+    awful.key({ }, "XF86AudioMute", function() awful.util.spawn("/home/yorick/dotfiles/bin/mute_toggle.sh") end),
+    awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn("/home/yorick/dotfiles/bin/vol_down.sh") end),
+    awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn("/home/yorick/dotfiles/bin/vol_up.sh") end)
 )
 
 clientkeys = awful.util.table.join(
