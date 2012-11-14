@@ -89,6 +89,18 @@ for s = 1, screen.count() do
 end
 -- }}}
 
+local upower = [[dbus-send --print-reply \
+--system \
+--dest=org.freedesktop.UPower \
+/org/freedesktop/UPower \
+org.freedesktop.UPower.]]
+local consolkit = [[dbus-send --print-reply \
+--system \
+--dest="org.freedesktop.ConsoleKit" \
+/org/freedesktop/ConsoleKit/Manager \
+org.freedesktop.ConsoleKit.Manager.]]
+
+
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
@@ -98,7 +110,26 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
+-- applications menu
+myappsmenu = {
+  { "firefox", "firefox" },
+  { "luakit", "luakit" },
+  { "htop", terminal .. " -e htop" },
+  { "ranger", terminal .. " -e ranger" },
+  { "chromium", "chromium" },
+  { "quassel", "quassel" }
+}
+-- system
+mysystemmenu = {
+  { "lock", function () awful.util.spawn("xscreensaver-command -lock") end },
+  { "Suspend", function() awful.util.spawn(upower.."Suspend") end },
+  { "Restart", consolkit.."Restart"},
+  { "Shutdown", consolkit.."Stop"},
+}
+
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "apps", myappsmenu },
+                                    { "system", mysystemmenu },
                                     { "open terminal", terminal }
                                   }
                         })
