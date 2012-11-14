@@ -1,0 +1,3 @@
+[submodule "x/pointless-xcompose"]
+	path = x/pointless-xcompose
+	url = https://github.com/leoboiko/pointless-xcompose

@@ -1,0 +1,120 @@
+! --- ~/.Xresources ------------------------------------------------------------
+! ------------------------------------------------------------------------------
+! --- generated with 4bit Terminal Color Scheme Designer -----------------------
+! ------------------------------------------------------------------------------
+! --- http://ciembor.github.com/4bit -------------------------------------------
+! ------------------------------------------------------------------------------
+
+! --- special colors ---
+
+*background: #0d1926
+*foreground: #d9e6f2
+
+! --- standard colors ---
+
+! black
+*color0: #0a0b15
+
+! bright_black
+*color8: #2b2d36
+
+! red
+*color1: #ac7780
+
+! bright_red
+*color9: #cab2bb
+
+! green
+*color2: #75ad80
+
+! bright_green
+*color10: #b0ccbb
+
+! yellow
+*color3: #acad80
+
+! bright_yellow
+*color11: #caccbb
+
+! blue
+*color4: #7577b7
+
+! bright_blue
+*color12: #b0b2d6
+
+! magenta
+*color5: #ac77b7
+
+! bright_magenta
+*color13: #cab2d6
+
+! cyan
+*color6: #75adb7
+
+! bright_cyan
+*color14: #b0ccd6
+
+! white
+*color7: #c9cad4
+
+! bright_white
+*color15: #eaecf5
+
+
+! ------------------------------------------------------------------------------
+! --- end of terminal colors section -------------------------------------------
+! ------------------------------------------------------------------------------
+
+
+! scrollbar style - xvt (default), plain (most compact), next, or xterm
+URxvt.scrollstyle: plain
+URxvt.scrollBar_right: true
+URxvt.perl-ext-common:  default,matcher
+URxvt.urlLauncher:      /usr/bin/firefox
+URxvt.matcher.button:   1
+URxvt.urgentOnBell: True
+
+URxvt.font: xft:DroidSansMono:size=6
+URxvt.geometry: 100x30
+URxvt.scrollColor: #0a0b15
+
+! xscreensaver settings
+!font settings
+xscreensaver.Dialog.bodyFont:           -*-dina-medium-r-*-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.labelFont:          -*-dina-medium-r-*-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.unameFont:          -*-dina-medium-r-*-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.dateFont:           -*-dina-medium-r-*-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.headingFont:        -*-dina-bold-r-*-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.buttonFont:         -*-dina-bold-r-*-*-12-*-*-*-*-*-*-*
+xscreensaver.passwd.passwdFont:         -*-dina-bold-r-*-*-12-*-*-*-*-*-*-*
+!general dialog box (affects main hostname, username, password text)
+xscreensaver.Dialog.foreground:         #d9e6f2
+xscreensaver.Dialog.background:         #0d1926
+
+xscreensaver.Dialog.topShadowColor:     #0a0b15
+xscreensaver.Dialog.bottomShadowColor:  #0a0b15
+
+xscreensaver.Dialog.Button.foreground:  #eaecf5
+xscreensaver.Dialog.Button.background:  #0a0b15
+
+!username/password input box and date text colour
+
+xscreensaver.Dialog.text.foreground:    #d9e6f2
+xscreensaver.Dialog.text.background:    #0d1926
+
+xscreensaver.Dialog.internalBorderWidth:15
+xscreensaver.Dialog.borderWidth:        1
+xscreensaver.Dialog.shadowThickness:    1
+
+!timeout bar (background is actually determined by Dialog.text.background)
+xscreensaver.passwd.thermometer.foreground:  #0a0b15
+xscreensaver.passwd.thermometer.background:  #0d1926
+xscreensaver.passwd.thermometer.width:       8
+!datestamp format--see the strftime(3) manual page for details
+xscreensaver.dateFormat:    %H:%M %d-%m-%Y
+
+! xclock settings
+
+xclock*analog: false
+xclock*brief: true
+xclock*foreground: #d9e6f2

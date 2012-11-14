@@ -1,0 +1,5 @@
+upower -e
+xrdb ~/dotfiles/x/Xresources
+#.screenlayout/display_pluggedin.sh
+/usr/bin/xscreensaver -no-splash &
+exec awesome

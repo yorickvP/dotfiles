@@ -1,0 +1,9 @@
+# you probably need to change this, because you're not me.
+
+[user]
+	email = yorickvanpelt@gmail.com
+	name = Yorick van Pelt
+[color]
+	diff = auto
+	status = auto
+	branch = auto
