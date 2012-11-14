@@ -278,7 +278,10 @@ globalkeys = awful.util.table.join(
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
     -- locking
-    awful.key({ modkey, "Control" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end)
+    awful.key({ modkey, "Control" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
+    -- brightness adjustment
+    awful.key({ }, "XF86MonBrightnessDown", function() awful.util.spawn("/home/yorick/dotfiles/bin/brightne.sh down") end),
+    awful.key({ }, "XF86MonBrightnessUp", function() awful.util.spawn("/home/yorick/dotfiles/bin/brightne.sh up") end)
 )
 
 clientkeys = awful.util.table.join(
