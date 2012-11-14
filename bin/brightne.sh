@@ -30,7 +30,11 @@ set_raw() {
 scale_to_bl() {
 	get_raw_maximum
 	max=$?
-	echo "$max * $1 / 1024" | bc
+	scale_from_to $1 $max
+}
+
+scale_from_to() {
+	echo "$2 * $1 / 1024" | bc
 }
 
 # from 0-max to 0-1024
@@ -52,6 +56,7 @@ max() {
 
 set_bl() {
 	set_raw $(scale_to_bl $1)
+	volnoti-show -s /usr/local/share/pixmaps/volnoti/display-brightness-symbolic.svg $(scale_from_to $1 100)
 }
 
 get() {

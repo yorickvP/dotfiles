@@ -2,4 +2,5 @@ upower -e
 xrdb ~/dotfiles/x/Xresources
 #.screenlayout/display_pluggedin.sh
 /usr/bin/xscreensaver -no-splash &
+volnoti
 exec awesome -c ~/dotfiles/awesome/rc.lua
