@@ -43,7 +43,7 @@ end
 beautiful.init("/home/yorick/dotfiles/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
+terminal = "urxvtc"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -85,20 +85,9 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag({ "w", "d", "c", 4, 5, 6, 7, 8, 9 }, s, layouts[1])
 end
 -- }}}
-
-local upower = [[dbus-send --print-reply \
---system \
---dest=org.freedesktop.UPower \
-/org/freedesktop/UPower \
-org.freedesktop.UPower.]]
-local consolkit = [[dbus-send --print-reply \
---system \
---dest="org.freedesktop.ConsoleKit" \
-/org/freedesktop/ConsoleKit/Manager \
-org.freedesktop.ConsoleKit.Manager.]]
 
 
 -- {{{ Menu
@@ -122,9 +111,9 @@ myappsmenu = {
 -- system
 mysystemmenu = {
   { "lock", function () awful.util.spawn("xscreensaver-command -lock") end },
-  { "Suspend", function() awful.util.spawn(upower.."Suspend") end },
-  { "Restart", consolkit.."Restart"},
-  { "Shutdown", consolkit.."Stop"},
+  { "Suspend", "systemctl suspend" },
+  { "Restart", "systemctl reboot" },
+  { "Shutdown", "systemctl poweroff" },
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
@@ -136,6 +125,17 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
+
+
+awful.menu.menu_keys = { up    = { "k", "Up" },
+                         down  = { "j", "Down" },
+                         exec  = { "l", "Return", "Right" },
+                         -- the new item
+                         enter = { "Right" },
+                         --
+                         back  = { "h", "Left" },
+                         close = { "q", "Escape" },
+                       }
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -309,7 +309,7 @@ globalkeys = awful.util.table.join(
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
     -- locking
-    awful.key({ modkey, "Control" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
+    awful.key({ modkey, "Control", "Shift" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
     -- brightness adjustment
     awful.key({ }, "XF86MonBrightnessDown", function() awful.util.spawn("/home/yorick/dotfiles/bin/brightne.sh down") end),
     awful.key({ }, "XF86MonBrightnessUp", function() awful.util.spawn("/home/yorick/dotfiles/bin/brightne.sh up") end),
