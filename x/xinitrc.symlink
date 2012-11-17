@@ -3,4 +3,6 @@ xrdb ~/dotfiles/x/Xresources
 #.screenlayout/display_pluggedin.sh
 /usr/bin/xscreensaver -no-splash &
 volnoti
+dropbox start
+urxvtd -f -o
 exec awesome -c ~/dotfiles/awesome/rc.lua
