@@ -5,12 +5,12 @@
 
 theme = {}
 
-theme.font          = "sans 8"
+theme.font          = "Tamsyn 10"
 
 theme.bg_normal     = "#0d1926"
-theme.bg_focus      = "#0a0b15"
+theme.bg_focus      = "#444444"
 theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#444444"
+theme.bg_minimize   = "#0a0b15"
 theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = "#d9e6f2"
