@@ -47,6 +47,8 @@ terminal = "urxvtc"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
+icon_dir = "/home/yorick/dotfiles/awesome/icons/png"
+
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
@@ -141,10 +143,194 @@ awful.menu.menu_keys = { up    = { "k", "Up" },
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
--- {{{ Wibox
--- Create a textclock widget
-mytextclock = awful.widget.textclock()
+background_timers = {}
 
+function run_background(cmd,funtocall)
+   local r = io.popen("mktemp")
+   local logfile = r:read("*line")
+   r:close()
+
+   cmdstr = cmd .. " &> " .. logfile .. " & "
+   local cmdf = io.popen(cmdstr)
+   cmdf:close()
+   background_timers[cmd] = {
+       file  = logfile,
+       timer = timer{timeout=1}
+   }
+   background_timers[cmd].timer:connect_signal("timeout",function()
+       local cmdf = io.popen("pgrep -f '" .. cmd .. "'")
+       local s = cmdf:read("*all")
+       cmdf:close()
+       if (s=="") then
+           background_timers[cmd].timer:stop()
+           local lf = io.open(background_timers[cmd].file)
+           funtocall(lf:read("*all"))
+           lf:close()
+           io.popen("rm " .. background_timers[cmd].file)
+       end
+   end)
+   background_timers[cmd].timer:start()
+end
+
+-- {{{ Wibox
+
+-- stolen spacers
+spacer = wibox.widget.textbox()
+spacer:set_text(" ")
+sqb_right = wibox.widget.textbox()
+sqb_right:set_markup("<span color='" .. beautiful.dgrey .. "'>]</span>")
+sqb_left = wibox.widget.textbox()
+sqb_left:set_markup("<span color='" .. beautiful.dgrey .. "'>[</span>")
+
+
+-- clock
+clock_time = awful.widget.textclock('<span color="#d0d0d0">%H:%M</span>')
+clock_day = awful.widget.textclock('<span color="#d0d0d0">%a %d/%m</span>')
+clock_icon = wibox.widget.imagebox()
+clock_icon:set_image(icon_dir .. "/clock.png")
+
+
+-- google reader
+google_reader_widget = wibox.widget.textbox()
+google_reader_label = wibox.widget.textbox()
+google_reader_label:set_markup("<span color='" .. beautiful.dgrey .. "'>RSS </span>")
+do
+  google_reader_widget:set_markup("<span color='" .. beautiful.dgrey .. "'>loading</span>")
+  local greader_timer = timer({ timeout = 315 }) -- 5:15 minutes
+  local greader_info = "loading"
+  local loading_widget = false
+  function update_google_reader()
+    -- protect against loading multiple times
+    if loading_widget then
+      return
+    end
+    loading_widget = true
+    run_background("~/dotfiles/bin/reader_client.js totalunread", function (output)
+      loading_widget = false
+      greader_info = output:match( "(.-)%s*$") -- removed trailing whitespace
+      google_reader_widget:set_markup("<span color='" .. beautiful.magenta .. "'>".. greader_info .."</span>")
+    end)
+  end
+  greader_timer:connect_signal("timeout", update_google_reader)
+  greader_timer:start()
+  update_google_reader()
+
+  -- tooltip stuff
+  local greader_tooltip
+  local greader_info_details = "loading"
+
+  function remove_greader()
+      if greader_tooltip~= nil then
+          naughty.destroy(greader_tooltip)
+          greader_tooltip = nil
+      end
+  end
+
+  local loading_tooltip = false
+  function update_greader_tooltip()
+    if loading_tooltip then
+      return
+    end
+    loading_tooltip = true
+    run_background("~/dotfiles/bin/reader_client.js unreadlist", function (output)
+      loading_tooltip = false
+      greader_info_details = string.gsub(output, "%$(%w+)", "%1")
+      greader_info_details = greader_info_details:match( "(.-)%s*$") -- removed trailing whitespace
+    end)
+  end
+
+  function add_greader()
+      remove_greader()
+      greader_tooltip = naughty.notify({
+       title = "<span color='" .. beautiful.dgrey .. "'>google reader ("..greader_info.." new)</span>",
+       text = greader_info_details,
+       timeout = 0,
+       screen = mouse.screen
+      })
+  end
+
+  update_greader_tooltip()
+  greader_timer:connect_signal("timeout", update_greader_tooltip)
+
+  google_reader_widget:connect_signal("mouse::enter", add_greader)
+  google_reader_widget:connect_signal("mouse::leave", remove_greader)
+  google_reader_widget:buttons(awful.util.table.join(
+      awful.button({ }, 1, function () awful.util.spawn("firefox reader.google.com", false) end),
+      awful.button({ }, 2, function ()
+        update_greader_tooltip()
+        update_google_reader()
+      end)))
+
+end
+
+-- battery
+battery_widget = wibox.widget.textbox()
+battery_icon = wibox.widget.imagebox()
+battery_icon:set_image(icon_dir .. "/bat_empty_01.png") -- todo: change based on fullness
+do
+  local icon_full = icon_dir .. "/bat_full_01.png"
+  local icon_low = icon_dir .. "/bat_low_01.png"
+  local icon_empty = icon_dir .. "/bat_empty_01.png"
+  local show_Naughtyfication = true
+  local arguments = nil
+
+  if show_Naughtyfication then
+    local battery = nil
+
+    local battery_state = {
+         ["⌁"] = "unknown",
+         ["↯"] = "charged",
+         ["+"] = "charging",
+         ["-"] = "discharging"
+     }
+
+    function remove_battery()
+      if battery ~= nil then
+        naughty.destroy(battery)
+        battery = nil
+      end
+    end
+    function add_battery()
+        if arguments == nil then
+          return
+        end
+        remove_battery()
+        local text = "\n" .. battery_state[arguments[1]]
+        if arguments[3] ~= "N/A" then
+          text = text .. "\n" .. arguments[3] .. "h/min remaining"
+        end
+        battery = naughty.notify({
+            title = "<span color='" .. beautiful.dgrey .. "'>battery</span>",
+            text = text,
+            timeout = 0,
+            screen = mouse.screen,
+            --ontop = true,
+        })
+    end
+
+    battery_widget:connect_signal("mouse::enter", add_battery)
+    battery_widget:connect_signal("mouse::leave", remove_battery)
+
+  end
+
+  vicious.register(battery_widget, vicious.widgets.bat, function (widget, args)
+    arguments = args
+
+    if args[2] < 10 then
+        naughty.notify({ title="<span color='" .. beautiful.dgrey .. "'>Low Battery Level!</span>\n", 
+        text="" .. args[3] .. " min remaining",
+        timeout=35 })
+        battery_icon:set_image(icon_empty)
+        return "<span color='" .. beautiful.lpink .. "'>" .. args[2] .. args[1] .. "</span>"
+    elseif args[2] < 30 then
+        battery_icon:set_image(icon_low)
+        return "<span color='" .. beautiful.lpink .. "'>" .. args[2] .. args[1] .. "</span>"
+    else
+        battery_icon:set_image(icon_full)
+        return "<span color='" .. beautiful.dgreen .. "'>" .. args[2] .. args[1] .. "</span>"
+    end
+  end, 96, "BAT0")
+end
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -216,18 +402,35 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
     left_layout:add(mylauncher)
+    left_layout:add(sqb_left)
     left_layout:add(mytaglist[s])
+    left_layout:add(sqb_right)
     left_layout:add(mypromptbox[s])
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then
+      right_layout:add(sqb_left)
       right_layout:add(wibox.widget.systray())
+      right_layout:add(sqb_right)
     end
-    local mybattwidget = wibox.widget.textbox()
-    vicious.register(mybattwidget, vicious.widgets.bat, "$1$2%", 96, "BAT0")
-    right_layout:add(mybattwidget)
-    right_layout:add(mytextclock)
+    right_layout:add(sqb_left)
+    right_layout:add(google_reader_label)
+    right_layout:add(google_reader_widget)
+    right_layout:add(sqb_right)
+    right_layout:add(spacer)
+    right_layout:add(sqb_left)
+    right_layout:add(battery_icon)
+    right_layout:add(battery_widget)
+    right_layout:add(sqb_right)
+    right_layout:add(spacer)
+    right_layout:add(sqb_left)
+    right_layout:add(clock_icon)
+    right_layout:add(clock_day)
+    right_layout:add(spacer)
+    right_layout:add(clock_time)
+    right_layout:add(sqb_right)
+    right_layout:add(spacer)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
