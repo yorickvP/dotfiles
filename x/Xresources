@@ -74,7 +74,7 @@ URxvt.urlLauncher:      /usr/bin/firefox
 URxvt.matcher.button:   1
 URxvt.urgentOnBell: True
 
-URxvt.font: xft:DroidSansMono:size=6
+URxvt.font: -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
 URxvt.geometry: 100x30
 URxvt.scrollColor: #0a0b15
 
