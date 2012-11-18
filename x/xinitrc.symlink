@@ -1,4 +1,6 @@
 upower -e
+xset fp+ /usr/share/fonts/local
+xset fp rehash
 xrdb ~/dotfiles/x/Xresources
 #.screenlayout/display_pluggedin.sh
 /usr/bin/xscreensaver -no-splash &
