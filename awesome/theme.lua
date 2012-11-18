@@ -5,7 +5,7 @@
 
 theme = {}
 
-theme.font          = "Tamsyn 10"
+theme.font          = "Termsyn 8"
 
 theme.bg_normal     = "#0d1926"
 theme.bg_focus      = "#444444"
@@ -17,6 +17,17 @@ theme.fg_normal     = "#d9e6f2"
 theme.fg_focus      = "#eaecf5"
 theme.fg_urgent     = "#eaecf5"
 theme.fg_minimize   = "#c9cad4"
+
+-- temp, stolen
+theme.tooltip_fg_color = "#d0d0d0"
+
+theme.dgrey = "#5e5e5e"
+theme.lpink = "#a94952"
+theme.dgreen = "#83a949"
+theme.magenta = "#a94983"
+theme.blue = "#4983a9"
+theme.white = "#d0d0d0"
+-- end temp, stolen
 
 theme.border_width  = 1
 theme.border_normal = "#0a0b15"
@@ -89,7 +100,7 @@ theme.layout_tiletop = "/usr/share/awesome/themes/default/layouts/tiletopw.png"
 theme.layout_spiral  = "/usr/share/awesome/themes/default/layouts/spiralw.png"
 theme.layout_dwindle = "/usr/share/awesome/themes/default/layouts/dwindlew.png"
 
-theme.awesome_icon = "/usr/share/awesome/icons/awesome16.png"
+theme.awesome_icon = "/home/yorick/dotfiles/awesome/icons/png/arch.png"
 
 -- Define the icon theme for application icons. If not set then the icons 
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
