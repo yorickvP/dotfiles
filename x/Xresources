@@ -7,59 +7,63 @@
 
 ! --- special colors ---
 
-*background: #0d1926
-*foreground: #d9e6f2
+! pale_white: #E0D0AA
+! bluegreen: #8DA893
+! base: #1D1E24
+! orange: #C18E44
+! brown: #493227
+
+*background: #1d1e24
+*foreground: #8da893
 
 ! --- standard colors ---
-
 ! black
-*color0: #0a0b15
+*color0: #000000
 
 ! bright_black
-*color8: #2b2d36
+*color8: #262626
 
 ! red
-*color1: #ac7780
+*color1: #b87a7a
 
 ! bright_red
-*color9: #cab2bb
+*color9: #dbbdbd
 
 ! green
-*color2: #75ad80
+*color2: #7ab87a
 
 ! bright_green
-*color10: #b0ccbb
+*color10: #bddbbd
 
 ! yellow
-*color3: #acad80
+*color3: #b8b87a
 
 ! bright_yellow
-*color11: #caccbb
+*color11: #dbdbbd
 
 ! blue
-*color4: #7577b7
+*color4: #7a7ab8
 
 ! bright_blue
-*color12: #b0b2d6
+*color12: #bdbddb
 
 ! magenta
-*color5: #ac77b7
+*color5: #b87ab8
 
 ! bright_magenta
-*color13: #cab2d6
+*color13: #dbbddb
 
 ! cyan
-*color6: #75adb7
+*color6: #7ab8b8
 
 ! bright_cyan
-*color14: #b0ccd6
+*color14: #bddbdb
 
 ! white
-*color7: #c9cad4
+*color7: #d9d9d9
 
 ! bright_white
-*color15: #eaecf5
-
+*color15: #ffffff
 
 ! ------------------------------------------------------------------------------
 ! --- end of terminal colors section -------------------------------------------
@@ -76,39 +80,39 @@ URxvt.urgentOnBell: True
 
 URxvt.font: -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
 URxvt.geometry: 100x30
-URxvt.scrollColor: #0a0b15
+URxvt.scrollColor: #493227
 
 ! xscreensaver settings
 !font settings
-xscreensaver.Dialog.bodyFont:           -*-dina-medium-r-*-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.labelFont:          -*-dina-medium-r-*-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.unameFont:          -*-dina-medium-r-*-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.dateFont:           -*-dina-medium-r-*-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.bodyFont:           -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.labelFont:          -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.unameFont:          -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.dateFont:           -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
 xscreensaver.Dialog.headingFont:        -*-dina-bold-r-*-*-12-*-*-*-*-*-*-*
 xscreensaver.Dialog.buttonFont:         -*-dina-bold-r-*-*-12-*-*-*-*-*-*-*
 xscreensaver.passwd.passwdFont:         -*-dina-bold-r-*-*-12-*-*-*-*-*-*-*
 !general dialog box (affects main hostname, username, password text)
-xscreensaver.Dialog.foreground:         #d9e6f2
-xscreensaver.Dialog.background:         #0d1926
+xscreensaver.Dialog.foreground:         #8da893
+xscreensaver.Dialog.background:         #1d1e24
 
-xscreensaver.Dialog.topShadowColor:     #0a0b15
-xscreensaver.Dialog.bottomShadowColor:  #0a0b15
+xscreensaver.Dialog.topShadowColor:     #C18E44
+xscreensaver.Dialog.bottomShadowColor:  #C18E44
 
 xscreensaver.Dialog.Button.foreground:  #eaecf5
-xscreensaver.Dialog.Button.background:  #0a0b15
+xscreensaver.Dialog.Button.background:  #493227
 
 !username/password input box and date text colour
 
-xscreensaver.Dialog.text.foreground:    #d9e6f2
-xscreensaver.Dialog.text.background:    #0d1926
+xscreensaver.Dialog.text.foreground:    #8da893
+xscreensaver.Dialog.text.background:    #1d1e24
 
 xscreensaver.Dialog.internalBorderWidth:15
 xscreensaver.Dialog.borderWidth:        1
 xscreensaver.Dialog.shadowThickness:    1
 
 !timeout bar (background is actually determined by Dialog.text.background)
-xscreensaver.passwd.thermometer.foreground:  #0a0b15
-xscreensaver.passwd.thermometer.background:  #0d1926
+xscreensaver.passwd.thermometer.foreground:  #8da893
+xscreensaver.passwd.thermometer.background:  #1d1e24
 xscreensaver.passwd.thermometer.width:       8
 !datestamp format--see the strftime(3) manual page for details
 xscreensaver.dateFormat:    %H:%M %d-%m-%Y
@@ -117,4 +121,4 @@ xscreensaver.dateFormat:    %H:%M %d-%m-%Y
 
 xclock*analog: false
 xclock*brief: true
-xclock*foreground: #d9e6f2
+xclock*foreground: #8da893
