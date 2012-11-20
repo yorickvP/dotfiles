@@ -1,3 +1,9 @@
+-- fix the package location
+do
+  confFolder = awesome.conffile:match("(/.+)/.+$")
+  package.path = package.path .. ";" .. confFolder .. "/?.lua" .. ";" .. confFolder .. "/?/init.lua"
+end
+
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -40,14 +46,14 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/home/yorick/dotfiles/awesome/theme.lua")
+beautiful.init(confFolder .. "/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvtc"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
-icon_dir = "/home/yorick/dotfiles/awesome/icons/png"
+icon_dir = confFolder .. "/icons/png"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
