@@ -3,30 +3,36 @@
 -- with a slightly different colour scheme
 ---------------------------
 
+-- pale_white: #E0D0AA
+-- bluegreen: #8DA893
+-- base: #1D1E24
+-- orange: #C18E44
+-- brown: #493227
+
 theme = {}
 
 theme.font          = "Termsyn 8"
 
-theme.bg_normal     = "#0d1926"
-theme.bg_focus      = "#444444"
+theme.bg_normal     = "#1D1E24"
+theme.bg_focus      = "#53545B"
 theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#0a0b15"
+theme.bg_minimize   = "#493227"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#d9e6f2"
-theme.fg_focus      = "#eaecf5"
-theme.fg_urgent     = "#eaecf5"
-theme.fg_minimize   = "#c9cad4"
+theme.fg_normal     = "#8DA893"
+theme.fg_focus      = "#C18E44"
+theme.fg_urgent     = "#E0D0AA"
+theme.fg_minimize   = "#53545B"
 
 -- temp, stolen
 theme.tooltip_fg_color = "#d0d0d0"
 
 theme.dgrey = "#5e5e5e"
 theme.lpink = "#a94952"
-theme.dgreen = "#83a949"
-theme.magenta = "#a94983"
-theme.blue = "#4983a9"
-theme.white = "#d0d0d0"
+theme.dgreen = "#7ab87a"
+theme.magenta = "#b87ab8"
+theme.blue = "#7a7ab8"
+theme.white = "#d9d9d9"
 -- end temp, stolen
 
 theme.border_width  = 1
@@ -43,10 +49,12 @@ theme.border_marked = "#91231c"
 -- mouse_finder_[color|timeout|animate_timeout|radius|factor]
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
+theme.bg_focus = theme.bg_normal
+-- theme.taglist_fg_focus = "#C18E44"
 
 -- Display the taglist squares
-theme.taglist_squares_sel   = "/usr/share/awesome/themes/default/taglist/squarefw.png"
-theme.taglist_squares_unsel = "/usr/share/awesome/themes/default/taglist/squarew.png"
+theme.taglist_squares_sel   = "/home/yorick/dotfiles/awesome/icons/squarefw.png"
+theme.taglist_squares_unsel = "/home/yorick/dotfiles/awesome/icons/squarew.png"
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
@@ -84,7 +92,7 @@ theme.titlebar_maximized_button_focus_inactive  = "/usr/share/awesome/themes/def
 theme.titlebar_maximized_button_normal_active = "/usr/share/awesome/themes/default/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active  = "/usr/share/awesome/themes/default/titlebar/maximized_focus_active.png"
 
-theme.wallpaper = "/usr/share/awesome/themes/default/background.png"
+theme.wallpaper = "/home/yorick/dotfiles/awesome/wallpaper.png"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/usr/share/awesome/themes/default/layouts/fairhw.png"
