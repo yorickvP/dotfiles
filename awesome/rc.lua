@@ -514,6 +514,11 @@ globalkeys = awful.util.table.join(
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
+    -- dmenu launcher
+    awful.key({ modkey },            "e",     function () awful.util.spawn("/home/yorick/dotfiles/bin/dlaunch.sh") end),
+    awful.key({ modkey },            "=",     function () awful.util.spawn("/home/yorick/dotfiles/bin/dcalc.sh") end),
+    awful.key({ modkey },            "z",     function () awful.util.spawn("/home/yorick/dotfiles/bin/dwinpick.sh") end),
+
     awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run({ prompt = "Run Lua code: " },
