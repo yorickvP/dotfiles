@@ -93,12 +93,12 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    local tagNames = { "term", "web", "dev", "chat", "edu", "med", "misc", 8, 9 }
+    local tagNames = { "term", "web", "dev", "chat", "edu", "media", "misc", 8, 9 }
     local tagLayouts  = {   1,     2,     2,      2,     1,     1,       1, 1, 1 }
     for i,l in ipairs(tagLayouts) do
       tagLayouts[i] = layouts[l]
     end
-    tags[s] = awful.tag({ "term", "web", "dev", "chat", "edu", "mus", "med", 8, 9 }, s, tagLayouts)
+    tags[s] = awful.tag(tagNames, s, tagLayouts)
 end
 -- }}}
 
