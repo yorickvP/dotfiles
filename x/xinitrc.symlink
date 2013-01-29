@@ -4,6 +4,7 @@ xset fp rehash
 xrdb ~/dotfiles/x/Xresources
 #.screenlayout/display_pluggedin.sh
 /usr/bin/xscreensaver -no-splash &
+pulseaudio --start
 volnoti
 dropbox start
 urxvtd -f -o
