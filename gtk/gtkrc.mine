@@ -1,3 +1,8 @@
 gtk-theme-name = "diehard4"
 gtk-icon-theme-name = "tango"
 
+style "schrift" {
+	font_name = "Termsyn 8"
+}
+widget_class "*" style "schrift"
+gtk-font-name = "Termsyn 8"
