@@ -35,10 +35,12 @@ theme.blue = "#7a7ab8"
 theme.white = "#d9d9d9"
 -- end temp, stolen
 
-theme.border_width  = 1
-theme.border_normal = "#0a0b15"
+theme.border_width  = 2
+-- theme.border_normal = "#0a0b15"
 theme.border_focus  = "#535d6c"
 theme.border_marked = "#91231c"
+-- theme.border_normal = theme.fg_normal
+theme.border_normal = theme.bg_normal
 
 -- There are other variable sets
 -- overriding the default one when
