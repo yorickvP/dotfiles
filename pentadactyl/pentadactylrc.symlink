@@ -23,7 +23,7 @@ nmap -group feedly ga <Pass>
 nmap -group feedly gg <Pass>
 nmap -group feedly gl <Pass>
 
-set passkeys+=www.feedly.com:"r/jknpov<S-j><S-m>mxs<S-v>"
+set passkeys+=www.feedly.com:"r/jknpv<S-j><S-m>mxs<S-v>"
 
 " github:
 set passkeys+=github.com:"<CR>r?jks"
