@@ -122,7 +122,7 @@ myappsmenu = {
 }
 -- system
 mysystemmenu = {
-  { "lock", function () awful.util.spawn("xscreensaver-command -lock") end },
+  { "lock", function () awful.util.spawn("/home/yorick/dotfiles/bin/lock.sh") end },
   { "Suspend", "systemctl suspend" },
   { "Restart", "systemctl reboot" },
   { "Shutdown", "systemctl poweroff" },
@@ -421,6 +421,7 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
+    awful.button({ }, 1, function () mymainmenu:hide() end),
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
@@ -491,13 +492,15 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     -- locking
-    awful.key({ modkey, "Control", "Shift" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
+    awful.key({ modkey, "Control", "Shift" }, "l", function () awful.util.spawn("/home/yorick/dotfiles/bin/lock.sh") end),
     -- brightness adjustment
     awful.key({ }, "XF86MonBrightnessDown", function() awful.util.spawn("/home/yorick/dotfiles/bin/brightne.sh down") end),
     awful.key({ }, "XF86MonBrightnessUp", function() awful.util.spawn("/home/yorick/dotfiles/bin/brightne.sh up") end),
     awful.key({ }, "XF86AudioMute", function() awful.util.spawn("/home/yorick/dotfiles/bin/mute_toggle.sh") end),
     awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn("/home/yorick/dotfiles/bin/vol_down.sh") end),
-    awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn("/home/yorick/dotfiles/bin/vol_up.sh") end)
+    awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn("/home/yorick/dotfiles/bin/vol_up.sh") end),
+    -- awesome screenshotness
+    awful.key({ modkey }, "s", function() awful.util.spawn("/home/yorick/dotfiles/bin/screenshot_dropbox.sh") end)
 )
 
 clientkeys = awful.util.table.join(
