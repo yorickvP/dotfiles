@@ -1,11 +1,10 @@
-upower -e
 xset fp+ /usr/share/fonts/local
 xset fp rehash
 xrdb ~/dotfiles/x/Xresources
 #.screenlayout/display_pluggedin.sh
-/usr/bin/xscreensaver -no-splash &
+#/usr/bin/xscreensaver -no-splash &
 pulseaudio --start
 volnoti
-dropbox start
+dropbox start &
 urxvtd -f -o
 exec awesome -c ~/dotfiles/awesome/rc.lua
