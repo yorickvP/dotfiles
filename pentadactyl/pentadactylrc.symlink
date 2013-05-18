@@ -44,7 +44,7 @@ style -name=minimal chrome://* <<EOM
   color: #8DA893 !important;
   background: #1D1E24 !important;
   border: none !important;
-  max-height: 24px !important;
+  max-height: 32px !important;
   min-height: 0 !important; 
   margin: 0 !important;
   /*max-width: 100% !important;*/
