@@ -13,8 +13,8 @@
 ! orange: #C18E44
 ! brown: #493227
 
-*background: #1d1e24
-*foreground: #8da893
+*background: #202020
+*foreground: #bbbbbb
 
 ! --- standard colors ---
 ! black
