@@ -1,5 +1,5 @@
-gtk-theme-name = "diehard4"
-gtk-icon-theme-name = "tango"
+gtk-theme-name = "Boje-Greyscale"
+gtk-icon-theme-name = "clarity-canus"
 
 style "schrift" {
 	font_name = "Termsyn 8"
