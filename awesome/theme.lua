@@ -13,16 +13,16 @@ theme = {}
 
 theme.font          = "Termsyn 8"
 
-theme.bg_normal     = "#1D1E24"
-theme.bg_focus      = "#53545B"
-theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#493227"
+theme.bg_normal     = "#202020"
+theme.bg_focus      = "#303030"
+theme.bg_urgent     = "#b0b0b0"
+theme.bg_minimize   = "#202020"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#8DA893"
-theme.fg_focus      = "#C18E44"
-theme.fg_urgent     = "#E0D0AA"
-theme.fg_minimize   = "#53545B"
+theme.fg_normal     = "#bbbbbb"
+theme.fg_focus      = "#bbbbbb"
+theme.fg_urgent     = "#000000"
+theme.fg_minimize   = "#707070"
 
 -- temp, stolen
 theme.tooltip_fg_color = "#d0d0d0"
@@ -36,11 +36,11 @@ theme.white = "#d9d9d9"
 -- end temp, stolen
 
 theme.border_width  = 2
--- theme.border_normal = "#0a0b15"
-theme.border_focus  = "#535d6c"
+theme.border_normal = "#202020"
+theme.border_focus  = "#404040"
 theme.border_marked = "#91231c"
 -- theme.border_normal = theme.fg_normal
-theme.border_normal = theme.bg_normal
+-- theme.border_normal = theme.bg_normal
 
 -- There are other variable sets
 -- overriding the default one when
@@ -51,7 +51,7 @@ theme.border_normal = theme.bg_normal
 -- mouse_finder_[color|timeout|animate_timeout|radius|factor]
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
-theme.bg_focus = theme.bg_normal
+--theme.bg_focus = theme.bg_normal
 -- theme.taglist_fg_focus = "#C18E44"
 
 -- Display the taglist squares
@@ -94,7 +94,7 @@ theme.titlebar_maximized_button_focus_inactive  = "/usr/share/awesome/themes/def
 theme.titlebar_maximized_button_normal_active = "/usr/share/awesome/themes/default/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active  = "/usr/share/awesome/themes/default/titlebar/maximized_focus_active.png"
 
-theme.wallpaper = "/home/yorick/dotfiles/awesome/wallpaper.png"
+theme.wallpaper = "/home/yorick/dotfiles/awesome/wallpaper.jpg"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/usr/share/awesome/themes/default/layouts/fairhw.png"
