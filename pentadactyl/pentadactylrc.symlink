@@ -16,6 +16,20 @@ nmap -group google gp <Pass>
 
 set passkeys+=www.google.com/reader:"12jksv?/rnpNPXamAT "
 
+" feedly:
+group -description 'Feedly' -locations=www.feedly.com feedly
+nmap -group feedly gm <Pass>
+nmap -group feedly ga <Pass>
+nmap -group feedly gg <Pass>
+nmap -group feedly gl <Pass>
+
+set passkeys+=www.feedly.com:"r/jknpov<S-j><S-m>mxs<S-v>"
+
+" github:
+set passkeys+=github.com:"<CR>r?jks"
+
+" reddit:
+set passkeys+=reddit.com:"jk[]azp?.srfF"
 
 " A minimal userChrome style
 style -name=minimal chrome://* <<EOM
