@@ -6,6 +6,8 @@ xrdb ~/dotfiles/x/Xresources
 pulseaudio --start
 volnoti
 dropbox start &
+syndaemon -t -k -i 1 -d &
+synclient HorizScrollDelta=-107 VertScrollDelta=-107
 urxvtd -f -o
 (sleep 2s; compton --config ~/dotfiles/x/compton.conf -b) &
 exec awesome -c ~/dotfiles/awesome/rc.lua
