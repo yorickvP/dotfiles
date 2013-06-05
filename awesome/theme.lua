@@ -13,14 +13,14 @@ theme = {}
 
 theme.font          = "Termsyn 8"
 
-theme.bg_normal     = "#202020"
-theme.bg_focus      = "#303030"
+theme.bg_normal     = "#202020aa"
+theme.bg_focus      = "#00000000"
 theme.bg_urgent     = "#b0b0b0"
-theme.bg_minimize   = "#202020"
-theme.bg_systray    = theme.bg_normal
+theme.bg_minimize   = "#00000000"
+theme.bg_systray    = "#202020aa"
 
-theme.fg_normal     = "#bbbbbb"
-theme.fg_focus      = "#bbbbbb"
+theme.fg_normal     = "#e9e9e9"
+theme.fg_focus      = "#B2CF56"
 theme.fg_urgent     = "#000000"
 theme.fg_minimize   = "#707070"
 
@@ -41,6 +41,8 @@ theme.border_focus  = "#404040"
 theme.border_marked = "#91231c"
 -- theme.border_normal = theme.fg_normal
 -- theme.border_normal = theme.bg_normal
+
+theme.tasklist_bg_normal = "#00000000"
 
 -- There are other variable sets
 -- overriding the default one when
