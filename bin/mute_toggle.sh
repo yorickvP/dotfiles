@@ -12,7 +12,7 @@ sink=$(pacmd info|grep "Default sink name"|awk '{print $4}')
 let line=$(pacmd list-sinks|grep -n $sink|sed '{s/://}'|awk '{print $1}')
 # add 12 for "muted" line
 
-let line=($line + 12)
+let line=($line + 10)
 
 # extract mute status from that line
 mute=$(pacmd list-sinks|awk 'NR==i"'"$line"'"{print $2}')
