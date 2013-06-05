@@ -7,4 +7,5 @@ pulseaudio --start
 volnoti
 dropbox start &
 urxvtd -f -o
+(sleep 2s; compton --config ~/dotfiles/x/compton.conf -b) &
 exec awesome -c ~/dotfiles/awesome/rc.lua
