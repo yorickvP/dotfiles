@@ -9,5 +9,3 @@ export CLICOLOR=1
 export GREP_COLOR='3;33'
 export CDPATH=~/projects:~/
 
-# QGtkStyle does *not* like includes.
-export GTK2_RC_FILES="$HOME/dotfiles/gtk/gtkrc.mine"

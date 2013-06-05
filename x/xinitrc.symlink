@@ -1,5 +1,7 @@
 xset fp+ /usr/share/fonts/local
 xset fp rehash
+# QGtkStyle does *not* like includes.
+export GTK2_RC_FILES="$HOME/dotfiles/gtk/gtkrc.mine"
 xrdb ~/dotfiles/x/Xresources
 #.screenlayout/display_pluggedin.sh
 #/usr/bin/xscreensaver -no-splash &
