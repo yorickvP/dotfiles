@@ -164,80 +164,6 @@ clock_day = awful.widget.textclock('<span color="#d0d0d0">%a %d/%m</span>')
 clock_icon = wibox.widget.imagebox()
 clock_icon:set_image(icon_dir .. "/clock.png")
 
-
--- google reader
--- google_reader_widget = wibox.widget.textbox()
--- google_reader_label = wibox.widget.textbox()
--- google_reader_label:set_markup("<span color='" .. beautiful.dgrey .. "'>RSS </span>")
--- do
---   google_reader_widget:set_markup("<span color='" .. beautiful.dgrey .. "'>loading</span>")
---   local greader_timer = timer({ timeout = 315 }) -- 5:15 minutes
---   local greader_info = "loading"
---   local loading_widget = false
---   function update_google_reader()
---     -- protect against loading multiple times
---     if loading_widget then
---       return
---     end
---     loading_widget = true
---     run_background("~/dotfiles/bin/reader_client.js totalunread", function (output)
---       loading_widget = false
---       greader_info = output:match( "(.-)%s*$") -- removed trailing whitespace
---       google_reader_widget:set_markup("<span color='" .. beautiful.magenta .. "'>".. greader_info .."</span>")
---     end)
---   end
---   greader_timer:connect_signal("timeout", update_google_reader)
---   greader_timer:start()
---   update_google_reader()
-
---   -- tooltip stuff
---   local greader_tooltip
---   local greader_info_details = "loading"
-
---   function remove_greader()
---       if greader_tooltip~= nil then
---           naughty.destroy(greader_tooltip)
---           greader_tooltip = nil
---       end
---   end
-
---   local loading_tooltip = false
---   function update_greader_tooltip()
---     if loading_tooltip then
---       return
---     end
---     loading_tooltip = true
---     run_background("~/dotfiles/bin/reader_client.js unreadlist", function (output)
---       loading_tooltip = false
---       greader_info_details = string.gsub(output, "%$(%w+)", "%1")
---       greader_info_details = greader_info_details:match( "(.-)%s*$") -- removed trailing whitespace
---     end)
---   end
-
---   function add_greader()
---       remove_greader()
---       greader_tooltip = naughty.notify({
---        title = "<span color='" .. beautiful.dgrey .. "'>google reader ("..greader_info.." new)</span>",
---        text = greader_info_details,
---        timeout = 0,
---        screen = mouse.screen
---       })
---   end
-
---   update_greader_tooltip()
---   greader_timer:connect_signal("timeout", update_greader_tooltip)
-
---   google_reader_widget:connect_signal("mouse::enter", add_greader)
---   google_reader_widget:connect_signal("mouse::leave", remove_greader)
---   google_reader_widget:buttons(awful.util.table.join(
---       awful.button({ }, 1, function () awful.util.spawn("firefox reader.google.com", false) end),
---       awful.button({ }, 2, function ()
---         update_greader_tooltip()
---         update_google_reader()
---       end)))
-
--- end
-
 -- battery
 battery_widget = wibox.widget.textbox()
 battery_icon = wibox.widget.imagebox()
@@ -482,7 +408,6 @@ globalkeys = awful.util.table.join(
     -- dmenu launcher
     awful.key({ modkey },            "e",     function () awful.util.spawn("/home/yorick/dotfiles/bin/dlaunch.sh") end),
     awful.key({ modkey },            "=",     function () awful.util.spawn("/home/yorick/dotfiles/bin/dcalc.sh") end),
-    awful.key({ modkey },            "z",     function () awful.util.spawn("/home/yorick/dotfiles/bin/dwinpick.sh") end),
 
     awful.key({ modkey }, "x",
               function ()
