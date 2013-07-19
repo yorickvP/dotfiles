@@ -1,0 +1,12 @@
+{
+	"symlinks": [
+		{
+			"source": "zprofile.symlink",
+			"target": "~/.zprofile"
+		},
+		{
+			"source": "zshrc.symlink",
+			"target": "~/.zshrc"
+		}
+	]
+}

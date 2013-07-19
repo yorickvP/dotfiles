@@ -1,0 +1,8 @@
+{
+	"symlinks": [
+		{
+			"source": "pentadactylrc.symlink",
+			"target": "~/.pentadactylrc"
+		}
+	]
+}

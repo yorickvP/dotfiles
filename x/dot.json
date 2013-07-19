@@ -1,0 +1,12 @@
+{
+	"symlinks": [
+		{
+			"source": "xinitrc.symlink",
+			"target": "~/.xinitrc"
+		},
+		{
+			"source": "XCompose.symlink",
+			"target": "~/.XCompose"
+		}
+	]
+}

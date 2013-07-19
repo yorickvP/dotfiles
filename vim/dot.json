@@ -1,0 +1,8 @@
+{
+	"symlinks": [
+		{
+			"source": "vimrc.symlink",
+			"target": "~/.vimrc"
+		}
+	]
+}
