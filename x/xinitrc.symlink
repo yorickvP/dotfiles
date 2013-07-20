@@ -2,7 +2,10 @@ xset fp+ /usr/share/fonts/local
 xset fp rehash
 # QGtkStyle does *not* like includes.
 export GTK2_RC_FILES="$HOME/dotfiles/gtk/gtkrc.mine"
+# workaround for gtk3 focus
+export GDK_CORE_DEVICE_EVENTS=1
 xrdb ~/dotfiles/x/Xresources
+source /etc/profile.d/infinality-settings.sh
 #.screenlayout/display_pluggedin.sh
 #/usr/bin/xscreensaver -no-splash &
 pulseaudio --start
