@@ -6,7 +6,7 @@ endif
 syntax on
 set number
 set runtimepath=~/dotfiles/vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/dotfiles/vim/after
-colors distinguished
+" " colors distinguished
 set mouse=a
 set statusline=%F%m%r%h%w\ (%{&ff}){%Y}\ [%l,%v][%p%%]
 set showcmd
@@ -14,4 +14,7 @@ set incsearch
 set hlsearch
 set ignorecase
 set smartcase
+
+set laststatus=2 " Always display the statusline in all windows
+set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 
