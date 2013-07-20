@@ -80,7 +80,8 @@ URxvt.urgentOnBell: True
 
 URxvt.depth: 32
 URxvt.background: [95]#202020
-URxvt.font: -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
+URxvt.font: xft:Inconsolata:pixelsize=12:antialias=true:hinting=true
+URxvt.boldFont: xft:Inconsolata:bold:pixelsize=12:antialias=true:hinting=true
 URxvt.geometry: 100x30
 URxvt.scrollColor: [95]#91BA0D
 
