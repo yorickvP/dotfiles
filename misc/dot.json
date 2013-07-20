@@ -1,0 +1,8 @@
+{
+	"symlinks": [
+		{
+			"source": "mplayerrc",
+			"target": "~/.mplayer/config"
+		}
+	]
+}
