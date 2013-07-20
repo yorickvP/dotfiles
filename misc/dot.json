@@ -3,6 +3,10 @@
 		{
 			"source": "mplayerrc",
 			"target": "~/.mplayer/config"
+		},
+		{
+			"soure": "termiterc",
+			"target": "~/.config/termite/config"
 		}
 	]
 }
