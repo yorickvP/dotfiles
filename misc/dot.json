@@ -5,7 +5,7 @@
 			"target": "~/.mplayer/config"
 		},
 		{
-			"soure": "termiterc",
+			"source": "termiterc",
 			"target": "~/.config/termite/config"
 		}
 	]
