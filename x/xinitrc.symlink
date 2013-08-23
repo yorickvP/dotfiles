@@ -6,13 +6,11 @@ export GTK2_RC_FILES="$HOME/dotfiles/gtk/gtkrc.mine"
 export GDK_CORE_DEVICE_EVENTS=1
 xrdb ~/dotfiles/x/Xresources
 source /etc/profile.d/infinality-settings.sh
-#.screenlayout/display_pluggedin.sh
-#/usr/bin/xscreensaver -no-splash &
+~/dotfiles/bin/docked.sh
 pulseaudio --start
 volnoti
 dropbox start &
 syndaemon -t -k -i 1 -d &
 synclient HorizScrollDelta=-107 VertScrollDelta=-107
-urxvtd -f -o
 (sleep 2s; compton --config ~/dotfiles/x/compton.conf -b) &
 exec awesome -c ~/dotfiles/awesome/rc.lua
