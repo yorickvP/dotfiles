@@ -8,3 +8,5 @@ ao=alsa
 
 vo=vdpau,xv,
 #vc=ffh264vdpau,ffmpeg12vdpau, 
+
+ao=pulse
