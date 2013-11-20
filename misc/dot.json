@@ -7,6 +7,10 @@
 		{
 			"source": "termiterc",
 			"target": "~/.config/termite/config"
+		},
+		{
+			"source": "bupignore",
+			"target": "~/.bupignore"
 		}
 	]
 }
