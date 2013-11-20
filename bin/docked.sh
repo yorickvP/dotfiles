@@ -6,7 +6,7 @@ if [ `cat /sys/devices/platform/hp-wmi/dock` -eq 1 ] && [[ `cat /proc/acpi/butto
 then
 	echo "Using docked configuration with 27\" IPS screen and VGA-screen"
 	xrandr --output LVDS-0 --off --output DP-3 --primary --output VGA-0 --left-of DP-3 --dpi 108.79/DP-3
-	nvidia-settings -l -a "[dpy:DP-3]/DitheringDepth=2" -a "0/XVideoSyncToDisplay=1048576"
+	nvidia-settings -l -a "0/XVideoSyncToDisplay=1048576"
 	echo "Xft.dpi: 108.79" | xrdb -merge
 else
 	echo "Using laptop-only configuration"
