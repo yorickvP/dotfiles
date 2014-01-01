@@ -1,7 +1,7 @@
 #!/bin/bash  
   
 # Setup filename for the screenshot  
-myfile=$(date +%Y%m%d%S).png  
+myfile=$(date +%Y%m%d%H%M%S).png  
   
 #Setup paths to dropbox & full url to new screenshot  
 dropboxwebpath='http://dl.dropbox.com/u/22989236/temp/' # PUT YOUR DROPBOX USERID HERE  
