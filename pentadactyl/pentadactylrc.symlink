@@ -1,22 +1,9 @@
 " vim: set ft=pentadactyl:ts=4:sw=4:tw=0:
-set runtimepath=~/dotfiles/pentadactyl
-colorscheme oddity
+set runtimepath=~/dotfiles/pentadactyl,~/dotfiles/pentadactyl/external/pentadactyl-solarized
+colorscheme solarized-dark
 
 set go+=N
 
-" google reader:
-group -description 'Google reader' -locations=www.google.com/reader google
-nmap -group google gh <Pass>
-nmap -group google ga <Pass>
-nmap -group google gs <Pass>
-nmap -group google gu <Pass>
-" nmap -group google gt <Pass>
-" nmap -group google g<S-t> <Pass>
-nmap -group google gd <Pass>
-nmap -group google gv <Pass>
-nmap -group google gp <Pass>
-
-set passkeys+=www.google.com/reader:"12jksv?/rnpNPXamAT "
 
 " feedly:
 group -description 'Feedly' -locations=feedly.com feedly
@@ -32,62 +19,4 @@ set passkeys+=github.com:"<CR>r?jks"
 
 " reddit:
 set passkeys+=reddit.com:"jk[]azp?.srfF"
-
-" A minimal userChrome style
-style -name=minimal chrome://* <<EOM
-
-@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
-
-.tabbrowser-tabs {
-  background-color: #202020 !important;
-  -moz-box-shadow: none !important;
-}
-
-.tabbrowser-tab {
-  background: transparent !important;
-  border: transparent !important;
-  color: #bbbbbb !important;
-  font-weight: normal;
-  margin: 0 !important;
-  min-height: 0 !important;
-  -moz-appearance: none !important;
-  border-radius: 0 !important;
-  font-family: Termsyn;
-}
-
-.tabbrowser-tab:hover {
-  background: #303030 !important;
-}
-
-.tabbrowser-tab[selected] {
-  background: #404040 !important;
-  color: #bbbbbb !important;
-  border-radius: 0 !important;
-}
-
-/* Tab listing */
-
-#alltabs-button {
-  -moz-appearance: none !important;
-  border: none !important;
-  color: #fff !important;
-}
-
-#alltabs-button:hover {
-  background-color: #404040 !important;
-}
-
-/* Panorama button */
-
-#tabview-button {
-  -moz-appearance: none !important;
-  border: none !important;
-}
-
-#tabview-button:hover {
-  background-color: #404040 !important;
-}
-
-
-EOM
 
