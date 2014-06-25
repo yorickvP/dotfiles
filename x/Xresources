@@ -1,73 +1,69 @@
-! --- ~/.Xresources ------------------------------------------------------------
-! ------------------------------------------------------------------------------
-! --- generated with 4bit Terminal Color Scheme Designer -----------------------
-! ------------------------------------------------------------------------------
-! --- http://ciembor.github.com/4bit -------------------------------------------
-! ------------------------------------------------------------------------------
 
-! --- special colors ---
+! Common
 
-! pale_white: #E0D0AA
-! bluegreen: #8DA893
-! base: #1D1E24
-! orange: #C18E44
-! brown: #493227
+#define S_yellow #b58900
+#define S_orange #cb4b16
+#define S_red #dc322f
+#define S_magenta #d33682
+#define S_violet #6c71c4
+#define S_blue #268bd2
+#define S_cyan #2aa198
+#define S_green #859900
 
-*background: #202020
-*foreground: #bbbbbb
 
-! --- standard colors ---
-! black
-*color0: #000000
+! Dark
 
-! bright_black
-*color8: #262626
+#define S_base03 #002b36
+#define S_base02 #073642
+#define S_base01 #586e75
+#define S_base00 #657b83
+#define S_base0 #839496
+#define S_base1 #93a1a1
+#define S_base2 #eee8d5
+#define S_base3 #fdf6e3
 
-! red
-*color1: #b87a7a
 
-! bright_red
-*color9: #dbbdbd
+! Light
 
-! green
-*color2: #7ab87a
+! #define S_base03 #fdf6e3
+! #define S_base02 #eee8d5
+! #define S_base01 #93a1a1
+! #define S_base00 #839496
+! #define S_base0 #657b83
+! #define S_base1 #586e75
+! #define S_base2 #073642
+! #define S_base3 #002b36
 
-! bright_green
-*color10: #bddbbd
 
-! yellow
-*color3: #b8b87a
+! To only apply colors to your terminal, for example, prefix
+! the color assignment statement with its name. Example:
+!
+! URxvt*background: S_base03
 
-! bright_yellow
-*color11: #dbdbbd
+*background: S_base03
+*foreground: S_base0
+*fading: 10
+*fadeColor: [80]#002b36
+*cursorColor: S_base1
+*pointerColorBackground: S_base01
+*pointerColorForeground: S_base1
 
-! blue
-*color4: #7a7ab8
-
-! bright_blue
-*color12: #bdbddb
-
-! magenta
-*color5: #b87ab8
-
-! bright_magenta
-*color13: #dbbddb
-
-! cyan
-*color6: #7ab8b8
-
-! bright_cyan
-*color14: #bddbdb
-
-! white
-*color7: #d9d9d9
-
-! bright_white
-*color15: #ffffff
-
-! ------------------------------------------------------------------------------
-! --- end of terminal colors section -------------------------------------------
-! ------------------------------------------------------------------------------
+*color0: S_base02
+*color1: S_red
+*color2: S_green
+*color3: S_yellow
+*color4: S_blue
+*color5: S_magenta
+*color6: S_cyan
+*color7: S_base2
+*color8: S_base03
+*color9: S_orange
+*color10: S_base01
+*color11: S_base00
+*color12: S_base0
+*color13: S_violet
+*color14: S_base1
+*color15: S_base3
 
 
 ! scrollbar style - xvt (default), plain (most compact), next, or xterm
@@ -79,49 +75,14 @@ URxvt.matcher.button:   1
 URxvt.urgentOnBell: True
 
 URxvt.depth: 32
-URxvt.background: [95]#202020
+! URxvt.background: [95]#202020
 URxvt.font: xft:Inconsolata:pixelsize=12:antialias=true:hinting=true
 URxvt.boldFont: xft:Inconsolata:bold:pixelsize=12:antialias=true:hinting=true
 URxvt.geometry: 100x30
-URxvt.scrollColor: [95]#91BA0D
+URxvt.scrollColor: S_base0
 
-! xscreensaver settings
-!font settings
-xscreensaver.Dialog.bodyFont:           -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.labelFont:          -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.unameFont:          -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.dateFont:           -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.headingFont:        -*-dina-bold-r-*-*-12-*-*-*-*-*-*-*
-xscreensaver.Dialog.buttonFont:         -*-dina-bold-r-*-*-12-*-*-*-*-*-*-*
-xscreensaver.passwd.passwdFont:         -*-dina-bold-r-*-*-12-*-*-*-*-*-*-*
-!general dialog box (affects main hostname, username, password text)
-xscreensaver.Dialog.foreground:         #8da893
-xscreensaver.Dialog.background:         #1d1e24
-
-xscreensaver.Dialog.topShadowColor:     #C18E44
-xscreensaver.Dialog.bottomShadowColor:  #C18E44
-
-xscreensaver.Dialog.Button.foreground:  #eaecf5
-xscreensaver.Dialog.Button.background:  #493227
-
-!username/password input box and date text colour
-
-xscreensaver.Dialog.text.foreground:    #8da893
-xscreensaver.Dialog.text.background:    #1d1e24
-
-xscreensaver.Dialog.internalBorderWidth:15
-xscreensaver.Dialog.borderWidth:        1
-xscreensaver.Dialog.shadowThickness:    1
-
-!timeout bar (background is actually determined by Dialog.text.background)
-xscreensaver.passwd.thermometer.foreground:  #8da893
-xscreensaver.passwd.thermometer.background:  #1d1e24
-xscreensaver.passwd.thermometer.width:       8
-!datestamp format--see the strftime(3) manual page for details
-xscreensaver.dateFormat:    %H:%M %d-%m-%Y
 
 ! xclock settings
 
 xclock*analog: false
 xclock*brief: true
-xclock*foreground: #8da893
