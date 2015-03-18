@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # brightne.sh
 
 # changes my backlight brightness, for use with nvidiabl

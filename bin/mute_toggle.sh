@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Credit to Roland Latour
 # http://www.freak-search.com/en/thread/4707111/q_volume_control,_xfce
