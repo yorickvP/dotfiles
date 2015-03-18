@@ -1,12 +1,16 @@
 {
 	"symlinks": [
 		{
-			"source": "xinitrc.symlink",
-			"target": "~/.xinitrc"
+			"source": "xsession.symlink",
+			"target": "~/.xsession"
 		},
 		{
 			"source": "XCompose.symlink",
 			"target": "~/.XCompose"
+		},
+		{
+			"source": "Xdefaults.symlink",
+			"target": "~/.Xdefaults"
 		}
 	]
 }

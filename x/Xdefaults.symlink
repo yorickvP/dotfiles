@@ -40,10 +40,11 @@
 !
 ! URxvt*background: S_base03
 
-*background: S_base03
+*background: [85]#002b36
+! S_base03
 *foreground: S_base0
 *fading: 10
-*fadeColor: [80]#002b36
+*fadeColor: [70]#002b36
 *cursorColor: S_base1
 *pointerColorBackground: S_base01
 *pointerColorForeground: S_base1
@@ -56,7 +57,7 @@
 *color5: S_magenta
 *color6: S_cyan
 *color7: S_base2
-*color8: S_base03
+*color8: S_base01
 *color9: S_orange
 *color10: S_base01
 *color11: S_base00
@@ -76,11 +77,12 @@ URxvt.urgentOnBell: True
 
 URxvt.depth: 32
 ! URxvt.background: [95]#202020
-URxvt.font: xft:Inconsolata:pixelsize=12:antialias=true:hinting=true
-URxvt.boldFont: xft:Inconsolata:bold:pixelsize=12:antialias=true:hinting=true
+URxvt.font: xft:SourceCodePro:pixelsize=12:antialias=true:hinting=true
+! URxvt.boldFont: xft:SourceCodePro:bold:pixelsize=12:antialias=true:hinting=true
 URxvt.geometry: 100x30
 URxvt.scrollColor: S_base0
 
+dzen2.background: #002b36
 
 ! xclock settings
 

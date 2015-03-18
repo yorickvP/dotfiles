@@ -1,0 +1,24 @@
+#!/bin/sh
+#xset fp+ /usr/share/fonts/local
+#xset fp rehash
+# QGtkStyle does *not* like includes.
+#export GTK2_RC_FILES="$HOME/dotfiles/gtk/gtkrc.mine"
+# compose led - not working
+# export _XKB_OPTIONS_ENABLE=1
+# export _XKB_COMP_LED=1
+
+# nix xsession does this when symlinked correctly
+#xrdb ~/dotfiles/x/Xresources
+
+feh --bg-fill ~/dotfiles/awesome/wallpaper.jpg
+#source /etc/profile.d/infinality-settings.sh
+~/dotfiles/bin/docked.sh
+#pulseaudio --start
+#volnoti
+#dropbox start &
+#syndaemon -t -k -i 1 -d &
+# compositing, start after awesome
+(sleep 2s; compton --config ~/dotfiles/x/compton.conf -b) &
+#builds/TagTime/tagtimed.pl &
+exec awesome -c ~/dotfiles/awesome/rc.lua
+
