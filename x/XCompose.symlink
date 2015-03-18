@@ -1,19 +1,5 @@
-include "/home/yorick/dotfiles/x/pointless-xcompose/abbrevs.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/arrows.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/bullets.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/dingbats.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/enclosed.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/fractions.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/historical.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/hyphen-macron.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/invisible.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/math.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/typographic.xcompose"
-include "/home/yorick/dotfiles/x/pointless-xcompose/dashes-hyphens.xcompose"
 
 <Multi_key> <s> <u> : "∑" U2211 # N-ARY SUMMATION
-
-<Multi_key> <asciitilde> <equal> : "≅" U2245 # APPROXIMATELY EQUAL TO
 
 <Multi_key> <a> <l> : "∀" U2200 # FOR ALL
 <Multi_key> <e> <x> : "∃" U2201 # THERE EXISTS
