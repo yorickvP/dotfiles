@@ -1,0 +1,8 @@
+{
+	"symlinks": [
+		{
+			"source": "config.nix",
+			"target": "~/.nixpkgs/config.nix"
+		},
+	]
+}
