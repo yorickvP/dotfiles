@@ -80,11 +80,12 @@ local layouts =
 -- }}}
 
 -- {{{ Wallpaper
-if beautiful.wallpaper then
-    for s = 1, screen.count() do
-        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-    end
-end
+-- if beautiful.wallpaper then
+--     for s = 1, screen.count() do
+--         gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+--     end
+-- end
+-- awful.util.spawn("/home/yorick/builds/bitday-linux/update.sh")
 -- }}}
 
 -- {{{ Tags
@@ -201,8 +202,7 @@ do
           text = text .. "\n" .. arguments[3] .. "h/min remaining"
         end
         battery = naughty.notify({
-            title = "<span color='" .. beautiful.dgrey .. "'>battery</span>",
-            text = text,
+            text =  "<b><span color='" .. beautiful.dgrey .. "'>battery</span></b>\n" .. text,
             timeout = 0,
             screen = mouse.screen,
             opacity = 0.8,
@@ -426,7 +426,7 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn("/home/yorick/dotfiles/bin/vol_down.sh") end),
     awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn("/home/yorick/dotfiles/bin/vol_up.sh") end),
     -- awesome screenshotness
-    awful.key({ modkey }, "s", function() awful.util.spawn("/home/yorick/dotfiles/bin/screenshot_dropbox.sh") end)
+    awful.key({ modkey }, "s", function() awful.util.spawn("/home/yorick/dotfiles/bin/screenshot_public.sh") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -519,6 +519,8 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 2 of screen 1.
     { rule = { class = "Firefox" },
       properties = { tag = tags[1][2] } },
+    { rule = { class = "Skype" }, -- This one!!!
+      properties = { size_hints_honor = false } },
 }
 -- }}}
 
