@@ -145,7 +145,7 @@ sqb_left:set_markup("<span color='" .. beautiful.dgrey .. "'>[</span>")
 
 
 -- clock
-clock = awful.widget.textclock('<span color="#d0d0d0">%H:%M %a %d/%m</span>')
+clock = awful.widget.textclock('<span color="#d0d0d0">%a %d/%m %H:%M</span>')
 clock_icon = wibox.widget.imagebox()
 clock_icon:set_image(icon_dir .. "/clock.png")
 
