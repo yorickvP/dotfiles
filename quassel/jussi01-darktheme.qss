@@ -10,54 +10,38 @@
 // You should have received a copy of the GNU General Public License
 // along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
-// Original copyright (C) Jussi Schultink 2009
+// Copyright (C) Jussi Schultink 2009
 
 // Custom ChatView Colors
 Palette { marker-line: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop:0 #ff0000, stop: 0.1 transparent); }
 
-ChatView { background: #0d1926; }
+ChatView { background: #131313; }
 
 ChatLine[label="highlight"] {
-  foreground: #eaecf5;
-  background: #0a0b15;
+  foreground: #debc85;
+  background: #00583a;
 }
 
 ChatLine::timestamp { foreground: #707c70; }
 
-ChatLine#plain { foreground: #d9e6f2; }
-
-// yellow
-ChatLine#notice { foreground: #acad80; }
-
-// bright blue
-ChatLine#action { foreground: #b0ccd6; font-weight: bold; font-style: italic; }
-
-// green
-ChatLine#join { foreground: #75ad80; }
-
-// purple
-ChatLine#nick { foreground: #ac77b7; }
-ChatLine#part { foreground: #ac77b7; }
-ChatLine#kick { foreground: #ac77b7; }
-ChatLine#kill { foreground: #ac77b7; }
-ChatLine#topic { foreground: #ac77b7; }
-
-// blue
-ChatLine#mode { foreground: #75adb7; font-weight: bold; }
-
-// red
-ChatLine#quit { foreground: #ac7780; }
-
-
-// gray
-ChatLine#server { foreground: #c9cad4; }
-ChatLine#info { foreground: #c9cad4; }
-ChatLine#error { foreground: #c9cad4; }
-ChatLine#daychange { foreground: #c9cad4; }
+ChatLine#plain { foreground: #debc85; }
+ChatLine#notice { foreground: #916409; }
+ChatLine#action { foreground: #007a80; font-weight: bold; font-style: italic; }
+ChatLine#nick { foreground: #633b5a; }
+ChatLine#mode { foreground: #346E9E; font-weight: bold; }
+ChatLine#join { foreground: #005538; }
+ChatLine#part { foreground: #633b5a; }
+ChatLine#quit { foreground: #683A38; }
+ChatLine#kick { foreground: #633b5a; }
+ChatLine#kill { foreground: #633b5a; }
+ChatLine#server { foreground: #916409; }
+ChatLine#info { foreground: #916409; }
+ChatLine#error { foreground: #916409; }
+ChatLine#daychange { foreground: #916409; }
+ChatLine#topic { foreground: #633b5a; }
 
 
 // Sender Colors
-// green
 ChatLine::sender#plain[sender="self"] { foreground: #009966; }
 
 ChatLine::sender#plain[sender="00"] { foreground: #e90d7f; }
@@ -78,46 +62,45 @@ ChatLine::sender#plain[sender="0e"] { foreground: #b39775; }
 ChatLine::sender#plain[sender="0f"] { foreground: #3176b3; }
 
 // BufferView Colors
-ChatListItem { foreground: #d9e6f2; }
+ChatListItem { foreground: #debc85; }
 ChatListItem[state="inactive"] { foreground: #a0a0a4; }
 ChatListItem[state="channel-event"] { foreground: #008000; }
 ChatListItem[state="unread-message"] { foreground: #ff7b00; }
 ChatListItem[state="highlighted"] { foreground: #ff00bf; }
-BufferView { background: #0d1926; }
+BufferView { background: #131313; }
 
 // NickView Colors
-NickListItem[type="category"] { foreground: #d9e6f2; }
-NickListItem[type="user"] { foreground: #d9e6f2; }
+NickListItem[type="category"] { foreground: #debc85; }
+NickListItem[type="user"] { foreground: #debc85; }
 NickListItem[type="user", state="away"] { foreground: #a0a0a4; }
-NickView { background: #0d1926; }
+NickView { background: #131313; }
 
-MultiLineEdit { background: #0d1926; color: #d9e6f2; }
-StyledLabel#topicLabel { background: #0d1926; }
-ChatLine#topic { foreground: #d9e6f2; }
+MultiLineEdit { background: #131313; color: #debc85; }
+StyledLabel#topicLabel { background: #131313; }
+ChatLine#topic { foreground: #debc85; }
 
 // Miscellaneous Colors
-QTreeView::item:selected { color: #0a0b15; }
-ChatMonitorSettingsPage BufferView::item { color: #d9e6f2; }
-QTreeView#settingsTree { background: #0d1926; }
-QTreeView::item#settingsTree { color: #d9e6f2; }
-QLineEdit:enabled { background: #0d1926; color: #d9e6f2; }
-QSpinBox:enabled { background: #0d1926; color: #d9e6f2; }
-QTableWidget { background-color: #0d1926; color: #d9e6f2; }
-QListWidget { background-color: #0d1926; color: #d9e6f2; }
+QTreeView::item:selected { color: #00004b; }
+ChatMonitorSettingsPage BufferView::item { color: #debc85; }QTreeView#settingsTree { background: #131313; }
+QTreeView::item#settingsTree { color: #debc85; }
+QLineEdit:enabled { background: #131313; color: #debc85; }
+QSpinBox:enabled { background: #131313; color: #debc85; }
+QTableWidget { background-color: #131313; color: #debc85; }
+QListWidget { background-color: #131313; color: #debc85; }
 
 QTableView {
   alternate-background-color: #42403B;
   background-color: #42403B;
-  color: #d9e6f2; }
+  color: #debc85; }
 
 Palette {
   link: #539FA3; link-visited: #845B90;
 
-  window: #0d1926; window-text: #d9e6f2; text: #d9e6f2;
+  window: #2b2b2b; window-text: #debc85; text: #00004b;
 
-  light: #B7B4AC; midlight: #d9e6f2;  button: #292929;
+  light: #B7B4AC; midlight: #debc85;  button: #292929;
   mid: #202553; dark: #000533; button-text: #B6B3AB; }
 
 StyledLabel#topicLabel { background: #282828; }
-MultiLineEdit { background: #0d1926; color: #d9e6f2; }
+MultiLineEdit { background: #131313; color: #debc85; }
 

@@ -4,3 +4,6 @@
 [submodule "awesome/lain"]
 	path = awesome/lain
 	url = https://github.com/copycat-killer/lain
+[submodule "quassel/SolarizedQuassel"]
+	path = quassel/SolarizedQuassel
+	url = https://github.com/antoligy/SolarizedQuassel

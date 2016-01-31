@@ -17,3 +17,18 @@ media
 .nv
 .gem
 .config/sublime-text-2/Backup
+.config/sublime-text-3/Backup
+ru/*/lectures
+ru/old/*/lectures
+ru/*/opnames
+ru/old/*/opnames
+ru/ext
+ru/netsec/netsec2015
+ru/netsec/NetSec-Debian-root.vdi
+ru/ossec/ossec2015
+movies
+tmp
+Downloads
+VirtualBox VMs/
+public
+

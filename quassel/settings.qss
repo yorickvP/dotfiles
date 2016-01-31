@@ -1,0 +1,9 @@
+// This isn't actually used for now
+
+// ChatView Font
+ChatLine { font: bold 7pt "Source Code Pro"; }
+
+// ItemView Font
+ChatListItem { font: bold 7pt "Source Code Pro"; }
+NickListItem { font: bold 7pt "Source Code Pro"; }
+
