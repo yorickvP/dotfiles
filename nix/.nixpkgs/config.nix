@@ -15,7 +15,8 @@
   packageOverrides = pkgs: with pkgs;
   let
     mkEnv = name: paths: pkgs.buildEnv { inherit name paths; };
-    py = python35Packages; hs = haskellPackages; js = nodePackages; ml = ocamlPackages;
+    py3 = python35Packages; hs = haskellPackages; js = nodePackages; ml = ocamlPackages;
+    py2 = python27Packages;
   in rec {
     firefox-bin-wrapper = wrapFirefox firefox-bin {};
 
@@ -32,9 +33,10 @@
         arandr
         xorg.xrandr
         feh
+        pavucontrol
       ];
       apps = mkEnv "y-apps" [
-        # chromium
+        chromium
         firefox-bin-wrapper
         gimp
         hexchat
@@ -47,12 +49,13 @@
         sublime3
         leafpad
         calibre
-        py.plover
+        py2.plover
+        wireshark meld
       ];
 
       media = mkEnv "y-media" [
         js.peerflix
-        py.livestreamer py.youtube-dl
+        py3.livestreamer py3.youtube-dl
         mpv
         aria2
       ];
@@ -68,22 +71,21 @@
       ];
 
       c = mkEnv "y-cdev" [
-        valgrind cdecl gcc gdb ltrace cmake
+        valgrind cdecl gdb ltrace cmake # gcc
       ];
       misc = mkEnv "y-misc" [
         gitAndTools.git-annex
-        gnupg1 man-pages bup catdoc ghostscript
+        gnupg1 man-pages bup catdoc
         imagemagick
-        openjdk openssl
-        pavucontrol
+        openssl
         sshfsFuse
-        wireshark sshuttle iodine
+        sshuttle iodine stow
       ];
 
       code = mkEnv "y-code" [
         cloc graphviz sloccount silver-searcher
         gnumake strace stack # hs?
-        python3 dos2unix dhex
+        (hiPrio python3) python dos2unix dhex
         # vcs
         gitAndTools.hub 
 
@@ -93,6 +95,10 @@
 
       wifimcu = mkEnv "wifimcu-dev" [
         minicom lrzsz lua
+      ];
+
+      java = mkEnv "y-java" [
+        openjdk
       ];
 
       games = mkEnv "y-games" [
