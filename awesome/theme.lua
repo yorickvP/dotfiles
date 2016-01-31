@@ -34,7 +34,7 @@ theme = {}
 theme.font          = "Source Code Pro 9"
 
 theme.bg_normal     = solar_base03 .. "d9"
-theme.bg_focus      = transparent
+theme.bg_focus      = solar_base02
 theme.bg_urgent     = "#b0b0b0"
 theme.bg_minimize   = transparent
 theme.bg_systray    = "#202020aa"
@@ -44,6 +44,8 @@ theme.fg_focus      = solar_base1
 theme.fg_urgent     = "#000000"
 theme.fg_minimize   = solar_base01
 
+
+theme.useless_gap_width = 10
 
 theme.dgrey = solar_base0
 theme.lpink = solar_orange
@@ -125,7 +127,7 @@ theme.layout_max = awesome_path .. "layouts/maxw.png"
 theme.layout_fullscreen = awesome_path .. "layouts/fullscreenw.png"
 theme.layout_tilebottom = awesome_path .. "layouts/tilebottomw.png"
 theme.layout_tileleft   = awesome_path .. "layouts/tileleftw.png"
-theme.layout_tile = awesome_path .. "layouts/tilew.png"
+theme.layout_uselesstile = awesome_path .. "layouts/tilew.png"
 theme.layout_tiletop = awesome_path .. "layouts/tiletopw.png"
 theme.layout_spiral  = awesome_path .. "layouts/spiralw.png"
 theme.layout_dwindle = awesome_path .. "layouts/dwindlew.png"
@@ -135,6 +137,13 @@ theme.awesome_icon = "/home/yorick/dotfiles/awesome/icons/lambda.png"
 -- Define the icon theme for application icons. If not set then the icons 
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
 theme.icon_theme = nil
+
+theme.lain_icons         = "/home/yorick/dotfiles/awesome/lain/icons/layout/default/"
+theme.layout_termfair    = theme.lain_icons .. "termfairw.png"
+theme.layout_centerfair    = theme.lain_icons .. "centerfairw.png"
+theme.layout_cascade     = theme.lain_icons .. "cascadew.png"
+theme.layout_cascadetile = theme.lain_icons .. "cascadetilew.png"
+theme.layout_centerwork  = theme.lain_icons .. "centerworkw.png"
 
 return theme
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

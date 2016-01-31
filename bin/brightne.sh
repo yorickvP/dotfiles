@@ -56,7 +56,6 @@ max() {
 
 set_bl() {
 	set_raw $(scale_to_bl $1)
-	volnoti-show -s /usr/local/share/pixmaps/volnoti/display-brightness-symbolic.svg $(scale_from_to $1 100)
 }
 
 get() {

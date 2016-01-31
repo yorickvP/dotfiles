@@ -1,4 +1,4 @@
-#!/bin/bash
-dmenu_args="-fn -*-termsyn-medium-*-*-*-12-*-*-*-*-*-*-* -nb #1D1E24 -nf #8DA893 -sb #1D1E24 -sf #C18E44 $@"
+#!/usr/bin/env bash
+dmenu_args="-fn SourceCodePro:pixelsize=17 -nb "#002b36" -nf "#839496" -sb "#073642" -sf "#93a1a1" $@"
 
-xsel -o | dmenu $dmenu_args -p Calculate: | xargs echo | calc -p | dmenu $dmenu_args -p "Answer:" | xsel -i
+xclip -o | dmenu $dmenu_args -p Calculate: | xargs echo | bc | dmenu $dmenu_args -p "Answer:" | xclip -i

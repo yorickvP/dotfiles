@@ -1,6 +1,6 @@
-[submodule "awesome/vicious"]
-	path = awesome/vicious
-	url = http://git.sysphere.org/vicious
 [submodule "pentadactyl/external/pentadactyl-solarized"]
 	path = pentadactyl/external/pentadactyl-solarized
 	url = https://github.com/claytron/pentadactyl-solarized
+[submodule "awesome/lain"]
+	path = awesome/lain
+	url = https://github.com/copycat-killer/lain
