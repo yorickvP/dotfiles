@@ -1,7 +1,7 @@
 
 {
   allowUnfree = true;
-  binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs=" ];
+  #binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs=" ];
   firefox = {
     enableGoogleTalkPlugin = true;
     enableAdobeFlash = true;
@@ -18,7 +18,15 @@
     py3 = python35Packages; hs = haskellPackages; js = nodePackages; ml = ocamlPackages;
     py2 = python27Packages;
   in rec {
+    org = pkgs.emacsPackages.org.overrideDerivation (attrs: {
+      nativeBuildInputs = [emacs texinfo tetex]; });
+
     firefox-bin-wrapper = wrapFirefox firefox-bin {};
+
+    wine = pkgs.wine.override { wineRelease = "staging"; wineBuild = "wineWow"; };
+
+    ftb = pkgs.callPackage ./ftb.nix {};
+
 
     envs = recurseIntoAttrs {
 
@@ -36,7 +44,7 @@
         pavucontrol
       ];
       apps = mkEnv "y-apps" [
-        chromium
+        # chromium
         firefox-bin-wrapper
         gimp
         hexchat
@@ -55,7 +63,8 @@
 
       media = mkEnv "y-media" [
         js.peerflix
-        py3.livestreamer py3.youtube-dl
+        py3.livestreamer
+        py3.youtube-dl
         mpv
         aria2
       ];
@@ -117,7 +126,25 @@
         wmname xev xlsfonts xwininfo glxinfo
       ];
 
+      ndl = mkEnv "y-ndl" [
+        arduino screen
+      ];
+
     };
+    pandocdeps = (pkgs.texlive.combine {
+      inherit (pkgs.texlive)
+        scheme-basic
+        # explicit list pandoc tex dependencies
+        amsfonts amsmath lm ec ifxetex ifluatex eurosym listings fancyvrb
+        # longtable
+        booktabs
+        hyperref ulem geometry setspace
+        # linestretch
+        babel
+        # some optional dependencies of pandoc
+        upquote microtype csquotes
+      ;
+    });
   };
 
 }
