@@ -1,8 +1,4 @@
 #!/bin/sh
-BACKUP_MACHINE="frumar.yori.cc"
-DATE_FORMAT="+%Y-%m-%d"
-BACKUP_DIR="/data/yorick/backup"
-
 function is_locked() {
   # check for lockfile
   if [[ -f /tmp/rbs.lock ]]; then
@@ -24,23 +20,13 @@ fi
 rm -f /tmp/rbs.lock
 echo $$ > /tmp/rbs.lock
 
-echo "update local bup index..."
-cd $HOME # do it here so that the bupignore paths work without rewriting
-ionice -c3 bup index -u $HOME --xdev --exclude-from $HOME/dotfiles/misc/bupignore
-
-# check if backup machine is available
-#ping -w 5 -c 1 $BACKUP_MACHINE
-#if [ $? -eq 0 ]; then
-  # start backup
-
-  echo "copy bup packs..."
-  branch="$(hostname)-$(date $DATE_FORMAT)"
-  ionice -c3 bup save -n $branch $HOME -r $BACKUP_MACHINE:$BACKUP_DIR/home/
-
-  #echo "verify bup packs..."
-  #cd $BACKUP_DIR/home
-  #ionice -c3 bup -d . fsck -g -vv
-#fi
+ionice -c3 duplicity /home/yorick \
+  webdavs://yorickvp@yorickvp.stackstorage.com/remote.php/webdav//$(hostname | head -c3)_bak \
+  --ssl-cacert-file /etc/ssl/certs/ca-bundle.crt \
+  --encrypt-key yorick \
+  --include-filelist ~/dotfiles/misc/dupignore \
+  --asynchronous-upload \
+  --volsize 100
 
 # remove lockfile
 rm -f /tmp/rbs.lock
