@@ -16,16 +16,23 @@
   let
     mkEnv = name: paths: pkgs.buildEnv { inherit name paths; };
     py3 = python35Packages; hs = haskellPackages; js = nodePackages; ml = ocamlPackages;
-    py2 = python27Packages;
+    py2 = python27Packages; emc = emacsPackages; emcn = emacsPackagesNg;
   in rec {
     org = pkgs.emacsPackages.org.overrideDerivation (attrs: {
       nativeBuildInputs = [emacs texinfo tetex]; });
 
-    firefox-bin-wrapper = wrapFirefox firefox-bin {};
-
     wine = pkgs.wine.override { wineRelease = "staging"; wineBuild = "wineWow"; };
 
     ftb = pkgs.callPackage ./ftb.nix {};
+
+    spotify = pkgs.spotify.overrideDerivation (attrs: let
+      version = "1.0.28.89.gf959d4ce-37"; in {
+      name = "spotify-${version}";
+      src = fetchurl {
+        url = "http://repository-origin.spotify.com/pool/non-free/s/spotify-client/spotify-client_${version}_amd64.deb";
+        sha256 = "06v6fmjn0zi1riqhbmwkrq4m1q1vs95p348i8c12hqvsrp0g2qy5";
+      };
+    });
 
 
     envs = recurseIntoAttrs {
@@ -44,14 +51,18 @@
         pavucontrol
       ];
       apps = mkEnv "y-apps" [
+        gajim
+        mutt
+        torbrowser
         # chromium
-        firefox-bin-wrapper
+        firefox-bin
         gimp
         hexchat
         #inkscape
         keepassx
         # libreoffice
-        skype
+        (builtins.storePath /nix/store/g6v35jgh2ik8fq9bjh4yac36aj8bd1h5-skype-4.3.0.37)
+        # skype
         spotify
         kde4.quasselClientWithoutKDE
         sublime3
@@ -89,7 +100,10 @@
         openssl
         sshfsFuse
         sshuttle iodine stow
+        expect
       ];
+
+      emacs = mkEnv "y-emacs" [emacs org emcn.smex emc.colorThemeSolarized];
 
       code = mkEnv "y-code" [
         cloc graphviz sloccount silver-searcher
@@ -111,7 +125,8 @@
       ];
 
       games = mkEnv "y-games" [
-        steam openttd wine winetricks minecraft
+        # steam openttd wine winetricks minecraft
+        openttd minecraft ftb
       ];
 
       js = mkEnv "y-jsdev" [

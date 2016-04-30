@@ -1,7 +1,10 @@
-{ stdenv, fetchurl, makeDesktopItem
+{ stdenv, lib, fetchurl, makeDesktopItem
 , jre, libX11, libXext, libXcursor, libXrandr, libXxf86vm
 , mesa, openal, pulseaudioLight }:
 
+let
+lib_path = lib.concatMapStringsSep ":" (x: x.out + "/lib/") [libX11 libXext libXcursor libXrandr libXxf86vm mesa openal];
+in
  stdenv.mkDerivation {
     name = "ftb-1.4.12";
     src = fetchurl {
@@ -18,8 +21,8 @@
     cat > $out/bin/feedthebeast << EOF
     #!${stdenv.shell}
     # wrapper for minecraft
-    export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${libX11}/lib/:${libXext}/lib/:${libXcursor}/lib/:${libXrandr}/lib/:${libXxf86vm}/lib/:${mesa}/lib/:${openal}/lib/
-    ${pulseaudioLight}/bin/padsp ${jre}/bin/java -jar $out/ftblaunch.jar
+    export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${lib_path}
+    ${pulseaudioLight.out}/bin/padsp ${jre}/bin/java -jar $out/ftblaunch.jar
     EOF
     chmod +x $out/bin/feedthebeast
   '';
