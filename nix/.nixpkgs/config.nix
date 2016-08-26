@@ -7,16 +7,16 @@
     enableAdobeFlash = true;
   };
 
-  chromium = {
-    enablePepperFlash = true;
-    enablePepperPDF = true;
-  };
+  # chromium = {
+  #   enablePepperFlash = true;
+  #   enablePepperPDF = true;
+  # };
 
   packageOverrides = pkgs: with pkgs;
   let
     mkEnv = name: paths: pkgs.buildEnv { inherit name paths; };
     py3 = python35Packages; hs = haskellPackages; js = nodePackages; ml = ocamlPackages;
-    py2 = python27Packages; emc = emacsPackages; emcn = emacsPackagesNg;
+    py2 = python27Packages; emc = emacsPackages; emcn = emacsPackagesNg; elm = elmPackages;
   in rec {
     org = pkgs.emacsPackages.org.overrideDerivation (attrs: {
       nativeBuildInputs = [emacs texinfo tetex]; });
@@ -25,26 +25,16 @@
 
     ftb = pkgs.callPackage ./ftb.nix {};
 
-    spotify = pkgs.spotify.overrideDerivation (attrs: let
-      version = "1.0.28.89.gf959d4ce-37"; in {
-      name = "spotify-${version}";
-      src = fetchurl {
-        url = "http://repository-origin.spotify.com/pool/non-free/s/spotify-client/spotify-client_${version}_amd64.deb";
-        sha256 = "06v6fmjn0zi1riqhbmwkrq4m1q1vs95p348i8c12hqvsrp0g2qy5";
-      };
-    });
-
 
     envs = recurseIntoAttrs {
 
       de = mkEnv "y-de-deps" [
-        awesome
-        compton-git
-        hs.yeganesh dmenu
         gtk-engine-murrine
-        i3lock
+        hicolor_icon_theme
+        arc-gtk-theme
+        libnotify
         scrot byzanz xclip
-        rxvt_unicode-with-plugins
+        #rxvt_unicode-with-plugins
         arandr
         xorg.xrandr
         feh
@@ -54,26 +44,24 @@
         gajim
         mutt
         torbrowser
-        # chromium
+        chromium
         firefox-bin
         gimp
-        hexchat
+        #hexchat
         #inkscape
         keepassx
         # libreoffice
-        (builtins.storePath /nix/store/g6v35jgh2ik8fq9bjh4yac36aj8bd1h5-skype-4.3.0.37)
-        # skype
+        skype
         spotify
         kde4.quasselClientWithoutKDE
         sublime3
         leafpad
         calibre
-        py2.plover
+        #py2.plover
         wireshark meld
       ];
 
       media = mkEnv "y-media" [
-        js.peerflix
         py3.livestreamer
         py3.youtube-dl
         mpv
@@ -81,7 +69,7 @@
       ];
 
       coins = mkEnv "y-coins" [
-        altcoins.namecoin
+        # altcoins.namecoin
         # altcoins.dogecoin
         electrum
       ];
@@ -94,23 +82,28 @@
         valgrind cdecl gdb ltrace cmake # gcc
       ];
       misc = mkEnv "y-misc" [
-        gitAndTools.git-annex
-        gnupg1 man-pages bup catdoc
+        #gitAndTools.git-annex # doesn't build
+        gnupg1 man-pages bup # catdoc
         imagemagick
         openssl
         sshfsFuse
         sshuttle iodine stow
-        expect
+        expect duplicity
+        wakelan x2x
       ];
 
-      emacs = mkEnv "y-emacs" [emacs org emcn.smex emc.colorThemeSolarized];
-
+      emacs = mkEnv "y-emacs" [emacs org emcn.smex emcn.agda2-mode emc.colorThemeSolarized];
+      code_min = mkEnv "y-codemin" [
+        python gitAndTools.hub gnumake cloc
+      ];
       code = mkEnv "y-code" [
         cloc graphviz sloccount silver-searcher
         gnumake strace stack # hs?
+        # TODO: patch sublime3 haskell integration for stack (correct hsdev version)
         (hiPrio python3) python dos2unix dhex
+        # elm.elm # agda
         # vcs
-        gitAndTools.hub 
+        gitAndTools.hub subversion
 
         # db
         sqliteInteractive
@@ -120,17 +113,19 @@
         minicom lrzsz lua
       ];
 
-      java = mkEnv "y-java" [
-        openjdk
-      ];
+      java = openjdk;
+
+      # java = mkEnv "y-java" [
+      #   openjdk
+      # ];
 
       games = mkEnv "y-games" [
         # steam openttd wine winetricks minecraft
-        openttd minecraft ftb
+        openttd # steam
       ];
 
       js = mkEnv "y-jsdev" [
-        js.jshint nodejs-5_x electron
+        js.jshint nodejs-6_x electron
       ];
 
       pdf = mkEnv "y-pdf" [
@@ -141,10 +136,10 @@
         wmname xev xlsfonts xwininfo glxinfo
       ];
 
-      ndl = mkEnv "y-ndl" [
-        arduino screen
-      ];
-
+    };
+    hosts = {
+      ascanius = with envs; [apps code_min de games envs.js pdf nix media gcc misc];
+      woodhouse = with envs; [de media misc kodi chromium spotify];
     };
     pandocdeps = (pkgs.texlive.combine {
       inherit (pkgs.texlive)

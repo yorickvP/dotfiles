@@ -1,2 +1,3 @@
-#!/usr/bin/env bash
-stow nix git x pentadactyl
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p stow
+stow -d `dirname $0` nix git x pentadactyl
