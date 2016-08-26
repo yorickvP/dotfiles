@@ -24,7 +24,7 @@ ionice -c3 duplicity /home/yorick \
   webdavs://yorickvp@yorickvp.stackstorage.com/remote.php/webdav//$(hostname | head -c3)_bak \
   --ssl-cacert-file /etc/ssl/certs/ca-bundle.crt \
   --encrypt-key yorick \
-  --include-filelist ~/dotfiles/misc/dupignore \
+  --include-filelist ~/dotfiles/misc/dupignore --allow-source-mismatch\
   --asynchronous-upload \
   --volsize 100
 
