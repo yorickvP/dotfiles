@@ -24,6 +24,7 @@
     wine = pkgs.wine.override { wineRelease = "staging"; wineBuild = "wineWow"; };
 
     ftb = pkgs.callPackage ./ftb.nix {};
+    pyroscope = pkgs.callPackage ./pyroscope.nix {};
 
 
     envs = recurseIntoAttrs {
@@ -140,6 +141,8 @@
     hosts = {
       ascanius = with envs; [apps code_min de games envs.js pdf nix media gcc misc];
       woodhouse = with envs; [de media misc kodi chromium spotify];
+      pennyworth = [];
+      frumar = with envs; [bup git-annex rtorrent pyroscope];
     };
     pandocdeps = (pkgs.texlive.combine {
       inherit (pkgs.texlive)
