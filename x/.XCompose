@@ -6,3 +6,9 @@
 
 <Multi_key> <l> <a> : "λ" # SMALL GREEK LETTER LAMBDA
 <Multi_key> <d> <e> : "Δ" # CAPITAL GREEK LETTER DELTA
+<Multi_key> <question> <exclam>         : "‽"   U203D # INTERROBANG
+<Multi_key> <exclam> <question> : "‽" U203D # INTERROBANG
+
+<Multi_key> <colon> <3> : "🐱" U1F431 # CAT
+<Multi_key> <p> <o> <o> : "💩" U1F4A9
+
