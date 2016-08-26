@@ -4,6 +4,7 @@ colorscheme solarized-dark
 
 set go+=N
 
+source ~/dotfiles/pentadactyl/user.css
 
 " feedly:
 group -description 'Feedly' -locations=feedly.com feedly
@@ -20,3 +21,9 @@ set passkeys+=github.com:"<CR>r?jks"
 " reddit:
 set passkeys+=reddit.com:"jk[]azp?.srfF"
 
+
+com -d "Delete duplicate tabs" tabcloseduplicates,tabclosed -js let seen={},vtabs=tabs.visibleTabs,i=vtabs.length;while(i--){let loc=vtabs[i].linkedBrowser.contentDocument.location.href||"";if(Object.prototype.hasOwnProperty.call(seen, loc)){config.tabbrowser.removeTab(vtabs[i]);}else{seen[loc]=true;}}
+
+
+" Open the current URL as an argument to mpv.
+nmap <S-u> -e :launchv

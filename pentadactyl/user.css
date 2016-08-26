@@ -1,0 +1,91 @@
+@-moz-document url-prefix(about:blank) {*{background-color:#002b36;}} 
+
+@-moz-document url-prefix("http://www.reddit.com/"), url-prefix("https://www.reddit.com/") {
+
+body {
+    /*position: relative;*/
+    overflow-y: hidden;
+}
+
+html {
+    overflow-x: hidden;
+}
+.content {
+	z-index: -1 !important;
+}
+.side {
+    padding-left: 3px;
+    padding-bottom: 3px;
+    border-left: 1px solid rgb(230, 230, 230);
+    border-bottom: 1px solid rgb(230, 230, 230);
+    border-bottom-left-radius: 6px;
+
+}
+
+body>.content, body {
+    /* This MUST apply to prevent showing stuff through the side bar */
+    position: relative !important;
+}
+
+.res-nightmode .side {
+    border-left-color: rgb(102, 102, 102);
+    border-bottom-color: rgb(102, 102, 102);
+
+}
+
+.side {
+    margin-left: 0px !important;
+
+    margin-right: -280px !important;
+
+    z-index: 5;
+
+    
+
+    opacity: 0.6;
+    transition: opacity 0.5s, margin 0.5s;
+
+    transition-delay: 1s;
+
+    transition-timing-function: ease-in-out;
+
+}
+
+.side:hover, .side:focus {
+    transition: opacity 0.2s, margin 0.2s;
+    /* Apply a negative margin to the left to prevent the content from
+       being shuffled around by the side bar */
+    margin-left: -280px !important;
+    margin-right: 0px !important;
+    opacity: 1;
+    transition-delay: 0s;
+
+}
+
+.content {
+    margin-right: 40px !important;
+}
+
+}
+
+@-moz-document url-prefix("https://news.ycombinator.com") {
+    html,#hnmain {
+      background-color: #002b36 !important;
+    }
+
+    #hnmain > tbody > tr:first-child > td {
+      background-color: #073642 !important;
+    }
+
+    * {
+      color: #839496 !important;
+      font-family: "Source Code Pro";
+      font-weight: 9pt;
+    }
+
+    textarea,input {
+      background-color: #002b36 !important;
+      color: #839496;
+      border: 1pt solid #586e75;
+    }
+}
