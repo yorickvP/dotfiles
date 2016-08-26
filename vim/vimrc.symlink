@@ -4,17 +4,62 @@ if has("autocmd")
     filetype plugin on
 endif
 syntax on
+set nocp
 set number
 set runtimepath=~/dotfiles/vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/dotfiles/vim/after
-" " colors distinguished
+set background=dark
+
 set mouse=a
-set statusline=%F%m%r%h%w\ (%{&ff}){%Y}\ [%l,%v][%p%%]
+" set statusline=%F%m%r%h%w\ (%{&ff}){%Y}\ [%l,%v][%p%%]
 set showcmd
 set incsearch
 set hlsearch
 set ignorecase
 set smartcase
+set hidden
+set listchars=tab:▸\ ,eol:¬
+set ts=4
+set timeoutlen=50
 
-set laststatus=2 " Always display the statusline in all windows
+command Writesudo w !sudo tee %
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+"Plugin 'gmarik/Vundle.vim'
+"Plugin 'bitc/vim-hdevtools'
+"Plugin 'kien/CtrlP.vim'
+"Plugin 'rking/Ag.vim'
+"Plugin 'scrooloose/nerdtree'
+"Plugin 'tpope/vim-surround'
+"Plugin 'tpope/vim-commentary'
+"Plugin 'tpope/vim-fugitive'
+"Plugin 'bling/vim-airline'
+"Plugin 'scrooloose/syntastic'
+"Plugin 'altercation/vim-colors-solarized'
+"Plugin 'moll/vim-node'
+"Plugin 'godlygeek/tabular'
+"Plugin 'digitaltoad/vim-jade'
+" All of your Plugins must be added before the following line
+"call vundle#end()            " required
+filetype plugin indent on    " required
+autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+"colorscheme solarized
+autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+set laststatus=2 " Always display the statusline in all windows
+au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
+"let g:airline_powerline_fonts = 1
+"let g:airline#extensions#tabline#enabled = 1
+"let g:solarized_termtrans = 1
 
