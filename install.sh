@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-stow nix x
+stow nix git x
