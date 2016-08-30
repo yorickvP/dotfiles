@@ -25,6 +25,14 @@
 
     ftb = pkgs.callPackage ./ftb.nix {};
     pyroscope = pkgs.callPackage ./pyroscope.nix {};
+    python35Packages = py3 // {
+      # pycrypto runs slow tests by default
+      pycrypto = py3.pycrypto.overrideDerivation (attrs: {
+       installCheckPhase = ''
+         ${py3.python.interpreter} nix_run_setup.py test --skip-slow-tests
+       '';
+      });
+    };
 
 
     envs = recurseIntoAttrs {
