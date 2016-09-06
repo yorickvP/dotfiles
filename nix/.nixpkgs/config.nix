@@ -25,6 +25,7 @@
 
     ftb = pkgs.callPackage ./ftb.nix {};
     pyroscope = pkgs.callPackage ./pyroscope.nix {};
+    peageprint = pkgs.callPackage ./peageprint.nix {};
     python35Packages = py3 // {
       # pycrypto runs slow tests by default
       pycrypto = py3.pycrypto.overrideDerivation (attrs: {
