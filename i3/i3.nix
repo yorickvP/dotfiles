@@ -11,7 +11,7 @@ revert() {
 }
 trap revert SIGHUP SIGINT SIGTERM
 ${xset}/bin/xset +dpms dpms 5 5 5
-${i3lock-fancy}/bin/i3lock-fancy -n
+${i3lock-fancy}/bin/i3lock-fancy
 revert
 '';
 
