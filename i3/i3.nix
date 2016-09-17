@@ -167,7 +167,7 @@ bar {
 }
 
 exec --no-startup-id ${nitrogen}/bin/nitrogen --restore
-exec --no-startup-id ${compton-git}/bin/compton -c /home/yorick/dotfiles/x/compton.conf
+exec --no-startup-id ${compton-git}/bin/compton --config /home/yorick/dotfiles/x/compton.conf
 
 '' + (lib.optionalString with_lock ''
 
