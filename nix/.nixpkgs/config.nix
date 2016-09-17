@@ -21,7 +21,7 @@
     org = pkgs.emacsPackages.org.overrideDerivation (attrs: {
       nativeBuildInputs = [emacs texinfo tetex]; });
 
-    wine = pkgs.wine.override { wineRelease = "staging"; wineBuild = "wineWow"; };
+    #wine = pkgs.wine.override { wineRelease = "staging"; wineBuild = "wineWow"; };
 
     ftb = pkgs.callPackage ./ftb.nix {};
     pyroscope = pkgs.callPackage ./pyroscope.nix {};
@@ -35,6 +35,14 @@
       });
     };
 
+    weiightminder = pkgs.callPackage (fetchgit {
+      url = https://gist.github.com/yorickvP/229d21a7da13c9c514dbd26147822641;
+      rev = "482103c3fb02ab69d1f0787fda1d9ec2272daf72";
+      sha256 = "1fql3z6qv1is1jarjp24bqb7g5xi5sfchl9jqjd54yjvjxl0q61v";
+    }) {};
+
+    yscripts = pkgs.callPackage ../../bin {};
+
 
     envs = recurseIntoAttrs {
 
@@ -43,13 +51,16 @@
         hicolor_icon_theme
         arc-gtk-theme
         libnotify
-        scrot byzanz xclip
-        #rxvt_unicode-with-plugins
+        rxvt_unicode
         arandr
         xorg.xrandr
-        feh
         pavucontrol
       ];
+      scripts = mkEnv "y-scripts" ([
+        peageprint
+        weiightminder
+      ] ++ (with yscripts; [brightness]));
+      
       apps = mkEnv "y-apps" [
         gajim
         mutt
@@ -57,6 +68,7 @@
         chromium
         firefox-bin
         gimp
+        tdesktop
         #hexchat
         #inkscape
         keepassx
@@ -104,7 +116,7 @@
 
       emacs = mkEnv "y-emacs" [emacs org emcn.smex emcn.agda2-mode emc.colorThemeSolarized];
       code_min = mkEnv "y-codemin" [
-        python gitAndTools.hub gnumake cloc
+        python gitAndTools.hub gnumake cloc silver-searcher
       ];
       code = mkEnv "y-code" [
         cloc graphviz sloccount silver-searcher
@@ -148,7 +160,7 @@
 
     };
     hosts = {
-      ascanius = with envs; [apps code_min de games envs.js pdf nix media gcc misc];
+      ascanius = with envs; [apps code_min de games envs.js pdf nix media gcc misc scripts coins];
       woodhouse = with envs; [de media misc kodi chromium spotify];
       pennyworth = [];
       frumar = with envs; [bup git-annex rtorrent pyroscope];
@@ -165,6 +177,7 @@
         babel
         # some optional dependencies of pandoc
         upquote microtype csquotes
+        mathtools
       ;
     });
   };
