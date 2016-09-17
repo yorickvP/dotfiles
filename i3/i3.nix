@@ -1,6 +1,7 @@
-{writeTextDir, writeScript,
+{writeTextDir, writeScript, lib,
 rofi, xautolock, nitrogen, compton-git, i3status, i3-gaps
-, i3lock-fancy, xset, alsaUtils, brightness, screenshot_public}:
+, i3lock-fancy, xset, alsaUtils, brightness, screenshot_public,
+with_lock ? true}:
 
 let
 locker = writeScript "dlock.sh" ''
@@ -16,7 +17,7 @@ revert
 
 in
 
-writeTextDir "i3-config" ''
+writeTextDir "i3-config" (''
 # i3 config file (v4)
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -167,7 +168,12 @@ bar {
 
 exec --no-startup-id ${nitrogen}/bin/nitrogen --restore
 exec --no-startup-id ${compton-git}/bin/compton -c /home/yorick/dotfiles/x/compton.conf
+
+'' + (lib.optionalString with_lock ''
+
 exec --no-startup-id ${xautolock}/bin/xautolock -time 15 -locker ${locker} -lockaftersleep
+
+'') + ''
 
 bindsym XF86MonBrightnessUp exec ${brightness}/bin/brightness up 50
 bindsym XF86MonBrightnessDown exec ${brightness}/bin/brightness down 50
@@ -177,4 +183,4 @@ bindsym XF86AudioMute exec ${alsaUtils}/bin/amixer set Master toggle
 bindsym $mod+Shift+s exec --no-startup-id ${screenshot_public}/bin/screenshot_public
 
 
-''
+'')
