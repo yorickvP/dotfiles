@@ -1,4 +1,4 @@
-@-moz-document url-prefix(about:blank) {*{background-color:#002b36;}} 
+/*@-moz-document url-prefix(about:blank) {*{background-color:#002b36;}} */
 
 @-moz-document url-prefix("http://www.reddit.com/"), url-prefix("https://www.reddit.com/") {
 
