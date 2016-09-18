@@ -175,8 +175,8 @@ exec --no-startup-id ${xautolock}/bin/xautolock -time 15 -locker ${locker} -lock
 
 '') + ''
 
-bindsym XF86MonBrightnessUp exec ${brightness}/bin/brightness up 50
-bindsym XF86MonBrightnessDown exec ${brightness}/bin/brightness down 50
+bindsym XF86MonBrightnessUp exec ${brightness}/bin/brightness up 10
+bindsym XF86MonBrightnessDown exec ${brightness}/bin/brightness down 10
 bindsym XF86AudioLowerVolume exec ${alsaUtils}/bin/amixer set Master 1%-
 bindsym XF86AudioRaiseVolume exec ${alsaUtils}/bin/amixer set Master 1%+
 bindsym XF86AudioMute exec ${alsaUtils}/bin/amixer set Master toggle

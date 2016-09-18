@@ -8,10 +8,10 @@
 
 E_NOARGS=75
 
-backlight_path=/sys/class/backlight/nvidia_backlight
+backlight_path=/sys/class/backlight/nv_backlight
 
 usage() {
-  echo "Usage: brightne.sh [set|fix|up|down] arg between 0 and 1024"
+  echo "Usage: brightne.sh [set|fix|up|down] arg between 0 and 1000"
 }
 
 get_raw_maximum() {
@@ -26,7 +26,7 @@ set_raw() {
 	echo $1 > $backlight_path/brightness
 }
 
-# from 0-1024 to 0-max
+# from 0-1000 to 0-max
 scale_to_bl() {
 	get_raw_maximum
 	max=$?
@@ -34,14 +34,14 @@ scale_to_bl() {
 }
 
 scale_from_to() {
-	echo "$2 * $1 / 1024" | bc
+	echo "$2 * $1 / 1000" | bc
 }
 
-# from 0-max to 0-1024
+# from 0-max to 0-1000
 scale_from_bl() {
 	get_raw_maximum
 	max=$?
-	echo "1024 * $1 / $max" | bc
+	echo "1000 * $1 / $max" | bc
 }
 
 off() {
