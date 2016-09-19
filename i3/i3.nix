@@ -1,5 +1,5 @@
 {writeTextDir, writeScript, lib,
-rofi, xautolock, nitrogen, compton-git, i3status, i3-gaps
+rofi, xss-lock, nitrogen, compton-git, i3status, i3-gaps
 , i3lock-fancy, xset, alsaUtils, brightness, screenshot_public,
 with_lock ? true}:
 
@@ -126,7 +126,7 @@ bindsym $mod+ctrl+r reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-bindsym $mod+ctrl+l exec --no-startup-id ${xautolock}/bin/xautolock -locknow
+bindsym $mod+ctrl+l exec --no-startup-id loginctl lock-session
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -171,7 +171,7 @@ exec --no-startup-id ${compton-git}/bin/compton --config /home/yorick/dotfiles/x
 
 '' + (lib.optionalString with_lock ''
 
-exec --no-startup-id ${xautolock}/bin/xautolock -time 15 -locker ${locker} -lockaftersleep
+exec --no-startup-id ${xss-lock}/bin/xss-lock -l -- ${locker}
 
 '') + ''
 

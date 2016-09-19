@@ -41,6 +41,17 @@
       sha256 = "1fql3z6qv1is1jarjp24bqb7g5xi5sfchl9jqjd54yjvjxl0q61v";
     }) {};
 
+    i3lock-color = pkgs.i3lock-color.overrideDerivation (attrs: rec {
+      rev = "c8e1aece7301c3c6481bf2f695734f8d273f252e";
+      name = "i3lock-color-2.7_rev${builtins.substring 0 7 rev}";
+      src = fetchFromGitHub {
+        owner = "Arcaena";
+        repo = "i3lock-color";
+        inherit rev;
+        sha256 = "07fpvwgdfxsnxnf63idrz3n1kbyayr53lsfns2q775q93cz1mfia";
+      };
+    });
+
     yscripts = pkgs.callPackage ../../bin {};
 
 
