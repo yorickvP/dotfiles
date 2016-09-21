@@ -1,7 +1,7 @@
+source ~/.mutt/creds
 source ~/.mutt/colors
 source ~/.mutt/gpg
 source ~/.mutt/mailboxes
-source ~/.mutt/creds
 
 
 set edit_headers
