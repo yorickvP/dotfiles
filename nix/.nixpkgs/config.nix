@@ -37,8 +37,8 @@
 
     weiightminder = pkgs.callPackage (fetchgit {
       url = https://gist.github.com/yorickvP/229d21a7da13c9c514dbd26147822641;
-      rev = "482103c3fb02ab69d1f0787fda1d9ec2272daf72";
-      sha256 = "1fql3z6qv1is1jarjp24bqb7g5xi5sfchl9jqjd54yjvjxl0q61v";
+      rev = "9749ef4d83c0078bc0248215ee882d7124827cf3";
+      sha256 = "0kxi20ss2k22sv3ndplnklc6r7ja0lcgklw6mz43qcj7vmgxxllf";
     }) {};
 
     i3lock-color = pkgs.i3lock-color.overrideDerivation (attrs: rec {
