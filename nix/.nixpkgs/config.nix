@@ -74,7 +74,7 @@
       
       apps = mkEnv "y-apps" [
         gajim
-        mutt
+        neomutt
         torbrowser
         chromium
         firefox-bin
