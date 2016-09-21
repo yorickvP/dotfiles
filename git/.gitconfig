@@ -17,7 +17,8 @@
 [push]
 	default = simple
 [user]
-	email = yorickvanpelt@gmail.com
+	email = yorick@yorickvanpelt.nl
 	name = Yorick van Pelt
+	signingkey = A36E70F9DC014A15
 [help]
 	autocorrect = 5
