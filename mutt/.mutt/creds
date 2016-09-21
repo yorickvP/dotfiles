@@ -1,0 +1,8 @@
+set my_pass = "`gpg -q --no-tty --batch -d ~/.mutt/yorick_pass.gpg`""
+set spoolfile = "imaps://yorick:$my_pass@pennyworth.yori.cc/INBOX"
+set realname = "Yorick van Pelt"
+set from     = "Yorick van Pelt <yorick@yorickvanpelt.nl>"
+set folder   = "imaps://pennyworth.yori.cc/"
+
+set smtp_url     = "smtp://yorick@pennyworth.yori.cc:587/"
+set smtp_pass    = "$my_pass"

@@ -1,0 +1,83 @@
+# --                                                            # {{{1
+#
+# File        : mail/mutt/colours
+# Maintainer  : Felix C. Stegerman <flx@obfusk.net>
+# Date        : 2014-08-22
+#
+# Copyright   : Copyright (C) 2014  Felix C. Stegerman
+# Licence     : GPLv3+
+#
+# Transparency edit : Yorick van Pelt, 2016
+# --                                                            # }}}1
+
+
+# index, ...
+
+color error       brightred     default
+color indicator   black         white
+color message     brightyellow  default
+color normal      default         default
+color status      brightwhite   blue
+color tree        red           default
+
+
+# pager
+
+color attachment  brightyellow  default
+color hdrdefault  cyan          default
+color markers     brightred     default
+color quoted      green         default
+color search      black         white
+color signature   blue          default
+color tilde       blue          default
+
+
+# headers
+
+color header      white   default   "^Subject:"
+color header      brightred     default   "^From:"
+color header      brightyellow  default   "^Date:"
+color header      brightgreen   default   "^To:"
+color header      green         default   "^Cc:"
+
+
+# index highlight
+
+# * new mail
+# * mail sent my me
+
+color index       blue          default   "~(~P)"     # threads posted in
+color index       green         default   "~P"        # my             messages
+color index       yellow        default   "~(~N)"     # in thread w/ new
+color index       brightyellow  default   "~N"        # new            messages
+color index       magenta       default   "~(~F)"     # in thread w/ flagged
+color index       red           default   "~(~F) ~N"  # new in thread w/ flagged
+color index       brightred     default   "~F"        # flagged        messages
+color index       cyan          default   "~D"        # deleted        messages
+color index       brightwhite   default   "~T"        # tagged         messages
+
+
+# body highlight
+
+# * email addresses
+# * http(s), ftp
+#
+# * bold          [nroff]
+# * underline     [nroff]
+#
+# * *bold*        [disabled]
+# * _underline_   [disabled]
+# * /italic/      [disabled]
+
+color body        brightred     default   \
+  "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+"
+
+color body        brightblue    default   \
+  "(https?|ftp)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+"
+
+color bold        brightwhite   default
+color underline   brightwhite   default
+
+# color body      brightwhite   default   "[*]+[^*]+[*]+"
+# color body      brightwhite   default   "_+[^_]+_+"
+# color body      brightwhite   default   "/+[^/]+/+"

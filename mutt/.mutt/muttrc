@@ -1,0 +1,28 @@
+source ~/.mutt/colors
+source ~/.mutt/gpg
+source ~/.mutt/mailboxes
+source ~/.mutt/creds
+
+
+set edit_headers
+set auto_tag
+
+set   imap_servernoise
+unset imap_passive
+set mail_check   = 60
+set header_cache = ~/.mutt/hcache
+set message_cachedir = ~/.mutt/msg_cache
+set net_inc      = 5
+
+set sort         = threads
+set sort_browser = date
+set sort_aux     = reverse-last-date-received
+set sidebar_width= 10
+
+set pgp_verify_sig
+set pgp_replysign
+set pgp_sign_as = DC014A15
+ifdef ENCRYPT_SELF set pgp_encrypt_self
+set pgp_use_gpg_agent
+
+bind index G imap-fetch-mail
