@@ -41,6 +41,15 @@
       sha256 = "0kxi20ss2k22sv3ndplnklc6r7ja0lcgklw6mz43qcj7vmgxxllf";
     }) {};
 
+    asterisk = pkgs.asterisk.overrideDerivation (attrs: rec {
+      version = "13.11.2";
+
+      src = fetchurl {
+          url = "http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-${version}.tar.gz";
+          sha256 = "0fjski1cpbxap1kcjg6sgd6c8qpxn8lb1sszpg6iz88vn4dh19vf";
+      };
+    });
+
     i3lock-color = pkgs.i3lock-color.overrideDerivation (attrs: rec {
       rev = "c8e1aece7301c3c6481bf2f695734f8d273f252e";
       name = "i3lock-color-2.7_rev${builtins.substring 0 7 rev}";
@@ -52,6 +61,22 @@
       };
     });
 
+    python-keepassx = py3.buildPythonApplication rec {
+      name = "python-keepassx-${version}";
+      version = "0.1.0";
+      src = fetchurl {
+        url = "https://github.com/jamesls/python-keepassx/archive/${version}.tar.gz";
+        sha256 = "17qyz7nh6wrv091i15nq7wmk23l4vgs46wa4jl08c014iv22ifny";
+      };
+      propagatedBuildInputs = with py3; [
+        pycrypto six prettytable pyyaml
+      ];
+      patchPhase = ''
+        substituteInPlace "setup.py" --replace "prettytable==0.7.2" "prettytable==${lib.getVersion py3.prettytable}"
+      '';
+      doCheck = false;
+    };
+
     yscripts = pkgs.callPackage ../../bin {};
 
 
@@ -60,7 +85,7 @@
       de = mkEnv "y-de-deps" [
         gtk-engine-murrine
         hicolor_icon_theme
-        arc-gtk-theme
+        arc-theme
         libnotify
         rxvt_unicode
         arandr
@@ -85,7 +110,7 @@
         keepassx
         # libreoffice
         skype
-        spotify
+        (builtins.storePath /nix/store/7kbr1k40v56q8qr65dbrm0yz42nz20qv-spotify-1.0.37.152.gc83ea995-42 )
         kde4.quasselClientWithoutKDE
         sublime3
         leafpad
