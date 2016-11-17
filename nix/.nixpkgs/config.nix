@@ -197,6 +197,7 @@
     };
     hosts = {
       ascanius = with envs; [apps code_min de games envs.js pdf nix media gcc misc scripts coins];
+      jarvis = with envs; [apps code_min de games envs.js pdf nix media gcc misc scripts];
       woodhouse = with envs; [de media misc kodi chromium spotify];
       pennyworth = [];
       frumar = with envs; [bup git-annex rtorrent pyroscope];
