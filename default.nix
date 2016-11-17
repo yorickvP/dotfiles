@@ -14,4 +14,5 @@ in lib.mapAttrs (k: paths:
 	woodhouse = [(i3 false)];
 	pennyworth = [];
 	frumar = [];
+	jarvis = [(i3 true)];
 }
