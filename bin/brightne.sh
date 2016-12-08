@@ -8,7 +8,7 @@
 
 E_NOARGS=75
 
-backlight_path=/sys/class/backlight/nv_backlight
+backlight_path=`echo /sys/class/backlight/*_backlight`
 
 usage() {
   echo "Usage: brightne.sh [set|fix|up|down] arg between 0 and 1000"

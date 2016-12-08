@@ -77,7 +77,7 @@
       doCheck = false;
     };
 
-    yscripts = pkgs.callPackage ../../bin {};
+    yscripts = pkgs.callPackage ../dotfiles/bin {};
 
 
     envs = recurseIntoAttrs {
@@ -85,7 +85,7 @@
       de = mkEnv "y-de-deps" [
         gtk-engine-murrine
         hicolor_icon_theme
-        arc-theme
+        #arc-theme
         libnotify
         rxvt_unicode
         arandr
@@ -110,7 +110,7 @@
         keepassx
         # libreoffice
         skype
-        (builtins.storePath /nix/store/7kbr1k40v56q8qr65dbrm0yz42nz20qv-spotify-1.0.37.152.gc83ea995-42 )
+	      spotify
         kde4.quasselClientWithoutKDE
         sublime3
         leafpad
@@ -179,7 +179,7 @@
 
       games = mkEnv "y-games" [
         # steam openttd wine winetricks minecraft
-        openttd # steam
+        steam
       ];
 
       js = mkEnv "y-jsdev" [

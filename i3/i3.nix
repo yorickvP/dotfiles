@@ -1,6 +1,6 @@
 {writeTextDir, writeScript, lib,
 rofi, xss-lock, nitrogen, compton-git, i3status, i3-gaps
-, i3lock-fancy, xset, alsaUtils, brightness, screenshot_public,
+, i3lock-fancy, xset, alsaUtils, brightness, screenshot_public, xorg,
 with_lock ? true}:
 
 let
@@ -26,7 +26,7 @@ set $mod Mod4
 gaps inner 5
 gaps outer 5
 
-font pango:Source Code Pro 9
+font pango:Source Code Pro 10
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -171,12 +171,13 @@ exec --no-startup-id ${compton-git}/bin/compton --config /home/yorick/dotfiles/x
 
 '' + (lib.optionalString with_lock ''
 
+exec --no-startup-id ${xorg.xf86inputsynaptics}/bin/syndaemon -i 0.5 -k -t
 exec --no-startup-id ${xss-lock}/bin/xss-lock -l -- ${locker}
 
 '') + ''
 
-bindsym XF86MonBrightnessUp exec ${brightness}/bin/brightness up 10
-bindsym XF86MonBrightnessDown exec ${brightness}/bin/brightness down 10
+bindsym XF86MonBrightnessUp exec ${brightness}/bin/brightness up 20
+bindsym XF86MonBrightnessDown exec ${brightness}/bin/brightness down 20
 bindsym XF86AudioLowerVolume exec ${alsaUtils}/bin/amixer set Master 1%-
 bindsym XF86AudioRaiseVolume exec ${alsaUtils}/bin/amixer set Master 1%+
 bindsym XF86AudioMute exec ${alsaUtils}/bin/amixer set Master toggle
