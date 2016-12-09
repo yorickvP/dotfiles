@@ -4,7 +4,7 @@ let
 inherit (pkgs) lib;
 bin = pkgs.callPackage ./bin/default.nix {};
 i3 = with_lock: pkgs.callPackage ./i3/i3.nix {
-	inherit (bin) brightness screenshot_public;
+	inherit (bin) screenshot_public;
 	inherit with_lock;
 };
 in lib.mapAttrs (k: paths:

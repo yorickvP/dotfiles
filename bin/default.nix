@@ -13,8 +13,6 @@ let
 in lib.mapAttrs (k: f: f k) {
   backup = compileShell ./backup.sh
     (with pkgs; [utillinux duplicity]);
-  brightness = compileShell ./brightne.sh
-    (with pkgs; [bc]);
   screenshot_public = compileShell ./screenshot_public.sh
     (with pkgs; [scrot xclip rsync]);
 }

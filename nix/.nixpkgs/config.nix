@@ -92,10 +92,10 @@
         xorg.xrandr
         pavucontrol
       ];
-      scripts = mkEnv "y-scripts" ([
+      scripts = mkEnv "y-scripts" [
         peageprint
         weiightminder
-      ] ++ (with yscripts; [brightness]));
+      ];
       
       apps = mkEnv "y-apps" [
         gajim

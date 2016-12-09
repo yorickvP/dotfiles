@@ -1,6 +1,6 @@
 {writeTextDir, writeScript, lib,
 rofi, xss-lock, nitrogen, compton-git, i3status, i3-gaps
-, i3lock-fancy, xset, alsaUtils, brightness, screenshot_public, xorg,
+, i3lock-fancy, xset, alsaUtils, light, screenshot_public, xorg,
 with_lock ? true}:
 
 let
@@ -176,8 +176,8 @@ exec --no-startup-id ${xss-lock}/bin/xss-lock -l -- ${locker}
 
 '') + ''
 
-bindsym XF86MonBrightnessUp exec ${brightness}/bin/brightness up 20
-bindsym XF86MonBrightnessDown exec ${brightness}/bin/brightness down 20
+bindsym XF86MonBrightnessUp exec ${light}/bin/light -A 5
+bindsym XF86MonBrightnessDown exec ${light}/bin/light -U 5
 bindsym XF86AudioLowerVolume exec ${alsaUtils}/bin/amixer set Master 1%-
 bindsym XF86AudioRaiseVolume exec ${alsaUtils}/bin/amixer set Master 1%+
 bindsym XF86AudioMute exec ${alsaUtils}/bin/amixer set Master toggle
