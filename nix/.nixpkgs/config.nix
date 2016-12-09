@@ -50,32 +50,6 @@
       };
     });
 
-    i3lock-color = pkgs.i3lock-color.overrideDerivation (attrs: rec {
-      rev = "c8e1aece7301c3c6481bf2f695734f8d273f252e";
-      name = "i3lock-color-2.7_rev${builtins.substring 0 7 rev}";
-      src = fetchFromGitHub {
-        owner = "Arcaena";
-        repo = "i3lock-color";
-        inherit rev;
-        sha256 = "07fpvwgdfxsnxnf63idrz3n1kbyayr53lsfns2q775q93cz1mfia";
-      };
-    });
-
-    python-keepassx = py3.buildPythonApplication rec {
-      name = "python-keepassx-${version}";
-      version = "0.1.0";
-      src = fetchurl {
-        url = "https://github.com/jamesls/python-keepassx/archive/${version}.tar.gz";
-        sha256 = "17qyz7nh6wrv091i15nq7wmk23l4vgs46wa4jl08c014iv22ifny";
-      };
-      propagatedBuildInputs = with py3; [
-        pycrypto six prettytable pyyaml
-      ];
-      patchPhase = ''
-        substituteInPlace "setup.py" --replace "prettytable==0.7.2" "prettytable==${lib.getVersion py3.prettytable}"
-      '';
-      doCheck = false;
-    };
 
     yscripts = pkgs.callPackage ../dotfiles/bin {};
 
