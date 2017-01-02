@@ -1,7 +1,7 @@
 {writeTextDir, writeScript, lib,
 rofi, xss-lock, nitrogen, compton-git, i3status, i3-gaps
 , i3lock-fancy, xset, alsaUtils, light, screenshot_public, xorg,
-with_lock ? true}:
+with_lock ? true, compton_name ? "default"}:
 
 let
 locker = writeScript "dlock.sh" ''
@@ -167,7 +167,7 @@ bar {
 }
 
 exec --no-startup-id ${nitrogen}/bin/nitrogen --restore
-exec --no-startup-id ${compton-git}/bin/compton --config /home/yorick/dotfiles/x/compton.conf
+exec --no-startup-id ${compton-git}/bin/compton --config /home/yorick/dotfiles/x/compton_${compton_name}.conf
 
 '' + (lib.optionalString with_lock ''
 
