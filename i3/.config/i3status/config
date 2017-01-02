@@ -40,6 +40,7 @@ ethernet _first_ {
 
 battery 0 {
         format = "%status %percentage %remaining"
+        hide_seconds = true
 }
 
 run_watch DHCP {

@@ -49,6 +49,7 @@
           sha256 = "0fjski1cpbxap1kcjg6sgd6c8qpxn8lb1sszpg6iz88vn4dh19vf";
       };
     });
+    mpv = pkgs.mpv.override { vaapiSupport = true; };
 
 
     yscripts = pkgs.callPackage ../dotfiles/bin {};
@@ -59,12 +60,14 @@
       de = mkEnv "y-de-deps" [
         gtk-engine-murrine
         hicolor_icon_theme
-        #arc-theme
+        vanilla-dmz
+        # arc-theme
         libnotify
-        rxvt_unicode
+        rxvt_unicode-with-plugins
         arandr
         xorg.xrandr
         pavucontrol
+        light nitrogen
       ];
       scripts = mkEnv "y-scripts" [
         peageprint
