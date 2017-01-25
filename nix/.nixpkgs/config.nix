@@ -1,7 +1,6 @@
 
 {
   allowUnfree = true;
-  #binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs=" ];
   firefox = {
     enableGoogleTalkPlugin = true;
     enableAdobeFlash = true;
@@ -16,7 +15,7 @@
   let
     mkEnv = name: paths: pkgs.buildEnv { inherit name paths; };
     py3 = python35Packages; hs = haskellPackages; js = nodePackages; ml = ocamlPackages;
-    py2 = python27Packages; emc = emacsPackages; emcn = emacsPackagesNg; elm = elmPackages;
+    py2 = python27Packages; elm = elmPackages;
 
     overrideOlder = original: override: let
       newpkgver = lib.getVersion (override original);
@@ -24,8 +23,6 @@
       in if (lib.versionOlder oldpkgver newpkgver) then original.overrideDerivation override else original;
 
   in rec {
-    org = pkgs.emacsPackages.org.overrideDerivation (attrs: {
-      nativeBuildInputs = [emacs texinfo tetex]; });
 
     #wine = pkgs.wine.override { wineRelease = "staging"; wineBuild = "wineWow"; };
 
@@ -47,6 +44,13 @@
       sha256 = "0kxi20ss2k22sv3ndplnklc6r7ja0lcgklw6mz43qcj7vmgxxllf";
     }) {};
 
+    node2nix_git = (pkgs.callPackage (fetchFromGitHub {
+        owner = "svanderburg";
+        repo = "node2nix";
+        rev = "b6545937592e7e54a14a2df315598570480fee9f";
+        sha256 = "1y50gs5mk2sdzqx68lr3qb71lh7jp4c38ynybf8ikx7kfkzxvasb";
+      }) {}).package;
+
     asterisk = pkgs.asterisk.overrideDerivation (attrs: rec {
       version = "13.11.2";
 
@@ -63,6 +67,18 @@
       src = fetchurl {
         url = "http://i3wm.org/i3status/${name}.tar.bz2";
         sha256 = "0pwcy599fw8by1a1sf91crkqba7679qhvhbacpmhis8c1xrpxnwq";
+      };
+    });
+
+    streamlink = overrideOlder pkgs.streamlink (attrs: rec {
+      version = "0.3.0";
+      name = "streamlink-${version}";
+
+      src = fetchFromGitHub {
+        owner = "streamlink";
+        repo = "streamlink";
+        rev = "${version}";
+        sha256 = "1bjih6y21vmjmsk3xvhgc1innymryklgylyvjrskqw610niai59j";
       };
     });
 
@@ -112,7 +128,7 @@
       ];
 
       media = mkEnv "y-media" [
-        py3.livestreamer
+        streamlink
         py3.youtube-dl
         mpv
         aria2
@@ -139,35 +155,13 @@
         sshfsFuse
         sshuttle iodine stow
         expect duplicity
-        wakelan x2x
+        wakelan x2x pass
       ];
 
-      emacs = mkEnv "y-emacs" [emacs org emcn.smex emcn.agda2-mode emc.colorThemeSolarized];
-      code_min = mkEnv "y-codemin" [
+      code = mkEnv "y-code" [
         python gitAndTools.hub gnumake cloc silver-searcher
       ];
-      code = mkEnv "y-code" [
-        cloc graphviz sloccount silver-searcher
-        gnumake strace stack # hs?
-        # TODO: patch sublime3 haskell integration for stack (correct hsdev version)
-        (hiPrio python3) python dos2unix dhex
-        # elm.elm # agda
-        # vcs
-        gitAndTools.hub subversion
-
-        # db
-        sqliteInteractive
-      ];
-
-      wifimcu = mkEnv "wifimcu-dev" [
-        minicom lrzsz lua
-      ];
-
       java = openjdk;
-
-      # java = mkEnv "y-java" [
-      #   openjdk
-      # ];
 
       games = mkEnv "y-games" [
         # steam openttd wine winetricks minecraft
@@ -175,21 +169,20 @@
       ];
 
       js = mkEnv "y-jsdev" [
-        js.jshint nodejs-6_x electron
+        js.jshint nodejs-6_x electron node2nix_git
       ];
 
       pdf = mkEnv "y-pdf" [
         ml.cpdf zathura pandoc poppler_utils
       ];
 
-      xdev = mkEnv "y-xdev" [
-        wmname xev xlsfonts xwininfo glxinfo
-      ];
-
     };
+    # install with nix-env -iAr nixos.hosts.$(hostname -s)
+    # will remove all your previously installed nix-env stuff
+    # so check with nix-env -q first
     hosts = {
-      ascanius = with envs; [apps code_min de games envs.js pdf nix media gcc misc scripts coins];
-      jarvis = with envs; [apps code_min de games envs.js pdf nix media gcc misc scripts];
+      ascanius = with envs; [apps code de games envs.js pdf nix media gcc misc scripts coins];
+      jarvis = with envs; [apps code de games envs.js pdf nix media gcc misc scripts];
       woodhouse = with envs; [de media misc kodi chromium spotify];
       pennyworth = [];
       frumar = with envs; [bup git-annex rtorrent pyroscope];
