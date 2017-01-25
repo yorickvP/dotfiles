@@ -1,1 +1,3 @@
 default.nix
+compton_default.conf
+compton_intel.conf
