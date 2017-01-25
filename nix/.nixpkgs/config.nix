@@ -29,6 +29,7 @@
     ftb = pkgs.callPackage ./ftb.nix {};
     pyroscope = pkgs.callPackage ./pyroscope.nix {};
     peageprint = pkgs.callPackage ./peageprint.nix {};
+    nottetris2 = pkgs.callPackage ./nottetris2.nix {};
     python35Packages = py3 // {
       # pycrypto runs slow tests by default
       pycrypto = py3.pycrypto.overrideDerivation (attrs: {
@@ -165,7 +166,7 @@
 
       games = mkEnv "y-games" [
         # steam openttd wine winetricks minecraft
-        steam
+        steam nottetris2
       ];
 
       js = mkEnv "y-jsdev" [
