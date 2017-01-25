@@ -17,6 +17,12 @@
     mkEnv = name: paths: pkgs.buildEnv { inherit name paths; };
     py3 = python35Packages; hs = haskellPackages; js = nodePackages; ml = ocamlPackages;
     py2 = python27Packages; emc = emacsPackages; emcn = emacsPackagesNg; elm = elmPackages;
+
+    overrideOlder = original: override: let
+      newpkgver = lib.getVersion (override original);
+      oldpkgver = lib.getVersion original;
+      in if (lib.versionOlder oldpkgver newpkgver) then original.overrideDerivation override else original;
+
   in rec {
     org = pkgs.emacsPackages.org.overrideDerivation (attrs: {
       nativeBuildInputs = [emacs texinfo tetex]; });
@@ -50,6 +56,15 @@
       };
     });
     mpv = pkgs.mpv.override { vaapiSupport = true; };
+    # this can be dropped once i3status-2.11 is in unstable
+    i3status = overrideOlder pkgs.i3status (attrs: rec {
+      name = "i3status-2.11";
+
+      src = fetchurl {
+        url = "http://i3wm.org/i3status/${name}.tar.bz2";
+        sha256 = "0pwcy599fw8by1a1sf91crkqba7679qhvhbacpmhis8c1xrpxnwq";
+      };
+    });
 
 
     yscripts = pkgs.callPackage ../dotfiles/bin {};
