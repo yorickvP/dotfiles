@@ -30,6 +30,12 @@
     pyroscope = pkgs.callPackage ./pyroscope.nix {};
     peageprint = pkgs.callPackage ./peageprint.nix {};
     nottetris2 = pkgs.callPackage ./nottetris2.nix {};
+    spotify = pkgs.spotify.overrideDerivation (attrs: {
+      installPhase = builtins.replaceStrings
+        ["wrapProgram $out/share/spotify/spotify"]
+        ["wrapProgram $out/share/spotify/spotify --add-flags --force-device-scale-factor=\\$SPOTIFY_DEVICE_SCALE_FACTOR"]
+        attrs.installPhase;
+    });
     python35Packages = py3 // {
       # pycrypto runs slow tests by default
       pycrypto = py3.pycrypto.overrideDerivation (attrs: {
