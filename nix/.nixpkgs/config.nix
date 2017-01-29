@@ -70,7 +70,7 @@
         sha256 = "1y50gs5mk2sdzqx68lr3qb71lh7jp4c38ynybf8ikx7kfkzxvasb";
       }) {}).package;
 
-    asterisk = pkgs.asterisk.overrideDerivation (attrs: rec {
+    asterisk = overrideOlder pkgs.asterisk (attrs: rec {
       version = "13.11.2";
 
       src = fetchurl {
