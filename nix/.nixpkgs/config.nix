@@ -129,7 +129,7 @@
         neomutt
         torbrowser
         chromium
-        firefox-bin
+        #firefox-bin
         gimp
         tdesktop
         #hexchat
@@ -204,7 +204,7 @@
       jarvis = with envs; [apps code de games envs.js pdf nix media gcc misc scripts];
       woodhouse = with envs; [de media misc kodi chromium spotify];
       pennyworth = [];
-      frumar = with envs; [bup git-annex rtorrent pyroscope];
+      frumar = with envs; [bup gitAndTools.git-annex rtorrent pyroscope];
     };
     pandocdeps = (pkgs.texlive.combine {
       inherit (pkgs.texlive)
