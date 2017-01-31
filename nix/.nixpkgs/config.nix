@@ -30,7 +30,13 @@
     pyroscope = pkgs.callPackage ./pyroscope.nix {};
     peageprint = pkgs.callPackage ./peageprint.nix {};
     nottetris2 = pkgs.callPackage ./nottetris2.nix {};
-    spotify = pkgs.spotify.overrideDerivation (attrs: {
+    spotify = pkgs.spotify.overrideDerivation (attrs: rec {
+      version = "1.0.48.103.g15edf1ec-94";
+      name = "spotify-${version}";
+      src = fetchurl {
+        url = "http://repository-origin.spotify.com/pool/non-free/s/spotify-client/spotify-client_${version}_amd64.deb";
+        sha256 = "0rpwxgxv2ihfhlri98k4n87ynlcp569gm9q6hd8jg0vd2jgji8b3";
+      };
       installPhase = builtins.replaceStrings
         ["wrapProgram $out/share/spotify/spotify"]
         ["wrapProgram $out/share/spotify/spotify --add-flags --force-device-scale-factor=\\$SPOTIFY_DEVICE_SCALE_FACTOR"]
