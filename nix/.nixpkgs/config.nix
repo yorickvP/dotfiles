@@ -160,7 +160,7 @@
       ];
 
       nix = mkEnv "y-nix" [
-        patchelf nix nix-prefetch-git nix-repl nixops nox
+        patchelf nix nix-prefetch-git nix-repl nixopsUnstable nox
       ];
 
       c = mkEnv "y-cdev" [
