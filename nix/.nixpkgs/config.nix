@@ -106,7 +106,7 @@
         sha256 = "1bjih6y21vmjmsk3xvhgc1innymryklgylyvjrskqw610niai59j";
       };
     });
-    streamer = if (hasAttr "streamlink" pkgs) then streamlink else pythonPackages.livestreamer;
+    streamer = if (builtins.hasAttr "streamlink" pkgs) then streamlink else pythonPackages.livestreamer;
 
 
     yscripts = pkgs.callPackage ../dotfiles/bin {};
