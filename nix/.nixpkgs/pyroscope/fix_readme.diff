@@ -1,0 +1,13 @@
+diff --git a/pavement.py b/pavement.py
+index 8b0fab6..c466ce4 100644
+--- a/pavement.py
++++ b/pavement.py
+@@ -54,7 +54,7 @@ project = dict(
+     zip_safe = True,
+     data_files = [
+         ("EGG-INFO", [
+-            "README", "LICENSE", "debian/changelog",
++            "README.rst", "LICENSE", "debian/changelog",
+         ]),
+     ],
+ 
