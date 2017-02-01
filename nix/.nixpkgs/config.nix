@@ -95,7 +95,7 @@
       };
     });
 
-    streamlink = if builtins.hasAttr "streamlink" pkgs then (overrideOlder pkgs.streamlink (attrs: rec {
+    streamlink = overrideOlder pkgs.streamlink (attrs: rec {
       version = "0.3.0";
       name = "streamlink-${version}";
 
@@ -105,7 +105,8 @@
         rev = "${version}";
         sha256 = "1bjih6y21vmjmsk3xvhgc1innymryklgylyvjrskqw610niai59j";
       };
-    })) else pkgs.callPackage ./streamlink.nix {};
+    });
+    streamer = if (hasAttr "streamlink" pkgs) then streamlink else pythonPackages.livestreamer;
 
 
     yscripts = pkgs.callPackage ../dotfiles/bin {};
@@ -153,7 +154,7 @@
       ];
 
       media = mkEnv "y-media" [
-        streamlink
+        streamer
         py3.youtube-dl
         mpv
         aria2
