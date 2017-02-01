@@ -21,6 +21,7 @@ let
 	  	rev = "cf64da5d89df1c1174e0184c63a51a46f2f955fd";
 	  	sha256 = "12qn1gx64byi76kkx8p7y5gdrq016fw2s23l4yik0q1hdg2b99y8";
 	  };
+	  doCheck = false;
 	  patches = [./fix_readme.diff];
 	  buildInputs = [paver];
 	};
