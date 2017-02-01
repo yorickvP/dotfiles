@@ -95,7 +95,7 @@
       };
     });
 
-    streamlink = overrideOlder pkgs.streamlink (attrs: rec {
+    streamlink = if builtins.hasAttr "streamlink" pkgs then (overrideOlder pkgs.streamlink (attrs: rec {
       version = "0.3.0";
       name = "streamlink-${version}";
 
@@ -105,7 +105,7 @@
         rev = "${version}";
         sha256 = "1bjih6y21vmjmsk3xvhgc1innymryklgylyvjrskqw610niai59j";
       };
-    });
+    })) else pkgs.callPackage ./streamlink.nix {};
 
 
     yscripts = pkgs.callPackage ../dotfiles/bin {};
