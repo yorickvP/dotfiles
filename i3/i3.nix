@@ -1,6 +1,6 @@
 {writeTextDir, writeScript, lib,
 rofi, xss-lock, nitrogen, compton-git, i3status, i3-gaps
-, i3lock-fancy, xset, alsaUtils, light, screenshot_public, xorg,
+, i3lock-fancy, xset, alsaUtils, light, screenshot_public, xorg, libinput-gestures,
 with_lock ? true, compton_name ? "default"}:
 
 let
@@ -173,6 +173,7 @@ exec --no-startup-id ${compton-git}/bin/compton --config /home/yorick/dotfiles/x
 
 exec --no-startup-id ${xorg.xf86inputsynaptics}/bin/syndaemon -i 0.5 -k -t
 exec --no-startup-id ${xss-lock}/bin/xss-lock -l -- ${locker}
+exec --no-startup-id ${libinput-gestures}/bin/libinput-gestures
 
 '') + ''
 
