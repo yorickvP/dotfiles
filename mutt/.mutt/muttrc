@@ -7,6 +7,11 @@ source ~/.mutt/mailboxes
 set edit_headers
 set auto_tag
 
+bind pager <up> previous-line
+bind pager <down> next-line
+set smart_wrap
+set sleep_time = 0 # gotta go faster
+
 set   imap_servernoise
 unset imap_passive
 set mail_check   = 60
