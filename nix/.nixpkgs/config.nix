@@ -63,6 +63,8 @@
       '';
     };
 
+    libinput-gestures = pkgs.callPackage ./libinput-gestures.nix {};
+
     weiightminder = pkgs.callPackage (fetchgit {
       url = https://gist.github.com/yorickvP/229d21a7da13c9c514dbd26147822641;
       rev = "9749ef4d83c0078bc0248215ee882d7124827cf3";
