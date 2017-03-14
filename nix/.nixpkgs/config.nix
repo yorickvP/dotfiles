@@ -146,8 +146,8 @@
         keepassx
         # libreoffice
         skype
-	      spotify
-        kde4.quasselClientWithoutKDE
+	      #spotify
+        quasselClient
         sublime3
         leafpad
         calibre
