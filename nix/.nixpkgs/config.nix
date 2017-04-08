@@ -31,12 +31,12 @@
     peageprint = pkgs.callPackage ./peageprint.nix {};
     nottetris2 = pkgs.callPackage ./nottetris2.nix {};
     spotify = pkgs.spotify.overrideDerivation (attrs: rec {
-      version = "1.0.48.103.g15edf1ec-94";
-      name = "spotify-${version}";
-      src = fetchurl {
-        url = "http://repository-origin.spotify.com/pool/non-free/s/spotify-client/spotify-client_${version}_amd64.deb";
-        sha256 = "0rpwxgxv2ihfhlri98k4n87ynlcp569gm9q6hd8jg0vd2jgji8b3";
-      };
+      # version = "1.0.48.103.g15edf1ec-94";
+      # name = "spotify-${version}";
+      # src = fetchurl {
+      #   url = "http://repository-origin.spotify.com/pool/non-free/s/spotify-client/spotify-client_${version}_amd64.deb";
+      #   sha256 = "0rpwxgxv2ihfhlri98k4n87ynlcp569gm9q6hd8jg0vd2jgji8b3";
+      # };
       installPhase = builtins.replaceStrings
         ["wrapProgram $out/share/spotify/spotify"]
         ["wrapProgram $out/share/spotify/spotify --add-flags --force-device-scale-factor=\\$SPOTIFY_DEVICE_SCALE_FACTOR"]
@@ -110,9 +110,20 @@
     });
     streamer = if (builtins.hasAttr "streamlink" pkgs) then streamlink else pythonPackages.livestreamer;
 
+    i3lock-color = overrideOlder pkgs.i3lock-color (attrs: rec {
+      version = "2.7-2017-04-01";
+      name = "i3lock-color-${version}";
+
+      src = fetchFromGitHub {
+        owner = "chrjguill";
+        repo = "i3lock-color";
+        rev = "61f6428aedbe4829d3e0f51d137283c8aec1e206";
+        sha256 = "0h4nzx46kcsp6b1i2lm9y4d1w1icrpvjl8g1h3wbpa5x4crh4703";
+      };
+    });
+
 
     yscripts = pkgs.callPackage ../dotfiles/bin {};
-
 
     envs = recurseIntoAttrs {
 
@@ -146,7 +157,7 @@
         keepassx
         # libreoffice
         skype
-	      #spotify
+	      spotify
         quasselClient
         sublime3
         leafpad
@@ -184,6 +195,7 @@
         sshuttle iodine stow
         expect duplicity
         wakelan x2x pass
+        abduco dvtm
       ];
 
       code = mkEnv "y-code" [
@@ -213,7 +225,7 @@
       jarvis = with envs; [apps code de games envs.js pdf nix media gcc misc scripts];
       woodhouse = with envs; [de media misc kodi chromium spotify];
       pennyworth = [];
-      frumar = with envs; [bup rtorrent pyroscope];
+      frumar = with envs; [bup gitAndTools.git-annex rtorrent pyroscope];
     };
     pandocdeps = (pkgs.texlive.combine {
       inherit (pkgs.texlive)

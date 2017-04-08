@@ -1,6 +1,6 @@
 {writeTextDir, writeScript, lib,
 rofi, xss-lock, nitrogen, compton-git, i3status, i3-gaps
-, i3lock-fancy, xset, alsaUtils, light, screenshot_public, xorg, libinput-gestures,
+, i3lock-color, xset, alsaUtils, light, screenshot_public, xorg, libinput-gestures,
 with_lock ? true, compton_name ? "default"}:
 
 let
@@ -11,7 +11,7 @@ revert() {
 }
 trap revert SIGHUP SIGINT SIGTERM
 ${xset}/bin/xset +dpms dpms 5 5 5
-${i3lock-fancy}/bin/i3lock-fancy
+${i3lock-color}/bin/i3lock-color -B 10 -r -n -e
 revert
 '';
 
