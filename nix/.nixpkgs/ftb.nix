@@ -6,10 +6,10 @@ let
 lib_path = lib.concatMapStringsSep ":" (x: x.out + "/lib/") [libX11 libXext libXcursor libXrandr libXxf86vm mesa openal];
 in
  stdenv.mkDerivation {
-    name = "ftb-1.4.12";
+    name = "ftb-1.4.14";
     src = fetchurl {
         url = "http://ftb.cursecdn.com/FTB2/launcher/FTB_Launcher.jar";
-        sha256 = "1wqpwqpfs646xarslxn81b62dj95h6ynz7p9379y7i68yzqhwp5c";
+        sha256 = "1m2kyvq4fknr3ric5wwg55qzjqhpkjaq9zragsvippibg78w9hy4";
     };
 
   phases = "installPhase";
