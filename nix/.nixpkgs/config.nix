@@ -195,7 +195,7 @@
         sshuttle iodine stow
         expect duplicity
         wakelan x2x pass
-        abduco dvtm
+        abduco dvtm w3m
       ];
 
       code = mkEnv "y-code" [

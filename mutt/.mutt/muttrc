@@ -31,3 +31,8 @@ ifdef ENCRYPT_SELF set pgp_encrypt_self
 set pgp_use_gpg_agent
 
 bind index G imap-fetch-mail
+
+auto_view text/html                                      # view html automatically
+alternative_order text/plain text/enriched text/html     # save html for last
+
+set mailcap_path=~/.mutt/mailcap
