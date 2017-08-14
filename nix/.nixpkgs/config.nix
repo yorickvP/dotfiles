@@ -158,14 +158,17 @@
         #inkscape
         keepassx
         # libreoffice
-        skype
+        # skype
 	      spotify
         quasselClient
         sublime3
         leafpad
-        calibre
+        # calibre
         #py2.plover
         wireshark meld
+        discord
+        fanficfare
+        wpa_supplicant_gui
       ];
 
       media = mkEnv "y-media" [
@@ -186,7 +189,7 @@
       ];
 
       c = mkEnv "y-cdev" [
-        valgrind cdecl gdb ltrace cmake # gcc
+        valgrind cdecl gdb ltrace cmake radare2 # gcc
       ];
       misc = mkEnv "y-misc" [
         #gitAndTools.git-annex # doesn't build
@@ -198,16 +201,17 @@
         expect duplicity
         wakelan x2x pass
         abduco dvtm w3m
+        jq jo
       ];
 
       code = mkEnv "y-code" [
-        python gitAndTools.hub gnumake cloc silver-searcher gitFire
+        python gitAndTools.hub gnumake cloc silver-searcher gitFire gti
       ];
       java = openjdk;
 
       games = mkEnv "y-games" [
         # steam openttd wine winetricks minecraft
-        steam nottetris2
+        # steam nottetris2 # ftb
       ];
 
       js = mkEnv "y-jsdev" [
@@ -217,19 +221,12 @@
       pdf = mkEnv "y-pdf" [
         ml.cpdf zathura pandoc poppler_utils
       ];
+      hs = mkEnv "y-hs" [
+        ghc stack cabal-install
+      ];
 
+ 
     };
-    # install with nix-env -iAr nixos.hosts.$(hostname -s)
-    # will remove all your previously installed nix-env stuff
-    # so check with nix-env -q first
-    hosts = {
-      ascanius = with envs; [apps code de games envs.js pdf nix media gcc misc scripts coins];
-      jarvis = with envs; [apps code de games envs.js pdf nix media gcc misc scripts];
-      woodhouse = with envs; [de media misc kodi chromium spotify];
-      pennyworth = [];
-      frumar = with envs; [bup gitAndTools.git-annex rtorrent pyroscope];
-    };
-    pandocdeps = (pkgs.texlive.combine {
     myEmacs = emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
       company
       paredit
@@ -277,6 +274,17 @@
       haskell-mode
     ]));
     # todo: emacs-all-the-icons-fonts
+    # install with nix-env -iAr nixos.hosts.$(hostname -s)
+    # will remove all your previously installed nix-env stuff
+    # so check with nix-env -q first
+    hosts = {
+      ascanius = with envs; [apps code de games envs.js pdf nix media gcc misc scripts coins];
+      jarvis = with envs; [apps code de games envs.js pdf nix media gcc misc scripts];
+      woodhouse = with envs; [de media misc kodi chromium spotify];
+      pennyworth = [];
+      frumar = with envs; [bup gitAndTools.git-annex rtorrent pyroscope];
+    };
+    pandocdeps = (pkgs.texlive.combine {
       inherit (pkgs.texlive)
         scheme-basic
         # explicit list pandoc tex dependencies
