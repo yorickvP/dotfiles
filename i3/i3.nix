@@ -1,10 +1,17 @@
 {writeTextDir, writeScript, lib,
 rofi, xss-lock, nitrogen, compton-git, i3status, i3-gaps
 ,i3lock-color, xset, alsaUtils, light, screenshot_public, xorg, libinput-gestures,
-haskellPackages,
+haskellPackages, polybar, procps,
 with_lock ? true, compton_name ? "default"}:
 
 let
+  kill-and-restart = pkg: as:
+with lib; let
+  name = head (splitString " " as);
+  args = concatStringsSep " " (tail (splitString " " as));
+in
+''exec_always --no-startup-id "pkill ${name}; while pgrep -x ${name} >/dev/null; do sleep 1; done; exec ${pkg}/bin/${name} ${args}"
+'';
 locker = writeScript "dlock.sh" ''
 #!/bin/sh
 revert() {
@@ -25,7 +32,7 @@ writeTextDir "i3-config" (''
 set $mod Mod4
 
 gaps inner 5
-gaps outer 5
+# gaps outer 5
 
 font pango:Source Code Pro 10
 
@@ -77,6 +84,7 @@ bindsym $mod+Shift+Right move right
 bindsym $mod+h split h
 
 # split in vertical orientation
+
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
@@ -112,7 +120,7 @@ bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace 2
 bindsym $mod+Shift+3 move container to workspace 3
 bindsym $mod+Shift+4 move container to workspace 4
@@ -156,26 +164,16 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 bindsym $mod+Escape workspace back_and_forth
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-        i3bar_command ${i3-gaps}/bin/i3bar -t
-        status_command ${i3status}/bin/i3status
-        colors {
-                background #002b36d9
-                statusline #839496
-        }
-}
 
-exec --no-startup-id ${nitrogen}/bin/nitrogen --restore
-exec --no-startup-id ${compton-git}/bin/compton --config /home/yorick/dotfiles/x/compton_${compton_name}.conf
-
+exec_always --no-startup-id ${nitrogen}/bin/nitrogen --restore
+${kill-and-restart compton-git "compton --config /home/yorick/dotfiles/x/compton_${compton_name}.conf"}
 '' + (lib.optionalString with_lock ''
 
-exec --no-startup-id ${xorg.xf86inputsynaptics}/bin/syndaemon -i 0.5 -k -t
-exec --no-startup-id ${xss-lock}/bin/xss-lock -l -- ${locker}
-exec --no-startup-id ${libinput-gestures}/bin/libinput-gestures
-exec --no-startup-id ${haskellPackages.arbtt}/bin/arbtt-capture
+${kill-and-restart xorg.xf86inputsynaptics "syndaemon -i 0.5 -k -t"}
+${kill-and-restart polybar "polybar -c /home/yorick/dotfiles/i3/polybar $(hostname)"}
+${kill-and-restart xss-lock "xss-lock -l -- ${locker}"}
+${kill-and-restart libinput-gestures "libinput-gestures"}
+${kill-and-restart haskellPackages.arbtt "arbtt-capture"}
 '') + ''
 
 bindsym XF86MonBrightnessUp exec ${light}/bin/light -A 5
@@ -184,6 +182,9 @@ bindsym XF86AudioLowerVolume exec ${alsaUtils}/bin/amixer set Master 1%-
 bindsym XF86AudioRaiseVolume exec ${alsaUtils}/bin/amixer set Master 1%+
 bindsym XF86AudioMute exec ${alsaUtils}/bin/amixer set Master toggle
 bindsym $mod+Shift+s exec --no-startup-id ${screenshot_public}/bin/screenshot_public
+workspace_auto_back_and_forth yes
 
-
+hide_edge_borders smart
+for_window [class="URxvt"] border pixel 2
+new_window pixel 2
 '')

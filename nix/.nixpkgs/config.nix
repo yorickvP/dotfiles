@@ -121,7 +121,7 @@
         sha256 = "0h4nzx46kcsp6b1i2lm9y4d1w1icrpvjl8g1h3wbpa5x4crh4703";
       };
     });
-
+    polybar = pkgs.polybar.override {i3GapsSupport = true; githubSupport = false;};
 
     yscripts = pkgs.callPackage ../dotfiles/bin {};
 
@@ -138,6 +138,8 @@
         xorg.xrandr
         pavucontrol
         light nitrogen
+        # wpa_supplicant_gui
+        xclip siji fira-mono playerctl font-awesome-ttf
       ];
       scripts = mkEnv "y-scripts" [
         peageprint
