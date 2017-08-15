@@ -112,10 +112,12 @@
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode 0)
 (menu-bar-mode 0)
+(scroll-bar-mode 0)
 #+END_SRC
 ** hl-line
 #+BEGIN_SRC emacs-lisp
 (when window-system (global-hl-line-mode))
+(show-paren-mode t)
 #+END_SRC
 * Feel
 #+BEGIN_SRC emacs-lisp
@@ -206,6 +208,7 @@
 ** backups
 from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 #+BEGIN_SRC emacs-lisp
+(setq vc-make-backup-files t)
 (setq
    backup-by-copying t      ; don't clobber symlinks
    backup-directory-alist
