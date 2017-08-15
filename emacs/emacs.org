@@ -11,8 +11,6 @@
 * Org stuff
 ** modules
 #+BEGIN_SRC emacs-lisp
-(setq org-modules '(org-bbdb org-bibtex org-docview org-gnus org-habit
-                    org-info org-irc org-mhe org-rmail org-w3m))
 #+END_SRC
 ** keybindings
 #+BEGIN_SRC emacs-lisp
