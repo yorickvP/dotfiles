@@ -5,6 +5,7 @@ self: super: {
   peageprint = super.callPackage ../pkgs/peageprint.nix {};
   nottetris2 = super.callPackage ../pkgs/nottetris2.nix {};
   mailpile = super.callPackage ../pkgs/mailpile.nix {};
+  lejos = super.callPackage ../pkgs/lejos.nix {};
   libinput-gestures = super.callPackage ../pkgs/libinput-gestures.nix {};
   gitFire = super.stdenv.mkDerivation {
     src = super.fetchFromGitHub {
