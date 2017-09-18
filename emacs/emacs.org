@@ -123,6 +123,13 @@
 #+BEGIN_SRC emacs-lisp
 (defalias 'yes-or-no-p 'y-or-n-p) 
 #+END_SRC
+** fix escape
+#+BEGIN_SRC emacs-lisp
+; Map escape to cancel (like C-g)...
+(define-key isearch-mode-map [escape] 'isearch-abort)   ;; isearch
+(define-key isearch-mode-map "\e" 'isearch-abort)   ;; \e seems to work better for terminals
+(global-set-key [escape] 'keyboard-escape-quit)         ;; everywhere else
+#+End_SRC
 ** Fix mouse wheel
 #+BEGIN_SRC emacs-lisp
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
@@ -149,22 +156,22 @@
 #+END_SRC
 ** Ivy
 #+BEGIN_SRC emacs-lisp
-(use-package ivy
-    :init
-    (setq ivy-height 10)
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    :config
-    (ivy-mode t)
-    :bind (("C-s" . swiper)
-           ("C-c C-r" . ivy-resume)
-           ("<f6>" . ivy-resume)))
+  (use-package ivy
+      :init
+      (setq ivy-height 10)
+      (setq ivy-use-virtual-buffers t)
+      (setq enable-recursive-minibuffers t)
+      :config
+      (ivy-mode t)
+      :bind (("C-s" . swiper)
+             ("C-c C-r" . ivy-resume)
+             ("<f6>" . ivy-resume)))
 #+END_SRC
 ** Counsel
 #+BEGIN_SRC emacs-lisp
-(use-package counsel
-    :bind (("M-x" . counsel-M-x)
-           ("C-x C-f" . counsel-find-file)))
+  (use-package counsel
+      :bind (("M-x" . counsel-M-x)
+             ("C-x C-f" . counsel-find-file)))
 #+END_SRC
     (global-set-key (kbd "<f1> f") 'counsel-describe-function)
     (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
@@ -177,6 +184,7 @@
     ;; (global-set-key (kbd "C-x l") 'counsel-locate)
     ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
     ;; (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+** TODO i3-emacs
 * editing
 ** line numbers
 *** relative
@@ -237,6 +245,11 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
     :config (evil-goggles-mode)
             (evil-goggles-use-diff-faces))
 #+END_SRC
+*** TODO [[https://github.com/emacs-evil/evil-surround][evil-surround]]
+*** TODO more evil bindings
+**** https://github.com/Somelauw/evil-org-mode/blob/master/doc/keythemes.org
+**** follow link with ret
+** TODO multiple-cursors
 * Tools
 ** Magit
 #+BEGIN_SRC emacs-lisp
@@ -250,6 +263,7 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
   :commands pass)
 #+END_SRC
 *** TODO helm-pass or password-store or fix keybindings for pass
+** TODO https://github.com/mbork/beeminder.el
 * language-specific
 ** markdown
 #+BEGIN_SRC emacs-lisp
@@ -260,9 +274,29 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 	    ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "multimarkdown"))
 #+END_SRC
+** org
+*** TODO spellchecking
+*** TODO disable linum on org mode
+*** TODO use org-cliplink
 ** nix
 #+BEGIN_SRC emacs-lisp
 (use-package nix-mode
     :commands (nix-mode)
     :mode (("\\.nix\\'" . nix-mode)))
 #+END_SRC
+** haskell
+#+BEGIN_SRC emacs-lisp
+(load-library "haskell-mode-autoloads")
+  (use-package intero
+   :config     (add-hook 'haskell-mode-hook 'intero-mode)
+  )
+#+END_SRC
+*** TODO intero / haskell mode  [[https://wiki.haskell.org/Emacs]]
+** TODO proof-general
+* Inspiration
+** [[https://github.com/hrs/dotfiles/blob/master/emacs/.emacs.d/configuration.org][hrs]]
+** [[https://github.com/angrybacon/dotemacs][angrybacon]]
+** [[https://github.com/hlissner/.emacs.d][doom]]
+** [[https://gist.github.com/fmap/b0e89549d43c4cc0d90c14579e366eb3][fmap]]  
+** [[https://github.com/muflax-scholars/emacs.d][muflax]]
+** [[https://github.com/jwiegley/dot-emacs/blob/master/init.el][jwiegly]]

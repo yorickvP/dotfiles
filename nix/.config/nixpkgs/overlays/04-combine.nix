@@ -47,6 +47,7 @@ self: super: {
     avy
     # nixos-sandbox # https://github.com/travisbhartwell/nix-emacs
     haskell-mode
+    intero
   ]));
   # todo: emacs-all-the-icons-fonts
   pandocdeps = (super.texlive.combine {
