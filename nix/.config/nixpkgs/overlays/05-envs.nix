@@ -39,7 +39,6 @@ in {
       # skype
 	    spotify
       quasselClient
-      sublime3
       leafpad
       # calibre
       #py2.plover
