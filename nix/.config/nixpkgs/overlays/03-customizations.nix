@@ -17,6 +17,12 @@ self: super: {
       '';
     });
   });
+  i3-gaps = super.i3-gaps.overrideDerivation (attrs: {
+    patches = [(super.fetchpatch {
+      url = "https://github.com/Lucus16/i3/commit/65a5afda81ddd1618b4a62b7188173c82ee5f985.patch";
+      sha256 = "1s943069afamizrz5pmll6cmrzgnlv3v93bmnykifhr0mnavbhph";
+    })];
+  });
 
   # wine = pkgs.wine.override { wineRelease = "staging"; wineBuild = "wineWow"; };
 }

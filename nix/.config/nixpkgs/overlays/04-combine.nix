@@ -6,8 +6,11 @@ self: super: {
     counsel
     flycheck
     ivy
+    ivy-hydra
     magit
     projectile
+    epkgs.melpaPackages.counsel-projectile
+    ggtags
     use-package
     org-bullets
     solarized-theme
@@ -17,13 +20,15 @@ self: super: {
     evil-tutor
     evil-surround
     epkgs.evil-goggles
+    epkgs.ox-mediawiki
+    epkgs.hledger-mode
     # evil-commentary
     password-store
     pass
     linum-relative
     (epkgs.trivialBuild {
       pname = "emacs-nix-mode";
-      src = pkgs.fetchFromGitHub {
+      src = super.fetchFromGitHub {
         owner = "matthewbauer";
         repo = "nix-mode";
         rev = "v1.2.1";

@@ -1,8 +1,8 @@
-{ jdk, ant, libusb, makeWrapper, stdenv, lib, fetchurl }:
+{ jdk7, ant, libusb, makeWrapper, stdenv, lib, fetchurl }:
 let lejospkg = type: attrs:
     stdenv.mkDerivation ({
     name = "lejos-${type}-${attrs.version}";
-    JDK_PATH = jdk;
+    JDK_PATH = jdk7;
     buildPhase = ''
         pushd build
         ant
@@ -18,7 +18,7 @@ let lejospkg = type: attrs:
         done
         runHook postInstall
     '';
-    buildInputs = [ jdk ant libusb makeWrapper ];
+    buildInputs = [ jdk7 ant libusb makeWrapper ];
 } // attrs);
 in
 {

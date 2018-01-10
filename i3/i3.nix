@@ -178,10 +178,14 @@ ${kill-and-restart haskellPackages.arbtt "arbtt-capture"}
 
 bindsym XF86MonBrightnessUp exec ${light}/bin/light -A 5
 bindsym XF86MonBrightnessDown exec ${light}/bin/light -U 5
+bindsym ctrl+XF86MonBrightnessUp exec ${light}/bin/light -A 1
+bindsym ctrl+XF86MonBrightnessDown exec ${light}/bin/light -U 1
 bindsym XF86AudioLowerVolume exec ${alsaUtils}/bin/amixer set Master 1%-
 bindsym XF86AudioRaiseVolume exec ${alsaUtils}/bin/amixer set Master 1%+
 bindsym XF86AudioMute exec ${alsaUtils}/bin/amixer set Master toggle
 bindsym $mod+Shift+s exec --no-startup-id ${screenshot_public}/bin/screenshot_public
+bindsym Print exec --no-startup-id ${screenshot_public}/bin/screenshot_public
+bindsym $mod+p exec --no-startup-id passmenu
 workspace_auto_back_and_forth yes
 
 hide_edge_borders smart

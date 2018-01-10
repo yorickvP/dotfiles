@@ -309,6 +309,7 @@ format-charging-underline = #ffb52a
 time-format = %H:%M
 label-charging = %percentage%% - %time%
 label-discharging = %percentage%% - %time%
+label-full = %percentage%%
 format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 

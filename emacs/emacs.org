@@ -14,66 +14,78 @@
 #+END_SRC
 ** keybindings
 #+BEGIN_SRC emacs-lisp
-(bind-keys :map global-map
-           ("C-c l" . org-store-link)
-           ("C-c a" . org-agenda)
-           ("C-c c" . org-capture))
+  (bind-keys :map global-map
+             ("C-c l" . org-store-link)
+             ("C-c a" . org-agenda)
+             ("C-c b" . org-iswitchb)
+             ("C-c c" . org-capture))
 #+END_SRC
 ** config
 #+BEGIN_SRC emacs-lisp
-  (setq org-pretty-entities t)
-  (setq org-startup-indented t)
-  (setq org-src-fontify-natively t)
-  (setq org-src-tab-acts-natively t)
-  (setq org-ellipsis "⬎")
-  (setq org-log-done t)
-  (setq org-todo-keywords
-      '((sequence "TODO(t)" "WAIT" "|" "DONE(d)" "CANCEL")))
-(setq org-agenda-files (list "~/org/life.org"
-			    "~/org/ru.org" 
-			    "~/org/symfo.org"
-			    "~/org/fiction.org"))
-(setq org-use-fast-todo-selection t)
-(setq org-directory "~/org")
+    (setq org-pretty-entities t)
+    (setq org-startup-indented t)
+    (setq org-src-fontify-natively t)
+    (setq org-completion-use-ido t)
+    (setq org-src-tab-acts-natively t)
+    (setq org-ellipsis "⬎")
+    (setq org-log-done t)
+    (setq org-todo-keywords
+        '((sequence "TODO(t)" "WAIT" "|" "DONE(d)" "CANCEL")))
+  (setq org-agenda-files (list "~/org/life.org"
+            "~/org/ru.org" 
+            "~/org/symfo.org"
+            "~/org/fiction.org"))
+  (setq org-use-fast-todo-selection t)
+  (setq org-directory "~/org")
 
-(defun org-file-path (filename)
-"Return the absolute address of an org file, given its relative name."
-(concat (file-name-as-directory org-directory) filename))
+  (defun org-file-path (filename)
+  "Return the absolute address of an org file, given its relative name."
+  (concat (file-name-as-directory org-directory) filename))
 
-; (setq org-inbox-file "~/org/inbox.org")
-(setq org-index-file (org-file-path "life.org"))
-(setq org-archive-location
-    (concat (org-file-path "archive.org") "::* From %s"))
+  ; (setq org-inbox-file "~/org/inbox.org")
+  (setq org-index-file (org-file-path "life.org"))
+  (setq org-archive-location
+      (concat (org-file-path "archive.org") "::* From %s"))
 
-(setq org-default-notes-file "~/org/refile.org")
+  (setq org-default-notes-file "~/org/refile.org")
 
+  (setq org-agenda-todo-ignore-scheduled t)
 
-
-(setq org-capture-templates
-      '(("l" "Today I learned"
-         entry
-         (file+datetree (org-file-path "til.org"))
-         "* %?\n")
-        ("u" "link"
-         entry
-         (file+headline org-index-file "check links")
-         "* %^L\n")
-        ("w" "Week review"
-         entry
-         (file+datetree (org-file-path "weeklog.org"))
-         "* %?\n")
-        ("t" "todo item"
-         entry
-         (file+headline org-index-file "todo")
-         "* TODO %?\n")))
-        
+  (setq org-capture-templates
+        '(("l" "Today I learned"
+           entry
+           (file+datetree (org-file-path "til.org"))
+           "* %?\n")
+          ("u" "link"
+           entry
+           (file+headline org-index-file "check links")
+           "* %^L\n")
+          ("w" "Week review"
+           entry
+           (file+datetree (org-file-path "weeklog.org"))
+           "* %?\n")
+          ("t" "todo item"
+           entry
+           (file+headline org-index-file "todo")
+           "* TODO %?\n")))
+          
 
 #+END_SRC
-** add template for elisp
+** add templates
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'org-structure-template-alist
-               '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+    (add-to-list 'org-structure-template-alist
+                 '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+    (add-to-list 'org-structure-template-alist
+                 '("py" "#+BEGIN_SRC python\n?\n#+END_SRC"))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)
+     (sh . t)
+     ))
 #+END_SRC
+
+#+RESULTS:
+
 ** org-bullets
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
@@ -184,6 +196,21 @@
     ;; (global-set-key (kbd "C-x l") 'counsel-locate)
     ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
     ;; (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+** projectile
+#+BEGIN_SRC emacs-lisp
+    (use-package projectile
+     :config
+  (projectile-global-mode t)
+  (use-package counsel-projectile))
+#+END_SRC
+** ggtags
+#+BEGIN_SRC emacs-lisp
+(use-package ggtags
+:demand
+:bind ("M-." . ggtags-find-tag-dwim))
+#+END_SRC
+
+
 ** TODO i3-emacs
 * editing
 ** line numbers

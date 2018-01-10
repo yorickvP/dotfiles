@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {}
 , stdenv ? pkgs.stdenv
 , fetchgit ? pkgs.fetchgit
-, samba3_light ? pkgs.samba3_light
+, samba4 ? pkgs.samba4
 , lib ? pkgs.lib
 }:
 stdenv.mkDerivation {
@@ -18,6 +18,6 @@ stdenv.mkDerivation {
   installPhase = ''
     mkdir -p $out/bin
     install ./peage-print $out/bin
-    wrapProgram $out/bin/peage-print --suffix PATH : ${samba3_light}/bin
+    wrapProgram $out/bin/peage-print --suffix PATH : ${samba4}/bin
   '';
 }

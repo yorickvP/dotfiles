@@ -16,6 +16,7 @@ in {
       xorg.xrandr
       pavucontrol
       light nitrogen
+      dropbox # really?
       # wpa_supplicant_gui
       xclip siji fira-mono playerctl font-awesome-ttf
     ];
@@ -40,12 +41,13 @@ in {
 	    spotify
       quasselClient
       leafpad
-      # calibre
+      calibre
+      wpa_supplicant_gui
       #py2.plover
       wireshark meld
       discord
       fanficfare
-      wpa_supplicant_gui
+      hledger hledger-web
     ];
 
     media = mkEnv "y-media" [
@@ -87,8 +89,8 @@ in {
     java = openjdk;
 
     games = mkEnv "y-games" [
-      # steam openttd wine winetricks minecraft
-      # steam nottetris2 # ftb
+      # steam openttd wine winetricks minecraft nottetris2
+      steam
     ];
 
     js = mkEnv "y-jsdev" [
@@ -108,7 +110,7 @@ in {
   # so check with nix-env -q first
   hosts = with self; with self.envs; {
     ascanius = [apps code de games envs.js pdf nix media gcc misc scripts coins];
-    jarvis = [apps code de games envs.js pdf nix media gcc misc scripts];
+    jarvis = [apps code de games envs.js pdf nix media gcc misc scripts myEmacs];
     woodhouse = [de media misc kodi chromium spotify];
     pennyworth = [];
     frumar = [bup gitAndTools.git-annex rtorrent pyroscope];
