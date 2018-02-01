@@ -18,23 +18,76 @@ primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/jarvis]
+[bar/common]
+monitor = ${env:MONITOR:}
+width = 100%
+fixed-center = true
+
+height = 20
+radius = 6.0
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+font-0 = FontAwesome:size=10;1
+font-1 = FiraMono:size=10;0
+
+
+
+;tray-padding = 2
+tray-scale = 1.0
+;tray-transparent = true
+tray-background = ${colors.background}
+
+;override-redirect = true
+
+
+line-size = 3
+line-color = #f00
+
+border-size = 4
+border-color = #00000000
+
+padding-left = 0
+padding-right = 2
+
+module-margin-left = 1
+module-margin-right = 2
+
+
+[bar/ascanius_primary]
+inherit = bar/common
+
+modules-left = i3 xwindow
+modules-center = 
+modules-right = spotify filesystem volume eth memory battery temperature date
+
+
+tray-position = right
+
+[bar/ascanius_other]
+inherit = bar/common
+
+modules-left = i3 xwindow
+modules-center = 
+modules-right = date
+
+; jarvis: retina screen
+[bar/jarvis_primary]
+inherit = bar/common
 monitor = eDP-1
 width = 100%
 height = 40
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 6.0
-fixed-center = true
-
-background = ${colors.background}
-foreground = ${colors.foreground}
 
 line-size = 6
-line-color = #f00
 
 border-size = 4
-border-color = #00000000
 
 padding-left = 0
 padding-right = 2
@@ -53,16 +106,9 @@ modules-right = spotify filesystem volume backlight-acpi wlan battery temperatur
 tray-position = right
 tray-padding = 2
 tray-scale = 1.0
-;tray-transparent = true
-;tray-background = #0063ff
 
-;wm-restack = bspwm
-;wm-restack = i3
 
-;override-redirect = true
-
-scroll-up = i3wm-wsnext
-scroll-down = i3wm-wsprev
+; modules
 
 [module/xwindow]
 type = internal/xwindow
@@ -94,25 +140,6 @@ label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
-[module/bspwm]
-type = internal/bspwm
-
-label-focused = %index%
-label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.primary}
-label-focused-padding = 2
-
-label-occupied = %index%
-label-occupied-padding = 2
-
-label-urgent = %index%!
-label-urgent-background = ${colors.alert}
-label-urgent-padding = 2
-
-label-empty = %index%
-label-empty-foreground = ${colors.foreground-alt}
-label-empty-padding = 2
-
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
@@ -120,7 +147,7 @@ index-sort = true
 wrapping-scroll = false
 ;strip-wsnumbers = true
 ; Only show workspaces on the same output as the bar
-;pin-workspaces = true
+pin-workspaces = true
 
 label-mode-padding = 2
 label-mode-foreground = #000
@@ -128,24 +155,24 @@ label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
 label-focused = %index%  %icon%
-label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = ${module/bspwm.label-focused-underline}
-label-focused-padding = ${module/bspwm.label-focused-padding}
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %index%  %icon%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+label-unfocused-padding = 2
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %index% %icon%
+label-visible = %index%  %icon%
 label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %index% %icon%
-label-urgent-background = ${module/bspwm.label-urgent-background}
-label-urgent-padding = ${module/bspwm.label-urgent-padding}
+label-urgent = %index%  %icon%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
 
 ws-icon-0 = 1;
 ws-icon-1 = 2;
@@ -155,18 +182,6 @@ ws-icon-3 = 6;
 ws-icon-4 = 7;
 ;
 ;
-[module/mpd]
-type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
-
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
-
-label-song-maxlen = 25
-label-song-ellipsis = true
 
 [module/xbacklight]
 type = internal/xbacklight
@@ -236,11 +251,11 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = net0
+interface = eth0
 interval = 3.0
 
 format-connected-underline = #55aa55
-format-connected-prefix = " "
+format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 

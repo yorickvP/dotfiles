@@ -5,13 +5,13 @@ haskellPackages, polybar, procps,
 with_lock ? true, compton_name ? "default"}:
 
 let
+  kill-and-then = kill: thn:
+''exec_always --no-startup-id "pkill ${kill}; while pgrep -x ${kill} >/dev/null; do sleep 1; done; ${thn}"'';
   kill-and-restart = pkg: as:
 with lib; let
   name = head (splitString " " as);
   args = concatStringsSep " " (tail (splitString " " as));
-in
-''exec_always --no-startup-id "pkill ${name}; while pgrep -x ${name} >/dev/null; do sleep 1; done; exec ${pkg}/bin/${name} ${args}"
-'';
+in kill-and-then name "exec ${pkg}/bin/${name} ${args}";
 locker = writeScript "dlock.sh" ''
 #!/bin/sh
 revert() {
@@ -170,7 +170,7 @@ ${kill-and-restart compton-git "compton --config /home/yorick/dotfiles/x/compton
 '' + (lib.optionalString with_lock ''
 
 ${kill-and-restart xorg.xf86inputsynaptics "syndaemon -i 0.5 -k -t"}
-${kill-and-restart polybar "polybar -c /home/yorick/dotfiles/i3/polybar $(hostname)"}
+${kill-and-then "polybar" "PATH=${polybar}/bin:$PATH /home/yorick/dotfiles/i3/polybar.sh"}
 ${kill-and-restart xss-lock "xss-lock -l -- ${locker}"}
 ${kill-and-restart libinput-gestures "libinput-gestures"}
 ${kill-and-restart haskellPackages.arbtt "arbtt-capture"}

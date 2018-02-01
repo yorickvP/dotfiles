@@ -12,6 +12,8 @@ spotify_control(){
 		then echo "%{F#FF1DB954}%{A:i3-msg [class=Spotify] focus:}%{A}%{F-}  %{A:playerctl -p spotify previous:}  %{A}%{A:playerctl -p spotify play-pause:} $(spotify_status) %{A}%{A:playerctl -p spotify next:}  %{A}"
 	elif echo $current_status | grep -q "Paused"
 		then echo "%{F#FF1DB954}%{A:i3-msg [class=Spotify] focus:}%{A}%{F-}  %{A:playerctl -p spotify previous:}  %{A}%{A:playerctl -p spotify play-pause:}  $(spotify_status) %{A}%{A:playerctl -p spotify next:}  %{A}"
+  else
+      echo ""
 	fi
 }
 
