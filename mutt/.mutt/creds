@@ -1,4 +1,4 @@
-set my_pass = "`gpg -q --no-tty --batch -d ~/.mutt/yorick_pass.gpg`""
+set my_pass = "`pass sysadmin/yori.ccMail | head -n1`"
 set spoolfile = "imaps://yorick:$my_pass@pennyworth.yori.cc/INBOX"
 set realname = "Yorick van Pelt"
 set from     = "Yorick van Pelt <yorick@yorickvanpelt.nl>"
