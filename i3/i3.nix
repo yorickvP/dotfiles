@@ -1,7 +1,7 @@
 {writeTextDir, writeScript, lib,
 rofi, xss-lock, nitrogen, compton-git, i3status, i3-gaps
 ,i3lock-color, xset, alsaUtils, light, screenshot_public, xorg, libinput-gestures,
-haskellPackages, polybar, procps,
+haskellPackages, polybar, procps, rofi-pass,
 with_lock ? true, compton_name ? "default"}:
 
 let
@@ -185,7 +185,7 @@ bindsym XF86AudioRaiseVolume exec ${alsaUtils}/bin/amixer set Master 1%+
 bindsym XF86AudioMute exec ${alsaUtils}/bin/amixer set Master toggle
 bindsym $mod+Shift+s exec --no-startup-id ${screenshot_public}/bin/screenshot_public
 bindsym Print exec --no-startup-id ${screenshot_public}/bin/screenshot_public
-bindsym $mod+p exec --no-startup-id passmenu
+bindsym $mod+p exec --no-startup-id ${rofi-pass}/bin/rofi-pass
 workspace_auto_back_and_forth yes
 
 hide_edge_borders smart
