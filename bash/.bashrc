@@ -10,8 +10,25 @@ shopt -s histappend
 HISTSIZE=100000
 HISTFILESIZE=200000
 
-alias nr="nix-repl '<nixpkgs>'"
+alias nr="nix repl '<nixpkgs>'"
 alias ns="nix-shell"
 alias nsp="nix-shell -p"
 alias niA="nix-env -iA nixos."
 alias subl="sublime3"
+
+# eval $(thefuck --alias)
+
+            function fuck () {
+                TF_PYTHONIOENCODING=$PYTHONIOENCODING;
+                export TF_ALIAS=fuck;
+                export TF_SHELL_ALIASES=$(alias);
+                export TF_HISTORY=$(fc -ln -10);
+                export PYTHONIOENCODING=utf-8;
+                TF_CMD=$(
+                    thefuck THEFUCK_ARGUMENT_PLACEHOLDER $@
+                ) && eval $TF_CMD;
+                unset TF_HISTORY;
+                export PYTHONIOENCODING=$TF_PYTHONIOENCODING;
+                history -s $TF_CMD;
+            }
+        
