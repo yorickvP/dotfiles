@@ -1,7 +1,7 @@
 {writeTextDir, writeScript, lib,
-rofi, xss-lock, nitrogen, compton-git, i3status, i3-gaps
-,i3lock-color, xset, alsaUtils, light, screenshot_public, xorg, libinput-gestures,
-haskellPackages, polybar, procps,
+rofi, xss-lock, nitrogen, compton-git,
+i3lock-color, xset, alsaUtils, light, screenshot_public, libinput-gestures,
+haskellPackages, polybar, 
 with_lock ? true, compton_name ? "default"}:
 
 let
@@ -169,7 +169,6 @@ exec_always --no-startup-id ${nitrogen}/bin/nitrogen --restore
 ${kill-and-restart compton-git "compton --config /home/yorick/dotfiles/x/compton_${compton_name}.conf"}
 '' + (lib.optionalString with_lock ''
 
-${kill-and-restart xorg.xf86inputsynaptics "syndaemon -i 0.5 -k -t"}
 ${kill-and-then "polybar" "PATH=${polybar}/bin:$PATH /home/yorick/dotfiles/i3/polybar.sh"}
 ${kill-and-restart xss-lock "xss-lock -l -- ${locker}"}
 ${kill-and-restart libinput-gestures "libinput-gestures"}
