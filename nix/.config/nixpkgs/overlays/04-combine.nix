@@ -31,12 +31,10 @@ self: super: {
       src = super.fetchFromGitHub {
         owner = "matthewbauer";
         repo = "nix-mode";
-        rev = "v1.2.1";
-        sha256 = "1zpqpq6hd83prk80921nbjrvcmk0dykqrrr1mw3b29ppjma5zjiz";
+        rev = "f24abeb736a028deb283d51a859e7e34aba5e42b";
+        sha256 = "06kznwa5qbl3vzvvdh6lqdgzjzkvkvayvv3bjx3p2j275fxy1kfw";
       };
-      preConfigure = ''
-        rm nix-company.el nix-mode-mmm.el
-      '';
+      preConfigure = "rm nix-company.el nix-mode-mmm.el";
     })
     nix-buffer
     which-key

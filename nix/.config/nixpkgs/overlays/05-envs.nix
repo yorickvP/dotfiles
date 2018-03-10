@@ -19,6 +19,7 @@ in {
       dropbox # really?
       # wpa_supplicant_gui
       xclip siji fira-mono playerctl font-awesome-ttf
+      hs.arbtt
     ];
     scripts = mkEnv "y-scripts" [
       peageprint
@@ -35,7 +36,6 @@ in {
       tdesktop
       #hexchat
       #inkscape
-      keepassx
       # libreoffice
       # skype
 	    spotify
@@ -44,7 +44,7 @@ in {
       calibre
       wpa_supplicant_gui
       #py2.plover
-      wireshark meld
+      wireshark # meld
       discord
       fanficfare
       hledger hledger-web
@@ -64,7 +64,7 @@ in {
     ];
 
     nix = mkEnv "y-nix" [
-      patchelf nix nix-prefetch-git nix-repl nixopsUnstable nox
+      patchelf nix-prefetch-git nixopsUnstable nox
     ];
 
     c = mkEnv "y-cdev" [
@@ -81,6 +81,7 @@ in {
       wakelan x2x pass
       abduco dvtm w3m
       jq jo
+      thefuck 
     ];
 
     code = mkEnv "y-code" [
@@ -94,7 +95,7 @@ in {
     ];
 
     js = mkEnv "y-jsdev" [
-      js.jshint nodejs-6_x electron node2nix_git
+      js.jshint nodejs-6_x electron js.node2nix
     ];
 
     pdf = mkEnv "y-pdf" [
@@ -109,7 +110,7 @@ in {
   # will remove all your previously installed nix-env stuff
   # so check with nix-env -q first
   hosts = with self; with self.envs; {
-    ascanius = [apps code de games envs.js pdf nix media gcc misc scripts coins];
+    ascanius = [apps code de games envs.js pdf nix media gcc misc scripts coins myEmacs];
     jarvis = [apps code de games envs.js pdf nix media gcc misc scripts myEmacs];
     woodhouse = [de media misc kodi chromium spotify];
     pennyworth = [];
