@@ -9,7 +9,7 @@ in
     name = "ftb-1.4.14";
     src = fetchurl {
         url = "http://ftb.cursecdn.com/FTB2/launcher/FTB_Launcher.jar";
-        sha256 = "1m2kyvq4fknr3ric5wwg55qzjqhpkjaq9zragsvippibg78w9hy4";
+        sha256 = "10ga4jgyfsj5dy4rj2rla0fpnfpnxv8r3bmxpqpwn7fsry4il79v";
     };
 
   phases = "installPhase";

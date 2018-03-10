@@ -166,6 +166,11 @@
 (put 'sfp-page-up 'CUA 'move)
 (setq scroll-error-top-bottom t)
 #+END_SRC
+** fix c-z
+#+BEGIN_SRC emacs-lisp
+(global-unset-key (kbd "C-z"))
+
+#+END_SRC
 ** Ivy
 #+BEGIN_SRC emacs-lisp
   (use-package ivy

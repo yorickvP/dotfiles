@@ -16,8 +16,7 @@ in {
       xorg.xrandr
       pavucontrol
       light nitrogen
-      dropbox # really?
-      # wpa_supplicant_gui
+      # dropbox # really?
       xclip siji fira-mono playerctl font-awesome-ttf
       hs.arbtt
     ];
@@ -27,6 +26,7 @@ in {
     ];
     
     apps = mkEnv "y-apps" [
+      wpa_supplicant_gui
       gajim
       neomutt
       torbrowser
@@ -42,7 +42,6 @@ in {
       quasselClient
       leafpad
       calibre
-      wpa_supplicant_gui
       #py2.plover
       wireshark # meld
       discord
@@ -84,9 +83,9 @@ in {
       thefuck 
     ];
 
-    code = mkEnv "y-code" [
-      python gitAndTools.hub gnumake cloc silver-searcher gitFire gti
-    ];
+    code = mkEnv "y-code" (with gitAndTools; [
+      python3 git-crypt hub gnumake cloc silver-searcher gitFire gti gcc
+    ]);
     java = openjdk;
 
     games = mkEnv "y-games" [
@@ -95,7 +94,7 @@ in {
     ];
 
     js = mkEnv "y-jsdev" [
-      js.jshint nodejs-6_x electron js.node2nix
+      js.jshint nodejs electron js.node2nix
     ];
 
     pdf = mkEnv "y-pdf" [
@@ -110,8 +109,8 @@ in {
   # will remove all your previously installed nix-env stuff
   # so check with nix-env -q first
   hosts = with self; with self.envs; {
-    ascanius = [apps code de games envs.js pdf nix media gcc misc scripts coins myEmacs];
-    jarvis = [apps code de games envs.js pdf nix media gcc misc scripts myEmacs];
+    ascanius = [apps code de games envs.js pdf nix media misc scripts coins myEmacs];
+    jarvis = [apps code de games envs.js pdf nix media misc scripts myEmacs];
     woodhouse = [de media misc kodi chromium spotify];
     pennyworth = [];
     frumar = [bup gitAndTools.git-annex rtorrent pyroscope];

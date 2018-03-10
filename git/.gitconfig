@@ -23,3 +23,5 @@
 	signingkey = A36E70F9DC014A15
 [help]
 	autocorrect = 5
+[includeIf "gitdir:~/serokell/"]
+path=~/serokell/.gitconfig
