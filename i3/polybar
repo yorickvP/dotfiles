@@ -78,34 +78,28 @@ modules-right = date
 ; jarvis: retina screen
 [bar/jarvis_primary]
 inherit = bar/common
-monitor = eDP-1
-width = 100%
-height = 40
-;offset-x = 1%
-;offset-y = 1%
-radius = 6.0
-
-line-size = 6
-
-border-size = 4
-
-padding-left = 0
-padding-right = 2
-
-module-margin-left = 1
-module-margin-right = 2
-
-font-0 = FontAwesome:size=20;1
-font-1 = FiraMono:size=20;0
 
 modules-left = i3 xwindow
-modules-center = 
-modules-right = spotify filesystem volume backlight-acpi wlan battery temperature date
-
+modules-center =
+modules-right = spotify filesystem volume backlight-acpi wlan memory battery temperature date
 
 tray-position = right
-tray-padding = 2
-tray-scale = 1.0
+
+;font-0 = FontAwesome:size=20;1
+;font-1 = FiraMono:size=20;0
+
+[bar/jarvis_other]
+inherit = bar/common
+
+modules-left = i3 xwindow
+modules-center =
+modules-right = eth wlan memory battery temperature date
+
+tray-position = right
+
+;font-0 = FontAwesome:size=20;1
+;font-1 = FiraMono:size=20;0
+
 
 
 ; modules
