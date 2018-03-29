@@ -3,7 +3,7 @@ configuration {
 /*	width: 50;*/
 /*	lines: 15;*/
 /*	columns: 1;*/
-	font: "Source Code Pro 12";
+/*	font: "Source Code Pro 12";*/
 /*	bw: 1;*/
 /*	location: 0;*/
 /*	padding: 5;*/
@@ -18,7 +18,7 @@ configuration {
 /*	run-list-command: "";*/
 /*	run-shell-command: "{terminal} -e {cmd}";*/
 /*	window-command: "xkill -id {window}";*/
-/*	drun-icon-theme: ;*/
+/*	drun-icon-theme: "solarized_alternate";*/
 /*	disable-history: false;*/
 /*	sort: false;*/
 /*	levenshtein-sort: false;*/
@@ -40,7 +40,7 @@ configuration {
 /*	hide-scrollbar: false;*/
 /*	fullscreen: false;*/
 /*	fake-transparency: false;*/
-	dpi: 109;
+/*	dpi: 109; */
 /*	threads: 0;*/
 /*	scrollbar-width: 8;*/
 /*	scroll-method: 0;*/

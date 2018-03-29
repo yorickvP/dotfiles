@@ -185,6 +185,7 @@ bindsym XF86AudioMute exec ${alsaUtils}/bin/amixer set Master toggle
 bindsym $mod+Shift+s exec --no-startup-id ${screenshot_public}/bin/screenshot_public
 bindsym Print exec --no-startup-id ${screenshot_public}/bin/screenshot_public
 bindsym $mod+p exec --no-startup-id ${rofi-pass}/bin/rofi-pass
+bindsym $mod+Shift+t exec --no-startup-id /home/yorick/dotfiles/bin/toggle_solarized.sh
 workspace_auto_back_and_forth yes
 
 hide_edge_borders smart

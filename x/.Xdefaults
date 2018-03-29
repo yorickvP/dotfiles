@@ -7,34 +7,14 @@
 #define S_blue #268bd2
 #define S_cyan #2aa198
 #define S_green #859900
-! Dark
-#define S_base03 #002b36
-#define S_base02 #073642
-#define S_base01 #586e75
-#define S_base00 #657b83
-#define S_base0 #839496
-#define S_base1 #93a1a1
-#define S_base2 #eee8d5
-#define S_base3 #fdf6e3
-! Light
-! #define S_base03 #fdf6e3
-! #define S_base02 #eee8d5
-! #define S_base01 #93a1a1
-! #define S_base00 #839496
-! #define S_base0 #657b83
-! #define S_base1 #586e75
-! #define S_base2 #073642
-! #define S_base3 #002b36
+ #include "/home/yorick/dotfiles/x/solarized/actual"
 ! To only apply colors to your terminal, for example, prefix
 ! the color assignment statement with its name. Example:
 !
-! URxvt*background: S_base03
-*background: S_base3
-URxvt*background: [85]#002b36
+*background: S_base03
+URxvt*background: S_base03_transp
 ! S_base03
 *foreground: S_base0
-*fading: 10
-*fadeColor: [70]#002b36
 *cursorColor: S_base1
 *pointerColorBackground: S_base01
 *pointerColorForeground: S_base1
@@ -62,13 +42,16 @@ URxvt.url-launcher:      xdg-open
 URxvt.matcher.button:   1
 URxvt.urgentOnBell: True
 URxvt.depth: 32
+URxvt.borderColor: S_base03
 ! URxvt.background: [95]#202020
-URxvt.font: xft:SourceCodePro:size=12:antialias=true:hinting=true
+*font: xft:DejaVu Sans Mono:size=10:antialias=true:hinting=true
+polybar.font: DejaVu Sans Mono:size=10:antialias=true:hinting=true;2
 ! URxvt.boldFont: xft:SourceCodePro:bold:size=12:antialias=true:hinting=true
 URxvt.geometry: 100x30
 URxvt.scrollColor: S_base0
 
-rofi.font: Source Code Pro 12
+rofi.font: DejaVu Sans Mono 10
+Emacs.font: DejaVu Sans Mono-10
 
 URxvt.font-size.step: 4
 URxvt.keysym.C-equal:	perl:font-size:increase

@@ -2,6 +2,10 @@
 #+AUTHOR: Yorick van Pelt
 
 * Prelims
+** start server
+#+BEGIN_SRC emacs-lisp
+(server-start)
+#+END_SRC
 ** use-package compile-time
 #+BEGIN_SRC emacs-lisp
 (eval-when-compile (require 'use-package))
