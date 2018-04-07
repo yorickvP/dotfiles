@@ -44,14 +44,14 @@ URxvt.urgentOnBell: True
 URxvt.depth: 32
 URxvt.borderColor: S_base03
 ! URxvt.background: [95]#202020
-*font: xft:DejaVu Sans Mono:size=10:antialias=true:hinting=true
-polybar.font: DejaVu Sans Mono:size=10:antialias=true:hinting=true;2
+*font: xft:DejaVu Sans Mono:size=11:antialias=true:hinting=true
+polybar.font: DejaVu Sans Mono:size=11:antialias=true:hinting=true;2
 ! URxvt.boldFont: xft:SourceCodePro:bold:size=12:antialias=true:hinting=true
 URxvt.geometry: 100x30
 URxvt.scrollColor: S_base0
 
-rofi.font: DejaVu Sans Mono 10
-Emacs.font: DejaVu Sans Mono-10
+rofi.font: DejaVu Sans Mono 11
+Emacs.font: DejaVu Sans Mono-11
 
 URxvt.font-size.step: 4
 URxvt.keysym.C-equal:	perl:font-size:increase

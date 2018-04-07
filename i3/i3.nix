@@ -1,7 +1,7 @@
 {writeTextDir, writeScript, lib,
 rofi, xss-lock, nitrogen, compton-git, i3status, i3-gaps,
 i3lock-color, xset, alsaUtils, light, screenshot_public, xorg, libinput-gestures,
-haskellPackages, polybar, rofi-pass,
+haskellPackages, polybar, rofi-pass, xsettingsd,
 with_lock ? true, compton_name ? "default"}:
 
 let
@@ -173,6 +173,7 @@ ${kill-and-then "polybar" "PATH=${polybar}/bin:$PATH /home/yorick/dotfiles/i3/po
 ${kill-and-restart xss-lock "xss-lock -l -- ${locker}"}
 ${kill-and-restart libinput-gestures "libinput-gestures"}
 ${kill-and-restart haskellPackages.arbtt "arbtt-capture"}
+${kill-and-restart xsettingsd "xsettingsd"}
 '') + ''
 
 bindsym XF86MonBrightnessUp exec ${light}/bin/light -A 5

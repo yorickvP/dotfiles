@@ -18,7 +18,7 @@ configuration {
 /*	run-list-command: "";*/
 /*	run-shell-command: "{terminal} -e {cmd}";*/
 /*	window-command: "xkill -id {window}";*/
-/*	drun-icon-theme: "solarized_alternate";*/
+/*	drun-icon-theme: "Arc";*/
 /*	disable-history: false;*/
 /*	sort: false;*/
 /*	levenshtein-sort: false;*/
@@ -48,7 +48,7 @@ configuration {
 /*	window-format: "{w}    {i}{c}   {t}";*/
 /*	click-to-exit: true;*/
 /*	show-match: true;*/
-	theme: "solarized_alternate";
+	theme: "Arc";
 /*	color-normal: ;*/
 /*	color-urgent: ;*/
 /*	color-active: ;*/
