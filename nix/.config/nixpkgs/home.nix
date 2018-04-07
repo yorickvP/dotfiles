@@ -28,5 +28,25 @@
       };
     };
 
+    ssh = {
+      enable = true;
+      compression = true;
+      serverAliveInterval = 120;
+      controlMaster = "auto";
+      matchBlocks = {
+        "pub.yori.cc" = {
+          user = "public";
+          identityFile = "~/.ssh/id_rsa_pub";
+          identitiesOnly = true;
+        };
+        oxygen.hostname = "oxygen.obfusk.ch";
+        nyamsas = { hostname = "nyamsas.quezacotl.nl"; port = 1337; };
+        phassa = { hostname = "karpenoktem.nl"; port = 33933; };
+      };
+    };
   };
+  xdg.configFile."streamlink/config".text = ''
+    player = mpv --cache 2048
+    default-stream = best
+  '';
 }
