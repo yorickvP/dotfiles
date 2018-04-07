@@ -1,4 +1,4 @@
-{
+{ pkgs, ... }: {
   programs = {
     home-manager = {
       enable = true;
@@ -54,8 +54,61 @@
       initExtra = "eval $(thefuck --alias)";
     };
   };
+  xresources.properties =
+    let font = "DejaVu Sans Mono";
+        fsize = 11;
+        dpi = 192; in
+  {
+    "URxvt.scrollstyle" = "plain";
+    "URxvt.scrollBar_right" = "true";
+    "URxvt.perl-ext-common" = "default,matcher,font-size,vtwheel";
+    "URxvt.url-launcher" = "xdg-open";
+    "URxvt.matcher.button" = "1";
+    "URxvt.urgentOnBell" = "True";
+    "URxvt.depth" = "32";
+    "URxvt.borderColor" = "S_base03";
+    # "! URxvt.background" = "[95]#202020";
+    "*font" = "xft:${font}:size=${toString fsize}:antialias=true:hinting=true";
+    "polybar.font" = "${font}:size=${toString fsize}:antialias=true:hinting=true;2";
+    "URxvt.geometry" = "100x30";
+    "URxvt.scrollColor" = "S_base0";
+
+    "rofi.font" = "${font} ${toString fsize}";
+    "Emacs.font" = "${font}-${toString fsize}";
+
+    "URxvt.font-size.step" = "4";
+    "URxvt.keysym.C-equal" = "perl:font-size:increase";
+    "URxvt.keysym.C-minus" = "perl:font-size:decrease";
+
+    "Xft.dpi" = dpi;
+    "*dpi" = dpi;
+  };
+  xresources.extraConfig = builtins.readFile (
+    pkgs.fetchFromGitHub {
+      owner = "solarized";
+      repo = "xresources";
+      rev = "025ceddbddf55f2eb4ab40b05889148aab9699fc";
+      sha256 = "0lxv37gmh38y9d3l8nbnsm1mskcv10g3i83j0kac0a2qmypv1k9f";
+    } + "/Xresources.light");
   xdg.configFile."streamlink/config".text = ''
     player = mpv --cache 2048
     default-stream = best
   '';
+  services = {
+    compton = {
+      enable = true;
+      backend = "glx";
+      extraOptions = ''
+        glx-no-stencil = true;
+        unredir-if-possible = true;
+      '';
+      # nvidia = ''
+      #   paint-on-overlay = true;
+      #   glx-no-rebind-pixmap = true;
+      #   glx-swap-method = -1;
+      #   xrender-sync-fence = true;
+      # ''; vsync = "opengl-oml";
+    };
+
+  };
 }
