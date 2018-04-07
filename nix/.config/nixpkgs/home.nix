@@ -44,6 +44,15 @@
         phassa = { hostname = "karpenoktem.nl"; port = 33933; };
       };
     };
+    bash = {
+      enable = true;
+      historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
+      shellAliases = {
+        nr = "nix repl \"<nixpkgs>\"";
+        nsp = "nix-shell -p";
+      };
+      initExtra = "eval $(thefuck --alias)";
+    };
   };
   xdg.configFile."streamlink/config".text = ''
     player = mpv --cache 2048
