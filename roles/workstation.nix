@@ -3,7 +3,7 @@
   imports = [
     <yori-nix/roles/graphical.nix>
   ];
-  users.extraUsers.yorick.extraGroups = ["input"];
+  users.extraUsers.yorick.extraGroups = [ "input" "wireshark" ];
   services.printing = {
     enable = true;
     drivers = [ pkgs.gutenprint ];
@@ -19,7 +19,17 @@
   # yubikey
   hardware.u2f.enable = true;
   services.pcscd.enable = true;
+  sound.enable = true;
   #environment.systemPackages = [pkgs.yubikey-manager];
+  fonts.fonts = [ pkgs.emojione ];
+  # bluetooth headphones
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  # japanese typing
+  i18n.inputMethod = {
+    enabled = "fcitx";
+    fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
+  };
+  programs.wireshark.enable = true;
   nix = {
     gc.automatic = pkgs.lib.mkOverride 30 false;
     binaryCaches = [
