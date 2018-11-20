@@ -11,8 +11,6 @@
     ../modules/muflax-blog.nix
   ];
 
-  networking.enableIPv6 = lib.mkOverride 30 true;
-
   system.stateVersion = "16.03";
   
   services.nginx.enable = true;

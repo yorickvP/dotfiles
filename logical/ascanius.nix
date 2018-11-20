@@ -13,13 +13,11 @@
       "https://cache.nixos.org"
       "https://disciplina.cachix.org"
     ];
-    binaryCachePublicKeys = [
-      "serokell:ic/49yTkeFIk4EBX1CZ/Wlt5fQfV7yCifaJyoM+S3Ss="
-      "disciplina.cachix.org-1:zDeIFV5cu22v04EUuRITz/rYxpBCGKY82x0mIyEYjxE="
-    ];
   };
   users.users.lars = {
     isNormalUser = true;
-    openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBze0fBV/Fpz9bz1WKkbPlj8h526ZfduOcQVlA+7j0+yzlT+jX6nLNjXNmIi6JZoERj8lG4/avkagldj+wwqWrKM2xOMgIUx34i+br5+U4Y7DedljfPV9k8eE55SI4BjfO697V7BhHP4eooRUjNVmqSmRAld06hJzMj7irGWHK+RPrK0M1BvGgSV5pL50jzQGd2unxvNuxSk1rWBNfNEGt6ok0G8/ud0Gw5QbcYWzbbnKBB8JsgBct22txtcgVbRyqftD+vpFl0Oyq4tiQbSHqa8qpFyV/wTf4Cs1Zz7WrqH+2xfx+oUsCOfMKuvCI8FKtriAWEmfOM42bBi50v2kj" ];
+    openssh.authorizedKeys.keys = [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBze0fBV/Fpz9bz1WKkbPlj8h526ZfduOcQVlA+7j0+yzlT+jX6nLNjXNmIi6JZoERj8lG4/avkagldj+wwqWrKM2xOMgIUx34i+br5+U4Y7DedljfPV9k8eE55SI4BjfO697V7BhHP4eooRUjNVmqSmRAld06hJzMj7irGWHK+RPrK0M1BvGgSV5pL50jzQGd2unxvNuxSk1rWBNfNEGt6ok0G8/ud0Gw5QbcYWzbbnKBB8JsgBct22txtcgVbRyqftD+vpFl0Oyq4tiQbSHqa8qpFyV/wTf4Cs1Zz7WrqH+2xfx+oUsCOfMKuvCI8FKtriAWEmfOM42bBi50v2kj"
+    ];
   };
 }

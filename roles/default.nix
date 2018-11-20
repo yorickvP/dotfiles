@@ -21,15 +21,6 @@ in
 
 	};
   services.timesyncd.enable = true;
-  services.fail2ban.enable = true;
-  # ban repeat offenders longer
-  services.fail2ban.jails.recidive = ''
-    filter = recidive
-    action = iptables-allports[name=recidive]
-    maxretry = 5
-    bantime = 604800 ; 1 week
-    findtime = 86400 ; 1 day
-  '';
 	users.extraUsers.yorick = {
 	  isNormalUser = true;
 	  uid = 1000;
@@ -50,7 +41,7 @@ in
   '';
 
   # Networking
-  networking.enableIPv6 = false;
+  networking.enableIPv6 = true;
 
   services.openssh = {
     enable = true;

@@ -26,15 +26,20 @@
       "https://cache.nixos.org"
     ];
     trustedBinaryCaches = config.nix.binaryCaches ++ [
-      "https://builder.serokell.io"
+      "ssh://yorick@jupiter.serokell.io"
+      "ssh-ng://jupiter"
       "https://cache.lumi.guide"
+      "https://serokell.cachix.org"
     ];
     binaryCachePublicKeys = [
       "serokell:ic/49yTkeFIk4EBX1CZ/Wlt5fQfV7yCifaJyoM+S3Ss="
+      "serokell-1:aIojg2Vxgv7MkzPJoftOO/I8HKX622sT+c0fjnZBLj0="
       "cache.lumi.guide-1:z813xH+DDlh+wvloqEiihGvZqLXFmN7zmyF8wR47BHE="
+      "serokell.cachix.org-1:5DscEJD6c1dD1Mc/phTIbs13+iW22AVbx0HqiSb+Lq8="
+      "disciplina.cachix.org-1:zDeIFV5cu22v04EUuRITz/rYxpBCGKY82x0mIyEYjxE="
     ];
-    #extraOptions = ''
-    #  netrc-file = ${nixnetrc}
-    #'';
+    extraOptions = ''
+     netrc-file = ${nixnetrc}
+    '';
   };
 }

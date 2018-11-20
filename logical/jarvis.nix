@@ -8,8 +8,6 @@
 
 
   system.stateVersion = "17.09";
-  #networking.enableIPv6 = lib.mkOverride 30 true;
-
 
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.xorg.xrandr}/bin/xrandr --dpi 192
