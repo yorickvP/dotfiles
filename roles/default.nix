@@ -49,24 +49,6 @@ in
   	challengeResponseAuthentication = false;
   };
 
-  services.tor = {
-    enable = true;
-    client.enable = true;
-    # ssh hidden service
-    hiddenServices.ssh.map = [{ port = 22; }];
-    service-keys.ssh = "/root/keys/ssh.${machine}.key";
-  };
-  deployment.keyys = [ (<yori-nix/keys> + "/ssh.${machine}.key") ];
-
-  programs.ssh.extraConfig = ''
-    Host *.onion
-      ProxyCommand nc -xlocalhost:9050 -X5 %h %p
-  '' +
-  (with lib; (flip concatMapStrings) (filter (hasPrefix "ssh.") (attrNames secrets.tor_hostnames)) (name: ''
-    Host ${removePrefix "ssh." name}.onion
-        hostname ${secrets.tor_hostnames.${name}}
-    ''
-    ));
 
   environment.systemPackages = with pkgs; [
     # v important.

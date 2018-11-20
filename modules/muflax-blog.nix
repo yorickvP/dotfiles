@@ -49,6 +49,7 @@ in with lib; {
         }
       '') ["daily" "gospel" "blog"]);
     };
+    services.tor.enable = true;
     services.tor.hiddenServices.muflax-blog.map = [{
       port = 80; toPort = cfg.web-server.port; }];
     services.tor.service-keys.muflax-blog = cfg.hidden-service.private_key;
