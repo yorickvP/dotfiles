@@ -4,16 +4,16 @@
         "host": "pennyworth.yori.cc"
     },
     "jarvis": {
-        "pkgs": "channel",
+        "pkgs": "checkout",
         "host": "localhost"
     },
     "ascanius": {
         "pkgs": "channel",
-        "host": "localhost"
+        "host": "ascanius.home.yori.cc"
     },
     "woodhouse": {
         "pkgs": "channel",
-        "host": "192.168.1.9"
+        "host": "woodhouse.home.yori.cc"
     },
     "frumar": {
         "pkgs": "channel",

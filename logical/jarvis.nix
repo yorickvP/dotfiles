@@ -12,5 +12,4 @@
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.xorg.xrandr}/bin/xrandr --dpi 192
   '';
-  virtualisation.virtualbox.host.enable = pkgs.lib.mkOverride 30 false;
 }

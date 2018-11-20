@@ -15,7 +15,7 @@ function get_channel {
             echo "nixpkgs=https://nixos.org/channels/nixos-18.03/nixexprs.tar.xz"
 	          ;;
         checkout)
-            echo "nixpkgs=$PWD/../nixpkgs"
+            echo "nixpkgs=$PWD/../projects/nixpkgs"
             ;;
         channel)
 	          echo "/nix/var/nix/profiles/per-user/root/channels/nixos"
