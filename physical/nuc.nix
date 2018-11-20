@@ -33,7 +33,7 @@
 
   nix.maxJobs = lib.mkDefault 4;
   services.xserver.videoDrivers = ["intel"];
-
+  networking.wireless.enable = true;
   environment.systemPackages = with pkgs; [
     btrfs-progs
   ];

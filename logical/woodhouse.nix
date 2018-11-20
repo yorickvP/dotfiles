@@ -23,11 +23,17 @@ in
   # fuse mounts
   system.fsPackages = [ pkgs.sshfsFuse ];
 
-  fileSystems."/mnt/frumar" = mkFuseMount "yorick@${secrets.hostnames.frumar}:/data/yorick" [];
-  fileSystems."/mnt/oxygen" = mkFuseMount "yorick@oxygen.obfusk.ch:" [];
-  fileSystems."/mnt/nyamsas" = mkFuseMount "yorick@nyamsas.quezacotl.nl:" ["port=1337"];
+
+  #fileSystems."/mnt/frumar" = mkFuseMount "yorick@${secrets.hostnames.frumar}:/data/yorick" [];
+  #fileSystems."/mnt/oxygen" = mkFuseMount "yorick@oxygen.obfusk.ch:" [];
+  #fileSystems."/mnt/nyamsas" = mkFuseMount "yorick@nyamsas.quezacotl.nl:" ["port=1337"];
 
   # kodi ports
   networking.firewall.allowedTCPPorts = [7 8080 9090 9777];
-
+  users.users.tv = {
+    isNormalUser = true;
+    uid = 1043;
+    extraGroups = [ "wheel" ];
+    hashedPassword = "$6$hD4ESAGS8O1d$yctx6spOPZ0nt/6cgYpsWZ86UoXw3ISRpf2gbdhbl8JgDz6Psjx6JCqJ9NsMi5BHnXlgRRK/z2SVrTjHEsqQR.";
+  };
 }
