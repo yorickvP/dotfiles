@@ -15,6 +15,7 @@
   
   services.nginx.enable = true;
   services.yorick = {
+    public = { enable = true; vhost = "pub.yori.cc"; };
     website = { enable = true; vhost = "yorickvanpelt.nl"; };
     mail = {
       enable = true;
