@@ -1,11 +1,4 @@
 { config, lib, pkgs, ... }:
-let
-  nixnetrc = pkgs.writeText "netrc" ''
-    machine cache.lumi.guide
-    login lumi
-    password aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
-  '';
-in
 {
   imports = [
     <yori-nix/roles/graphical.nix>
@@ -45,7 +38,6 @@ in
     trustedBinaryCaches = config.nix.binaryCaches ++ [
       "ssh://yorick@jupiter.serokell.io"
       "ssh-ng://jupiter"
-      "https://cache.lumi.guide"
       "https://serokell.cachix.org"
     ];
     binaryCachePublicKeys = [
@@ -55,8 +47,5 @@ in
       "serokell.cachix.org-1:5DscEJD6c1dD1Mc/phTIbs13+iW22AVbx0HqiSb+Lq8="
       "disciplina.cachix.org-1:zDeIFV5cu22v04EUuRITz/rYxpBCGKY82x0mIyEYjxE="
     ];
-    extraOptions = ''
-     netrc-file = ${nixnetrc}
-    '';
   };
 }
