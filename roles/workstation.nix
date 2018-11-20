@@ -1,4 +1,11 @@
 { config, lib, pkgs, ... }:
+let
+  nixnetrc = pkgs.writeText "netrc" ''
+    machine cache.lumi.guide
+    login lumi
+    password aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
+  '';
+in
 {
   imports = [
     <yori-nix/roles/graphical.nix>
