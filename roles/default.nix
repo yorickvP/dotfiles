@@ -35,10 +35,6 @@ in
 
   nix.buildCores = config.nix.maxJobs;
 
-  nix.extraOptions = ''
-    allow-unsafe-native-code-during-evaluation = true
-  '';
-
   # Networking
   networking.enableIPv6 = true;
 
