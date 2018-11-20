@@ -9,7 +9,7 @@
     },
     "ascanius": {
         "pkgs": "channel",
-        "host": "192.168.1.6"
+        "host": "localhost"
     },
     "woodhouse": {
         "pkgs": "channel",

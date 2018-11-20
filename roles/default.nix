@@ -115,7 +115,6 @@ in
     lftp wget rsync
 
     git
-    nix-repl
     rxvt_unicode.terminfo
   ];
   nix.gc.automatic = true;
