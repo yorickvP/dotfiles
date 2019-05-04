@@ -6,6 +6,7 @@ self: super: {
   nottetris2 = self.callPackage ../pkgs/nottetris2.nix {};
   mailpile = self.callPackage ../pkgs/mailpile.nix {};
   lejos = self.callPackage ../pkgs/lejos.nix {};
+  playerctl = self.callPackage ../pkgs/playerctl.nix {};
   libinput-gestures = super.libinput-gestures.override { extraUtilsPath = [
     self.xdotool self.python3
   ];};
