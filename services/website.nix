@@ -9,10 +9,10 @@ in
   options.services.yorick = {
     website = {
       enable = mkEnableOption "yoricc website";
-      vhost = mkOption { type = types.string; };
+      vhost = mkOption { type = types.str; };
       pkg = mkOption { type = types.package; default = yoricc; };
     };
-    redirect = mkOption { type = types.loaOf types.string; default = []; };
+    redirect = mkOption { type = types.loaOf types.str; default = []; };
   };
   config.services.nginx.virtualHosts = with cfg; mkIf enable {
     ${vhost} = {

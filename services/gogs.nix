@@ -5,9 +5,9 @@ in
 {
   options.services.yorick.gogs = with lib; {
     enable = mkEnableOption "gogs";
-    dir = mkOption { type = types.string; default = "/var/gogs"; };
+    dir = mkOption { type = types.str; default = "/var/gogs"; };
     port = mkOption { type = types.int; default = 8001; };
-    vhost = mkOption { type = types.string; };
+    vhost = mkOption { type = types.str; };
   };
   config = lib.mkIf cfg.enable {
     

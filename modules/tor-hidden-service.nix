@@ -8,7 +8,7 @@ let
 in {
   options.services.tor.service-keys = mkOption {
     default = {};
-    type = with types; loaOf string;
+    type = with types; loaOf str;
   };
 
   config = mkIf (service-keys != {}) {

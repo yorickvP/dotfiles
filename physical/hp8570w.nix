@@ -7,7 +7,7 @@
     ./hp8570w/powerdown.nix
   ];
 
-  hardware.yorick = { cpu = "intel"; gpu = "nvidia"; laptop = true; };
+  hardware.yorick = { cpu = "intel"; gpu = "nvidia"; };
 
   boot = {
     loader.grub = {
@@ -48,4 +48,16 @@
 
   #services.tcsd.enable = true; # it has a TPM. maybe use this?
   #environment.systemPackages = with pkgs; [tpm-tools];
+  services.xserver.libinput.enable = true;
+  
+  networking.wireless.enable = true;
+  hardware.bluetooth.enable = true;
+  # gotta go faster
+  networking.dhcpcd.extraConfig = ''
+    noarp
+  '';
+  services.thermald.enable = true;
+  boot.kernelModules = ["nvidiabl"];
+  services.xserver.videoDrivers = ["nvidia"];
+  boot.extraModulePackages = [config.boot.kernelPackages.nvidiabl];
 }

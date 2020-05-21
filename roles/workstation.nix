@@ -1,39 +1,45 @@
 { config, lib, pkgs, ... }:
+let
+  nixNetrcFile = pkgs.runCommand "nix-netrc-file"
+{ hostname = "cache.lumi.guide";
+  username = "lumi";
+} ''
+  cat > $out <<EOI
+  machine $hostname
+  login $username
+  password ${builtins.readFile /home/yorick/engineering/lumi/secrets/shared/passwords/nix-serve-password}
+  EOI
+'';
+in
 {
   imports = [
-    <yori-nix/roles/graphical.nix>
+    ./graphical.nix
   ];
-  users.extraUsers.yorick.extraGroups = [ "input" "wireshark" ];
+  users.extraUsers.yorick.extraGroups = [ "input" "wireshark" "dialout" ];
   services.printing = {
     enable = true;
     drivers = [ pkgs.gutenprint ];
   };
-  environment.systemPackages = [pkgs.ghostscript pkgs.yubikey-manager];
-  #services.xserver.displayManager.sessionCommands = ''
-  #  gpg-connect-agent /bye
-  #  unset SSH_AGENT_PID
-  #  export SSH_AUTH_SOCK="''${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
-  #'';
-  virtualisation.virtualbox.host.enable = true;
+  environment.systemPackages = with pkgs; [
+    pkgs.ghostscript pkgs.yubikey-manager
+  ];
+  virtualisation.virtualbox.host.enable = false;
   yorick.support32bit = true;
   # yubikey
   hardware.u2f.enable = true;
   services.pcscd.enable = true;
-  sound.enable = true;
   #environment.systemPackages = [pkgs.yubikey-manager];
   fonts.fonts = [ pkgs.emojione ];
   # bluetooth headphones
   hardware.pulseaudio.package = pkgs.pulseaudioFull;
-  # japanese typing
-  i18n.inputMethod = {
-    enabled = "fcitx";
-    fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
-  };
   programs.wireshark.enable = true;
   nix = {
     gc.automatic = pkgs.lib.mkOverride 30 false;
     binaryCaches = [
       "https://cache.nixos.org"
+      "https://cache.lumi.guide/"
+      "s3://yorick-cache?endpoint=s3.eu-central-1.wasabisys.com&profile=wasabi-private"
+      #"https://nixpkgs-wayland.cachix.org"
     ];
     trustedBinaryCaches = config.nix.binaryCaches ++ [
       "ssh://yorick@jupiter.serokell.io"
@@ -45,7 +51,20 @@
       "serokell-1:aIojg2Vxgv7MkzPJoftOO/I8HKX622sT+c0fjnZBLj0="
       "cache.lumi.guide-1:z813xH+DDlh+wvloqEiihGvZqLXFmN7zmyF8wR47BHE="
       "serokell.cachix.org-1:5DscEJD6c1dD1Mc/phTIbs13+iW22AVbx0HqiSb+Lq8="
-      "disciplina.cachix.org-1:zDeIFV5cu22v04EUuRITz/rYxpBCGKY82x0mIyEYjxE="
+      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
     ];
+    extraOptions = ''
+      netrc-file = ${nixNetrcFile}
+    '';
   };
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+  };
+  virtualisation.libvirtd.enable = true;
+  users.users.yorick.extraGroups = [ "libvirtd" ];
+  users.users.yorick.shell = pkgs.fish;
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="5bf0", MODE="0664", GROUP="dialout"
+  '';
 }

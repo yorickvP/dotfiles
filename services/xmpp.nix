@@ -8,8 +8,8 @@ in
 {
   options.services.yorick.xmpp = with lib; {
     enable = mkEnableOption "xmpp";
-    vhost = mkOption { type = types.string; };
-    admins = mkOption { type = types.listOf types.string; };
+    vhost = mkOption { type = types.str; };
+    admins = mkOption { type = types.listOf types.str; };
   };
   config = lib.mkIf cfg.enable {
     # XMPP

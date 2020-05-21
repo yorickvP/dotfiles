@@ -1,14 +1,11 @@
 { stdenv, callPackage }:
 
-let gogitget = callPackage ./gogitget.nix {}; in
-
 stdenv.mkDerivation {
-  name = "yori-cc-1.3.5";
+  name = "yori-cc-1.5";
   
-  src = gogitget {
-    "url" = "git@git.yori.cc:yorick/yori-cc.git";
-    "rev" = "f049e4330dfb64bbbaf700897269c003fce8b5c4";
-    "sha256" = "1x8knlsp7cx52sr15gr0yhj1vl8ncznrqn4nvaycgwmhr1kysffr";
+  src = builtins.fetchGit {
+    url = "git@git.yori.cc:yorick/yori-cc.git";
+    rev = "68c75ab84cceaf98dd8fd0646b97d73f966b8962";
   };
   
   buildInputs = [ ];

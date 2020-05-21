@@ -3,7 +3,7 @@ let cfg = config.services.yorick.public; in
 {
   options.services.yorick.public = {
     enable = lib.mkEnableOption "public hosting";
-    vhost = lib.mkOption { type = lib.types.string; };
+    vhost = lib.mkOption { type = lib.types.str; };
   };
   #imports = [../modules/nginx.nix];
   config = lib.mkIf cfg.enable {

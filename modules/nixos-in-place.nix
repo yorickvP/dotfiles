@@ -8,11 +8,11 @@ in
   options."nixos-in-place" = {
     enable = mkEnableOption "enable nixos-in-place FS";
     rootfs = mkOption {
-      type = types.string;
+      type = types.str;
       description = "device name for root fs";
     };
     swapfs = mkOption {
-      type = types.string;
+      type = types.str;
       description = "device name for root fs";
     };
   };

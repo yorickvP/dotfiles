@@ -1,10 +1,8 @@
 {
   imports = [
-    ./gogs.nix
-    ./mail.nix
+    ./git.nix
+    ./muflax-church.nix
     ./pub.nix
-    ./quassel.nix
     ./website.nix
-    ./xmpp.nix
   ];
 }

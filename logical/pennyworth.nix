@@ -3,42 +3,51 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, lib, ... }:
-
+let
+  sslforward = proxyPass: {
+    forceSSL = true;
+    enableACME = true;
+    locations."/" = {
+      inherit proxyPass;
+      proxyWebsockets = true;
+    };
+  };
+  vpn = import ../vpn.nix;
+in
 {
   imports = [
-    <yori-nix/physical/kassala.nix>
-    <yori-nix/roles/server.nix>
-    ../modules/muflax-blog.nix
+    ../physical/hetznercloud.nix
+    ../roles/server.nix
+    (builtins.fetchTarball {
+      url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/v2.2.1/nixos-mailserver-v2.2.1.tar.gz";
+      sha256 = "03d49v8qnid9g9rha0wg2z6vic06mhp0b049s3whccn1axvs2zzx";
+    })
+   ../modules/muflax-blog.nix
   ];
 
-  system.stateVersion = "16.03";
+  system.stateVersion = "19.03";
   
   services.nginx.enable = true;
   services.yorick = {
     public = { enable = true; vhost = "pub.yori.cc"; };
     website = { enable = true; vhost = "yorickvanpelt.nl"; };
-    mail = {
-      enable = true;
-      mainUser = "yorick";
-      users.yorick = {
-        password = (import <yori-nix/secrets.nix>).yorick_mailPassword;
-        domains = ["yori.cc" "yorickvanpelt.nl"];
+    git = { enable = true; vhost = "git.yori.cc"; };
+    muflax-church = { enable = true; vhost = "muflax.church"; };
+  };
+  mailserver = rec {
+    enable = true;
+    fqdn = "pennyworth.yori.cc";
+    domains = [ "yori.cc" "yorickvanpelt.nl" ];
+    loginAccounts = {
+      "yorick@yori.cc" = {
+        hashedPassword = (import ../secrets.nix).yorick_mailPassword;
+        catchAll = domains;
+        aliases = [ "@yori.cc" "@yorickvanpelt.nl" ];
       };
     };
-    xmpp = {
-      enable = false;
-      vhost = "yori.cc";
-      admins = [ "yorick@yori.cc" ];
-    };
+    certificateScheme = 3;
+    enableImapSsl = true;
   };
-  services.nginx.virtualHosts."yori.cc" = {
-    enableACME = true;
-    forceSSL = true;
-    globalRedirect = "yorickvanpelt.nl";
-  };
-
-
-
 
   services.muflax-blog = {
     enable = true;
@@ -50,41 +59,36 @@
       private_key = "/root/keys/http.muflax.key";
     };
   };
-  users.extraUsers.git = {
-    createHome = true;
-    home = config.services.gitea.stateDir; extraGroups = [ "git" ]; useDefaultShell = true;};
-  services.gitea = {
-    enable = true;
-    user = "git";
-    database.user = "root";
-    database.name = "gogs";
-    #dump.enable = true; TODO: backups
-    domain = "git.yori.cc";
-    rootUrl = "https://git.yori.cc/";
-    httpAddress = "localhost";
-    cookieSecure = true;
-    extraConfig = ''
-      [service]
-      REGISTER_EMAIL_CONFIRM = false
-      ENABLE_NOTIFY_MAIL = false
-      DISABLE_REGISTRATION = true
-      REQUIRE_SIGNIN_VIEW = false
-      [picture]
-      DISABLE_GRAVATAR = false
-      [mailer]
-      ENABLED = false
-      AVATAR_UPLOAD_PATH = ${config.services.gitea.stateDir}/data/avatars
+  services.nginx.commonHttpConfig = ''
+    access_log off; 
+  '';
+  services.nginx.virtualHosts = {
+    "yori.cc" = {
+      enableACME = true;
+      forceSSL = true;
+      globalRedirect = "yorickvanpelt.nl";
+    };
+    "grafana.yori.cc" = sslforward "http://${vpn.ips.frumar}:3000";
+    "ubiquiti.yori.cc" = sslforward "https://${vpn.ips.woodhouse}:8443";
+    "prometheus.yori.cc" = {
+      # only over vpn
+      listen = [ { addr = "10.209.0.1"; port = 80; } ];
+      locations."/".proxyPass = "http://10.209.0.3:9090";
+    };
+    "pub.yori.cc".locations."/muflax/".extraConfig = ''
+      rewrite ^/muflax/(.*)$ https://alt.muflax.church/$1 permanent;
     '';
   };
-  services.nginx.virtualHosts."git.yori.cc" = {
-    forceSSL = true;
-    enableACME = true;
-    locations."/" = {
-      proxyPass = "http://127.0.0.1:${toString config.services.gitea.httpPort}";
-      extraConfig = ''
-        proxy_buffering off;
-      '';
-    };
-  };
   deployment.keyys = [ <yori-nix/keys/http.muflax.key> ];
+  networking.firewall.allowedUDPPorts = [ 31790 ]; # wg
+  networking.wireguard.interfaces.wg-y.peers =
+    lib.mkForce (lib.mapAttrsToList (machine: publicKey: {
+      inherit publicKey;
+      allowedIPs = [ "${vpn.ips.${machine}}/32" ];
+    }) vpn.keys);
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+  environment.noXlibs = true;
+  users.users.yorick.packages = with pkgs; [
+    python2 sshfs-fuse weechat
+  ];
 }

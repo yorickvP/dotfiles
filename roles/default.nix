@@ -1,39 +1,41 @@
-let secrets = import <secrets>;
+let secrets = import ../secrets.nix;
 in
-{ config, pkgs, lib, ...}:
+{ config, pkgs, lib, name, ...}:
 let
-  machine = lib.removeSuffix ".nix" (builtins.baseNameOf <nixos-config>);
+  machine = name;
+  vpn = import ../vpn.nix;
 in
 {
 	imports = [
     ../modules/tor-hidden-service.nix
     ../modules/nginx.nix
-    <yori-nix/deploy/keys.nix>
-    <yori-nix/services>
+    ../deploy/keys.nix
+    ../services
   ];
   networking.hostName = secrets.hostnames.${machine};
 	time.timeZone = "Europe/Amsterdam";
 	users.mutableUsers = false;
-	users.extraUsers.root = {
-		openssh.authorizedKeys.keys = config.users.extraUsers.yorick.openssh.authorizedKeys.keys;
+	users.users.root = {
+		openssh.authorizedKeys.keys = config.users.users.yorick.openssh.authorizedKeys.keys;
     # root password is useful from console, ssh has password logins disabled
     hashedPassword = secrets.pennyworth_hashedPassword; # TODO: generate own
 
 	};
   services.timesyncd.enable = true;
-	users.extraUsers.yorick = {
+	users.users.yorick = {
 	  isNormalUser = true;
 	  uid = 1000;
 	  extraGroups = ["wheel"];
 	  group = "users";
-	  openssh.authorizedKeys.keys = with (import ../sshkeys.nix); [yorick];
+	  openssh.authorizedKeys.keys = with (import ../sshkeys.nix); yorick;
+    hashedPassword = secrets.yorick_hashedPassword;
 	};
 
   # Nix
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = import ../packages;
 
-  nix.buildCores = config.nix.maxJobs;
+  #nix.buildCores = config.nix.maxJobs;
 
   # Networking
   networking.enableIPv6 = true;
@@ -47,17 +49,17 @@ in
 
   environment.systemPackages = with pkgs; [
     # v important.
-    cowsay ponysay
+    cowsay #ponysay
     ed # ed, man!
     sl
     rlwrap
 
-    vim
+    #vim
 
     # system stuff
     ethtool inetutils
     pciutils usbutils
-    iotop powertop htop
+    /*iotop*/ powertop htop
     psmisc lsof
     smartmontools hdparm
     lm_sensors
@@ -73,19 +75,40 @@ in
     
     # archiving
     xdelta
+    libarchive
     atool
-    unrar p7zip
-    unzip zip
 
     # network
     nmap mtr bind
     socat netcat-openbsd
     lftp wget rsync
 
-    git
-    rxvt_unicode.terminfo
+    #gitMinimal
+    #rxvt_unicode.terminfo
   ];
   nix.gc.automatic = true;
 
-}
+  services.avahi = {
+    ipv6 = true;
+    hostName = machine;
+  };
+  deployment.keyys = [ (<yori-nix/keys>+"/wg.${machine}.key") ];
+  networking.wireguard.interfaces.wg-y = {
+    privateKeyFile = "/root/keys/wg.${machine}.key";
+    ips = [ vpn.ips.${machine} ];
+    listenPort = 31790;
+    peers = [ {
+      publicKey = vpn.keys.pennyworth;
+      endpoint = "pennyworth.yori.cc:31790";
+      allowedIPs = [ "10.209.0.0/24" ];
+      persistentKeepalive = 30;
+    }];
+    postSetup = "ip link set dev wg-y mtu 1371";
+  };
+  security.acme.email = "acme@yori.cc";
+  security.acme.acceptTerms = true;
+  nix.binaryCachePublicKeys =
+    [ "yorick:Pmd0gyrTvVdzpQyb/raHJKdoOag8RLaj434qBgMm4I0=" ];
 
+  nix.trustedUsers = ["@wheel"];
+}

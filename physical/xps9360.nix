@@ -1,26 +1,43 @@
 { config, lib, pkgs, ... }:
+let sources = import ../nix/sources.nix;
+in
 {
   imports = [
-    "${import ./nixos-hardware.nix}/dell/xps/13-9360"
+    "${sources.nixos-hardware}/dell/xps/13-9360"
     ./xps9360-hardware-config.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "i915.enable_psr=0" ];
+  boot.kernelModules = [ "i8k" ];
+  boot.extraModprobeConfig = ''
+    options i8k ignore_dmi=1
+  '';
   fileSystems."/".options = ["defaults" "relatime" "discard"];
 
   boot.initrd.luks.devices."nix-crypt".allowDiscards = true;
 
-  # intel huc, guc. qca6174 (older firmware)
-  hardware.enableRedistributableFirmware = true;
-
-  # hardware is thermal-limited
-  services.thermald.enable = lib.mkDefault true;
+  services.undervolt = rec {
+    enable = true;
+    coreOffset = "-50";
+    gpuOffset = "-50";
+    uncoreOffset = "-50";
+    analogioOffset = "-50";
+  };
+  services.tlp.extraConfig = ''
+    CPU_SCALING_GOVERNOR_ON_AC=performance
+    CPU_SCALING_GOVERNOR_ON_BAT=powersave
+  '';
 
   services.xserver.libinput.enable = true;
 
-  networking.wireless.enable = true;
+  networking.wireless = {
+    enable = false;
+    iwd.enable = true;
+  };
   hardware.bluetooth.enable = true;
+
+  services.udev.packages = [ pkgs.crda ];
+  hardware.firmware = [ pkgs.wireless-regdb ];
   # gotta go faster
   networking.dhcpcd.extraConfig = ''
     noarp

@@ -1,63 +1,54 @@
 #!/usr/bin/env bash
-if ! [ -e deploy_key ] || ! [ -e secrets.nix ]
+set -xeuo pipefail
+if ! [ -e secrets.nix ]
 then
   git crypt unlock
-	sudo chgrp nixbld deploy_key
-	chmod 640 deploy_key
 fi
-export NIX_PATH="ssh-id-file=$PWD/deploy_key":secrets=$PWD/secrets.nix:yori-nix=$PWD
-function get_channel {
-    case $1 in
-        git)
-	          echo "nixpkgs=https://github.com/NixOS/nixpkgs/archive/master.tar.gz"
-	          ;;
-        stable)
-            echo "nixpkgs=https://nixos.org/channels/nixos-18.03/nixexprs.tar.xz"
-	          ;;
-        checkout)
-            echo "nixpkgs=$PWD/../projects/nixpkgs"
-            ;;
-        channel)
-	          echo "/nix/var/nix/profiles/per-user/root/channels/nixos"
-	          ;;
-    esac
-}
-case $1 in
-    cloc)
-        exec cloc --read-lang-def=deploy/nix_cloc .
-        ;;
+# TODO: remove nixpkgs dependency
+export NIX_PATH=yori-nix=$PWD:nixpkgs=channel:nixos-unstable
+host=$1
+TARGET_HOST=$(nix eval --raw -f vpn.nix ips.$host)
+#TARGET_HOST=192.168.178.1
+case $2 in
     copy-keys)
-        $0 exec "$2" nix build -f "\\<nixpkgs/nixos\\>" config.deployment.keys-copy --out-link copy-keys
-        TARGET_HOST=$(jq -r ".$2.host"<servers.json)
+        $0 exec "$2" nix build -f "<nixpkgs/nixos>" config.deployment.keys-copy --out-link copy-keys
         ./copy-keys/bin/copy-keys "$TARGET_HOST"
         # rm ./copy-keys
         ;;
     exec)
         CHANNEL=$(jq -r ".$2.pkgs"<servers.json)
-        export NIX_PATH="$(get_channel "$CHANNEL"):nixos-config=$PWD/logical/$2.nix:$NIX_PATH"
-        eval "${@:3}"
+        channel_url=$(get_channel "$CHANNEL")
+        export NIX_PATH="$channel_url:nixos-config=$PWD/logical/$2.nix:$NIX_PATH"
+        "${@:3}"
         ;;
     ssh)
-        TARGET_HOST=$(jq -r ".$2.host"<servers.json)
         ssh root@"$TARGET_HOST"
         ;;
     repl)
-        exec "$0" exec "$2" nix repl "\\<nixpkgs\\>" "\\<nixpkgs/nixos\\>"
+        exec "$0" exec "$2" nix repl '<nixpkgs>' '<nixpkgs/nixos>'
         ;; 
     build)
-        exec "$0" exec "$2" nixos-rebuild build
+        nix build -f servers.nix "$host" --show-trace
         ;; 
     copy)
-        TARGET_HOST=$(jq -r ".$2.host"<servers.json)
-        exec "$0" exec "$2" nixos-rebuild build --build-host localhost --target-host root@"$TARGET_HOST"
+        nix copy -f servers.nix "$host" --show-trace --to "ssh://$TARGET_HOST"
+        ;; 
+    test)
+        outPath=$(nix-build servers.nix -A "$host")
+        nix copy -f servers.nix "$host" --show-trace --to "ssh://$TARGET_HOST"
+        ssh root@"$TARGET_HOST" $outPath/bin/switch-to-configuration test
         ;; 
     boot)
-        TARGET_HOST=$(jq -r ".$2.host"<servers.json)
-        exec "$0" exec "$2" nixos-rebuild --build-host localhost --target-host root@"$TARGET_HOST" boot
+        outPath=$(nix-build servers.nix -A "$host")
+        nix copy "$outPath" --show-trace --to "ssh://$TARGET_HOST"
+        ssh root@"$TARGET_HOST" nix-env -p "/nix/var/nix/profiles/system" --set "$outPath"
+        ssh root@"$TARGET_HOST" $outPath/bin/switch-to-configuration boot
         ;;
     switch)
-        TARGET_HOST=$(jq -r ".$2.host"<servers.json)
-        exec "$0" exec "$2" nixos-rebuild --build-host localhost --target-host root@"$TARGET_HOST" switch
+        outPath=$(nix-build servers.nix -A "$host")
+        nix copy "$outPath" --show-trace --to "ssh://$TARGET_HOST"
+        ssh root@"$TARGET_HOST" nix-env -p "/nix/var/nix/profiles/system" --set "$outPath"
+        ssh root@"$TARGET_HOST" $outPath/bin/switch-to-configuration switch
         ;;
     
     
