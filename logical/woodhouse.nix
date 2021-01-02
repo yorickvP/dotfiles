@@ -47,7 +47,7 @@ in
   networking.useNetworkd = true;
   networking.dhcpcd.enable = false;
   services.resolved.enable = true;
-  services.nscd.enable = false;
+  #services.nscd.enable = false;
   networking.interfaces.eno1.useDHCP = true;
   networking.useDHCP = false;
   #services.xserver.enable = lib.mkForce false;
