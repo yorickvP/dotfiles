@@ -34,7 +34,7 @@
       "--web.enable-admin-api"
     ];
     # victoriametrics
-    extraConfig.remote_write = [ { url = "http://127.0.0.1:8428/api/v1/write"; } ];
+    remoteWrite = [ { url = "http://127.0.0.1:8428/api/v1/write"; } ];
     scrapeConfigs = [ {
       job_name = "smartmeter";
       # prometheus doesn't support mdns :thinking_face:

@@ -12,7 +12,8 @@ in
     ../deploy/keys.nix
     ../services
   ];
-  networking.hostName = secrets.hostnames.${machine};
+  networking.domain = "yori.cc";
+  networking.hostName = machine;
 	time.timeZone = "Europe/Amsterdam";
 	users.mutableUsers = false;
 	users.users.root = {
