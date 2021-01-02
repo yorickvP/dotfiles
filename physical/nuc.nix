@@ -5,7 +5,7 @@ in
 
   imports =
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    <yori-nix/physical>
+      ./.
     "${sources.nixos-hardware}/common/cpu/intel"
     ];
   boot.loader.systemd-boot.enable = true;

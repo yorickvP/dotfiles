@@ -14,8 +14,8 @@ mkFuseMount = device: opts: {
 in
 {
   imports = [
-    <yori-nix/physical/nuc.nix>
-    <yori-nix/roles/graphical.nix>
+    ../physical/nuc.nix
+    ../roles/graphical.nix
     #<yori-nix/roles/homeserver.nix>
   ];
 
