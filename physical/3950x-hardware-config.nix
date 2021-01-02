@@ -19,7 +19,7 @@
     };
 
   fileSystems."/home" =
-    { device = "rpool/home";
+    { device = "rpool/home-enc";
       fsType = "zfs";
     };
 
