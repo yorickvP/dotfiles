@@ -20,4 +20,5 @@ in
 
   networking.useDHCP = false;
   networking.interfaces.enp9s0.useDHCP = true;
+  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" "amdgpu.noretry=0" "amdgpu.lockup_timeout=1000" "amdgpu.gpu_recovery=1" "amdgpu.audio=0" ];
 }
