@@ -18,15 +18,18 @@ in
   users.extraUsers.yorick.extraGroups = [ "input" "wireshark" "dialout" ];
   services.printing = {
     enable = true;
-    drivers = [ pkgs.gutenprint ];
+    drivers = [ pkgs.gutenprint pkgs.cups-dymo ];
   };
   environment.systemPackages = with pkgs; [
-    pkgs.ghostscript pkgs.yubikey-manager
+    pkgs.ghostscript pkgs.yubikey-manager pkgs.glib
   ];
+  environment.sessionVariables.XDG_DATA_DIRS = with pkgs; [
+    "${gnome-themes-extra}/share"
+    "${gsettings-desktop-schemas}/share/gsettings-schemas/${gsettings-desktop-schemas.name}"
+  ];
+  programs.dconf.enable = true;
   virtualisation.virtualbox.host.enable = false;
   yorick.support32bit = true;
-  # yubikey
-  hardware.u2f.enable = true;
   services.pcscd.enable = true;
   #environment.systemPackages = [pkgs.yubikey-manager];
   fonts.fonts = [ pkgs.emojione ];
