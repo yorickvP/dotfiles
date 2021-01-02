@@ -18,15 +18,16 @@ in
 
   services.undervolt = rec {
     enable = true;
-    coreOffset = "-50";
-    gpuOffset = "-50";
-    uncoreOffset = "-50";
-    analogioOffset = "-50";
+    coreOffset = -50;
+    gpuOffset = -50;
+    uncoreOffset = -50;
+    analogioOffset = -50;
   };
-  services.tlp.extraConfig = ''
-    CPU_SCALING_GOVERNOR_ON_AC=performance
-    CPU_SCALING_GOVERNOR_ON_BAT=powersave
-  '';
+  services.tlp.settings = {
+    "CPU_SCALING_GOVERNOR_ON_AC" = "performance";
+    "CPU_SCALING_GOVERNOR_ON_BAT" = "powersave";
+  };
+  services.logind.lidSwitch = "ignore";
 
   services.xserver.libinput.enable = true;
 
@@ -35,6 +36,7 @@ in
     iwd.enable = true;
   };
   hardware.bluetooth.enable = true;
+  hardware.enableRedistributableFirmware = true;
 
   services.udev.packages = [ pkgs.crda ];
   hardware.firmware = [ pkgs.wireless-regdb ];
