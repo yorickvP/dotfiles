@@ -15,16 +15,9 @@
       peers = [ {
         publicKey = "6demp+PX2XyVoMovDj4xHQ2ZHKoj4QAF8maWpjcyzzI=";
         endpoint = "wg.lumi.guide:31727";
-        allowedIPs = [ "10.96.0.0/12" "10.0.12.0/22" "10.0.1.0/26" ];
+        allowedIPs = [ "10.96.0.0/12" "10.0.0.0/17" ];
       }];
       postSetup = "ip link set dev wg-lumi mtu 1371";
     };
-  };
-
-  # development
-  services.postgresql = {
-    enable = true;
-    enableTCPIP = true;
-    package = pkgs.postgresql_10;
   };
 }
