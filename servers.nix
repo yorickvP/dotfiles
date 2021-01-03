@@ -7,4 +7,6 @@ let
   };
   names = [ "pennyworth" "jarvis" "blackadder" "woodhouse" "frumar" "zazu" ];
 in
-nixpkgs.lib.genAttrs names (name: (nixos name [ ./roles (./logical + "/${name}.nix") ]).config.system.build.toplevel)
+nixpkgs.lib.genAttrs names (name: (let os =
+                                         nixos name [ ./roles (./logical + "/${name}.nix") ]; in
+                                     os.config.system.build.toplevel // os))

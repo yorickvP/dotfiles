@@ -11,7 +11,7 @@ TARGET_HOST=$(nix eval --raw -f vpn.nix ips.$host)
 #TARGET_HOST=192.168.178.1
 case $2 in
     copy-keys)
-        $0 exec "$2" nix build -f "<nixpkgs/nixos>" config.deployment.keys-copy --out-link copy-keys
+        nix build -f servers.nix "$host".config.deployment.keys-copy --out-link copy-keys
         ./copy-keys/bin/copy-keys "$TARGET_HOST"
         # rm ./copy-keys
         ;;
