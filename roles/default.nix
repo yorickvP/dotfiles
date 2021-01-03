@@ -113,4 +113,10 @@ in
     [ "yorick:Pmd0gyrTvVdzpQyb/raHJKdoOag8RLaj434qBgMm4I0=" ];
 
   nix.trustedUsers = ["@wheel"];
+  services.prometheus.exporters.node = {
+    enable = true;
+    enabledCollectors = [ "systemd" ];
+    disabledCollectors = [ "rapl" ];
+  };
+  networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 9100 ];
 }

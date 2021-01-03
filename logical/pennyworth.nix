@@ -86,6 +86,10 @@ in
       inherit publicKey;
       allowedIPs = [ "${vpn.ips.${machine}}/32" ];
     }) vpn.keys);
+  services.prometheus.exporters.wireguard = {
+    enable = true;
+  };
+  networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 9586 ];
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   environment.noXlibs = true;
   users.users.yorick.packages = with pkgs; [
