@@ -4,8 +4,7 @@ if ! [ -e secrets.nix ]
 then
   git crypt unlock
 fi
-# TODO: remove nixpkgs dependency
-export NIX_PATH=yori-nix=$PWD:nixpkgs=channel:nixos-unstable
+export NIX_PATH=yori-nix=$PWD
 host=$1
 TARGET_HOST=$(nix eval --raw -f vpn.nix ips.$host)
 #TARGET_HOST=192.168.178.1

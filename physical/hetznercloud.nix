@@ -1,11 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 let
   ipconf = (import ../secrets.nix).ipconf.${config.networking.hostName};
 in
 {
   imports =
-    # todo: impure:
-    [ <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
+    [ (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;

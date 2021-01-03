@@ -1,10 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 let sources = import ../nix/sources.nix; 
 in
 {
 
   imports =
-    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+    [ (modulesPath + "/installer/scan/not-detected.nix")
       ./.
     "${sources.nixos-hardware}/common/cpu/intel"
     ];
