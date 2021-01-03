@@ -59,6 +59,7 @@
     #   unifiPassword = "ReadOnlyPassword";
     # };
   };
+  boot.zfs.requestEncryptionCredentials = false;
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 3000 9090 ];
   networking.firewall.allowedTCPPorts = [ 1883 ];
   networking.firewall.allowedUDPPorts = [ 1883 ];
