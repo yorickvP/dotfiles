@@ -41,7 +41,7 @@ in
     binaryCaches = [
       "https://cache.nixos.org"
       "https://cache.lumi.guide/"
-      "s3://yorick-cache?endpoint=s3.eu-central-1.wasabisys.com&profile=wasabi-private"
+      #"s3://yori-nix?endpoint=s3.eu-central-003.backblazeb2.com&profile=backblaze-read"
       #"https://nixpkgs-wayland.cachix.org"
     ];
     trustedBinaryCaches = config.nix.binaryCaches ++ [
@@ -54,7 +54,8 @@ in
       "serokell-1:aIojg2Vxgv7MkzPJoftOO/I8HKX622sT+c0fjnZBLj0="
       "cache.lumi.guide-1:z813xH+DDlh+wvloqEiihGvZqLXFmN7zmyF8wR47BHE="
       "serokell.cachix.org-1:5DscEJD6c1dD1Mc/phTIbs13+iW22AVbx0HqiSb+Lq8="
-      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      #"nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      "yorick:Pmd0gyrTvVdzpQyb/raHJKdoOag8RLaj434qBgMm4I0="
     ];
     extraOptions = ''
       netrc-file = ${nixNetrcFile}
