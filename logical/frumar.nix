@@ -82,4 +82,11 @@
     };
   };
   systemd.services.grafana.serviceConfig.EnvironmentFile = "/root/keys/grafana.env";
+  services.zfs = {
+    trim.enable = false; # no ssd's
+    autoScrub = {
+      enable = true;
+      interval = "*-*-01 02:00:00"; # monthly + 2 hours
+    };
+  };
 }
