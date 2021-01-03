@@ -65,7 +65,7 @@ in
     nssmdns = true;
   };
   virtualisation.libvirtd.enable = true;
-  users.users.yorick.extraGroups = [ "libvirtd" ];
+  users.users.yorick.extraGroups = [ "libvirtd" "pico" ];
   users.users.yorick.shell = pkgs.fish;
   services.udev.extraRules = ''
     SUBSYSTEM=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="5bf0", MODE="0664", GROUP="dialout"
@@ -75,7 +75,7 @@ in
   hardware.pulseaudio.extraModules = [ pkgs.pulseaudio-modules-bt ];
 
   # picoscope
-  users.users.yorick.extraGroups = ["pico"];
+  #users.users.yorick.extraGroups = ["pico"];
   services.udev.packages = [
     (pkgs.writeTextDir "lib/udev/rules.d/95-pico.rules" ''
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ce9", MODE="664",GROUP="pico"
