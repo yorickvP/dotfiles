@@ -18,7 +18,7 @@ in
 	    recommendedOptimisation = true;
 	    serverTokens = false;
 	    sslDhparam = "/etc/nginx/dhparam.pem";
-      virtualHosts."${config.networking.hostName}" = {
+      virtualHosts."${config.networking.hostName}.yori.cc" = {
         enableACME = true;
         forceSSL = true;
         default = true;
