@@ -1,4 +1,4 @@
-{lib, config, ...}:
+{pkgs, lib, config, ...}:
 let
   cfg = config.services.yorick.torrent-vpn;
 in
@@ -12,21 +12,16 @@ in
     deployment.keyys = [ (<yori-nix/keys>+"/wg.${cfg.name}.key") ];
     networking.wireguard.interfaces.${cfg.name} = {
       # curl -s https://api.mullvad.net/www/relays/all/ | jq '.[] | select(.type == "wireguard" and .country_code == "nl")'
-      ips = ["10.64.19.76/32" "fc00:bbbb:bbbb:bb01::1:134b/128"];
+      ips = [ "10.66.30.26/32" "fc00:bbbb:bbbb:bb01::3:1e19/128" ];
       privateKeyFile = "/root/keys/wg.${cfg.name}.key";
       peers = [{
         publicKey = "hnRyse6QxPPcZOoSwRsHUtK1W+APWXnIoaDTmH6JsHQ=";
         allowedIPs = ["0.0.0.0/0" "::0/0"];
-        endpoint = "185.65.134.224:31173";
+        endpoint = "[2a03:1b20:3:f011::a04f]:51820";
       }];
       interfaceNamespace = cfg.namespace;
-    };
-    systemd.services."wireguard-${cfg.name}" = {
-      preStart = ''
-        ip netns add "${cfg.namespace}"
-      '';
-      postStop = ''
-        ip netns del "${cfg.namespace}"
+      preSetup = ''
+        ${pkgs.iproute}/bin/ip netns add "${cfg.namespace}" || true
       '';
     };
     environment.etc."netns/torrent/resolv.conf".text = ''

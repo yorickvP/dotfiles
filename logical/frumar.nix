@@ -18,7 +18,7 @@
   };
   boot.supportedFilesystems = [ "zfs" ];
   services.yorick.torrent-vpn = {
-    enable = true; name = "mullvad-nl3"; namespace = "torrent";
+    enable = true; name = "mullvad-nl4"; namespace = "torrent";
   };
   services.plex = {
     enable = true;
