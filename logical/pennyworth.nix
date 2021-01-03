@@ -18,11 +18,9 @@ in
   imports = [
     ../physical/hetznercloud.nix
     ../roles/server.nix
-    (builtins.fetchTarball {
-      url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/v2.2.1/nixos-mailserver-v2.2.1.tar.gz";
-      sha256 = "03d49v8qnid9g9rha0wg2z6vic06mhp0b049s3whccn1axvs2zzx";
-    })
-   ../modules/muflax-blog.nix
+    ../modules/muflax-blog.nix
+    ../services/backup.nix
+    ../services/email.nix
   ];
 
   system.stateVersion = "19.03";
@@ -33,20 +31,6 @@ in
     website = { enable = true; vhost = "yorickvanpelt.nl"; };
     git = { enable = true; vhost = "git.yori.cc"; };
     muflax-church = { enable = true; vhost = "muflax.church"; };
-  };
-  mailserver = rec {
-    enable = true;
-    fqdn = "pennyworth.yori.cc";
-    domains = [ "yori.cc" "yorickvanpelt.nl" ];
-    loginAccounts = {
-      "yorick@yori.cc" = {
-        hashedPassword = (import ../secrets.nix).yorick_mailPassword;
-        catchAll = domains;
-        aliases = [ "@yori.cc" "@yorickvanpelt.nl" ];
-      };
-    };
-    certificateScheme = 3;
-    enableImapSsl = true;
   };
 
   services.muflax-blog = {
@@ -94,6 +78,7 @@ in
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   environment.noXlibs = true;
   users.users.yorick.packages = with pkgs; [
-    python2 sshfs-fuse weechat
+    python2 sshfs-fuse weechat ripgrep
   ];
+
 }

@@ -23,6 +23,13 @@
         "url": "https://github.com/nixos/nixos-hardware/archive/c242378e63b0ec334e964ac0c0fbbdd2b3e89ebf.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "nixos-mailserver": {
+        "sha256": "1m8ylrxlkn8nrpsvnivg32ncba9jkfal8a9sjy840hpl1jlm5lc4",
+        "type": "tarball",
+        "url": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/ee3d38a1570a1a9aa5e2daa3284d65a35d5e8864/nixos-mailserver-ee3d38a1570a1a9aa5e2daa3284d65a35d5e8864.tar.gz",
+        "url_template": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/<version>/nixos-mailserver-<version>.tar.gz",
+        "version": "ee3d38a1570a1a9aa5e2daa3284d65a35d5e8864"
+    },
     "nixpkgs": {
         "branch": "nixos-unstable",
         "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
