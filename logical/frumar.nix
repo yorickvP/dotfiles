@@ -12,12 +12,12 @@
   system.stateVersion = "15.09";
   networking.hostId = "0702dbe9";
 
-  services.nginx.enable = true;
-  services.nginx.virtualHosts."${config.networking.hostName}" = {
-    enableACME = lib.mkForce false;
-    forceSSL = lib.mkForce false;
-    default = true;
-  };
+  services.nginx.enable = false;
+  # services.nginx.virtualHosts."${config.networking.hostName}" = {
+  #   enableACME = lib.mkForce false;
+  #   forceSSL = lib.mkForce false;
+  #   default = true;
+  # };
   boot.supportedFilesystems = [ "zfs" ];
   services.yorick.torrent-vpn = {
     enable = true; name = "mullvad-nl4"; namespace = "torrent";
