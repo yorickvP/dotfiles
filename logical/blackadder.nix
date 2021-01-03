@@ -15,18 +15,17 @@
       peers = [ {
         publicKey = "6demp+PX2XyVoMovDj4xHQ2ZHKoj4QAF8maWpjcyzzI=";
         endpoint = "wg.lumi.guide:31727";
-        allowedIPs = [ "10.96.0.0/12" "10.0.12.0/22" "10.0.1.0/26" ];
+        allowedIPs = [ "10.96.0.0/12" "10.0.0.0/17" ];
       }];
       postSetup = "ip link set dev wg-lumi mtu 1408";
     };
   };
+  environment.systemPackages = [ pkgs.spice_gtk ];
+  security.wrappers.spice-client-glib-usb-acl-helper.source = "${pkgs.spice_gtk}/bin/spice-client-glib-usb-acl-helper";
+  virtualisation.virtualbox.host.enable = lib.mkForce true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  users.users.yorick.extraGroups = [ "vboxusers" ];
 
-  # development
-  services.postgresql = {
-    enable = true;
-    enableTCPIP = true;
-    package = pkgs.postgresql_10;
-  };
   # users.users.pie = {
   #   isNormalUser = true;
   #   openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKDpj2GrPpXtAp9Is0wDyQNl8EQnBiITkSAjhf7EjIqX" ];
@@ -39,4 +38,23 @@
   #     /export/nfs/client1/nix 10.40.0.0/24(insecure,ro,sync,no_subtree_check,crossmnt)
   #   '';
   # };
+
+  services.znapzend = {
+    enable = true;
+    pure = true;
+    features = {
+      zfsGetType = true;
+      sendRaw = true;
+    };
+    zetup = {
+      "rpool/home-enc" = {
+        plan = "1d=>1h,1m=>1w";
+        destinations.frumar = {
+          host = "root@192.168.178.37";
+          dataset = "frumar-new/backup/blackadder";
+          plan = "1w=>1d,1y=>1w,10y=>1m,50y=>1y";
+        };
+      };
+    };
+  };
 }
