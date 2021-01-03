@@ -68,6 +68,7 @@ in
       forceSSL = true;
       globalRedirect = "yorickvanpelt.nl";
     };
+    "yorickvanpelt.nl".locations."/p1".return = "301 https://git.yori.cc/yorick/meterkast";
     "grafana.yori.cc" = sslforward "http://${vpn.ips.frumar}:3000";
     "ubiquiti.yori.cc" = sslforward "https://${vpn.ips.woodhouse}:8443";
     "prometheus.yori.cc" = {
