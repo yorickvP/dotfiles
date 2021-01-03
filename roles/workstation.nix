@@ -97,4 +97,6 @@ in
 
   # git
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 1024000000;
+
+  yorick.lumi-vpn.enable = true;
 }

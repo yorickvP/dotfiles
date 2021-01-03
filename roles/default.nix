@@ -9,6 +9,7 @@ in
 	imports = [
     ../modules/tor-hidden-service.nix
     ../modules/nginx.nix
+    ../modules/lumi-vpn.nix
     ../deploy/keys.nix
     ../services
   ];
