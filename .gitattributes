@@ -1,3 +1,4 @@
 secrets.nix filter=git-crypt diff=git-crypt
 *.key filter=git-crypt diff=git-crypt
 deploy_key filter=git-crypt diff=git-crypt
+keys/** filter=git-crypt diff=git-crypt

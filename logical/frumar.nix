@@ -7,6 +7,8 @@
     ../services/torrent-wg.nix
   ];
 
+  deployment.keyys = [ ../keys/grafana.env ];
+
   system.stateVersion = "15.09";
   networking.hostId = "0702dbe9";
 
@@ -71,5 +73,13 @@
     enable = true;
     addr = "0.0.0.0";
     domain = "grafana.yori.cc";
+    rootUrl = "https://grafana.yori.cc/";
+    extraOptions = {
+      AUTH_BASIC_ENABLED = "false";
+      AUTH_DISABLE_LOGIN_FORM = "true";
+      AUTH_GOOGLE_ENABLED = "true";
+      AUTH_GOOGLE_ALLOW_SIGN_UP = "false";
+    };
   };
+  systemd.services.grafana.serviceConfig.EnvironmentFile = "/root/keys/grafana.env";
 }
