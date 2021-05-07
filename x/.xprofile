@@ -1,6 +1,0 @@
-export MOZ_USE_XINPUT2=1
-
-if [ "$HOSTNAME" = jarvis ]; then
-	export SPOTIFY_DEVICE_SCALE_FACTOR=1.75
-    printf '%s\n' "on the right host"
-fi
