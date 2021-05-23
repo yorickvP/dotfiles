@@ -1,0 +1,14 @@
+/home/*/.cache/*
+*/cache2/*
+/home/*/.local/share/Trash
+*/.npm/
+*/annex/
+*/Cache/*
+/home/*/.local/share/Steam
+*/.stack
+*/.stack-work
+*/CacheStorage
+*/*Cache
+/home/*/.wine/drive_c/users/*/Temp
+*/up_queue/*
+/home/yorick/Lumiguide-Generic

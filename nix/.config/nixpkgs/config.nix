@@ -1,14 +1,10 @@
 
 {
   allowUnfree = true;
-  chromium = {
-    vaapiSupport = true;
-
-  };
   # chromium = {
-  #   enablePepperFlash = true;
-  #   enablePepperPDF = true;
+  #   vaapiSupport = true;
   # };
+  android_sdk.accept_license = true;
 
 }
 

@@ -2,11 +2,8 @@ self: super: {
 
   ftb = self.callPackage ../pkgs/ftb.nix {};
   pyroscope = self.callPackage ../pkgs/pyroscope {};
-  peageprint = self.callPackage ../pkgs/peageprint.nix {};
   nottetris2 = self.callPackage ../pkgs/nottetris2.nix {};
-  mailpile = self.callPackage ../pkgs/mailpile.nix {};
-  lejos = self.callPackage ../pkgs/lejos.nix {};
-  playerctl = self.callPackage ../pkgs/playerctl.nix {};
+  #lejos = self.callPackage ../pkgs/lejos.nix {};
   libinput-gestures = super.libinput-gestures.override { extraUtilsPath = [
     self.xdotool self.python3
   ];};

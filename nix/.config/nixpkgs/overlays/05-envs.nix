@@ -11,42 +11,47 @@ in {
       vanilla-dmz
       # arc-theme
       libnotify
-      rxvt_unicode-with-plugins
-      arandr
-      xorg.xrandr
+      #rxvt_unicode-with-plugins
       pavucontrol
-      light nitrogen
+      light
       # dropbox # really?
-      xclip siji fira-mono playerctl font-awesome-ttf
-      hs.arbtt
+      xorg.xrdb
+      # xclip xorg.xrandr arandr
+      siji fira-mono playerctl
+      mosquitto
+      #hs.arbtt
     ];
     scripts = mkEnv "y-scripts" [
-      peageprint
-      weiightminder
+      # peageprint
+      # weiightminder
     ];
     
     apps = mkEnv "y-apps" [
-      wpa_supplicant_gui
+      #wpa_supplicant_gui
+      alacritty
       gajim
       neomutt
-      torbrowser
+      #torbrowser
       chromium
       #firefox-bin
       gimp
+      feh
       tdesktop
       #hexchat
       #inkscape
       # libreoffice
       # skype
 	    spotify
-      quasselClient
-      leafpad
+      #quasselClient
       calibre
       #py2.plover
       wireshark # meld
       discord
       fanficfare
-      hledger hledger-web
+      hledger
+      #transmission-remote-gtk
+      gopass
+      yubioath-desktop
     ];
 
     media = mkEnv "y-media" [
@@ -54,6 +59,7 @@ in {
       py3.youtube-dl
       mpv
       aria2
+      js.peerflix
     ];
 
     coins = mkEnv "y-coins" [
@@ -63,7 +69,8 @@ in {
     ];
 
     nix = mkEnv "y-nix" [
-      patchelf nix-prefetch-git nixopsUnstable nox
+      patchelf nix-prefetch-git nixopsUnstable nox niv nix-diff nixfmt
+      nix-du
     ];
 
     c = mkEnv "y-cdev" [
@@ -72,19 +79,26 @@ in {
     misc = mkEnv "y-misc" [
       #gitAndTools.git-annex # doesn't build
       gnupg1 man-pages bup # catdoc
+      borgbackup
       imagemagick
       openssl
       sshfsFuse
       sshuttle iodine stow
       expect duplicity
-      wakelan x2x pass
+      wakelan pass
       abduco dvtm w3m
       jq jo
       thefuck 
+      magic-wormhole
+      mosh pv
+      screen fzf
+      atop lnav neofetch awscli
+      glxinfo
     ];
 
     code = mkEnv "y-code" (with gitAndTools; [
       python3 git-crypt hub gnumake cloc silver-searcher gitFire gti gcc
+      gdb sqlite
     ]);
     java = openjdk;
 
@@ -94,7 +108,7 @@ in {
     ];
 
     js = mkEnv "y-jsdev" [
-      js.jshint nodejs electron js.node2nix
+      js.jshint nodejs electron /*js.node2nix*/
     ];
 
     pdf = mkEnv "y-pdf" [
@@ -108,9 +122,10 @@ in {
   # install with nix-env -iAr nixos.hosts.$(hostname -s)
   # will remove all your previously installed nix-env stuff
   # so check with nix-env -q first
-  hosts = with self; with self.envs; {
+  hosts = with self; with self.envs; rec {
     ascanius = [apps code de games envs.js pdf nix media misc scripts coins myEmacs];
-    jarvis = [apps code de games envs.js pdf nix media misc scripts myEmacs];
+    jarvis = [apps code de /*games*/ envs.js pdf nix media misc scripts];
+    blackadder = jarvis;
     woodhouse = [de media misc kodi chromium spotify];
     pennyworth = [];
     frumar = [bup gitAndTools.git-annex rtorrent pyroscope];
