@@ -7,6 +7,10 @@ let cfg = config.services.yorick.public; in
   };
   #imports = [../modules/nginx.nix];
   config = lib.mkIf cfg.enable {
+    systemd.services.nginx.serviceConfig = {
+      ProtectHome = "tmpfs";
+      BindReadOnlyPaths = [ "/home/public/public" ];
+    };
     users.extraUsers.public = {
       home = "/home/public";
       useDefaultShell = true;

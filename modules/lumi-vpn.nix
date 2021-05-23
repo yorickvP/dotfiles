@@ -17,7 +17,7 @@ in
     };
     mtu = mkOption {
       type = types.int;
-      default = 1371;
+      default = 1371; # 1408 at home
     };
     ip = mkOption {
       type = types.str;
