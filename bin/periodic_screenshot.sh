@@ -1,11 +1,13 @@
-#!/bin/zsh
+#!/usr/bin/env nix-shell
+#!nix-shell -p bash -i bash grim libwebp
 
-format="%Y-%m-%d_%H-%M_$(hostname).png"
-exec="mv \$f $HOME/periodic_screenshot/"
+mkdir -p ~/periodic_screenshot
+while true; do
+    format="%Y-%m-%d_%H-%M_$(hostname).webp"
 
-if [[ $(pidof X) -gt 0 ]]; then
-  DISPLAY=:0.0 xset -b
-  DISPLAY=:0.0 scrot -m $format -q 10 -e "$exec"
-  DISPLAY=:0.0 xset b
-fi
+    if [[ $(pidof sway) -gt 0 ]]; then
+        WAYLAND_DISPLAY=wayland-0 grim -c -t ppm /dev/stdout | cwebp -near_lossless 60 -progress -o ~/periodic_screenshot/$(date +$format) -- -
+    fi
+    sleep 2m
+done
 

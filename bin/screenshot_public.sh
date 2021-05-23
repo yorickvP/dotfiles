@@ -1,17 +1,15 @@
-#!/bin/sh  
-  
+#!/usr/bin/env bash
+set -e
+
 # Setup filename for the screenshot  
-myfile=$(date +%Y%m%d%H%M%S).png  
+myfile="$(openssl rand -base64 9)_$(date +%y%m%d%H%M%S).png"
   
-webpath='https://pub.yori.cc/screen/' 
-fileurl=$webpath$myfile  
+webpath="https://pub.yori.cc/s/"
+fileurl="$webpath$myfile"
   
-# see: http://code.google.com/p/xmonad/issues/detail?id=476  
-sleep 0.2  
-  
-scrot $myfile -e 'mv $f ~/public/screen/' -s  
-  
+grim -g "$(slurp)" "$HOME/public/s/$myfile"
+
 # copy-paste
-echo $fileurl | xclip -selection c  
+wl-copy <<< "$fileurl"
 cd ~
 rsync -LavP --cvs-exclude public pub.yori.cc:

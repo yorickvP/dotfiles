@@ -5,4 +5,3 @@ echo "Xft.dpi: $DPI" | xrdb -merge
 echo "*dpi: $DPI" | xrdb -merge
 xrandr --dpi $DPI
 pkill -HUP xsettingsd
-pkill -USR1 polybar

@@ -1,18 +1,20 @@
 #!/bin/sh
-# this script checks if the system is docked with the lid closed
-# and if so, sets the correct DPI, disables the laptop screen, sets the DP-3 monitor as primary
-# and loads the nvidia config for vsync options and sets the dithering depth to 8
-if [ `cat /sys/devices/platform/hp-wmi/dock` -eq 1 ] # && [[ `cat /proc/acpi/button/lid/LID/state` == *closed* ]]
-then
-	echo "Using docked configuration with 27\" IPS screen"
-	#xrandr --output DP-3 --primary --preferred --output LVDS-0 --left-of DP-6 --off --dpi 109/DP-3
-	xrandr --output DP-3 --primary --preferred --output LVDS-0 --off --dpi 109/DP-3
-	nvidia-settings -a "0/XVideoSyncToDisplayID=DP-3"
-	echo "Xft.dpi: 109" | xrdb -merge
-else
-	echo "Using laptop-only configuration"
-	xrandr --size 1920x1080 --output LVDS-0 --mode 1920x1080 --primary --preferred --rotate normal --pos 0x0 --output VGA-0 --off --output DP-3 --off --output DP-6 --off --dpi 146/LVDS-0
-	nvidia-settings -l -a "0/XVideoSyncToDisplayID=LVDS-0"
-	echo "Xft.dpi: 146" | xrdb -merge
+if swaymsg -t get_outputs | grep 36H03689019; then
+    echo should dock
+    swaymsg 'output "Unknown  0x00000000" enable position 0 0 mode 2560x1440@59.951Hz bg ~/wp/"001 - Aalborg.jpg" stretch, output "BenQ Corporation BenQ GW2765 36H03689019" enable position 2560 0 mode 2560x1440@59.951Hz bg ~/wp/"002 - Alkali.jpg" stretch, output eDP-1 disable'
+    ~/dotfiles/bin/setdpi.sh 109
+    systemctl --user restart waybar
+elif swaymsg -t get_outputs | grep GH85D7CK1CXL; then
+    echo should lumi
+    BG='bg /home/yorick/Lumiguide-Generic/"01. General/06. Branding/Logo/New Logo & Stationary 2019/Lumiguide logo"/lumiguide-logo-01.png fit '#fdf6e3''
+    #BG='bg /home/yorick/Lumiguide-Generic/"01. General/06. Branding/Logo/New Logo & Stationary 2019/Lumiguide logo"/lumiguide-logo-02.png fit '#263238''
+    swaymsg 'output eDP-1 enable position 0 1440 scale 2, output "Dell Inc. DELL U2715H GH85D7CK17FL" enable position 2560 0 '$BG', output "Dell Inc. DELL U2715H GH85D7CK1CXL" enable position 0 0 '$BG
+    ~/dotfiles/bin/setdpi.sh 109
+    systemctl --user restart waybar
+ else
+    echo should undock
+    systemd-inhibit --what=handle-lid-switch sleep 45s & disown
+    swaymsg 'output * disable, output eDP-1 enable scale 2 position 0 0'
+    ~/dotfiles/bin/setdpi.sh 192
+    systemctl --user restart waybar
 fi
-feh --bg-fill ~/wp_roll/1633_layinginthegrass_1920x1080.jpg
