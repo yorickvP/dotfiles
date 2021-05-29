@@ -1,5 +1,5 @@
 { config, lib, pkgs, modulesPath, ... }:
-let sources = import ../nix/sources.nix; 
+let sources = import ../../nix/sources.nix; 
 in
 {
 

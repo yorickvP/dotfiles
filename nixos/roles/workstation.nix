@@ -1,6 +1,5 @@
 { config, lib, pkgs, ... }:
 let
-  sources = import ../nix/sources.nix;
   nixNetrcFile = pkgs.runCommand "nix-netrc-file"
 { hostname = "cache.lumi.guide";
   username = "lumi";
@@ -17,7 +16,6 @@ in
     ./graphical.nix
   ];
 
-  nixpkgs.overlays = [ (import sources.nixpkgs-wayland) ];
   users.extraUsers.yorick.extraGroups = [ "input" "wireshark" "dialout" ];
   services.printing = {
     enable = true;
