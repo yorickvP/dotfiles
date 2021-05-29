@@ -1,4 +1,4 @@
-{lib, ...}: {
+{ lib, ... }: {
   users.users.lars = {
     isNormalUser = true;
     openssh.authorizedKeys.keys = [

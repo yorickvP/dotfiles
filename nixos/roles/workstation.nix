@@ -1,20 +1,20 @@
 { config, lib, pkgs, ... }:
 let
-  nixNetrcFile = pkgs.runCommand "nix-netrc-file"
-{ hostname = "cache.lumi.guide";
-  username = "lumi";
-} ''
-  cat > $out <<EOI
-  machine $hostname
-  login $username
-  password ${builtins.readFile /home/yorick/engineering/lumi/secrets/shared/passwords/nix-serve-password}
-  EOI
-'';
-in
-{
-  imports = [
-    ./graphical.nix
-  ];
+  nixNetrcFile = pkgs.runCommand "nix-netrc-file" {
+    hostname = "cache.lumi.guide";
+    username = "lumi";
+  } ''
+    cat > $out <<EOI
+    machine $hostname
+    login $username
+    password ${
+      builtins.readFile
+      /home/yorick/engineering/lumi/secrets/shared/passwords/nix-serve-password
+    }
+    EOI
+  '';
+in {
+  imports = [ ./graphical.nix ];
 
   users.extraUsers.yorick.extraGroups = [ "input" "wireshark" "dialout" ];
   services.printing = {
@@ -22,7 +22,9 @@ in
     drivers = [ pkgs.gutenprint pkgs.cups-dymo ];
   };
   environment.systemPackages = with pkgs; [
-    pkgs.ghostscript pkgs.yubikey-manager pkgs.glib
+    pkgs.ghostscript
+    pkgs.yubikey-manager
+    pkgs.glib
   ];
   environment.sessionVariables.XDG_DATA_DIRS = with pkgs; [
     "${gnome-themes-extra}/share"
@@ -83,7 +85,7 @@ in
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ce9", MODE="664",GROUP="pico"
     '')
   ];
-  users.groups.pico = {};
+  users.groups.pico = { };
 
   # development
   services.postgresql = {
@@ -91,7 +93,6 @@ in
     enableTCPIP = true;
     package = pkgs.postgresql_10;
   };
-
 
   # git
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 1024000000;
@@ -101,10 +102,7 @@ in
   services.pipewire.enable = true;
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-wlr
-      xdg-desktop-portal-gtk
-    ];
+    extraPortals = with pkgs; [ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
     gtkUsePortal = true;
   };
 }

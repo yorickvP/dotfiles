@@ -1,6 +1,5 @@
-{ config, pkgs, lib, ... }:
-{
-  imports = [ 
+{ config, pkgs, lib, ... }: {
+  imports = [
     ../physical/fractal.nix
     ../roles/server.nix
     ../roles/homeserver.nix
@@ -20,7 +19,9 @@
   # };
   boot.supportedFilesystems = [ "zfs" ];
   services.yorick.torrent-vpn = {
-    enable = true; name = "mullvad-nl4"; namespace = "torrent";
+    enable = true;
+    name = "mullvad-nl4";
+    namespace = "torrent";
   };
   services.plex = {
     enable = true;
@@ -32,26 +33,28 @@
   };
   services.prometheus = {
     enable = true;
-    extraFlags = [
-      "--web.enable-admin-api"
-    ];
+    extraFlags = [ "--web.enable-admin-api" ];
     # victoriametrics
-    remoteWrite = [ { url = "http://127.0.0.1:8428/api/v1/write"; } ];
-    scrapeConfigs = [ {
-      job_name = "smartmeter";
-      # prometheus doesn't support mdns :thinking_face:
-      static_configs = [ { targets = [ "192.168.178.30" ]; } ];
-      scrape_interval = "10s";
-    } {
-      job_name = "node";
-      static_configs = [ { targets = [ "localhost:9100" ]; } ];
-    # } {
-    #   job_name = "unifi";
-    #   static_configs = [ { targets = [ "localhost:9130" ]; } ];
-    } {
-      job_name = "thermometer";
-      static_configs = [ { targets = [ "192.168.178.21:8000" ]; } ];  
-    }];
+    remoteWrite = [{ url = "http://127.0.0.1:8428/api/v1/write"; }];
+    scrapeConfigs = [
+      {
+        job_name = "smartmeter";
+        # prometheus doesn't support mdns :thinking_face:
+        static_configs = [{ targets = [ "192.168.178.30" ]; }];
+        scrape_interval = "10s";
+      }
+      {
+        job_name = "node";
+        static_configs = [{ targets = [ "localhost:9100" ]; }];
+        # } {
+        #   job_name = "unifi";
+        #   static_configs = [ { targets = [ "localhost:9130" ]; } ];
+      }
+      {
+        job_name = "thermometer";
+        static_configs = [{ targets = [ "192.168.178.21:8000" ]; }];
+      }
+    ];
     exporters.node.enable = true;
     # exporters.unifi = {
     #   enable = true;
@@ -81,7 +84,8 @@
       AUTH_GOOGLE_ALLOW_SIGN_UP = "false";
     };
   };
-  systemd.services.grafana.serviceConfig.EnvironmentFile = "/root/keys/grafana.env";
+  systemd.services.grafana.serviceConfig.EnvironmentFile =
+    "/root/keys/grafana.env";
   services.zfs = {
     trim.enable = false; # no ssd's
     autoScrub = {

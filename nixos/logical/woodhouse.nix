@@ -1,18 +1,27 @@
 { config, pkgs, lib, ... }:
 let
   #secrets = import <secrets>;
-mkFuseMount = device: opts: {
+  mkFuseMount = device: opts: {
     # todo:  "ServerAliveCountMax=3" "ServerAliveInterval=30"
 
     device = "${pkgs.sshfsFuse}/bin/sshfs#${device}";
     fsType = "fuse";
-    options = ["noauto" "x-systemd.automount" "_netdev" "users" "idmap=user"
-               "defaults" "allow_other" "transform_symlinks" "default_permissions"
-               "uid=1000"
-               "reconnect" "IdentityFile=/root/.ssh/id_sshfs"] ++ opts;
-};
-in
-{
+    options = [
+      "noauto"
+      "x-systemd.automount"
+      "_netdev"
+      "users"
+      "idmap=user"
+      "defaults"
+      "allow_other"
+      "transform_symlinks"
+      "default_permissions"
+      "uid=1000"
+      "reconnect"
+      "IdentityFile=/root/.ssh/id_sshfs"
+    ] ++ opts;
+  };
+in {
   imports = [
     ../physical/nuc.nix
     ../roles/graphical.nix
@@ -35,12 +44,13 @@ in
   hardware.bluetooth.enable = true;
 
   # kodi ports
-  networking.firewall.allowedTCPPorts = [7 8080 8443 9090 9777];
+  networking.firewall.allowedTCPPorts = [ 7 8080 8443 9090 9777 ];
   users.users.tv = {
     isNormalUser = true;
     uid = 1043;
     extraGroups = [ "wheel" ];
-    hashedPassword = "$6$hD4ESAGS8O1d$yctx6spOPZ0nt/6cgYpsWZ86UoXw3ISRpf2gbdhbl8JgDz6Psjx6JCqJ9NsMi5BHnXlgRRK/z2SVrTjHEsqQR.";
+    hashedPassword =
+      "$6$hD4ESAGS8O1d$yctx6spOPZ0nt/6cgYpsWZ86UoXw3ISRpf2gbdhbl8JgDz6Psjx6JCqJ9NsMi5BHnXlgRRK/z2SVrTjHEsqQR.";
     packages = with pkgs; [ plex-media-player ];
   };
   services.xserver.windowManager.i3.enable = true;
@@ -57,6 +67,6 @@ in
   # };
   # todo: debug:
   services.resolved.extraConfig = "MulticastDNS=true";
-  systemd.network.networks."40-eno1".networkConfig.MulticastDNS="yes";
+  systemd.network.networks."40-eno1".networkConfig.MulticastDNS = "yes";
   services.fstrim.enable = true;
 }

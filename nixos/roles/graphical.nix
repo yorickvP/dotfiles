@@ -45,7 +45,9 @@ in { config, lib, pkgs, ... }: {
     programs.sway = {
       enable = true;
       extraSessionCommands = ''
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${lib.makeLibraryPath (with pkgs; [ libxkbcommon libglvnd wayland ])}
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${
+          lib.makeLibraryPath (with pkgs; [ libxkbcommon libglvnd wayland ])
+        }
       '';
     };
   };

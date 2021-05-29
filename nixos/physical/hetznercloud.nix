@@ -1,14 +1,11 @@
 { config, lib, pkgs, modulesPath, ... }:
-let
-  ipconf = (import ../secrets.nix).ipconf.${config.networking.hostName};
-in
-{
-  imports =
-    [ (modulesPath + "/profiles/qemu-guest.nix")
-    ];
+let ipconf = (import ../secrets.nix).ipconf.${config.networking.hostName};
+in {
+  imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sd_mod" "sr_mod" ];
+  boot.initrd.availableKernelModules =
+    [ "ata_piix" "uhci_hcd" "virtio_pci" "sd_mod" "sr_mod" ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
   boot.loader.grub = {
@@ -17,10 +14,10 @@ in
     device = "/dev/sda";
   };
 
-  fileSystems."/" =
-    { device = "/dev/sda1";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/sda1";
+    fsType = "ext4";
+  };
 
   swapDevices = [ ];
 

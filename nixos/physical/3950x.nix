@@ -1,12 +1,11 @@
 { config, pkgs, lib, ... }:
-let sources = import ../../nix/sources.nix; 
-in
-{
-  imports =
-    [ ./.
-      ./3950x-hardware-config.nix
-      "${sources.nixos-hardware}/common/cpu/amd"
-    ];
+let sources = import ../../nix/sources.nix;
+in {
+  imports = [
+    ./.
+    ./3950x-hardware-config.nix
+    "${sources.nixos-hardware}/common/cpu/amd"
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -27,8 +26,13 @@ in
   #   linkConfig.NamePolicy = "mac kernel database onboard slot path";
   # };
   boot.kernelParams = [
-    "amdgpu.ppfeaturemask=0xffffffff" "amdgpu.noretry=0" "amdgpu.lockup_timeout=1000" "amdgpu.gpu_recovery=1" "amdgpu.audio=0"
+    "amdgpu.ppfeaturemask=0xffffffff"
+    "amdgpu.noretry=0"
+    "amdgpu.lockup_timeout=1000"
+    "amdgpu.gpu_recovery=1"
+    "amdgpu.audio=0"
     # thunderbolt
-    "pcie_ports=native" "pci=assign-busses,hpbussize=0x33,realloc"
+    "pcie_ports=native"
+    "pci=assign-busses,hpbussize=0x33,realloc"
   ];
 }

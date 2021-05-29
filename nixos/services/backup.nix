@@ -1,5 +1,4 @@
-{ name, ... }:
-{
+{ name, ... }: {
   deployment.keyys = [
     (../keys + "/${name}_borg_repo.key")
     (../keys + "/${name}_borg_ssh.key")
@@ -25,7 +24,7 @@
 
     repo = "14337@ch-s012.rsync.net:${name}";
     paths = [ "/home" "/root" "/var/lib" ];
-    
+
     prune.keep = {
       # hourly backups for the past week
       within = "7d";

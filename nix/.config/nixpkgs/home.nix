@@ -1,18 +1,17 @@
 { lib, config, options, pkgs, ... }:
 let
-  bin = pkgs.callPackage /home/yorick/dotfiles/bin {};
-dpi = 109;
-font = {
-  __toString = self: "${self.name} ${self.size}";
-  name = "DejaVu Sans Mono";
+  bin = pkgs.callPackage /home/yorick/dotfiles/bin { };
+  dpi = 109;
+  font = {
+    __toString = self: "${self.name} ${self.size}";
+    name = "DejaVu Sans Mono";
     size = "11";
   };
   y-firefox = pkgs.wrapFirefox pkgs.latest.firefox-beta-bin.unwrapped {
     forceWayland = true;
     browserName = "firefox";
   };
-in
-{
+in {
   imports = [ ./arbtt.nix ./libinput-gestures.nix ];
   nixpkgs = {
     config.allowUnfree = true;
@@ -36,41 +35,71 @@ in
     emacs = {
       enable = true;
       package = pkgs.emacsPgtkGcc;
-      extraPackages = _: let
-        epkgs = pkgs.emacsPackagesFor pkgs.emacsPgtkGcc;
-        in (with epkgs.melpaPackages; [ reason-mode evil counsel ivy ivy-hydra swiper magit forge avy ]) ++ (with epkgs.melpaPackages; [
-        epkgs.undo-tree
-        epkgs.notmuch epkgs.rust-mode
-        company
-        projectile counsel-projectile
-        ggtags use-package org-bullets solarized-theme
-        evil-leader evil-surround #evil-magit
-        epkgs.evil-goggles epkgs.ox-mediawiki
-        nix-buffer which-key git-gutter-fringe
-        all-the-icons epkgs.org-cliplink
-        pandoc-mode markdown-mode interleave
-        org-ref haskell-mode request #intero
-        weechat s elixir-mode htmlize
-        linum-relative terraform-mode
-        direnv vue-mode solarized-theme
-        #wlrctl
-        (epkgs.melpaBuild {
-          pname = "nix-mode";
-          version = "1.4.0";
-          packageRequires = [ json-mode epkgs.mmm-mode company ];
-          recipe = pkgs.writeText "recipe" ''
-            (nix-mode
-             :repo "nixos/nix-mode" :fetcher github
-             :files ("nix*.el"))
-          '';
-          src = pkgs.fetchFromGitHub {
-            owner = "nixos";
-            repo = "nix-mode";
-            rev = "ddf091708b9069f1fe0979a7be4e719445eed918";
-            sha256 = "0s8ljr4d7kys2xqrhkvj75l7babvk60kxgy4vmyqfwj6xmcxi3ad";
-          };
-        })
-      ]);
+      extraPackages = _:
+        let epkgs = pkgs.emacsPackagesFor pkgs.emacsPgtkGcc;
+        in (with epkgs.melpaPackages; [
+          reason-mode
+          evil
+          counsel
+          ivy
+          ivy-hydra
+          swiper
+          magit
+          forge
+          avy
+        ]) ++ (with epkgs.melpaPackages; [
+          epkgs.undo-tree
+          epkgs.notmuch
+          epkgs.rust-mode
+          company
+          projectile
+          counsel-projectile
+          ggtags
+          use-package
+          org-bullets
+          solarized-theme
+          evil-leader
+          evil-surround # evil-magit
+          epkgs.evil-goggles
+          epkgs.ox-mediawiki
+          nix-buffer
+          which-key
+          git-gutter-fringe
+          all-the-icons
+          epkgs.org-cliplink
+          pandoc-mode
+          markdown-mode
+          interleave
+          org-ref
+          haskell-mode
+          request # intero
+          weechat
+          s
+          elixir-mode
+          htmlize
+          linum-relative
+          terraform-mode
+          direnv
+          vue-mode
+          solarized-theme
+          #wlrctl
+          (epkgs.melpaBuild {
+            pname = "nix-mode";
+            version = "1.4.0";
+            packageRequires = [ json-mode epkgs.mmm-mode company ];
+            recipe = pkgs.writeText "recipe" ''
+              (nix-mode
+               :repo "nixos/nix-mode" :fetcher github
+               :files ("nix*.el"))
+            '';
+            src = pkgs.fetchFromGitHub {
+              owner = "nixos";
+              repo = "nix-mode";
+              rev = "ddf091708b9069f1fe0979a7be4e719445eed918";
+              sha256 = "0s8ljr4d7kys2xqrhkvj75l7babvk60kxgy4vmyqfwj6xmcxi3ad";
+            };
+          })
+        ]);
     };
     git = {
       enable = true;
@@ -81,9 +110,11 @@ in
       extraConfig.help.autocorrect = 5;
       extraConfig.push.default = "simple";
       extraConfig.pull.ff = "only";
-      extraConfig."includeIf \"gitdir:~/serokell/\"".path = "~/serokell/.gitconfig";
+      extraConfig."includeIf \"gitdir:~/serokell/\"".path =
+        "~/serokell/.gitconfig";
       aliases = {
-        lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+        lg =
+          "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
         st = "status";
         remotes = "remote -v";
         branches = "branch -a";
@@ -92,7 +123,8 @@ in
         unstage = "reset -q HEAD --";
         discard = "checkout --";
         uncommit = "reset --mixed HEAD~";
-        graph = "log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order    ";
+        graph =
+          "log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order    ";
         dad = "!curl https://icanhazdadjoke.com/ && git add";
       };
     };
@@ -108,19 +140,50 @@ in
           identityFile = "~/.ssh/id_rsa_pub";
           identitiesOnly = true;
         };
-        phassa = { hostname = "karpenoktem.nl"; port = 33933; };
+        phassa = {
+          hostname = "karpenoktem.nl";
+          port = 33933;
+        };
         "jupiter.serokell.io" = jupiter;
-        jupiter = { hostname = "jupiter.serokell.io"; port = 17788; };
-        athena = { hostname = "athena.lumi.guide"; user = "yorick.van.pelt"; };
-        rpibuild3 = { hostname = "10.110.0.3"; user = "yorick.van.pelt"; port = 4222; };
-        styx = { hostname = "10.110.0.1"; user = "yorick.van.pelt"; port = 2233; };
-        "*.lumi.guide" = {
+        jupiter = {
+          hostname = "jupiter.serokell.io";
+          port = 17788;
+        };
+        athena = {
+          hostname = "athena.lumi.guide";
           user = "yorick.van.pelt";
         };
-        nyx = { hostname = "nyx.lumi.guide"; user = "yorick.van.pelt"; port = 2233; };
-        zeus = { hostname = "zeus.lumi.guide"; user = "yorick.van.pelt"; port = 2233; };
-        ponos = { hostname = "ponos.lumi.guide"; user = "yorick.van.pelt"; port = 2233; };
-        medusa = { hostname = "lumi.guide"; user = "yorick.van.pelt"; port = 2233; };
+        rpibuild3 = {
+          hostname = "10.110.0.3";
+          user = "yorick.van.pelt";
+          port = 4222;
+        };
+        styx = {
+          hostname = "10.110.0.1";
+          user = "yorick.van.pelt";
+          port = 2233;
+        };
+        "*.lumi.guide" = { user = "yorick.van.pelt"; };
+        nyx = {
+          hostname = "nyx.lumi.guide";
+          user = "yorick.van.pelt";
+          port = 2233;
+        };
+        zeus = {
+          hostname = "zeus.lumi.guide";
+          user = "yorick.van.pelt";
+          port = 2233;
+        };
+        ponos = {
+          hostname = "ponos.lumi.guide";
+          user = "yorick.van.pelt";
+          port = 2233;
+        };
+        medusa = {
+          hostname = "lumi.guide";
+          user = "yorick.van.pelt";
+          port = 2233;
+        };
         # signs
         "10.108.0.*" = {
           user = "yorick.van.pelt";
@@ -164,21 +227,21 @@ in
       shellAliases = {
         l = "ls";
         ls = "exa";
-        nr = "nix repl \"<nixpkgs>\"";
+        nr = ''nix repl "<nixpkgs>"'';
         nsp = "nix-shell -p";
       };
       interactiveShellInit = ''
-      function fuck -d "Correct your previous console command"
-               set -l fucked_up_command $history[1]
-               env TF_SHELL=fish TF_ALIAS=fuck PYTHONIOENCODING=utf-8 thefuck $fucked_up_command THEFUCK_ARGUMENT_PLACEHOLDER $argv | read -l unfucked_command
-               if [ "$unfucked_command" != "" ]
-                   eval $unfucked_command
-                   builtin history delete --exact --case-sensitive -- $fucked_up_command
-                   builtin history merge ^ /dev/null
-               end
-      end
-      starship init fish | source
-      source ~/dotfiles/nr.fish
+        function fuck -d "Correct your previous console command"
+                 set -l fucked_up_command $history[1]
+                 env TF_SHELL=fish TF_ALIAS=fuck PYTHONIOENCODING=utf-8 thefuck $fucked_up_command THEFUCK_ARGUMENT_PLACEHOLDER $argv | read -l unfucked_command
+                 if [ "$unfucked_command" != "" ]
+                     eval $unfucked_command
+                     builtin history delete --exact --case-sensitive -- $fucked_up_command
+                     builtin history merge ^ /dev/null
+                 end
+        end
+        starship init fish | source
+        source ~/dotfiles/nr.fish
       '';
       promptInit = "set fish_greeting";
     };
@@ -186,52 +249,52 @@ in
       enable = true;
       historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
       shellAliases = {
-        nr = "nix repl \"<nixpkgs>\"";
+        nr = ''nix repl "<nixpkgs>"'';
         nsp = "nix-shell -p";
       };
       initExtra = ''
-        #eval $(thefuck --alias)
-            function fuck () {
-                TF_PYTHONIOENCODING=$PYTHONIOENCODING;
-                export TF_SHELL=bash;
-                export TF_ALIAS=fuck;
-                export TF_SHELL_ALIASES=$(alias);
-                export TF_HISTORY=$(fc -ln -10);
-                export PYTHONIOENCODING=utf-8;
-                TF_CMD=$(
-                    thefuck THEFUCK_ARGUMENT_PLACEHOLDER $@
-                ) && eval $TF_CMD;
-                unset TF_HISTORY;
-                export PYTHONIOENCODING=$TF_PYTHONIOENCODING;
-                history -s $TF_CMD;
-            }
-# This script was automatically generated by the broot function
-# More information can be found in https://github.com/Canop/broot
-# This function starts broot and executes the command
-# it produces, if any.
-# It's needed because some shell commands, like `cd`,
-# have no useful effect if executed in a subshell.
-function br {
-    f=$(mktemp)
-    (
-	set +e
-	broot --outcmd "$f" "$@"
-	code=$?
-	if [ "$code" != 0 ]; then
-	    rm -f "$f"
-	    exit "$code"
-	fi
-    )
-    code=$?
-    if [ "$code" != 0 ]; then
-	return "$code"
-    fi
-    d=$(<"$f")
-    rm -f "$f"
-    eval "$d"
-}
-eval "$(starship init bash)"
-      '';
+                #eval $(thefuck --alias)
+                    function fuck () {
+                        TF_PYTHONIOENCODING=$PYTHONIOENCODING;
+                        export TF_SHELL=bash;
+                        export TF_ALIAS=fuck;
+                        export TF_SHELL_ALIASES=$(alias);
+                        export TF_HISTORY=$(fc -ln -10);
+                        export PYTHONIOENCODING=utf-8;
+                        TF_CMD=$(
+                            thefuck THEFUCK_ARGUMENT_PLACEHOLDER $@
+                        ) && eval $TF_CMD;
+                        unset TF_HISTORY;
+                        export PYTHONIOENCODING=$TF_PYTHONIOENCODING;
+                        history -s $TF_CMD;
+                    }
+        # This script was automatically generated by the broot function
+        # More information can be found in https://github.com/Canop/broot
+        # This function starts broot and executes the command
+        # it produces, if any.
+        # It's needed because some shell commands, like `cd`,
+        # have no useful effect if executed in a subshell.
+        function br {
+            f=$(mktemp)
+            (
+        	set +e
+        	broot --outcmd "$f" "$@"
+        	code=$?
+        	if [ "$code" != 0 ]; then
+        	    rm -f "$f"
+        	    exit "$code"
+        	fi
+            )
+            code=$?
+            if [ "$code" != 0 ]; then
+        	return "$code"
+            fi
+            d=$(<"$f")
+            rm -f "$f"
+            eval "$d"
+        }
+        eval "$(starship init bash)"
+              '';
     };
   };
   xresources.properties = {
@@ -249,12 +312,18 @@ eval "$(starship init bash)"
   #     rev = "025ceddbddf55f2eb4ab40b05889148aab9699fc";
   #     sha256 = "0lxv37gmh38y9d3l8nbnsm1mskcv10g3i83j0kac0a2qmypv1k9f";
   #   } + "/Xresources.dark");
-  home.file.".emacs.d/init.el" = { source = (toString /home/yorick/dotfiles/emacs/.emacs.d/init.el); };
+  home.file.".emacs.d/init.el" = {
+    source = (toString /home/yorick/dotfiles/emacs/.emacs.d/init.el);
+  };
   xdg.configFile."streamlink/config".text = ''
     player = mpv --cache 2048
     default-stream = best
   '';
-  xdg.configFile."waybar" = { source = ./waybar; recursive = true; onChange = "systemctl --user restart waybar"; };
+  xdg.configFile."waybar" = {
+    source = ./waybar;
+    recursive = true;
+    onChange = "systemctl --user restart waybar";
+  };
   programs.mako.enable = true;
   services = {
     lorri.enable = true;
@@ -290,46 +359,55 @@ eval "$(starship init bash)"
       fonts = [ (toString font) ];
       window.border = 2;
       floating.modifier = "Mod4";
-      keybindings = with pkgs; (builtins.head (builtins.head options.wayland.windowManager.sway.config.type.getSubModules).imports).options.keybindings.default //
-        (let exec = pkg: cmd: "exec --no-startup-id ${pkg}/bin/${cmd}"; mod = "Mod4"; in
-      {
-        "${mod}+Shift+c" = "kill";
-        "${mod}+j" = "focus left";
-        "${mod}+k" = "focus right";
-        "${mod}+d" = "layout toggle split";
-        "${mod}+i" = "exec --no-startup-id bash /home/yorick/dotfiles/bin/invert.sh";
-        #"${mod}+ctrl+l" = "exec --no-startup-id loginctl lock-session";
-        "${mod}+ctrl+l" = "exec --no-startup-id sleep 1s && pkill -USR1 swayidle";
-        "${mod}+Return" = "exec alacritty";
-        "${mod}+Escape" = "workspace back_and_forth";
-        "${mod}+0" = "workspace 10";
-        "${mod}+Shift+0" = "move container to workspace 10";
-        "${mod}+Shift+Left" = "move left";
-        "${mod}+Shift+Right" = "move right";
-        "${mod}+Shift+Up" = "move up";
-        "${mod}+Shift+Down" = "move down";
-        "${mod}+Ctrl+Right" = "move workspace to output right";
-        "${mod}+Ctrl+Left" = "move workspace to output left";
-        "${mod}+Ctrl+Up" = "move workspace to output up";
-        "${mod}+Ctrl+Down" = "move workspace to output down";
-        
-        "XF86MonBrightnessUp"        = exec light "light -A 5";
-        "XF86MonBrightnessDown"      = exec light "light -U 5";
-        "ctrl+XF86MonBrightnessUp"   = exec light "light -A 1";
-        "ctrl+XF86MonBrightnessDown" = exec light "light -U 1";
-        "XF86AudioLowerVolume"       = exec alsaUtils "amixer set Master 1%-";
-        "XF86AudioRaiseVolume"       = exec alsaUtils "amixer set Master 1%+";
-        "XF86AudioMute"              = exec alsaUtils "amixer set Master toggle";
-        "${mod}+Shift+s"             = exec bin.screenshot_public "screenshot_public";
-        "Print"                      = exec bin.screenshot_public "screenshot_public";
-        "${mod}+Shift+t"             = "exec --no-startup-id /home/yorick/dotfiles/bin/toggle_solarized.sh";
-        "--locked ${mod}+x" = "exec /home/yorick/dotfiles/bin/docked.sh";
-        "${mod}+p" = "exec /home/yorick/dotfiles/bin/ala-fzf-pass.sh";
-        #"${mod}+p" = exec rofi-pass "rofi-pass";
-        "${mod}+e" = exec pkgs.wldash "wldash start-or-kill";
-        "--locked ${mod}+bracketleft" = "exec --no-startup-id /home/yorick/dotfiles/bin/sunplate.sh 0";
-        "--locked ${mod}+bracketright" = "exec --no-startup-id /home/yorick/dotfiles/bin/sunplate.sh 1";
-      });
+      keybindings = with pkgs;
+        (builtins.head (builtins.head
+          options.wayland.windowManager.sway.config.type.getSubModules).imports).options.keybindings.default
+        // (let
+          exec = pkg: cmd: "exec --no-startup-id ${pkg}/bin/${cmd}";
+          mod = "Mod4";
+        in {
+          "${mod}+Shift+c" = "kill";
+          "${mod}+j" = "focus left";
+          "${mod}+k" = "focus right";
+          "${mod}+d" = "layout toggle split";
+          "${mod}+i" =
+            "exec --no-startup-id bash /home/yorick/dotfiles/bin/invert.sh";
+          #"${mod}+ctrl+l" = "exec --no-startup-id loginctl lock-session";
+          "${mod}+ctrl+l" =
+            "exec --no-startup-id sleep 1s && pkill -USR1 swayidle";
+          "${mod}+Return" = "exec alacritty";
+          "${mod}+Escape" = "workspace back_and_forth";
+          "${mod}+0" = "workspace 10";
+          "${mod}+Shift+0" = "move container to workspace 10";
+          "${mod}+Shift+Left" = "move left";
+          "${mod}+Shift+Right" = "move right";
+          "${mod}+Shift+Up" = "move up";
+          "${mod}+Shift+Down" = "move down";
+          "${mod}+Ctrl+Right" = "move workspace to output right";
+          "${mod}+Ctrl+Left" = "move workspace to output left";
+          "${mod}+Ctrl+Up" = "move workspace to output up";
+          "${mod}+Ctrl+Down" = "move workspace to output down";
+
+          "XF86MonBrightnessUp" = exec light "light -A 5";
+          "XF86MonBrightnessDown" = exec light "light -U 5";
+          "ctrl+XF86MonBrightnessUp" = exec light "light -A 1";
+          "ctrl+XF86MonBrightnessDown" = exec light "light -U 1";
+          "XF86AudioLowerVolume" = exec alsaUtils "amixer set Master 1%-";
+          "XF86AudioRaiseVolume" = exec alsaUtils "amixer set Master 1%+";
+          "XF86AudioMute" = exec alsaUtils "amixer set Master toggle";
+          "${mod}+Shift+s" = exec bin.screenshot_public "screenshot_public";
+          "Print" = exec bin.screenshot_public "screenshot_public";
+          "${mod}+Shift+t" =
+            "exec --no-startup-id /home/yorick/dotfiles/bin/toggle_solarized.sh";
+          "--locked ${mod}+x" = "exec /home/yorick/dotfiles/bin/docked.sh";
+          "${mod}+p" = "exec /home/yorick/dotfiles/bin/ala-fzf-pass.sh";
+          #"${mod}+p" = exec rofi-pass "rofi-pass";
+          "${mod}+e" = exec pkgs.wldash "wldash start-or-kill";
+          "--locked ${mod}+bracketleft" =
+            "exec --no-startup-id /home/yorick/dotfiles/bin/sunplate.sh 0";
+          "--locked ${mod}+bracketright" =
+            "exec --no-startup-id /home/yorick/dotfiles/bin/sunplate.sh 1";
+        });
     };
     systemdIntegration = true;
     extraConfig = ''
@@ -370,33 +448,63 @@ eval "$(starship init bash)"
     EDITOR = "emacsclient";
     #GDK_BACKEND = "wayland";
     TERMINAL = "alacritty";
-    QT_WAYLAND_DISABLE_WINDOWDECORATION="1";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QT_QPA_PLATFORM = "wayland";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     XCURSOR_THEME = "Adwaita";
     XCURSOR_PATH = "${pkgs.gnome3.adwaita-icon-theme}/share/icons";
-    XDG_CURRENT_DESKTOP = "sway"; 
+    XDG_CURRENT_DESKTOP = "sway";
   };
-  home.packages = with pkgs.envs; [
-    apps code de games pdf media misc scripts coins js
-  ] ++ (with pkgs; [
-    github-cli libreoffice nix-tree virt-manager watchman
-    gnome3.gcr.out #alacritty
-    waybar slurp grim wl-clipboard
-    wldash gebaar-libinput
-    notmuch gmailieer afew
-    swaybg swayidle
-    swaylock broot starship
-    fd htop kcachegrind lm_sensors niv
-    nixfmt linuxPackages.perf pssh slack smartmontools vim waypipe xdg_utils
-    nix-top nix-diff
-    ltrace asciinema cargo minecraft
-    unzip
-    exa obs-studio-dmabuf obs-wlrobs
-    zoom-us
-    cachix eagle
-    y-firefox
-  ]); # qtwayland
+  home.packages = with pkgs.envs;
+    [ apps code de games pdf media misc scripts coins js ] ++ (with pkgs; [
+      github-cli
+      libreoffice
+      nix-tree
+      virt-manager
+      watchman
+      gnome3.gcr.out # alacritty
+      waybar
+      slurp
+      grim
+      wl-clipboard
+      wldash
+      gebaar-libinput
+      notmuch
+      gmailieer
+      afew
+      swaybg
+      swayidle
+      swaylock
+      broot
+      starship
+      fd
+      htop
+      kcachegrind
+      lm_sensors
+      niv
+      nixfmt
+      linuxPackages.perf
+      pssh
+      slack
+      smartmontools
+      vim
+      waypipe
+      xdg_utils
+      nix-top
+      nix-diff
+      ltrace
+      asciinema
+      cargo
+      minecraft
+      unzip
+      exa
+      obs-studio-dmabuf
+      obs-wlrobs
+      zoom-us
+      cachix
+      eagle
+      y-firefox
+    ]); # qtwayland
   # programs.firefox = {
   #   enable = true;
   #   package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
@@ -409,11 +517,9 @@ eval "$(starship init bash)"
       After = [ "graphical-session-pre.target" ];
       PartOf = [ "graphical-session.target" ];
     };
-    
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-    
+
+    Install = { WantedBy = [ "graphical-session.target" ]; };
+
     Service = {
       ExecStart = ''
         ${pkgs.waybar}/bin/waybar
@@ -448,11 +554,9 @@ eval "$(starship init bash)"
       After = [ "graphical-session-pre.target" ];
       PartOf = [ "graphical-session.target" ];
     };
-    
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-    
+
+    Install = { WantedBy = [ "graphical-session.target" ]; };
+
     Service = {
       ExecStart = ''
         ${pkgs.gebaar-libinput}/bin/gebaard

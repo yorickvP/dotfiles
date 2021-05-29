@@ -1,10 +1,12 @@
 { config, lib, ... }:
 let
   cfg = config.yorick.lumi-vpn;
-  addresses = import "${builtins.getEnv "HOME"}/engineering/lumi/os/gateway/addresses.nix"
-    { lib.ip4.ip = a: b: c: d: x: lib.concatStringsSep "." (map toString [ a b c d ]); };
-in
-{
+  addresses = import
+    "${builtins.getEnv "HOME"}/engineering/lumi/os/gateway/addresses.nix" {
+      lib.ip4.ip = a: b: c: d: x:
+        lib.concatStringsSep "." (map toString [ a b c d ]);
+    };
+in {
   options.yorick.lumi-vpn = with lib; {
     enable = mkEnableOption "lumi vpn";
     name = mkOption {
@@ -28,9 +30,10 @@ in
   config = lib.mkIf cfg.enable {
     networking.wireguard.interfaces = {
       wg-lumi = {
-        privateKeyFile = "/home/${cfg.user}/engineering/lumi/secrets/devel/vpn/wg/workstations.${cfg.name}.key";
+        privateKeyFile =
+          "/home/${cfg.user}/engineering/lumi/secrets/devel/vpn/wg/workstations.${cfg.name}.key";
         ips = [ cfg.ip ];
-        peers = [ {
+        peers = [{
           publicKey = "6demp+PX2XyVoMovDj4xHQ2ZHKoj4QAF8maWpjcyzzI=";
           endpoint = "wg.lumi.guide:31727";
           allowedIPs = [ "10.96.0.0/12" "10.0.0.0/17" ];

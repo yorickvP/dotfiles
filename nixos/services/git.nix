@@ -3,8 +3,7 @@
 let
   cfg = config.services.yorick.git;
   inherit (cfg) vhost;
-in
-{
+in {
   options.services.yorick.git = with lib; {
     enable = mkEnableOption "git";
     vhost = mkOption { type = types.str; };
@@ -12,7 +11,9 @@ in
   config = lib.mkIf cfg.enable {
     users.extraUsers.git = {
       createHome = true;
-      home = config.services.gitea.stateDir; extraGroups = [ "git" ]; useDefaultShell = true;
+      home = config.services.gitea.stateDir;
+      extraGroups = [ "git" ];
+      useDefaultShell = true;
     };
     services.gitea = {
       enable = true;
@@ -42,7 +43,8 @@ in
       forceSSL = true;
       enableACME = true;
       locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString config.services.gitea.httpPort}";
+        proxyPass =
+          "http://127.0.0.1:${toString config.services.gitea.httpPort}";
         extraConfig = ''
           proxy_buffering off;
         '';

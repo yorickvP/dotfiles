@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 let sources = import ../../nix/sources.nix;
-in
-{
+in {
   imports = [
     "${sources.nixos-hardware}/dell/xps/13-9360"
     ./xps9360-hardware-config.nix
@@ -12,7 +11,7 @@ in
   boot.extraModprobeConfig = ''
     options i8k ignore_dmi=1
   '';
-  fileSystems."/".options = ["defaults" "relatime" "discard"];
+  fileSystems."/".options = [ "defaults" "relatime" "discard" ];
 
   boot.initrd.luks.devices."nix-crypt".allowDiscards = true;
 

@@ -9,21 +9,21 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/a751e4ea-f1aa-48e1-9cbe-423878e29b62";
-      fsType = "btrfs";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/a751e4ea-f1aa-48e1-9cbe-423878e29b62";
+    fsType = "btrfs";
+  };
 
-  boot.initrd.luks.devices."nix-crypt".device = "/dev/disk/by-uuid/320ef81d-283f-4916-ac26-ecfb0f31e549";
+  boot.initrd.luks.devices."nix-crypt".device =
+    "/dev/disk/by-uuid/320ef81d-283f-4916-ac26-ecfb0f31e549";
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/0E07-7805";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/0E07-7805";
+    fsType = "vfat";
+  };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/198ddaba-a849-41de-993d-862c2d37937a"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/198ddaba-a849-41de-993d-862c2d37937a"; }];
 
   nix.maxJobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";

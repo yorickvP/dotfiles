@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
-let cfg = config.services.yorick.public; in
-{
+let cfg = config.services.yorick.public;
+in {
   options.services.yorick.public = {
     enable = lib.mkEnableOption "public hosting";
     vhost = lib.mkOption { type = lib.types.str; };
@@ -14,7 +14,7 @@ let cfg = config.services.yorick.public; in
     users.extraUsers.public = {
       home = "/home/public";
       useDefaultShell = true;
-      openssh.authorizedKeys.keys = with (import ../sshkeys.nix); [public];
+      openssh.authorizedKeys.keys = with (import ../sshkeys.nix); [ public ];
       createHome = true;
     };
     services.nginx.virtualHosts.${cfg.vhost} = {

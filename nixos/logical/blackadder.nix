@@ -1,9 +1,5 @@
-{ config, pkgs, lib, ... }:
-{
-  imports =
-    [ ../physical/3950x.nix
-      ../roles/workstation.nix
-    ];
+{ config, pkgs, lib, ... }: {
+  imports = [ ../physical/3950x.nix ../roles/workstation.nix ];
 
   nix.nixPath = [ "nixpkgs=${pkgs.path}" ];
 

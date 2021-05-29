@@ -1,16 +1,15 @@
 # Edit this configuration file to define what should be installed on your system.  Help is available in the configuration.nix(5) man page and in the NixOS manual (accessible by running ‘nixos-help’).
-let sources = import ../../nix/sources.nix; in
-{ config, lib, pkgs, ... }:
+let sources = import ../../nix/sources.nix;
+in { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ../physical/apu2c4.nix
-      #<yori-nix/roles/homeserver.nix>
-      ../roles
-      "${sources.nixos-hardware}/pcengines/apu"
-      <nixpkgs/nixos/modules/profiles/minimal.nix>
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ../physical/apu2c4.nix
+    #<yori-nix/roles/homeserver.nix>
+    ../roles
+    "${sources.nixos-hardware}/pcengines/apu"
+    <nixpkgs/nixos/modules/profiles/minimal.nix>
+  ];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -50,10 +49,15 @@ let sources = import ../../nix/sources.nix; in
     interface = "dslite1";
   };
   systemd.services.dslite1-netdev = {
-    wantedBy = [ "network-setup.service" "sys-subsystem-net-devices-dslite1.device" ];
-    bindsTo = [];
+    wantedBy =
+      [ "network-setup.service" "sys-subsystem-net-devices-dslite1.device" ];
+    bindsTo = [ ];
     partOf = [ "network-setup.service" ];
-    after = [ "network-pre.target" "network-addresses-enp1s0.service" "network-link-enp1s0.service" ];
+    after = [
+      "network-pre.target"
+      "network-addresses-enp1s0.service"
+      "network-link-enp1s0.service"
+    ];
     before = [ "network-setup.service" ];
     path = [ pkgs.iproute ];
     serviceConfig = {
@@ -96,16 +100,56 @@ let sources = import ../../nix/sources.nix; in
     interfaces = [ "enp2s0" ];
     enable = true;
     machines = [
-      { hostName = "amateria";    ethernetAddress = "a8:a1:59:15:8b:63"; ipAddress = "192.168.178.42"; }
-      { hostName = "blackadder";  ethernetAddress = "a8:a1:59:03:8a:75"; ipAddress = "192.168.178.33"; }
-      { hostName = "frumar";      ethernetAddress = "bc:5f:f4:e8:42:9f"; ipAddress = "192.168.178.37"; }
-      { hostName = "jarvis";      ethernetAddress = "18:1d:ea:35:13:58"; ipAddress = "192.168.178.34"; }
-      { hostName = "jarvis-dock"; ethernetAddress = "64:4b:f0:10:05:f2"; ipAddress = "192.168.178.13"; }
-      { hostName = "printer";     ethernetAddress = "30:05:5c:44:20:a7"; ipAddress = "192.168.178.26"; }
-      { hostName = "raspberrypi"; ethernetAddress = "b8:27:eb:b9:ec:3a"; ipAddress = "192.168.178.21"; }
-      { hostName = "smartMeter";  ethernetAddress = "5c:cf:7f:26:ca:91"; ipAddress = "192.168.178.30"; }
-      { hostName = "gang-ap";     ethernetAddress = "b4:fb:e4:2d:fc:f3"; ipAddress = "192.168.178.32"; }
-      { hostName = "woodhouse";   ethernetAddress = "94:c6:91:15:1f:c5"; ipAddress = "192.168.178.39"; }
+      {
+        hostName = "amateria";
+        ethernetAddress = "a8:a1:59:15:8b:63";
+        ipAddress = "192.168.178.42";
+      }
+      {
+        hostName = "blackadder";
+        ethernetAddress = "a8:a1:59:03:8a:75";
+        ipAddress = "192.168.178.33";
+      }
+      {
+        hostName = "frumar";
+        ethernetAddress = "bc:5f:f4:e8:42:9f";
+        ipAddress = "192.168.178.37";
+      }
+      {
+        hostName = "jarvis";
+        ethernetAddress = "18:1d:ea:35:13:58";
+        ipAddress = "192.168.178.34";
+      }
+      {
+        hostName = "jarvis-dock";
+        ethernetAddress = "64:4b:f0:10:05:f2";
+        ipAddress = "192.168.178.13";
+      }
+      {
+        hostName = "printer";
+        ethernetAddress = "30:05:5c:44:20:a7";
+        ipAddress = "192.168.178.26";
+      }
+      {
+        hostName = "raspberrypi";
+        ethernetAddress = "b8:27:eb:b9:ec:3a";
+        ipAddress = "192.168.178.21";
+      }
+      {
+        hostName = "smartMeter";
+        ethernetAddress = "5c:cf:7f:26:ca:91";
+        ipAddress = "192.168.178.30";
+      }
+      {
+        hostName = "gang-ap";
+        ethernetAddress = "b4:fb:e4:2d:fc:f3";
+        ipAddress = "192.168.178.32";
+      }
+      {
+        hostName = "woodhouse";
+        ethernetAddress = "94:c6:91:15:1f:c5";
+        ipAddress = "192.168.178.39";
+      }
     ];
     extraConfig = ''
       subnet 192.168.178.0 netmask 255.255.255.0 {
@@ -183,15 +227,17 @@ let sources = import ../../nix/sources.nix; in
   boot.supportedFilesystems = lib.mkForce [ "ext4" ];
   boot.initrd.supportedFilesystems = lib.mkForce [ "ext4" ];
   security.polkit.enable = false;
-  nixpkgs.overlays = [ (self: super: {
-    dhcpcd = super.dhcpcd.overrideAttrs (o: rec {
-      pname = "dhcpcd";
-      version = "8.1.9";
-      src = self.fetchurl {
-        url = "mirror://roy/${pname}/${pname}-${version}.tar.xz";
-        sha256 = "1kzv61bgrd0zwiy6r218zkccx36j9p5mz1gxqvbhg05xn9g50alf";
-      };
-      patches = [];
-    });
-  }) ];
+  nixpkgs.overlays = [
+    (self: super: {
+      dhcpcd = super.dhcpcd.overrideAttrs (o: rec {
+        pname = "dhcpcd";
+        version = "8.1.9";
+        src = self.fetchurl {
+          url = "mirror://roy/${pname}/${pname}-${version}.tar.xz";
+          sha256 = "1kzv61bgrd0zwiy6r218zkccx36j9p5mz1gxqvbhg05xn9g50alf";
+        };
+        patches = [ ];
+      });
+    })
+  ];
 }

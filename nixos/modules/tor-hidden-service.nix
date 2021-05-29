@@ -7,13 +7,13 @@ let
   torDir = "/var/lib/tor";
 in {
   options.services.tor.service-keys = mkOption {
-    default = {};
+    default = { };
     type = with types; attrsOf str;
   };
 
-  config = mkIf (service-keys != {}) {
+  config = mkIf (service-keys != { }) {
     systemd.services."install-tor-hidden-service-keys" = {
-      wantedBy = ["tor.service"];
+      wantedBy = [ "tor.service" ];
       serviceConfig.Type = "oneshot";
       serviceConfig.User = "root";
       serviceConfig.Group = "keys";
