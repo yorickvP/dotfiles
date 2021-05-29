@@ -2,7 +2,7 @@ let
   names = [ "pennyworth" "jarvis" "blackadder" "woodhouse" "frumar" "zazu" ];
 in
 pkgs: super: {
-  yorick = rec {
+  yorick = (super.yorick or {}) // rec {
     nixos =
       configuration: extraArgs:
       let
@@ -22,11 +22,11 @@ pkgs: super: {
         };
       in
         c.config.system.build // c;
+    machine = pkgs.lib.genAttrs names (name: nixos [
+      ./roles
+      (./logical + "/${name}.nix")
+    ] {
+      inherit name;
+    });
   };
-  yorick.machine = pkgs.lib.genAttrs names (name: nixos [
-    ./roles
-    (./logical + "/${name}.nix")
-  ] {
-    inherit name;
-  });
 }

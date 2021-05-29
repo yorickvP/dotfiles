@@ -1,4 +1,4 @@
-{ lib, config, options, ... }:
+{ lib, config, options, pkgs, ... }:
 let
   bin = pkgs.callPackage /home/yorick/dotfiles/bin {};
 dpi = 109;
@@ -7,20 +7,6 @@ font = {
   name = "DejaVu Sans Mono";
     size = "11";
   };
-  sources = import /home/yorick/dotfiles/nix/sources.nix;
-  nixpkgs-loc = /*/home/yorick/nixpkgs;*/ sources.nixpkgs;
-  pkgs = import nixpkgs-loc {
-    overlays = [
-      (import sources.nixpkgs-wayland)
-      (import sources.nixpkgs-mozilla)
-      (import sources.emacs-overlay)
-      (import ./overlays/01-backports.nix)
-      (import ./overlays/02-extrapkgs.nix)
-      (import ./overlays/03-customizations.nix)
-      (import ./overlays/04-combine.nix)
-      (import ./overlays/05-envs.nix)
-    ];
-  };
   y-firefox = pkgs.wrapFirefox pkgs.latest.firefox-beta-bin.unwrapped {
     forceWayland = true;
     browserName = "firefox";
@@ -28,6 +14,15 @@ font = {
 in
 {
   imports = [ ./arbtt.nix ./libinput-gestures.nix ];
+  nixpkgs = {
+    config.allowUnfree = true;
+    inherit (import /home/yorick/dotfiles/config.nix) overlays;
+  };
+  home = {
+    stateVersion = "20.09";
+    username = "yorick";
+    homeDirectory = "/home/yorick";
+  };
   programs = {
     gh = {
       enable = true;
@@ -36,7 +31,7 @@ in
     direnv.enable = true;
     home-manager = {
       enable = true;
-      path = toString /home/yorick/dotfiles/nix/home-manager;
+      path = toString /home/yorick/dotfiles;
     };
     emacs = {
       enable = true;

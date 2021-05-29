@@ -11,6 +11,18 @@
         "url": "https://github.com/nix-community/emacs-overlay/archive/dfed6847f127bd3c2c0cdd71b28d4e63e0ec0e91.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "home-manager": {
+        "branch": "master",
+        "description": "Manage a user environment using Nix  [maintainer=@rycee] ",
+        "homepage": "https://nix-community.github.io/home-manager/",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "0e6c61a44092e98ba1d75b41f4f947843dc7814d",
+        "sha256": "0i6qjkyvxbnnvk984781wgkycdrgwf6cpbln7w35gfab18h7mnzy",
+        "type": "tarball",
+        "url": "https://github.com/nix-community/home-manager/archive/0e6c61a44092e98ba1d75b41f4f947843dc7814d.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "niv": {
         "branch": "master",
         "description": "Easy dependency management for Nix projects",

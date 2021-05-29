@@ -12,5 +12,6 @@ in
       (import ./nix/.config/nixpkgs/overlays/03-customizations.nix)
       (import ./nix/.config/nixpkgs/overlays/04-combine.nix)
       (import ./nix/.config/nixpkgs/overlays/05-envs.nix)
+      (import ./overlay.nix)
     ];
   }
