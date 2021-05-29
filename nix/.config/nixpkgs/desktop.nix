@@ -172,7 +172,7 @@ in
     grim
     eagle
     libreoffice
-    obs-studio-dmabuf
+    obs-studio
     obs-wlrobs
     slack
     slurp

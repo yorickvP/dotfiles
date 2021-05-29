@@ -65,7 +65,7 @@ in {
           epkgs.org-cliplink
           pandoc-mode
           markdown-mode
-          interleave
+          #interleave
           org-ref
           haskell-mode
           request # intero
