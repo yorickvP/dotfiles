@@ -7,8 +7,8 @@ font = {
   name = "DejaVu Sans Mono";
     size = "11";
   };
-  sources = import /home/yorick/nixos/nix/sources.nix;
-  nixpkgs-loc = /home/yorick/nixpkgs; #sources.nixpkgs;
+  sources = import /home/yorick/dotfiles/nix/sources.nix;
+  nixpkgs-loc = /*/home/yorick/nixpkgs;*/ sources.nixpkgs;
   pkgs = import nixpkgs-loc {
     overlays = [
       (import sources.nixpkgs-wayland)
@@ -58,7 +58,7 @@ in
         weechat s elixir-mode htmlize
         linum-relative terraform-mode
         direnv vue-mode solarized-theme
-        wlrctl
+        #wlrctl
         (epkgs.melpaBuild {
           pname = "nix-mode";
           version = "1.4.0";
@@ -472,5 +472,9 @@ eval "$(starship init bash)"
     keyserver hkps://keys.openpgp.org
     #keyserver-options auto-key-retrieve
   '';
+  home.file.".mutt" = {
+    source = /home/yorick/dotfiles/mutt/.mutt;
+    recursive = true;
+  };
   manual.manpages.enable = false;
 }
