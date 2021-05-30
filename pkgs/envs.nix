@@ -97,7 +97,7 @@ in {
     ];
 
     code = mkEnv "y-code" (with gitAndTools; [
-      python3 git-crypt hub gnumake cloc silver-searcher gitFire gti gcc
+      python3 git-crypt hub gnumake cloc silver-searcher git-fire gti gcc
       gdb sqlite
     ]);
     java = openjdk;
