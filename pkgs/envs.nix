@@ -123,8 +123,7 @@ in {
   # will remove all your previously installed nix-env stuff
   # so check with nix-env -q first
   hosts = with self; with self.envs; rec {
-    ascanius = [apps code de games envs.js pdf nix media misc scripts coins myEmacs];
-    jarvis = [apps code de /*games*/ envs.js pdf nix media misc scripts];
+    jarvis = [apps code de /*games*/ envs.js pdf nix media misc scripts coins];
     blackadder = jarvis;
     woodhouse = [de media misc kodi chromium spotify];
     pennyworth = [];
