@@ -30,6 +30,6 @@ in
   meta = {
       description = "Modded minecraft launcher";
       homepage = http://www.feed-the-beast.com;
-      license = stdenv.lib.licenses.unfreeRedistributable;
+      license = lib.licenses.unfreeRedistributable;
   };
 }

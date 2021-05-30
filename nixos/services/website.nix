@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  yoricc = pkgs.callPackage ../packages/yori-cc.nix { };
   cfg = config.services.yorick.website;
 in with lib; {
   options.services.yorick = {
@@ -10,7 +9,7 @@ in with lib; {
       vhost = mkOption { type = types.str; };
       pkg = mkOption {
         type = types.package;
-        default = yoricc;
+        default = pkgs.yori-cc;
       };
     };
     redirect = mkOption {

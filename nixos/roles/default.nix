@@ -34,7 +34,6 @@ in {
 
   # Nix
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = import ../packages;
 
   #nix.buildCores = config.nix.maxJobs;
 

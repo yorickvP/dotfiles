@@ -238,6 +238,7 @@ in {
       gnome3.gcr.out # alacritty
       notmuch
       gmailieer
+      git-absorb
       afew
       broot
       starship
@@ -298,4 +299,7 @@ in {
     recursive = true;
   };
   manual.manpages.enable = false;
+  home.sessionVariables = {
+    HOME_MANAGER_CONFIG = toString ./home.nix; # unused, but checked for existence
+  };
 }
