@@ -208,7 +208,7 @@ in {
         nsp = "nix-shell -p";
       };
       initExtra = ''
-        source ${thefuck-alias "fish"}
+        source ${thefuck-alias "bash"}
         eval "$(broot --print-shell-function bash)"
         eval "$(starship init bash)"
       '';
