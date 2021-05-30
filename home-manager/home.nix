@@ -217,6 +217,12 @@ in {
   home.file.".emacs.d/init.el" = {
     source = (toString /home/yorick/dotfiles/emacs/.emacs.d/init.el);
   };
+  xdg.configFile."nixpkgs/config.nix".text = ''
+    import "${toString ../config.nix}"
+  '';
+  xdg.configFile."nixpkgs/overlays.nix".text = ''
+    import "${toString ../overlays.nix}"
+  '';
   xdg.configFile."streamlink/config".text = ''
     player = mpv --cache 2048
     default-stream = best
