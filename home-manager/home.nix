@@ -23,6 +23,7 @@ in {
       enable = true;
       settings.nix_shell.disabled = false;
     };
+    # todo: .aws/config default region
     gh = {
       enable = true;
       aliases.co = "pr checkout";

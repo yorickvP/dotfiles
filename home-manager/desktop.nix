@@ -89,11 +89,14 @@ in
       }
       output "Unknown  0x00000000" {
         position 0 0
-        bg "/home/yorick/Downloads/wallpapers/beyond-4k-2560×1440.jpg" fill
+        bg "/home/yorick/wp/beyond-4k-2560×1440.jpg" fill
       }
       output "BenQ Corporation BenQ GW2765 36H03689019" {
         position 2560 0
-        bg "/home/yorick/Downloads/wallpapers/beyond-4k-2560×1440.jpg" fill
+        bg "/home/yorick/wp/beyond-4k-2560×1440.jpg" fill
+      }
+      output "Sharp Corporation 0x144A 0x00000000" {
+        bg "/home/yorick/wp/thorns__4k__by_kasperja-daqi5g7.jpg" fill
       }
       output "eDP-1" {
         # disable
