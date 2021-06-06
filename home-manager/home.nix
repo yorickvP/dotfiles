@@ -197,6 +197,7 @@ in {
         ls = "exa";
         nr = ''nix repl "<nixpkgs>"'';
         nsp = "nix-shell -p";
+        lumi = "pushd ~/engineering/lumi; cached-nix-shell; popd";
       };
       interactiveShellInit = ''
         source ${thefuck-alias "fish"}
@@ -214,6 +215,10 @@ in {
       initExtra = ''
         source ${thefuck-alias "bash"}
         eval "$(broot --print-shell-function bash)"
+        if [ "$IN_CACHED_NIX_SHELL" ]; then
+	        eval "$shellHook"
+	        unset shellHook
+        fi
       '';
     };
   };
@@ -271,6 +276,7 @@ in {
       exa
       cachix
       y-firefox
+      cached-nix-shell
     ]); # qtwayland
   # systemd.user.services.gmi = {
   #   Unit = {
