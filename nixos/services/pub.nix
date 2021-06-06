@@ -9,6 +9,7 @@ in {
   config = lib.mkIf cfg.enable {
     systemd.services.nginx.serviceConfig = {
       ProtectHome = "tmpfs";
+      UMask = lib.mkForce "0022";
       BindReadOnlyPaths = [ "/home/public/public" ];
     };
     users.extraUsers.public = {
@@ -16,7 +17,7 @@ in {
       useDefaultShell = true;
       isSystemUser = true;
       openssh.authorizedKeys.keys = with (import ../sshkeys.nix); [ public ];
-      createHome = true;
+      createHome = false; # sets wrong permissions
     };
     services.nginx.virtualHosts.${cfg.vhost} = {
       forceSSL = true;
