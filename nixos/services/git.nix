@@ -14,6 +14,7 @@ in {
       home = config.services.gitea.stateDir;
       extraGroups = [ "git" ];
       useDefaultShell = true;
+      isSystemUser = true;
     };
     services.gitea = {
       enable = true;

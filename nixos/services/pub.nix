@@ -14,6 +14,7 @@ in {
     users.extraUsers.public = {
       home = "/home/public";
       useDefaultShell = true;
+      isSystemUser = true;
       openssh.authorizedKeys.keys = with (import ../sshkeys.nix); [ public ];
       createHome = true;
     };

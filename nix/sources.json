@@ -48,11 +48,12 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixos-mailserver": {
-        "sha256": "1m8ylrxlkn8nrpsvnivg32ncba9jkfal8a9sjy840hpl1jlm5lc4",
+        "rev": "5675b122a947b40e551438df6a623efad19fd2e7",
+        "sha256": "1fwhb7a5v9c98nzhf3dyqf3a5ianqh7k50zizj8v5nmj3blxw4pi",
         "type": "tarball",
-        "url": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/ee3d38a1570a1a9aa5e2daa3284d65a35d5e8864/nixos-mailserver-ee3d38a1570a1a9aa5e2daa3284d65a35d5e8864.tar.gz",
+        "url": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/5675b122a947b40e551438df6a623efad19fd2e7/nixos-mailserver-5675b122a947b40e551438df6a623efad19fd2e7.tar.gz",
         "url_template": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/<version>/nixos-mailserver-<version>.tar.gz",
-        "version": "ee3d38a1570a1a9aa5e2daa3284d65a35d5e8864"
+        "version": "5675b122a947b40e551438df6a623efad19fd2e7"
     },
     "nixpkgs": {
         "branch": "master",
