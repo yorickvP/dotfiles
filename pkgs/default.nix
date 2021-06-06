@@ -5,9 +5,6 @@
   ftb = super.callPackage ./ftb.nix {};
   pyroscope = super.callPackage ./pyroscope {};
   #lejos = super.callPackage ../pkgs/lejos.nix {};
-  libinput-gestures = super.libinput-gestures.override { extraUtilsPath = [
-    self.xdotool self.python3
-  ];};
 
   weiightminder = super.callPackage (builtins.fetchGit {
     url = https://gist.github.com/yorickvP/229d21a7da13c9c514dbd26147822641;

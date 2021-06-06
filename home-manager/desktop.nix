@@ -16,7 +16,6 @@ in
   };
   programs.mako.enable = true;
   services = {
-    libinput-gestures.enable = true;
     gpg-agent.extraConfig = ''
       pinentry-program ${pkgs.pinentry_gnome}/bin/pinentry-gnome3
     '';

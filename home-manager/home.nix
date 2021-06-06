@@ -8,7 +8,7 @@ let
     TF_SHELL = shell;
   } "${pkgs.thefuck}/bin/thefuck -a > $out";
 in {
-  imports = [ ./arbtt.nix ./libinput-gestures.nix ./desktop.nix ];
+  imports = [ ./arbtt.nix ./desktop.nix ];
   nixpkgs = {
     config.allowUnfree = true;
     inherit (import /home/yorick/dotfiles/config.nix) overlays;
