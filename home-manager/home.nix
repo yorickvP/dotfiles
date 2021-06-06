@@ -19,6 +19,10 @@ in {
     homeDirectory = "/home/yorick";
   };
   programs = {
+    starship = {
+      enable = true;
+      settings.nix_shell.disabled = false;
+    };
     gh = {
       enable = true;
       aliases.co = "pr checkout";
@@ -195,7 +199,6 @@ in {
       };
       interactiveShellInit = ''
         source ${thefuck-alias "fish"}
-        starship init fish | source
         source ~/dotfiles/nr.fish
       '';
       promptInit = "set fish_greeting";
@@ -210,7 +213,6 @@ in {
       initExtra = ''
         source ${thefuck-alias "bash"}
         eval "$(broot --print-shell-function bash)"
-        eval "$(starship init bash)"
       '';
     };
   };
@@ -247,7 +249,6 @@ in {
       git-absorb
       afew
       broot
-      starship
       fd
       htop
       kcachegrind
