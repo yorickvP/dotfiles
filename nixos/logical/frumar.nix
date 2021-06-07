@@ -93,4 +93,14 @@
       interval = "*-*-01 02:00:00"; # monthly + 2 hours
     };
   };
+  users.users.yorick.packages = with pkgs; [
+    borgbackup
+    bup
+    fzf
+    git-annex
+    magic-wormhole
+    python
+    ranger
+    rtorrent
+  ];
 }
