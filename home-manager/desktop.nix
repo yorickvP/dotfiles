@@ -6,6 +6,14 @@ let
     name = "DejaVu Sans Mono";
     size = "11";
   };
+  fixed_slack = pkgs.slack.override {
+    xdg-utils = pkgs.xdg-utils.overrideAttrs (o: {
+      buildInputs = o.buildInputs ++ [ pkgs.makeWrapper ];
+      postInstall = o.postInstall + ''
+        wrapProgram "$out/bin/xdg-open" --unset GDK_BACKEND
+      '';
+    });
+  };
 in
 {
   # TODO: waybar module from home-manager
@@ -176,7 +184,7 @@ in
     libreoffice
     obs-studio
     obs-wlrobs
-    slack
+    fixed_slack
     slurp
     swaybg
     swayidle
