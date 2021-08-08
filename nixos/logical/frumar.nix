@@ -54,6 +54,10 @@
         job_name = "thermometer";
         static_configs = [{ targets = [ "192.168.178.21:8000" ]; }];
       }
+      {
+        job_name = "esphome";
+        static_configs = [{ targets = [ "192.168.178.77" ]; }];
+      }
     ];
     exporters.node.enable = true;
     # exporters.unifi = {
