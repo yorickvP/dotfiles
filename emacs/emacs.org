@@ -518,6 +518,22 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
     :commands (nix-mode)
     :mode (("\\.nix\\'" . nix-mode)))
 #+END_SRC
+** lsp
+#+BEGIN_SRC emacs-lisp
+        (use-package lsp-mode
+          :init
+          (setq lsp-keymap-prefix "C-c s")
+        :hook (lsp-mode . lsp-enable-which-key-integration)
+        :commands (lsp lsp-deferred))
+      (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+    (use-package lsp-ui :commands lsp-ui-mode)
+  (setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024 3)) ;; 3mb
+#+END_SRC
+
+#+RESULTS:
+: 3145728
+
 ** haskell
 #+BEGIN_SRC emacs-lisp
   (load-library "haskell-mode-autoloads")
