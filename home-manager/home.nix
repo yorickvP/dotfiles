@@ -46,8 +46,20 @@ in {
           ivy-hydra
           swiper
           magit
-          forge
+          #forge # todo: doesn't build
           avy
+          lsp-mode
+          (lsp-ui.overrideAttrs (o: {
+            src = pkgs.fetchFromGitHub {
+              owner = "emacs-lsp";
+              repo = "lsp-ui";
+              rev = "240a7de26400cf8b13312c3f9acf7ce653bdaa8a";
+              sha256 = "1zscdjlnkx43i4kw2qmlvji23xfpw7n5y4v99ld33205dg905fsy";
+            };
+          }))
+          lsp-haskell
+          flycheck
+          lsp-ivy
         ]) ++ (with epkgs.melpaPackages; [
           epkgs.undo-tree
           epkgs.notmuch
@@ -84,22 +96,23 @@ in {
           vue-mode
           solarized-theme
           #wlrctl
-          (epkgs.melpaBuild {
-            pname = "nix-mode";
-            version = "1.4.0";
-            packageRequires = [ json-mode epkgs.mmm-mode company ];
-            recipe = pkgs.writeText "recipe" ''
-              (nix-mode
-               :repo "nixos/nix-mode" :fetcher github
-               :files ("nix*.el"))
-            '';
-            src = pkgs.fetchFromGitHub {
-              owner = "nixos";
-              repo = "nix-mode";
-              rev = "ddf091708b9069f1fe0979a7be4e719445eed918";
-              sha256 = "0s8ljr4d7kys2xqrhkvj75l7babvk60kxgy4vmyqfwj6xmcxi3ad";
-            };
-          })
+          nix-mode
+          # (epkgs.melpaBuild {
+          #   pname = "nix-mode";
+          #   version = "1.4.0";
+          #   packageRequires = [ json-mode epkgs.mmm-mode company ];
+          #   recipe = pkgs.writeText "recipe" ''
+          #     (nix-mode
+          #      :repo "nixos/nix-mode" :fetcher github
+          #      :files ("nix*.el"))
+          #   '';
+          #   src = pkgs.fetchFromGitHub {
+          #     owner = "nixos";
+          #     repo = "nix-mode";
+          #     rev = "ddf091708b9069f1fe0979a7be4e719445eed918";
+          #     sha256 = "0s8ljr4d7kys2xqrhkvj75l7babvk60kxgy4vmyqfwj6xmcxi3ad";
+          #   };
+          # })
         ]);
     };
     git = {
