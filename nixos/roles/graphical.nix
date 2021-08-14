@@ -11,11 +11,6 @@ in { config, lib, pkgs, ... }: {
       enable = true;
       driSupport32Bit = config.yorick.support32bit;
     };
-    sound.enable = true;
-    hardware.pulseaudio = {
-      enable = true;
-      support32Bit = config.yorick.support32bit;
-    };
     users.users.yorick.extraGroups = [ "video" ];
     # fix backlight permissions
     services.udev.extraRules = ''
