@@ -44,4 +44,7 @@
     ];
   };
   virtualisation.docker.enable = true;
+  # castnow
+  networking.firewall.allowedUDPPorts = [ 5353 ];
+  networking.firewall.allowedTCPPortRanges = [ { from = 4100; to = 4105; } ];
 }
