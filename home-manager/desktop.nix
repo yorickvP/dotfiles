@@ -124,7 +124,6 @@ in
       input "1133:45087:MX_Anywhere_2_Mouse" {
         left_handed enabled
       }
-      for_window [title="TelegramDesktop"] fullscreen enable
       for_window [app_id="ala-fzf"] floating enable
       exec mako
       exec swayidle timeout 300 'swaymsg "output * dpms off"; swaylock' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock'
