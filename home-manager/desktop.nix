@@ -118,6 +118,12 @@ in
       input "1:1:AT_Translated_Set_2_keyboard" {
         xkb_options caps:escape
       }
+      input "1133:16498:Logitech_MX_Anywhere_2" {
+        left_handed enabled
+      }
+      input "1133:45087:MX_Anywhere_2_Mouse" {
+        left_handed enabled
+      }
       for_window [title="TelegramDesktop"] fullscreen enable
       for_window [app_id="ala-fzf"] floating enable
       exec mako

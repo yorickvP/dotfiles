@@ -12,6 +12,8 @@ in {
     options i8k ignore_dmi=1
   '';
   fileSystems."/".options = [ "defaults" "relatime" "discard" ];
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   boot.initrd.luks.devices."nix-crypt".allowDiscards = true;
 
