@@ -56,10 +56,11 @@ in {
 
     media = mkEnv "y-media" [
       streamlink
-      py3.youtube-dl
+      yt-dlp
       mpv
       aria2
       js.peerflix
+      castnow
     ];
 
     coins = mkEnv "y-coins" [

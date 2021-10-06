@@ -2,7 +2,7 @@
 let
   y-firefox = pkgs.wrapFirefox pkgs.latest.firefox-beta-bin.unwrapped {
     forceWayland = true;
-    browserName = "firefox";
+    applicationName = "firefox";
   };
   thefuck-alias = shell: pkgs.runCommand "thefuck-alias" {
     TF_SHELL = shell;
@@ -175,6 +175,11 @@ in {
         };
         rpibuild3 = {
           hostname = "10.110.0.3";
+          user = "yorick.van.pelt";
+          port = 4222;
+        };
+        rpibuild4 = {
+          hostname = "rpibuild4.lumi.guide";
           user = "yorick.van.pelt";
           port = 4222;
         };
