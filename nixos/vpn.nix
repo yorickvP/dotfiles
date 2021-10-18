@@ -6,6 +6,7 @@
     woodhouse = "10.209.0.4";
     blackadder = "10.209.0.6";
     zazu = "10.209.0.7";
+    smithers = "10.209.0.8";
   };
   keys = {
     # for i in wg.*.key; do echo $(echo $i | cut -d. -f2) = \"$(wg pubkey < $i)\"\;; done
@@ -15,5 +16,6 @@
     pennyworth = "XoeUMsiSOWBFEFuAu+S4iQd3MzkyGhIj9dtxzZ0I500=";
     woodhouse = "ICzlnC4zKUYvpQ0o5AFq2rG7CCqWUFVn3UqkLSoYNgI=";
     zazu = "6X5EdNMO1MtFi18LCRGZ2cBD0d50Wq+pwkwVubjY1Ew=";
+    smithers = "CXsx26Xi+mBeuB6U8hdeuOBC3o4gTnBc6biez/BCqzM=";
   };
 }
