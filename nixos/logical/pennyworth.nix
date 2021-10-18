@@ -76,6 +76,18 @@ in {
     "pub.yori.cc".locations."/muflax/".extraConfig = ''
       rewrite ^/muflax/(.*)$ https://alt.muflax.church/$1 permanent;
     '';
+    "plex.yori.cc" = (sslforward "http://${vpn.ips.frumar}:32400") // {
+      extraConfig = ''
+        gzip on;
+        gzip_vary on;
+        gzip_min_length 1000;
+	      gzip_proxied any;
+	      gzip_types text/plain text/css text/xml application/xml text/javascript application/x-javascript image/svg+xml;
+        proxy_http_version 1.1;
+        proxy_buffering off;
+      '';
+    };
+    "media.yori.cc" = sslforward "http://${vpn.ips.frumar}:32001";
   };
   deployment.keyys = [ <yori-nix/keys/http.muflax.key> ];
   networking.firewall.allowedUDPPorts = [ 31790 ]; # wg

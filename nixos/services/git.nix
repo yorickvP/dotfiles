@@ -12,10 +12,11 @@ in {
     users.extraUsers.git = {
       createHome = true;
       home = config.services.gitea.stateDir;
-      extraGroups = [ "git" ];
+      group = "git";
       useDefaultShell = true;
       isSystemUser = true;
     };
+    users.groups.git = {};
     services.gitea = {
       enable = true;
       user = "git";
