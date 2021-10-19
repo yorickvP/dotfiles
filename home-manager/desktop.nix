@@ -106,9 +106,19 @@ in
       output "Sharp Corporation 0x144A 0x00000000" {
         bg "/home/yorick/wp/thorns__4k__by_kasperja-daqi5g7.jpg" fill
       }
+      output "Unknown 0x1403 0x00000000" {
+        bg "/home/yorick/wp/lawn_forest_mountains_144578_3840x2400.jpg" fill
+      }
       output "eDP-1" {
         # disable
       }
+      input "1267:12679:ELAN0672:00_04F3:3187_Touchpad" {
+        natural_scroll enabled
+        tap enabled
+        dwt enabled
+        # middle_emulation enabled
+      }
+      input '2:10:TPPS/2_Elan_TrackPoint' accel_profile flat
       input "1739:30383:DLL075B:01_06CB:76AF_Touchpad" {
         natural_scroll enabled
         tap enabled
