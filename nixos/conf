@@ -6,13 +6,12 @@ then
 fi
 export NIX_PATH=yori-nix=$PWD
 host=$1
-TARGET_HOST=192.168.178.83
-#TARGET_HOST=$(nix eval --raw -f vpn.nix ips.$host)
-#TARGET_HOST=$(ssh $TARGET_HOST ip --json r get 1.1.1.1 | jq -r '.[0].prefsrc')
-#TARGET_HOST=192.168.178.1
+TARGET_HOST=$(nix eval --raw -f vpn.nix ips.$host)
+TARGET_HOST=$(ssh $TARGET_HOST ip --json r get 1.1.1.1 | jq -r '.[0].prefsrc')
+COPY_USER=yorick
 case $2 in
     copy-keys)
-        nix build -f servers.nix "$host".config.deployment.keys-copy --out-link copy-keys
+        nix build -f ../. yorick.machine."$host".config.deployment.keys-copy --out-link copy-keys
         ./copy-keys/bin/copy-keys "$TARGET_HOST"
         # rm ./copy-keys
         ;;
@@ -32,22 +31,22 @@ case $2 in
         nix build -f servers.nix "$host" --show-trace
         ;; 
     copy)
-        nix copy -f servers.nix "$host" --show-trace --to "ssh://$TARGET_HOST"
+        nix copy -f servers.nix "$host" --show-trace --to "ssh://$COPY_USER@$TARGET_HOST"
         ;; 
     test)
         outPath=$(nix-build servers.nix -A "$host")
-        nix copy -f servers.nix "$host" --show-trace --to "ssh://$TARGET_HOST"
+        nix copy -f servers.nix "$host" --show-trace --to "ssh://$COPY_USER@$TARGET_HOST"
         ssh root@"$TARGET_HOST" $outPath/bin/switch-to-configuration test
         ;; 
     boot)
         outPath=$(nix-build servers.nix -A "$host")
-        nix copy "$outPath" --show-trace --to "ssh://$TARGET_HOST"
+        nix copy "$outPath" --show-trace --to "ssh://$COPY_USER@$TARGET_HOST"
         ssh root@"$TARGET_HOST" nix-env -p "/nix/var/nix/profiles/system" --set "$outPath"
         ssh root@"$TARGET_HOST" $outPath/bin/switch-to-configuration boot
         ;;
     switch)
         outPath=$(nix-build servers.nix -A "$host")
-        nix copy "$outPath" --show-trace --to "ssh://$TARGET_HOST"
+        nix copy "$outPath" --show-trace --to "ssh://$COPY_USER@$TARGET_HOST"
         ssh root@"$TARGET_HOST" nix-env -p "/nix/var/nix/profiles/system" --set "$outPath"
         ssh root@"$TARGET_HOST" $outPath/bin/switch-to-configuration switch
         ;;

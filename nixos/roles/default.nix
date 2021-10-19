@@ -30,6 +30,7 @@ in {
     group = "users";
     openssh.authorizedKeys.keys = with (import ../sshkeys.nix); yorick;
     hashedPassword = secrets.yorick_hashedPassword;
+    createHome = true;
   };
 
   # Nix

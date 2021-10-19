@@ -4,9 +4,11 @@
 
 { config, pkgs, lib, ... }:
 
-{
+let sources = import ../../nix/sources.nix;
+in {
   imports =
     [ # Include the results of the hardware scan.
+      "${sources.nixos-hardware}/lenovo/thinkpad/x1"
       ../physical/x11-hardware-config.nix
       ../roles/workstation.nix
 
@@ -17,11 +19,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.zfs.requestEncryptionCredentials = true;
 
-  networking.hostName = "smithers"; # Define your hostname.
+  networking.hostName = "smithers";
   networking.wireless.iwd.enable = true;
   networking.hostId = "54a8968e";
 
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system.stateVersion = "21.05";
   boot.kernelPackages = pkgs.linuxPackages_latest; # new hardware
 
 }
