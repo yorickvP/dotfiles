@@ -23,7 +23,13 @@ in {
   networking.wireless.iwd.enable = true;
   networking.hostId = "54a8968e";
 
+  hardware.bluetooth.enable = true;
+  services.fprintd.enable = true;
   system.stateVersion = "21.05";
   boot.kernelPackages = pkgs.linuxPackages_latest; # new hardware
 
+  boot.initrd.availableKernelModules = [ "i915" ];
+  boot.loader.timeout = 0;
+  boot.kernelParams = ["i915.fastboot=1" "quiet"];
+  #boot.plymouth.enable = true;
 }
