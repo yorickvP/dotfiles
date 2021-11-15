@@ -104,7 +104,7 @@ in {
     ipv6 = true;
     hostName = machine;
   };
-  deployment.keyys = [ (<yori-nix/keys> + "/wg.${machine}.key") ];
+  deployment.keyys = [ (../keys + "/wg.${machine}.key") ];
   networking.wireguard.interfaces.wg-y = {
     privateKeyFile = "/root/keys/wg.${machine}.key";
     ips = [ vpn.ips.${machine} ];

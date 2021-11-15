@@ -89,7 +89,7 @@ in {
     };
     "media.yori.cc" = sslforward "http://${vpn.ips.frumar}:32001";
   };
-  deployment.keyys = [ <yori-nix/keys/http.muflax.key> ];
+  deployment.keyys = [ ../keys/http.muflax.key ];
   networking.firewall.allowedUDPPorts = [ 31790 ]; # wg
   networking.wireguard.interfaces.wg-y.peers = lib.mkForce (lib.mapAttrsToList
     (machine: publicKey: {

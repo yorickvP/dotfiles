@@ -7,7 +7,7 @@ in {
     namespace = mkOption { type = types.str; };
   };
   config = {
-    deployment.keyys = [ (<yori-nix/keys> + "/wg.${cfg.name}.key") ];
+    deployment.keyys = [ (../keys + "/wg.${cfg.name}.key") ];
     networking.wireguard.interfaces.${cfg.name} = {
       # curl -s https://api.mullvad.net/www/relays/all/ | jq '.[] | select(.type == "wireguard" and .country_code == "nl")'
       ips = [ "10.66.30.26/32" "fc00:bbbb:bbbb:bb01::3:1e19/128" ];
