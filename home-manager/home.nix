@@ -26,7 +26,7 @@ in {
     # todo: .aws/config default region
     gh = {
       enable = true;
-      aliases.co = "pr checkout";
+      settings.aliases.co = "pr checkout";
     };
     direnv.enable = true;
     home-manager = {
@@ -218,10 +218,10 @@ in {
         lumi = "pushd ~/engineering/lumi; cached-nix-shell; popd";
       };
       interactiveShellInit = ''
+        set fish_greeting
         source ${thefuck-alias "fish"}
         source ~/dotfiles/nr.fish
       '';
-      promptInit = "set fish_greeting";
     };
     bash = {
       enable = true;
