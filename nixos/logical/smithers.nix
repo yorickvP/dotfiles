@@ -26,7 +26,7 @@ in {
   hardware.bluetooth.enable = true;
   services.fprintd.enable = true;
   system.stateVersion = "21.05";
-  boot.kernelPackages = pkgs.linuxPackages_latest; # new hardware
+  boot.kernelPackages = pkgs.linuxPackages_5_14; # todo: zfs
 
   boot.initrd.availableKernelModules = [ "i915" ];
   boot.loader.timeout = 0;
