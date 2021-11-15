@@ -37,6 +37,9 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   #nix.buildCores = config.nix.maxJobs;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   # Networking
   networking.enableIPv6 = true;

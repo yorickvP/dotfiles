@@ -20,7 +20,7 @@ peek() {
 }
 nix() {
     decrypt
-    peek nix "$@"
+    peek nix --extra-experimental-features nix-command "$@"
 }
 nix-build() {
     decrypt
