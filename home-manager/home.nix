@@ -117,6 +117,7 @@ in {
         ]);
     };
     git = {
+      #lfs.enable = true;
       enable = true;
       userName = "Yorick van Pelt";
       userEmail = "yorick@yorickvanpelt.nl";

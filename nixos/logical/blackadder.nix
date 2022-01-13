@@ -36,6 +36,7 @@
   '';
 
   nix.trustedUsers = [ "lars" ];
+  users.users.yorick.extraGroups = [ "docker" ];
   users.users.lars = {
     isNormalUser = true;
     openssh.authorizedKeys.keys = [
