@@ -29,7 +29,8 @@
      (eval c-set-offset 'inline-open 0)
      (eval c-set-offset 'defun-open 0)
      (eval c-set-offset 'innamespace 0)
-     (indicate-empty-lines . t))))
+     (indicate-empty-lines . t)))
+ '(warning-suppress-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

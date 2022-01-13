@@ -64,6 +64,7 @@ in {
           epkgs.undo-tree
           epkgs.notmuch
           epkgs.rust-mode
+          pkgs.emacsPackagesNg.crdt
           company
           projectile
           counsel-projectile

@@ -446,6 +446,13 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 **** https://github.com/Somelauw/evil-org-mode/blob/master/doc/keythemes.org
 **** follow link with ret
 ** TODO multiple-cursors
+** crdt
+#+BEGIN_SRC emacs-lisp
+  (use-package crdt)
+#+END_SRC
+
+#+RESULTS:
+
 ** DONE fix clipboard on wayland
 #+BEGIN_SRC emacs-lisp
   (setq wl-copy-process nil)
