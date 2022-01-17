@@ -68,8 +68,8 @@ in
           "${mod}+Ctrl+Up" = "move workspace to output up";
           "${mod}+Ctrl+Down" = "move workspace to output down";
 
-          "XF86MonBrightnessUp" = exec light "light -A 5";
-          "XF86MonBrightnessDown" = exec light "light -U 5";
+          "XF86MonBrightnessUp" = exec light "light -T 1.1";
+          "XF86MonBrightnessDown" = exec light "light -T 0.9";
           "ctrl+XF86MonBrightnessUp" = exec light "light -A 1";
           "ctrl+XF86MonBrightnessDown" = exec light "light -U 1";
           "XF86AudioLowerVolume" = exec alsaUtils "amixer set Master 1%-";
