@@ -120,7 +120,7 @@ in {
     }];
     postSetup = "ip link set dev wg-y mtu 1371";
   };
-  security.acme.email = "acme@yori.cc";
+  security.acme.defaults.email = "acme@yori.cc";
   security.acme.acceptTerms = true;
   nix.binaryCachePublicKeys =
     [ "yorick:Pmd0gyrTvVdzpQyb/raHJKdoOag8RLaj434qBgMm4I0=" ];

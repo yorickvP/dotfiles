@@ -6,6 +6,7 @@ let
   };
   thefuck-alias = shell: pkgs.runCommand "thefuck-alias" {
     TF_SHELL = shell;
+    HOME = "/build";
   } "${pkgs.thefuck}/bin/thefuck -a > $out";
 in {
   imports = [ ./arbtt.nix ./desktop.nix ];
@@ -273,7 +274,7 @@ in {
       notmuch
       gmailieer
       git-absorb
-      afew
+      #afew
       broot
       fd
       htop

@@ -23,7 +23,6 @@ in {
   };
   environment.systemPackages = with pkgs; [
     pkgs.ghostscript
-    pkgs.yubikey-manager
     pkgs.glib
   ];
   environment.sessionVariables.XDG_DATA_DIRS = with pkgs; [

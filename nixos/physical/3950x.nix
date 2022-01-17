@@ -11,7 +11,7 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
   boot.kernelModules = [ "nct6775" ];
-  boot.kernelPackages = pkgs.linuxPackages_5_14; # todo: zfs
+  boot.kernelPackages = pkgs.linuxPackages_5_15; # todo: zfs
   networking.hostId = "c7736638";
   services.zfs.autoScrub.enable = true;
   services.zfs.trim.enable = true;
