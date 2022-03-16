@@ -26,10 +26,10 @@ in {
   hardware.bluetooth.enable = true;
   services.fprintd.enable = true;
   system.stateVersion = "21.05";
-  boot.kernelPackages = pkgs.linuxPackages_5_14; # todo: zfs
+  boot.kernelPackages = pkgs.linuxPackages_5_15;
 
   boot.initrd.availableKernelModules = [ "i915" ];
-  boot.loader.timeout = 0;
-  boot.kernelParams = ["i915.fastboot=1" "quiet"];
+  boot.loader.timeout = 1;
+  boot.kernelParams = ["i915.fastboot=1" "i915.enable_psr=0" ]; # todo: 2?, "quiet"
   #boot.plymouth.enable = true;
 }

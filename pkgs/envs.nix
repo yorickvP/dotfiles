@@ -51,7 +51,7 @@ in {
       hledger
       #transmission-remote-gtk
       gopass
-      #yubioath-desktop # todo
+      yubioath-desktop # todo
     ];
 
     media = mkEnv "y-media" [
