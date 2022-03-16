@@ -5,9 +5,11 @@ in pkgs: super: {
       let
         c = import (pkgs.path + "/nixos/lib/eval-config.nix") {
           inherit (pkgs.stdenv.hostPlatform) system;
-          inherit extraArgs;
           modules =
-            [ ({ lib, ... }: { config.nixpkgs.pkgs = lib.mkDefault pkgs; }) ]
+            [ ({ lib, ... }: {
+              config.nixpkgs.pkgs = lib.mkDefault pkgs;
+              config._module.args = extraArgs;
+            }) ]
             ++ (if builtins.isList configuration then
               configuration
             else

@@ -7,7 +7,7 @@ in {
   envs = recurseIntoAttrs {
     de = mkEnv "y-de-deps" [
       gtk-engine-murrine
-      hicolor_icon_theme
+      hicolor-icon-theme
       vanilla-dmz
       # arc-theme
       libnotify
@@ -78,12 +78,12 @@ in {
       valgrind cdecl gdb ltrace cmake radare2 # gcc
     ];
     misc = mkEnv "y-misc" [
-      #gitAndTools.git-annex # doesn't build
+      gitAndTools.git-annex
       gnupg1 man-pages bup # catdoc
       borgbackup
       imagemagick
       openssl
-      sshfsFuse
+      sshfs-fuse
       sshuttle iodine stow
       expect duplicity
       wakelan pass

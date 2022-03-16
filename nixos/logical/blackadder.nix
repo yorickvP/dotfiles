@@ -35,7 +35,7 @@
     SUBSYSTEM=="usb", ATTRS{idVendor}=="20b7", ATTRS{idProduct}=="9db1", MODE="0660", GROUP="dialout", TAG+="uaccess"
   '';
 
-  nix.trustedUsers = [ "lars" ];
+  nix.settings.trusted-users = [ "lars" ];
   users.users.yorick.extraGroups = [ "docker" ];
   users.users.lars = {
     isNormalUser = true;

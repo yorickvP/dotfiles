@@ -39,18 +39,18 @@ in {
   programs.wireshark.enable = true;
   nix = {
     gc.automatic = pkgs.lib.mkOverride 30 false;
-    binaryCaches = [
+    settings.substituters = [
       "https://cache.nixos.org"
       "https://cache.lumi.guide/"
       #"s3://yori-nix?endpoint=s3.eu-central-003.backblazeb2.com&profile=backblaze-read"
       #"https://nixpkgs-wayland.cachix.org"
     ];
-    trustedBinaryCaches = config.nix.binaryCaches ++ [
+    settings.trusted-substituters = config.nix.settings.substituters ++ [
       "ssh://yorick@jupiter.serokell.io"
       "ssh-ng://jupiter"
       "https://serokell.cachix.org"
     ];
-    binaryCachePublicKeys = [
+    settings.trusted-public-keys = [
       "serokell:ic/49yTkeFIk4EBX1CZ/Wlt5fQfV7yCifaJyoM+S3Ss="
       "serokell-1:aIojg2Vxgv7MkzPJoftOO/I8HKX622sT+c0fjnZBLj0="
       (lib.mkIf config.yorick.lumi-vpn.enable "cache.lumi.guide-1:z813xH+DDlh+wvloqEiihGvZqLXFmN7zmyF8wR47BHE=")
@@ -60,7 +60,7 @@ in {
     ];
     extraOptions = lib.mkIf config.yorick.lumi-vpn.enable ''
       netrc-file = ${nixNetrcFile}
-    '';
+    # '';
   };
   services.avahi = {
     enable = true;

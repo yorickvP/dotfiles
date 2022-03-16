@@ -270,7 +270,7 @@ in {
       nix-tree
       virt-manager
       watchman
-      gnome3.gcr.out # alacritty
+      gcr.out # alacritty
       notmuch
       gmailieer
       git-absorb

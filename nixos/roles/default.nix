@@ -47,7 +47,7 @@ in {
   services.openssh = {
     enable = true;
     passwordAuthentication = false;
-    challengeResponseAuthentication = false;
+    kbdInteractiveAuthentication = false;
   };
 
   environment.systemPackages = with pkgs; [
@@ -93,7 +93,7 @@ in {
     mtr
     bind
     socat
-    netcat-openbsd
+    libressl.nc
     lftp
     wget
     rsync
@@ -122,10 +122,10 @@ in {
   };
   security.acme.defaults.email = "acme@yori.cc";
   security.acme.acceptTerms = true;
-  nix.binaryCachePublicKeys =
+  nix.settings.trusted-public-keys =
     [ "yorick:Pmd0gyrTvVdzpQyb/raHJKdoOag8RLaj434qBgMm4I0=" ];
 
-  nix.trustedUsers = [ "@wheel" ];
+  nix.settings.trusted-users = [ "@wheel" ];
   services.prometheus.exporters.node = {
     enable = true;
     enabledCollectors = [ "systemd" ];
