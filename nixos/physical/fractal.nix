@@ -31,6 +31,6 @@ in {
     fsType = "zfs";
   };
 
-  nix.maxJobs = 4;
+  nix.settings.max-jobs = 4;
   services.avahi.interfaces = [ "enp2s0" ];
 }

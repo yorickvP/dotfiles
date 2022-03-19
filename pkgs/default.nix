@@ -3,7 +3,7 @@
   yori-cc = super.callPackage ./yori-cc.nix { };
 
   ftb = super.callPackage ./ftb.nix {};
-  pyroscope = super.callPackage ./pyroscope {};
+  pyroscope = (import (import ../nix/sources.nix).nixos-stable {}).callPackage ./pyroscope {}; # TODO: update this
   #lejos = super.callPackage ../pkgs/lejos.nix {};
 
   weiightminder = super.callPackage (builtins.fetchGit {

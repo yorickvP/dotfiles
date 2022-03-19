@@ -55,6 +55,18 @@
         "url_template": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/<version>/nixos-mailserver-<version>.tar.gz",
         "version": "5675b122a947b40e551438df6a623efad19fd2e7"
     },
+    "nixos-stable": {
+        "branch": "nixos-21.05",
+        "description": "Nix Packages collection",
+        "homepage": "",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "530a53dcbc9437363471167a5e4762c5fcfa34a1",
+        "sha256": "11d9m0c4r4kpr3jx3cqblw6ld4d8dwcfv1lk68ipp4c87knwv7fb",
+        "type": "tarball",
+        "url": "https://github.com/nixos/nixpkgs/archive/530a53dcbc9437363471167a5e4762c5fcfa34a1.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "nixpkgs": {
         "branch": "nixos-unstable",
         "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
