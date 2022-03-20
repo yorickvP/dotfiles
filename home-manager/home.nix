@@ -199,6 +199,14 @@ in {
         "192.168.42.*" = {
           user = "yorick.van.pelt";
         };
+        "karpenoktem.nl" = {
+          user = "root";
+        };
+        sankhara = {
+          user = "infra";
+          port = 33931;
+          hostname = "sankhara.karpenoktem.nl";
+        };
         # "192.168.178.*" = {
         # only if wired
         #   extraOptions.Compression = "no";
