@@ -136,29 +136,19 @@
 * Look
 ** Solarized
 #+BEGIN_SRC emacs-lisp
-                ;; (use-package solarized
-                ;;     :if window-system
-                ;;     :init
-                ;;     (setq-default frame-background-mode 'dark)
-                ;;     (set-frame-parameter nil 'background-mode 'dark)
-                ;;     (add-hook 'after-make-frame-functions (lambda (frame)
-                ;;                 "Reenable solarized"
-                ;;                 (enable-theme 'solarized-dark)))
-                ;;     :config
-                ;;     (load-theme 'solarized-dark t)
-                ;;     (enable-theme 'solarized-dark))
-            (setq solarized-distinct-fringe-background t)
-          (setq solarized-scale-org-headlines nil)
-        (defun reload-solarized (event)
-          (let ((theme (intern (concat "solarized-" (with-temp-buffer
-                          (insert-file-contents "~/dotfiles/color-scheme")
-                        (string-trim (buffer-string))
-                          )))))
-          (load-theme theme t)))
-      (reload-solarized nil)
-    ;; auto-reload
-  (require 'filenotify)
-(file-notify-add-watch "~/dotfiles/color-scheme" '(change) 'reload-solarized)
+  (setq solarized-distinct-fringe-background t)
+  (setq solarized-scale-org-headlines nil)
+  (defun reload-solarized (event)
+    (let ((theme (intern (concat "solarized-" (with-temp-buffer
+                                                (insert-file-contents "~/dotfiles/color-scheme")
+                                                (string-trim (buffer-string))
+                                                )))))
+      (load-theme theme t)))
+  (reload-solarized nil)
+  ;; auto-reload
+  (use-package filenotify
+    :config
+    (file-notify-add-watch "~/dotfiles/color-scheme" '(change) 'reload-solarized))
 #+END_SRC
 ** Transparency
 #+BEGIN_SRC emacs-lisp
