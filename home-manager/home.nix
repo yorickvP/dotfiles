@@ -129,6 +129,9 @@ in {
       extraConfig.pull.ff = "only";
       extraConfig."includeIf \"gitdir:~/serokell/\"".path =
         "~/serokell/.gitconfig";
+      # ignores = [
+      #   "*.~undo-tree~"
+      # ];
       aliases = {
         lg =
           "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
@@ -255,9 +258,9 @@ in {
       '';
     };
   };
-  home.file.".emacs.d/init.el" = {
-    source = (toString /home/yorick/dotfiles/emacs/.emacs.d/init.el);
-  };
+  # todo: precompile?
+  home.file.".emacs.d/init.el".source = (toString /home/yorick/dotfiles/emacs/init.el);
+  home.file.".emacs.d/early-init.el".source = (toString /home/yorick/dotfiles/emacs/early-init.el);
   xdg.configFile."nixpkgs/config.nix".text = ''
     import "${toString ../config.nix}"
   '';
