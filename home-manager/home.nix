@@ -10,7 +10,7 @@ let
       HOME = "/build";
     } "${pkgs.thefuck}/bin/thefuck -a > $out";
 in {
-  imports = [ ./arbtt.nix ./desktop.nix ];
+  imports = [ ./desktop.nix ];
   nixpkgs = {
     config.allowUnfree = true;
     inherit (import /home/yorick/dotfiles/config.nix) overlays;

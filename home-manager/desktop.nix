@@ -17,10 +17,14 @@ let
 in
 {
   # TODO: waybar module from home-manager
-  xdg.configFile."waybar" = {
-    source = ./waybar;
-    recursive = true;
+  xdg.configFile."waybar/config" = {
+    text = builtins.toJSON (builtins.fromTOML (builtins.readFile ./waybar.toml));
     onChange = "systemctl --user restart waybar";
+  };
+  programs.waybar = {
+    enable = true;
+    style = ./waybar.css;
+    systemd.enable = true;
   };
   programs.mako.enable = true;
   services = {
@@ -158,22 +162,6 @@ in
     XCURSOR_THEME = "Adwaita";
     XCURSOR_PATH = "${pkgs.gnome3.adwaita-icon-theme}/share/icons";
     XDG_CURRENT_DESKTOP = "sway";
-  };
-
-  systemd.user.services.waybar = {
-    Unit = {
-      Description = "waybar";
-      After = [ "graphical-session-pre.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-
-    Install = { WantedBy = [ "graphical-session.target" ]; };
-
-    Service = {
-      ExecStart = ''
-        ${pkgs.waybar}/bin/waybar
-      '';
-    };
   };
 
   systemd.user.services.gebaard = {
