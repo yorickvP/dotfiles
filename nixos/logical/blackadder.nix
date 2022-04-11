@@ -1,8 +1,6 @@
 { config, pkgs, lib, ... }: {
   imports = [ ../physical/3950x.nix ../roles/workstation.nix ];
 
-  nix.nixPath = [ "nixpkgs=${pkgs.path}" ];
-
   system.stateVersion = "19.09";
 
   yorick.lumi-vpn = {
@@ -10,8 +8,7 @@
     mtu = 1408;
   };
 
-  xdg.autostart.enable = false;
-
+  # backups
   services.znapzend = {
     enable = true;
     pure = true;
@@ -31,12 +28,8 @@
     };
   };
 
-  services.udev.extraRules = ''
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="20b7", ATTRS{idProduct}=="9db1", MODE="0660", GROUP="dialout", TAG+="uaccess"
-  '';
-
+  # lars user
   nix.settings.trusted-users = [ "lars" ];
-  users.users.yorick.extraGroups = [ "docker" ];
   users.users.lars = {
     isNormalUser = true;
     openssh.authorizedKeys.keys = [
@@ -44,8 +37,8 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOvdQ963wjgWyFMp6djRTqVwZr3/PQ/V+Qm5JTcxRTdY lumi@channelwood"
     ];
   };
+
+  # docker
   virtualisation.docker.enable = true;
-  # castnow
-  networking.firewall.allowedUDPPorts = [ 5353 ];
-  networking.firewall.allowedTCPPortRanges = [ { from = 4100; to = 4105; } ];
+  users.users.yorick.extraGroups = [ "docker" ];
 }

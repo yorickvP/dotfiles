@@ -7,10 +7,14 @@ in {
   imports = [
     ../modules/tor-hidden-service.nix
     ../modules/nginx.nix
+    ../modules/lumi-cache.nix
     ../modules/lumi-vpn.nix
     ../deploy/keys.nix
     ../services
   ];
+
+  nix.nixPath = [ "nixpkgs=${pkgs.path}" ];
+
   networking.domain = "yori.cc";
   networking.hostName = machine;
   time.timeZone = "Europe/Amsterdam";
@@ -99,7 +103,6 @@ in {
     rsync
 
     #gitMinimal
-    #rxvt_unicode.terminfo
   ];
   nix.gc.automatic = true;
 
@@ -132,4 +135,5 @@ in {
     disabledCollectors = [ "rapl" ];
   };
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 9100 ];
+  xdg.autostart.enable = false;
 }
