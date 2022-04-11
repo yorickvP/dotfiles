@@ -192,7 +192,20 @@ in
     };
   };
   home.packages = with pkgs; [
-    envs.de
+    gtk-engine-murrine
+    hicolor-icon-theme
+    vanilla-dmz
+    # arc-theme
+    libnotify
+    #rxvt_unicode-with-plugins
+    pavucontrol
+    light
+    # dropbox # really?
+    # xorg.xrdb
+    siji fira-mono playerctl
+    mosquitto
+    #hs.arbtt
+
     gebaar-libinput
     grim
     eagle

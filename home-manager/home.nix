@@ -4,10 +4,11 @@ let
     forceWayland = true;
     applicationName = "firefox";
   };
-  thefuck-alias = shell: pkgs.runCommand "thefuck-alias" {
-    TF_SHELL = shell;
-    HOME = "/build";
-  } "${pkgs.thefuck}/bin/thefuck -a > $out";
+  thefuck-alias = shell:
+    pkgs.runCommand "thefuck-alias" {
+      TF_SHELL = shell;
+      HOME = "/build";
+    } "${pkgs.thefuck}/bin/thefuck -a > $out";
 in {
   imports = [ ./arbtt.nix ./desktop.nix ];
   nixpkgs = {
@@ -97,24 +98,7 @@ in {
           direnv
           vue-mode
           solarized-theme
-          #wlrctl
           nix-mode
-          # (epkgs.melpaBuild {
-          #   pname = "nix-mode";
-          #   version = "1.4.0";
-          #   packageRequires = [ json-mode epkgs.mmm-mode company ];
-          #   recipe = pkgs.writeText "recipe" ''
-          #     (nix-mode
-          #      :repo "nixos/nix-mode" :fetcher github
-          #      :files ("nix*.el"))
-          #   '';
-          #   src = pkgs.fetchFromGitHub {
-          #     owner = "nixos";
-          #     repo = "nix-mode";
-          #     rev = "ddf091708b9069f1fe0979a7be4e719445eed918";
-          #     sha256 = "0s8ljr4d7kys2xqrhkvj75l7babvk60kxgy4vmyqfwj6xmcxi3ad";
-          #   };
-          # })
         ]);
     };
     git = {
@@ -165,7 +149,7 @@ in {
           # verified by wireguard key
           extraOptions.StrictHostKeyChecking = "no";
         };
-        in rec {
+      in rec {
         "pub.yori.cc" = {
           user = "public";
           identityFile = "~/.ssh/id_rsa_pub";
@@ -199,12 +183,8 @@ in {
         "10.109.0.*" = lumivpn;
         "10.110.0.*" = lumivpn // { port = 2233; };
         "10.111.0.*" = lumivpn;
-        "192.168.42.*" = {
-          user = "yorick.van.pelt";
-        };
-        "karpenoktem.nl" = {
-          user = "root";
-        };
+        "192.168.42.*" = { user = "yorick.van.pelt"; };
+        "karpenoktem.nl" = { user = "root"; };
         sankhara = {
           user = "infra";
           port = 33931;
@@ -259,15 +239,17 @@ in {
         source ${thefuck-alias "bash"}
         eval "$(broot --print-shell-function bash)"
         if [ "$IN_CACHED_NIX_SHELL" ]; then
-	        eval "$shellHook"
-	        unset shellHook
+          eval "$shellHook"
+          unset shellHook
         fi
       '';
     };
   };
   # todo: precompile?
-  home.file.".emacs.d/init.el".source = (toString /home/yorick/dotfiles/emacs/init.el);
-  home.file.".emacs.d/early-init.el".source = (toString /home/yorick/dotfiles/emacs/early-init.el);
+  home.file.".emacs.d/init.el".source =
+    (toString /home/yorick/dotfiles/emacs/init.el);
+  home.file.".emacs.d/early-init.el".source =
+    (toString /home/yorick/dotfiles/emacs/early-init.el);
   xdg.configFile."nixpkgs/config.nix".text = ''
     import "${toString ../config.nix}"
   '';
@@ -286,63 +268,138 @@ in {
       enableSshSupport = true;
     };
   };
-  home.packages = with pkgs.envs;
-    [ apps code games pdf media misc scripts coins js ] ++ (with pkgs; [
-      github-cli
-      nix-tree
-      virt-manager
-      watchman
-      gcr.out # alacritty
-      notmuch
-      gmailieer
-      git-absorb
-      #afew
-      broot
-      fd
-      htop
-      kcachegrind
-      lm_sensors
-      niv
-      nixfmt
-      linuxPackages.perf
-      pssh
-      smartmontools
-      vim
-      xdg_utils
-      nix-top
-      nix-diff
-      ltrace
-      asciinema
-      cargo
-      minecraft
-      unzip
-      exa
-      cachix
-      y-firefox
-      cached-nix-shell
-    ]); # qtwayland
-  # systemd.user.services.gmi = {
-  #   Unit = {
-  #     Description = "gmi";
-  #   };
-  #   Service = {
-  #     CPUSchedulingPolicy = "idle";
-  #     IOSchedulingClass = "idle";
-  #     WorkingDirectory = "/home/yorick/mail/account.gmail";
-  #     ExecStart = "${pkgs.writeScript "gmi-pull" ''
-  #       #!/usr/bin/env bash
-  #       gmi pull
-  #       notmuch new
-  #     ''}";
-  #   };
-  # };
-  # systemd.user.timers.gmi = {
-  #   Timer = {
-  #     OnCalendar = "*:0/5";
-  #     Unit = "gmi.service";
-  #   };
-  #   Install.WantedBy = [ "timers.target" ];
-  # };
+  home.packages = (with pkgs; [
+    ## utils
+    # afew
+    broot
+    fd
+    gcr.out
+    git-absorb
+    github-cli
+    gmailieer
+    htop
+    kcachegrind
+    lm_sensors
+    notmuch
+    watchman
+
+    ## misc
+    atop
+    awscli
+    borgbackup
+    bup
+    # catdoc
+    expect
+    fzf
+    gitAndTools.git-annex
+    glxinfo
+    gnupg1
+    imagemagick
+    iodine
+    jo
+    jq
+    lnav
+    magic-wormhole
+    man-pages
+    mosh
+    neofetch
+    openssl
+    pass
+    pv
+    screen
+    sshfs-fuse
+    sshuttle
+    thefuck
+    w3m
+    wakelan
+
+    ## media
+    aria2
+    castnow
+    mpv
+    nodePackages.peerflix
+    streamlink
+    yt-dlp
+
+    ## code
+    cloc
+    gcc
+    gdb
+    git-crypt
+    git-fire
+    gnumake
+    hub
+    python3
+    silver-searcher
+    sqlite
+
+    ## nix
+    nix-tree
+    niv
+    nixfmt
+    patchelf
+    nix-prefetch-git
+    nix-du
+    nix-top
+    nix-diff
+    cachix
+    cached-nix-shell
+
+    ## js
+    nodejs
+    electron
+
+    ## pdf
+    ocamlPackages.cpdf
+    zathura
+    pandoc
+    poppler_utils
+
+    ## misc
+    asciinema
+    cargo
+    exa
+    linuxPackages.perf
+    ltrace
+    pssh
+    smartmontools
+    unzip
+    vim
+    xdg_utils
+    #wlrctl
+
+    ## coins
+    electrum
+
+    ## apps
+    alacritty
+    calibre
+    chromium
+    discord
+    fanficfare
+    feh
+    gajim
+    gimp
+    gopass
+    hledger
+    neomutt
+    spotify
+    tdesktop
+    virt-manager
+    wireshark
+    y-firefox
+    yubioath-desktop # todo
+
+    ## games
+    minecraft
+    steam
+    # minecraft
+    # nottetris2
+    # openttd
+    # wine
+    # winetricks
+
+  ]);
 
   home.file.".gnupg/gpg.conf".text = ''
     no-greeting
@@ -357,6 +414,7 @@ in {
   };
   manual.manpages.enable = false;
   home.sessionVariables = {
-    HOME_MANAGER_CONFIG = toString ./home.nix; # unused, but checked for existence
+    HOME_MANAGER_CONFIG =
+      toString ./home.nix; # unused, but checked for existence
   };
 }

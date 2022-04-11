@@ -4,13 +4,6 @@
 
   ftb = super.callPackage ./ftb.nix {};
   pyroscope = (import (import ../nix/sources.nix).nixos-stable {}).callPackage ./pyroscope {}; # TODO: update this
-  #lejos = super.callPackage ../pkgs/lejos.nix {};
-
-  weiightminder = super.callPackage (builtins.fetchGit {
-    url = https://gist.github.com/yorickvP/229d21a7da13c9c514dbd26147822641;
-    rev = "9749ef4d83c0078bc0248215ee882d7124827cf3";
-  }) {};
-
 
   yscripts = super.callPackage ../bin {};
   factorio = super.factorio.override {
