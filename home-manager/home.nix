@@ -47,7 +47,7 @@ in {
           ivy-hydra
           swiper
           magit
-          #forge # todo: doesn't build
+          forge
           avy
           lsp-mode
           (lsp-ui.overrideAttrs (o: {

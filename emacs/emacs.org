@@ -45,14 +45,14 @@
 #+END_SRC
 ** config
 #+BEGIN_SRC emacs-lisp
-    (setq org-pretty-entities t)
-    (setq org-startup-indented t)
-    (setq org-src-fontify-natively t)
-    (setq org-completion-use-ido t)
-    (setq org-src-tab-acts-natively t)
-    (setq org-ellipsis "⬎")
-    (setq org-log-done t)
-    (setq org-todo-keywords
+  (setq org-pretty-entities t)
+  (setq org-startup-indented t)
+  (setq org-src-fontify-natively t)
+  (setq org-completion-use-ido t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-ellipsis "⬎")
+  (setq org-log-done t)
+  (setq org-todo-keywords
         '((sequence "TODO(t)" "WAIT" "|" "DONE(d)" "CANCEL")))
   (setq org-agenda-files (list "~/org/life.org"
             "~/org/ru.org" 
@@ -65,8 +65,8 @@
   (setq org-directory "~/org")
 
   (defun org-file-path (filename)
-  "Return the absolute address of an org file, given its relative name."
-  (concat (file-name-as-directory org-directory) filename))
+    "Return the absolute address of an org file, given its relative name."
+    (concat (file-name-as-directory org-directory) filename))
 
   ; (setq org-inbox-file "~/org/inbox.org")
   (setq org-index-file (org-file-path "life.org"))
@@ -412,25 +412,25 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
   (global-undo-tree-mode)
   ;; prevent .~undo-tree file pollution
   (setq undo-tree-auto-save-history nil)
-      (setq evil-want-C-i-jump nil)
+  (setq evil-want-C-i-jump nil)
 
-        (use-package evil
-            :config
-            (evil-mode t)
-            (evil-set-undo-system 'undo-tree)
+  (use-package evil
+    :config
+    (evil-mode t)
+    (evil-set-undo-system 'undo-tree)
 
-  ; change cursor based on mode
-  (add-hook 'evil-insert-state-entry-hook (lambda () (when (not (display-graphic-p)) (send-string-to-terminal "\033[5 q"))))
-  (add-hook 'evil-normal-state-entry-hook (lambda () (when (not (display-graphic-p)) (send-string-to-terminal "\033[0 q"))))
-            )
-        (use-package which-key
-            :diminish
-            :init
-            (setq which-key-allow-evil-operators t)
-            (setq which-key-show-operator-state-maps t)
-            :config
-            (which-key-mode 1)
-            (which-key-setup-minibuffer)) ; do I need this?
+    ;; change cursor based on mode
+    (add-hook 'evil-insert-state-entry-hook (lambda () (when (not (display-graphic-p)) (send-string-to-terminal "\033[5 q"))))
+    (add-hook 'evil-normal-state-entry-hook (lambda () (when (not (display-graphic-p)) (send-string-to-terminal "\033[0 q"))))
+    )
+  (use-package which-key
+    :diminish
+    :init
+    (setq which-key-allow-evil-operators t)
+    (setq which-key-show-operator-state-maps t)
+    :config
+    (which-key-mode 1)
+    (which-key-setup-minibuffer)) ; do I need this?
 #+END_SRC
 
 #+RESULTS:
@@ -464,10 +464,10 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
   (defun wl-copy (text)
     (setq wl-copy-process (let ((default-directory "~"))
                             (make-process :name "wl-copy"
-                                        :buffer nil
-                                        :command '("wl-copy" "-f" "-n")
-                                        :noquery t
-                                        :connection-type 'pipe)))
+                                          :buffer nil
+                                          :command '("wl-copy" "-f" "-n")
+                                          :noquery t
+                                          :connection-type 'pipe)))
     (process-send-string wl-copy-process text)
     (process-send-eof wl-copy-process))
   (defun wl-paste ()
@@ -513,11 +513,11 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 * language-specific
 ** markdown
 #+BEGIN_SRC emacs-lisp
-(use-package markdown-mode
+  (use-package markdown-mode
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
-	    ("\\.md\\'" . markdown-mode)
-	    ("\\.markdown\\'" . markdown-mode))
+           ("\\.md\\'" . markdown-mode)
+           ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "multimarkdown"))
 #+END_SRC
 ** org
