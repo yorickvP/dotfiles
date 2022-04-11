@@ -207,6 +207,10 @@ in {
           port = 33931;
           hostname = "sankhara.karpenoktem.nl";
         };
+        blackadder.hostname = "10.209.0.6";
+        frumar.hostname = "frumar.local";
+        pennyworth.hostname = "pennyworth.yori.cc";
+        smithers.hostname = "10.209.0.8";
         # "192.168.178.*" = {
         # only if wired
         #   extraOptions.Compression = "no";
