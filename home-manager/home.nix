@@ -1,6 +1,6 @@
 { lib, config, options, pkgs, ... }:
 let
-  y-firefox = pkgs.wrapFirefox pkgs.latest.firefox-beta-bin.unwrapped {
+  y-firefox = pkgs.wrapFirefox pkgs.latest.firefox-bin.unwrapped {
     forceWayland = true;
     applicationName = "firefox";
   };
