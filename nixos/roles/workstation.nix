@@ -32,6 +32,7 @@ in {
   ];
   programs.dconf.enable = true;
   virtualisation.virtualbox.host.enable = false;
+  programs.noisetorch.enable = true;
   yorick.support32bit = true;
   services.pcscd.enable = true;
   #environment.systemPackages = [pkgs.yubikey-manager];
