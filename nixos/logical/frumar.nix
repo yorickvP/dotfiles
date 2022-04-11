@@ -62,7 +62,7 @@
     exporters.node.enable = true;
     # exporters.unifi = {
     #   enable = true;
-    #   unifiAddress = "https://woodhouse.home.yori.cc:8443";
+    #   unifiAddress = "https://localhost:8443";
     #   unifiInsecure = true;
     #   unifiUsername = "ReadOnlyUser";
     #   unifiPassword = "ReadOnlyPassword";

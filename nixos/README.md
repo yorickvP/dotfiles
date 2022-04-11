@@ -26,15 +26,6 @@ Hetzner cloud VPS (Storage: 20GB, RAM: 2GB, 1 core)
 - irc/weechat
 - vpn + http gateway for some services
 
-[woodhouse](https://en.wikipedia.org/wiki/List_of_Archer_characters#Recurring_characters)
------------
-
-intel nuc connected to the tv (storage: 250GB ssd, RAM: 8GB)
-
-- plex media player
-- todo: sshfs mount to frumar
-
-
 
 [jarvis](https://en.wikipedia.org/wiki/Edwin_Jarvis)
 --------

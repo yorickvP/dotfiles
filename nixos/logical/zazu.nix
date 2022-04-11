@@ -145,11 +145,6 @@ in { config, lib, pkgs, ... }:
         ethernetAddress = "b4:fb:e4:2d:fc:f3";
         ipAddress = "192.168.178.32";
       }
-      {
-        hostName = "woodhouse";
-        ethernetAddress = "94:c6:91:15:1f:c5";
-        ipAddress = "192.168.178.39";
-      }
     ];
     extraConfig = ''
       subnet 192.168.178.0 netmask 255.255.255.0 {
