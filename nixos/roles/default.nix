@@ -55,10 +55,6 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-    # v important.
-    cowsay # ponysay
-    ed # ed, man!
-    sl
     rlwrap
 
     #vim
@@ -83,8 +79,6 @@ in {
     which
     reptyr
     tmux
-    bc
-    mkpasswd
     shadow
 
     # archiving
@@ -101,6 +95,7 @@ in {
     lftp
     wget
     rsync
+    arp-scan
 
     #gitMinimal
   ];

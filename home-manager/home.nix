@@ -232,8 +232,15 @@ in {
         l = "ls";
         ls = "exa";
         nr = ''nix repl "<nixpkgs>"'';
+        "n." = "nix repl .";
         nsp = "nix-shell -p";
+        nsd = "nix show-derivation";
+        nb = "nix build";
+        nl = "nix log";
+        g = "git";
         lumi = "pushd ~/engineering/lumi; cached-nix-shell; popd";
+        bc = "bluetoothctl connect 94:DB:56:79:7D:86";
+        bd = "bluetoothctl disconnect 94:DB:56:79:7D:86";
       };
       interactiveShellInit = ''
         set fish_greeting
