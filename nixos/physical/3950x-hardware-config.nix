@@ -22,6 +22,11 @@
     fsType = "zfs";
   };
 
+  fileSystems."/home/yorick/steam-games" = {
+    device = "rpool/steam";
+    fsType = "zfs";
+  };
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/5D0A-7902";
     fsType = "vfat";
