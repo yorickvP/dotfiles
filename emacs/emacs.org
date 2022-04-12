@@ -14,7 +14,7 @@
 ** use-package compile-time
 #+BEGIN_SRC emacs-lisp
 (eval-when-compile (require 'use-package))
-;(require 'diminish)
+(require 'diminish)
 (require 'bind-key)
 #+END_SRC
 ** Custom file
@@ -150,12 +150,6 @@
     :config
     (file-notify-add-watch "~/dotfiles/color-scheme" '(change) 'reload-solarized))
 #+END_SRC
-** Transparency
-#+BEGIN_SRC emacs-lisp
-  ;; todo: transparency is slow somehow
-  ;; (set-frame-parameter (selected-frame) 'alpha '(95 . 95))
-  ;; (add-to-list 'default-frame-alist '(alpha . (95 . 95)))
-#+END_SRC
 ** Cleaner frames
 #+BEGIN_SRC emacs-lisp
   ;; toolbars are disabled in early-init.el
@@ -184,13 +178,11 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 (add-hook 'css-mode-hook 'hexcolor-add-to-font-lock)
 
 #+END_SRC
-** diminish
+** doom-modeline
 #+BEGIN_SRC emacs-lisp
-;(diminish 'undo-tree-mode)
-;(diminish 'auto-revert-mode)
-;(diminish 'org-indent-mode)
+  (use-package doom-modeline
+    :hook (after-init . doom-modeline-mode))
 #+END_SRC
-
 * Feel
 #+BEGIN_SRC emacs-lisp
 (defalias 'yes-or-no-p 'y-or-n-p) 
@@ -357,6 +349,7 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 ** autocomplete
 #+BEGIN_SRC emacs-lisp
   (use-package company
+    :diminish
   :hook (after-init . global-company-mode))
 #+END_SRC
 ** Indentation
@@ -407,11 +400,19 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
    version-control t)       ; use versioned backups
 
 #+END_SRC
+** Undo-tree
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :diminish undo-tree-mode
+    :init
+    ;; prevent .~undo-tree file pollution
+    (setq undo-tree-auto-save-history nil)
+    :config
+    (global-undo-tree-mode))
+
+#+END_SRC
 ** Evil
 #+BEGIN_SRC emacs-lisp
-  (global-undo-tree-mode)
-  ;; prevent .~undo-tree file pollution
-  (setq undo-tree-auto-save-history nil)
   (setq evil-want-C-i-jump nil)
 
   (use-package evil
@@ -526,8 +527,14 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 *** TODO use org-cliplink
 ** nix
 #+BEGIN_SRC emacs-lisp
-(use-package nix-mode
-    :commands (nix-mode)
+
+  (defun nix-flake-current-dir ()
+    (interactive)
+    (let ((default-directory (projectile-project-root)))
+      (nix-flake (projectile-project-root))))
+  (use-package nix-mode
+    :commands (nix-mode nix-flake)
+    :bind (("C-c f" . nix-flake-current-dir))
     :mode (("\\.nix\\'" . nix-mode)))
 #+END_SRC
 ** lsp

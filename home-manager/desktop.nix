@@ -128,10 +128,16 @@ in {
       input."1:1:AT_Translated_Set_2_keyboard".xkb_options = "caps:escape";
       input."1133:16498:Logitech_MX_Anywhere_2".left_handed = "enabled";
       input."1133:45087:MX_Anywhere_2_Mouse".left_handed = "enabled";
-      window.commands = [{
-        criteria.app_id = "ala-fzf";
-        command = "floating enable";
-      }];
+      window.commands = [
+        {
+          criteria.app_id = "ala-fzf";
+          command = "floating enable";
+        }
+        {
+          criteria.app_id = "emacs";
+          command = "opacity 0.95";
+        }
+      ];
       startup = [
         { command = "mako"; }
         {
@@ -181,23 +187,15 @@ in {
   home.packages = with pkgs; [
     gtk-engine-murrine
     hicolor-icon-theme
-    vanilla-dmz
-    # arc-theme
     libnotify
-    #rxvt_unicode-with-plugins
-    pavucontrol
     light
-    # dropbox # really?
-    # xorg.xrdb
-    siji
-    fira-mono
-    playerctl
     mosquitto
-    #hs.arbtt
+    pavucontrol
+    playerctl
+    vanilla-dmz
 
     gebaar-libinput
     grim
-    eagle
     libreoffice
     obs-studio
     obs-wlrobs
@@ -210,6 +208,6 @@ in {
     waypipe
     wl-clipboard
     wldash
-    zoom-us
+    # zoom-us
   ];
 }
