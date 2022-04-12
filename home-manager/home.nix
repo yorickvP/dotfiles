@@ -45,8 +45,6 @@ in {
       extraConfig.help.autocorrect = 5;
       extraConfig.push.default = "simple";
       extraConfig.pull.ff = "only";
-      extraConfig."includeIf \"gitdir:~/serokell/\"".path =
-        "~/serokell/.gitconfig";
       aliases = {
         lg =
           "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
@@ -147,12 +145,9 @@ in {
     player = mpv --cache 2048
     default-stream = best
   '';
-  services = {
-    lorri.enable = true;
-    gpg-agent = {
-      enable = true;
-      enableSshSupport = true;
-    };
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
   };
   home.packages = (with pkgs; [
     ## utils
@@ -196,7 +191,6 @@ in {
     sshfs-fuse
     sshuttle
     thefuck
-    w3m
     wakelan
 
     ## media
@@ -264,7 +258,6 @@ in {
     discord
     fanficfare
     feh
-    gajim
     gimp
     gopass
     hledger
@@ -274,7 +267,7 @@ in {
     virt-manager
     wireshark
     y-firefox
-    yubioath-desktop # todo
+    yubioath-desktop
 
     ## games
     minecraft
