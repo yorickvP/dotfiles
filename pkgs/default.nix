@@ -11,5 +11,8 @@
     username = "yorickvp";
     token = (import ../nixos/secrets.nix).factorio_token;
   };
+  playerctl = super.playerctl.overrideAttrs (o: {
+    patches = (o.patches or []) ++ [ ./playerctl-solid-emoji.diff ];
+  });
 
 })
