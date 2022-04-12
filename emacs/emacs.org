@@ -138,12 +138,16 @@
 #+BEGIN_SRC emacs-lisp
   (setq solarized-distinct-fringe-background t)
   (setq solarized-scale-org-headlines nil)
+  ;; used to fix modeline
+  (defvar after-load-theme-hook nil
+    "Hook run after a color theme is loaded using `load-theme'.")
   (defun reload-solarized (event)
     (let ((theme (intern (concat "solarized-" (with-temp-buffer
                                                 (insert-file-contents "~/dotfiles/color-scheme")
                                                 (string-trim (buffer-string))
                                                 )))))
-      (load-theme theme t)))
+      (load-theme theme t)
+      (run-hooks 'after-load-theme-hook)))
   (reload-solarized nil)
   ;; auto-reload
   (use-package filenotify
@@ -181,7 +185,9 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 ** doom-modeline
 #+BEGIN_SRC emacs-lisp
   (use-package doom-modeline
-    :hook (after-init . doom-modeline-mode))
+    :hook
+    (after-init . doom-modeline-mode)
+    (after-load-theme . doom-modeline-mode))
 #+END_SRC
 * Feel
 #+BEGIN_SRC emacs-lisp

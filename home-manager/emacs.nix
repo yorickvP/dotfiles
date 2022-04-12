@@ -1,19 +1,20 @@
-{ lib, config, options, pkgs, ... }: {
+{ lib, config, options, pkgs, ... }: let
+  epkgs = pkgs.emacsPackagesFor pkgs.emacsPgtkGcc;
+  engpkgs = pkgs.emacsPackagesNgFor pkgs.emacsPgtkGcc;
+  lsp-ui = epkgs.melpaPackages.lsp-ui.overrideAttrs (o: {
+    src = pkgs.fetchFromGitHub {
+      owner = "emacs-lsp";
+      repo = "lsp-ui";
+      rev = "240a7de26400cf8b13312c3f9acf7ce653bdaa8a";
+      sha256 = "1zscdjlnkx43i4kw2qmlvji23xfpw7n5y4v99ld33205dg905fsy";
+    };
+  });
+in {
   programs.emacs = {
     enable = true;
     package = pkgs.emacsPgtkGcc;
     extraPackages = _:
-      let epkgs = pkgs.emacsPackagesFor pkgs.emacsPgtkGcc;
-          engpkgs = pkgs.emacsPackagesNgFor pkgs.emacsPgtkGcc;
-          lsp-ui = epkgs.melpaPackages.lsp-ui.overrideAttrs (o: {
-            src = pkgs.fetchFromGitHub {
-              owner = "emacs-lsp";
-              repo = "lsp-ui";
-              rev = "240a7de26400cf8b13312c3f9acf7ce653bdaa8a";
-              sha256 = "1zscdjlnkx43i4kw2qmlvji23xfpw7n5y4v99ld33205dg905fsy";
-            };
-          });
-      in (with epkgs.melpaPackages; [
+      (with epkgs.melpaPackages; [
         all-the-icons
         avy
         company
@@ -68,7 +69,15 @@
         undo-tree
       ]);
   };
+  
 
+  fonts.fontconfig.enable = true;
+  home.packages = [
+    (pkgs.runCommand "all-the-icons-fonts" {} ''
+      mkdir -p $out/share/fonts/truetype
+      cp ${epkgs.melpaPackages.all-the-icons.src}/fonts/*.ttf $_
+    '')
+  ];
   # todo: precompile?
   home.file.".emacs.d/init.el".source = ../emacs/init.el;
   home.file.".emacs.d/early-init.el".source = ../emacs/early-init.el;
