@@ -10,7 +10,7 @@ let
       HOME = "/build";
     } "${pkgs.thefuck}/bin/thefuck -a > $out";
 in {
-  imports = [ ./desktop.nix ];
+  imports = [ ./desktop.nix ./emacs.nix ./lumi.nix ];
   nixpkgs = {
     config.allowUnfree = true;
     inherit (import /home/yorick/dotfiles/config.nix) overlays;
@@ -35,72 +35,6 @@ in {
       enable = true;
       path = toString /home/yorick/dotfiles;
     };
-    emacs = {
-      enable = true;
-      package = pkgs.emacsPgtkGcc;
-      extraPackages = _:
-        let epkgs = pkgs.emacsPackagesFor pkgs.emacsPgtkGcc;
-        in (with epkgs.melpaPackages; [
-          reason-mode
-          evil
-          counsel
-          ivy
-          ivy-hydra
-          swiper
-          magit
-          forge
-          avy
-          lsp-mode
-          (lsp-ui.overrideAttrs (o: {
-            src = pkgs.fetchFromGitHub {
-              owner = "emacs-lsp";
-              repo = "lsp-ui";
-              rev = "240a7de26400cf8b13312c3f9acf7ce653bdaa8a";
-              sha256 = "1zscdjlnkx43i4kw2qmlvji23xfpw7n5y4v99ld33205dg905fsy";
-            };
-          }))
-          lsp-haskell
-          flycheck
-          lsp-ivy
-        ]) ++ (with epkgs.melpaPackages; [
-          epkgs.undo-tree
-          epkgs.notmuch
-          epkgs.rust-mode
-          pkgs.emacsPackagesNg.crdt
-          company
-          projectile
-          counsel-projectile
-          ggtags
-          use-package
-          org-bullets
-          solarized-theme
-          evil-leader
-          evil-surround # evil-magit
-          epkgs.evil-goggles
-          epkgs.ox-mediawiki
-          nix-buffer
-          which-key
-          git-gutter-fringe
-          all-the-icons
-          epkgs.org-cliplink
-          pandoc-mode
-          markdown-mode
-          #interleave
-          org-ref
-          haskell-mode
-          request # intero
-          weechat
-          s
-          elixir-mode
-          htmlize
-          linum-relative
-          terraform-mode
-          direnv
-          vue-mode
-          solarized-theme
-          nix-mode
-        ]);
-    };
     git = {
       #lfs.enable = true;
       enable = true;
@@ -113,9 +47,6 @@ in {
       extraConfig.pull.ff = "only";
       extraConfig."includeIf \"gitdir:~/serokell/\"".path =
         "~/serokell/.gitconfig";
-      # ignores = [
-      #   "*.~undo-tree~"
-      # ];
       aliases = {
         lg =
           "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
@@ -138,18 +69,7 @@ in {
       compression = true;
       serverAliveInterval = 120;
       controlMaster = "auto";
-      matchBlocks = let
-        lumigod = hostname: {
-          inherit hostname;
-          port = 2233;
-          user = "yorick.van.pelt";
-        };
-        lumivpn = {
-          user = "yorick.van.pelt";
-          # verified by wireguard key
-          extraOptions.StrictHostKeyChecking = "no";
-        };
-      in rec {
+      matchBlocks = {
         "pub.yori.cc" = {
           user = "public";
           identityFile = "~/.ssh/id_rsa_pub";
@@ -159,31 +79,6 @@ in {
           hostname = "karpenoktem.nl";
           port = 33933;
         };
-        athena = {
-          hostname = "athena.lumi.guide";
-          user = "yorick.van.pelt";
-        };
-        rpibuild3 = {
-          hostname = "10.110.0.3";
-          user = "yorick.van.pelt";
-          port = 4222;
-        };
-        rpibuild4 = {
-          hostname = "rpibuild4.lumi.guide";
-          user = "yorick.van.pelt";
-          port = 4222;
-        };
-        styx = lumigod "10.110.0.1";
-        "*.lumi.guide" = { user = "yorick.van.pelt"; };
-        zeus = lumigod "zeus.lumi.guide";
-        ponos = lumigod "ponos.lumi.guide";
-        medusa = lumigod "lumi.guide";
-        # signs
-        "10.108.0.*" = lumivpn // { port = 4222; };
-        "10.109.0.*" = lumivpn;
-        "10.110.0.*" = lumivpn // { port = 2233; };
-        "10.111.0.*" = lumivpn;
-        "192.168.42.*" = { user = "yorick.van.pelt"; };
         "karpenoktem.nl" = { user = "root"; };
         sankhara = {
           user = "infra";
@@ -202,8 +97,6 @@ in {
       extraConfig = ''
         Match host "192.168.*.*" exec "ip route get %h | grep -v -q via"
           Compression no
-        Match host "192.168.42.*" exec "ip route get %h | grep -q via"
-          ProxyJump athena
       '';
     };
     fish = {
@@ -218,7 +111,6 @@ in {
         nb = "nix build";
         nl = "nix log";
         g = "git";
-        lumi = "pushd ~/engineering/lumi; cached-nix-shell; popd";
         bc = "bluetoothctl connect 94:DB:56:79:7D:86";
         bd = "bluetoothctl disconnect 94:DB:56:79:7D:86";
       };
@@ -245,11 +137,6 @@ in {
       '';
     };
   };
-  # todo: precompile?
-  home.file.".emacs.d/init.el".source =
-    (toString /home/yorick/dotfiles/emacs/init.el);
-  home.file.".emacs.d/early-init.el".source =
-    (toString /home/yorick/dotfiles/emacs/early-init.el);
   xdg.configFile."nixpkgs/config.nix".text = ''
     import "${toString ../config.nix}"
   '';
@@ -262,7 +149,6 @@ in {
   '';
   services = {
     lorri.enable = true;
-    #arbtt.enable = true;
     gpg-agent = {
       enable = true;
       enableSshSupport = true;
