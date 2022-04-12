@@ -191,7 +191,8 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 #+END_SRC
 * Feel
 #+BEGIN_SRC emacs-lisp
-(defalias 'yes-or-no-p 'y-or-n-p) 
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (setq compilation-scroll-output t)
 #+END_SRC
 ** fix escape
 #+BEGIN_SRC emacs-lisp
@@ -376,7 +377,6 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
     (back-to-indentation)
     (and (= oldpos (point))
          (beginning-of-line))))
-(global-set-key [home] 'smart-beginning-of-line)
 (global-set-key (kbd "C-a") 'smart-beginning-of-line)
 
 #+END_SRC
@@ -426,10 +426,15 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
     (evil-mode t)
     (evil-set-undo-system 'undo-tree)
 
+    (define-key evil-motion-state-map (kbd "<home>") 'smart-beginning-of-line)
+
     ;; change cursor based on mode
     (add-hook 'evil-insert-state-entry-hook (lambda () (when (not (display-graphic-p)) (send-string-to-terminal "\033[5 q"))))
     (add-hook 'evil-normal-state-entry-hook (lambda () (when (not (display-graphic-p)) (send-string-to-terminal "\033[0 q"))))
     )
+  (use-package evil-mc
+    :config (global-evil-mc-mode 1)
+    :after evil)
   (use-package which-key
     :diminish
     :init

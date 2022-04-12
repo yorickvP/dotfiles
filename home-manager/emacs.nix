@@ -62,6 +62,7 @@ in {
         crdt
         doom-modeline
         evil-goggles
+        evil-mc
         notmuch
         org-cliplink
         ox-mediawiki
