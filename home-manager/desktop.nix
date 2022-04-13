@@ -81,6 +81,8 @@ in {
           "XF86AudioLowerVolume" = exec alsaUtils "amixer set Master 1%-";
           "XF86AudioRaiseVolume" = exec alsaUtils "amixer set Master 1%+";
           "XF86AudioMute" = exec alsaUtils "amixer set Master toggle";
+          "XF86AudioPause" = "exec playerctl pause";
+          "XF86AudioPlay" = "exec playerctl play";
           "${mod}+Shift+s" = exec bin.screenshot_public "screenshot_public >> ~/screenshot-public.log";
           "Print" = exec bin.screenshot_public "screenshot_public";
           "${mod}+Shift+t" =

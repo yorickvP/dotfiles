@@ -145,10 +145,15 @@ in {
     player = mpv --cache 2048
     default-stream = best
   '';
+  programs.mpv = {
+    enable = true;
+    scripts = [ pkgs.mpvScripts.mpris ];
+  };
   services.gpg-agent = {
     enable = true;
     enableSshSupport = true;
   };
+  services.playerctld.enable = true;
   home.packages = (with pkgs; [
     ## utils
     # afew
@@ -196,7 +201,6 @@ in {
     ## media
     aria2
     castnow
-    mpv
     nodePackages.peerflix
     streamlink
     yt-dlp
