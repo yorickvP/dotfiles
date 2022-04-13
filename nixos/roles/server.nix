@@ -1,6 +1,4 @@
 {
-  imports = [ ./. ];
-
   documentation.nixos.enable = false;
   services.sshguard.enable = true;
   programs.mosh.enable = true;

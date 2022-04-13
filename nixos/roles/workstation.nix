@@ -1,7 +1,5 @@
 { config, lib, pkgs, ... }:
 {
-  imports = [ ./default.nix ];
-
   users.users.yorick = {
     extraGroups = [ "input" "wireshark" "dialout" "video" "libvirtd" ];
     shell = pkgs.fish;
