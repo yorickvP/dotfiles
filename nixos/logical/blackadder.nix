@@ -41,4 +41,14 @@
   # docker
   virtualisation.docker.enable = true;
   users.users.yorick.extraGroups = [ "docker" ];
+
+  systemd.services.mdrd = {
+    serviceConfig = {
+      Type = "dbus";
+      ExecStart = "${pkgs.mdrd}/bin/mdrd";
+      BusName = "org.mdr";
+    };
+    wantedBy = [ "graphical-session.target" ];
+  };
+  services.dbus.packages = [ pkgs.mdrd ];
 }

@@ -1,0 +1,65 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -p python3 -p python3.pkgs.dbus-python -i python
+import dbus
+import enum
+
+system_bus = dbus.SystemBus()
+
+class AmbientSoundMode(enum.Enum):
+    NORMAL = "normal"
+    VOICE = "voice"
+
+class Headphone():
+    def __init__(self, path):
+        self.proxy = system_bus.get_object("org.mdr", path)
+        self.nc = dbus.Interface(self.proxy, dbus_interface="org.mdr.NoiseCancelling")
+        self.amb = dbus.Interface(self.proxy, dbus_interface="org.mdr.AmbientSoundMode")
+        self.props = dbus.Interface(self.proxy, dbus_interface="org.freedesktop.DBus.Properties")
+    def _p(self, tp, i, n):
+        return tp(self.props.Get("org.mdr."+i, n))
+    @property
+    def name(self) -> str:
+        return self._p(tp, "Device", "name")
+    @property
+    def volume(self) -> int:
+        return self._p(int, "Playback", "volume")
+    @volume.setter
+    def volume(self, n: int):
+        self.proxy.SetVolume(n, dbus_interface="org.mdr.Playback")
+    @property
+    def noise_cancelling(self) -> bool:
+        return self._p(bool, "NoiseCancelling", "enabled")
+    @noise_cancelling.setter
+    def noise_cancelling(self, val: bool) -> None:
+        if val:
+            self.nc.Enable()
+        else:
+            self.nc.Disable()
+    @property
+    def battery(self) -> int:
+        return self._p(int, "Battery", "level")
+    @property
+    def charging(self) -> bool:
+        return self._p(bool, "Battery", "charging")
+    @property
+    def ambient_sound_amount(self) -> int:
+        return self._p(int, "AmbientSoundMode", "amount")
+    @ambient_sound_amount.setter
+    def ambient_sound_amount(self, n: int) -> None:
+        return self.amb.SetAmount(n)
+    @property
+    def ambient_sound_mode(self) -> AmbientSoundMode:
+        return AmbientSoundMode(self._p("AmbientSoundMode", "mode"))
+    @ambient_sound_mode.setter
+    def ambient_sound_mode(self, n: AmbientSoundMode) -> None:
+        self.amb.SetMode(n.value)
+    @property
+    def auto_power_off_timeout(self) -> str:
+        return self._p(str, "AutoPowerOff", "timeout")
+    # todo setter
+    # todo eq
+    def power_off(self) -> None:
+        self.proxy.PowerOff(dbus_interface="org.mdr.PowerOff")
+        
+
+wh = Headphone("/org/bluez/hci0/dev_94_DB_56_79_7D_86")
