@@ -1,5 +1,5 @@
 diff --git a/playerctl/playerctl-formatter.c b/playerctl/playerctl-formatter.c
-index caeb853..de6c589 100644
+index caeb853..37a78b6 100644
 --- a/playerctl/playerctl-formatter.c
 +++ b/playerctl/playerctl-formatter.c
 @@ -596,11 +596,11 @@ static GVariant *helperfn_emoji(struct token *token, GVariant **args, int nargs,
@@ -17,7 +17,7 @@ index caeb853..de6c589 100644
              }
          }
      } else if (g_strcmp0(key, "volume") == 0 &&
-@@ -613,6 +613,15 @@ static GVariant *helperfn_emoji(struct token *token, GVariant **args, int nargs,
+@@ -613,6 +613,17 @@ static GVariant *helperfn_emoji(struct token *token, GVariant **args, int nargs,
          } else {
              return g_variant_new("s", "🔊");
          }
@@ -29,6 +29,8 @@ index caeb853..de6c589 100644
 +        return g_variant_new("s", "");
 +      } else if (g_strcmp0(playerName_str, "chromium") == 0) {
 +        return g_variant_new("s", "");
++      } else if (g_strcmp0(playerName_str, "mpv") == 0) {
++        return g_variant_new("s", "");
 +      }
      }
  
