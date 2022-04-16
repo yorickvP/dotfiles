@@ -57,7 +57,7 @@ in {
             "exec --no-startup-id bash /home/yorick/dotfiles/bin/invert.sh";
           #"${mod}+ctrl+l" = "exec --no-startup-id loginctl lock-session";
           "${mod}+ctrl+l" =
-            "exec --no-startup-id sleep 1s && playerctl -a pause && (bluetoothctl disconnect 94:DB:56:79:7D:86 &) && pkill -USR1 swayidle";
+            "exec --no-startup-id playerctl -a pause; (bluetoothctl disconnect 94:DB:56:79:7D:86 &) && sleep 1s && pkill -USR1 swayidle";
           "${mod}+Return" = "exec alacritty";
           "${mod}+Escape" = "workspace back_and_forth";
           "${mod}+0" = "workspace 10";
