@@ -28,11 +28,8 @@ in {
   };
   programs.mako.enable = true;
   programs.mako.defaultTimeout = 60 * 1000; # ms
-  services = {
-    gpg-agent.extraConfig = ''
-      pinentry-program ${pkgs.pinentry_gnome}/bin/pinentry-gnome3
-    '';
-  };
+  # todo broken
+  # services.gpg-agent.pinentryFlavor = "gnome3";
   wayland.windowManager.sway = {
     enable = true;
     config = {
@@ -151,12 +148,14 @@ in {
     systemdIntegration = true;
   };
 
-  # programs.firefox = {
-  #   enable = true;
-  #   package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-  #     forceWayland = true;
-  #   };
-  # };
+  programs.firefox = {
+    # TODO: back to mozilla
+    enable = true;
+    package = pkgs.wrapFirefox pkgs.latest.firefox-bin.unwrapped {
+      forceWayland = true;
+      applicationName = "firefox";
+    };
+  };
   home.sessionVariables = {
     MOZ_USE_XINPUT2 = "1";
     MOZ_ENABLE_WAYLAND = "1";

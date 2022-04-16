@@ -1,9 +1,5 @@
 { lib, config, options, pkgs, ... }:
 let
-  y-firefox = pkgs.wrapFirefox pkgs.latest.firefox-bin.unwrapped {
-    forceWayland = true;
-    applicationName = "firefox";
-  };
   thefuck-alias = shell:
     pkgs.runCommand "thefuck-alias" {
       TF_SHELL = shell;
@@ -257,7 +253,7 @@ in {
 
     ## apps
     alacritty
-    calibre
+    #calibre #TODO
     chromium
     discord
     fanficfare
@@ -270,7 +266,6 @@ in {
     tdesktop
     virt-manager
     wireshark
-    y-firefox
     yubioath-desktop
 
     ## games
