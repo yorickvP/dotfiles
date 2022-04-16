@@ -29,7 +29,7 @@ window#waybar {
     border-bottom: 3px solid white;
 }
 
-#clock, #battery, #cpu, #memory, #network, #disk, #pulseaudio, #custom-spotify, #tray, #mode {
+#clock, #battery, #cpu, #memory, #network, #disk, #pulseaudio, #custom-spotify, #tray, #mode, #custom-cal {
     padding: 0 10px;
     margin: 0 5px;
 }
@@ -95,6 +95,16 @@ window#waybar {
 #custom-spotify {
     background: #66cc99;
     color: #2a5c45;
+}
+
+#custom-cal {
+    color: white;
+}
+#custom-cal.user-0 {
+    background: #4285f4;
+}
+#custom-cal.user-1 {
+    background: #f67755;
 }
 
 #tray {

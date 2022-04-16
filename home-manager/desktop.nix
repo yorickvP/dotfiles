@@ -211,5 +211,6 @@ in {
     wl-clipboard
     wldash
     # zoom-us
+    bin.y-cal-widget
   ];
 }

@@ -2,7 +2,7 @@ layer = "top"
 height = 26
 modules-left = [ "sway/workspaces", "sway/mode", "custom/spotify" ]
 modules-center = [ "sway/window" ]
-modules-right = [ "pulseaudio", "network", "disk", "battery", "clock", "tray" ]
+modules-right = [ "custom/cal", "pulseaudio", "network", "disk", "battery", "clock", "tray" ]
 
 ["sway/workspaces"]
 all-outputs = false
@@ -19,6 +19,7 @@ format = "{icon} {name}"
 urgent = ""
 focused = ""
 default = ""
+
 
 ["sway/mode"]
 format = '<span style="italic">{}</span>'
@@ -64,6 +65,16 @@ phone = ""
 portable = ""
 car = ""
 default = [ "", "" ]
+
+["custom/cal"]
+format = "{}"
+escape = true
+max-length = 40
+on-click = "y-cal-widget click"
+on-click-right = "y-cal-widget rightclick"
+exec = "y-cal-widget list"
+interval = 120
+return-type = "json"
 
 ["custom/spotify"]
 format = "{}"
