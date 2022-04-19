@@ -38,6 +38,7 @@ in {
       userEmail = "yorick@yorickvanpelt.nl";
       signing.key = "A36E70F9DC014A15";
       signing.signByDefault = true;
+      extraConfig.merge.conflictStyle = "zdiff3";
       extraConfig.help.autocorrect = 5;
       extraConfig.push.default = "simple";
       extraConfig.pull.ff = "only";
@@ -166,6 +167,7 @@ in {
     watchman
 
     ## misc
+    moreutils
     atop
     awscli
     borgbackup
