@@ -38,6 +38,10 @@ in {
       userEmail = "yorick@yorickvanpelt.nl";
       signing.key = "A36E70F9DC014A15";
       signing.signByDefault = true;
+      includes = [{
+        condition = "gitdir:~/tweag";
+        contents.user.email = "yorick.vanpelt@tweag.io";
+      }];
       extraConfig.merge.conflictStyle = "zdiff3";
       extraConfig.help.autocorrect = 5;
       extraConfig.push.default = "simple";
@@ -292,7 +296,6 @@ in {
     source = /home/yorick/dotfiles/mutt/.mutt;
     recursive = true;
   };
-  manual.manpages.enable = false;
   home.sessionVariables = {
     HOME_MANAGER_CONFIG =
       toString ./home.nix; # unused, but checked for existence
