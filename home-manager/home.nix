@@ -42,7 +42,7 @@ in {
         condition = "gitdir:~/tweag";
         contents.user.email = "yorick.vanpelt@tweag.io";
       }];
-      extraConfig.merge.conflictStyle = "zdiff3";
+      extraConfig.merge.conflictStyle = "diff3";
       extraConfig.help.autocorrect = 5;
       extraConfig.push.default = "simple";
       extraConfig.pull.ff = "only";
