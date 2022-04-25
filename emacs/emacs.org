@@ -25,6 +25,7 @@
 * Org stuff
 ** Scratch buffer
 #+BEGIN_SRC emacs-lisp
+  (setq org-src-preserve-indentation 't)
   (setq initial-major-mode 'org-mode)
   (setq initial-scratch-message "\
   ,#+TITLE: Scratch buffer
