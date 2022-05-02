@@ -137,23 +137,27 @@
 * Look
 ** Solarized
 #+BEGIN_SRC emacs-lisp
+;; used to fix modeline
+(defvar after-load-theme-hook nil
+  "Hook run after a color theme is loaded using `load-theme'.")
+(defun reload-solarized (event)
+  (let ((theme (intern (concat "solarized-" (with-temp-buffer
+                                              (insert-file-contents "~/dotfiles/color-scheme")
+                                              (string-trim (buffer-string))
+                                              )))))
+    (load-theme theme t)
+    (run-hooks 'after-load-theme-hook)))
+(use-package solarized
+  :init
   (setq solarized-distinct-fringe-background t)
   (setq solarized-scale-org-headlines nil)
-  ;; used to fix modeline
-  (defvar after-load-theme-hook nil
-    "Hook run after a color theme is loaded using `load-theme'.")
-  (defun reload-solarized (event)
-    (let ((theme (intern (concat "solarized-" (with-temp-buffer
-                                                (insert-file-contents "~/dotfiles/color-scheme")
-                                                (string-trim (buffer-string))
-                                                )))))
-      (load-theme theme t)
-      (run-hooks 'after-load-theme-hook)))
-  (reload-solarized nil)
-  ;; auto-reload
-  (use-package filenotify
-    :config
-    (file-notify-add-watch "~/dotfiles/color-scheme" '(change) 'reload-solarized))
+  :config (reload-solarized nil))
+
+;; auto-reload
+(use-package filenotify
+  :after solarized
+  :config
+  (file-notify-add-watch "~/dotfiles/color-scheme" '(change) 'reload-solarized))
 #+END_SRC
 ** Cleaner frames
 #+BEGIN_SRC emacs-lisp
