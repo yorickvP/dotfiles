@@ -1,6 +1,6 @@
 { lib, config, options, pkgs, ... }: let
-  epkgs = pkgs.emacsPackagesFor pkgs.emacsPgtkGcc;
-  engpkgs = pkgs.emacsPackagesNgFor pkgs.emacsPgtkGcc;
+  epkgs = pkgs.emacsPackagesFor pkgs.emacsPgtkNativeComp;
+  engpkgs = pkgs.emacsPackagesNgFor pkgs.emacsPgtkNativeComp;
   lsp-ui = epkgs.melpaPackages.lsp-ui.overrideAttrs (o: {
     src = pkgs.fetchFromGitHub {
       owner = "emacs-lsp";
@@ -12,7 +12,7 @@
 in {
   programs.emacs = {
     enable = true;
-    package = pkgs.emacsPgtkGcc;
+    package = pkgs.emacsPgtkNativeComp;
     extraPackages = _:
       (with epkgs.melpaPackages; [
         all-the-icons
