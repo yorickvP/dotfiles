@@ -152,7 +152,6 @@ in {
   };
 
   programs.firefox = {
-    # TODO: back to mozilla
     enable = true;
     package = pkgs.wrapFirefox pkgs.latest.firefox-bin.unwrapped {
       forceWayland = true;

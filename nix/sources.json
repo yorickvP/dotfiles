@@ -83,12 +83,12 @@
         "branch": "master",
         "description": "mozilla related nixpkgs (extends nixos/nixpkgs repo)",
         "homepage": "",
-        "owner": "K900",
+        "owner": "mozilla",
         "repo": "nixpkgs-mozilla",
-        "rev": "c533dd0fa5010da04601f381562c0d1f62e756ed",
+        "rev": "e1f7540fc0a8b989fb8cf701dc4fd7fc76bcf168",
         "sha256": "1b6p0rly0rywq60ks84ghc0n5zrqiafc2r64nlbnlkh9whmh5fmj",
         "type": "tarball",
-        "url": "https://github.com/K900/nixpkgs-mozilla/archive/c533dd0fa5010da04601f381562c0d1f62e756ed.tar.gz",
+        "url": "https://github.com/mozilla/nixpkgs-mozilla/archive/e1f7540fc0a8b989fb8cf701dc4fd7fc76bcf168.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs-wayland": {
