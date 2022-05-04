@@ -259,7 +259,7 @@ in {
 
     ## apps
     alacritty
-    #calibre #TODO
+    calibre
     chromium
     discord
     fanficfare
