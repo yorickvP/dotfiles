@@ -28,8 +28,7 @@ in {
   };
   programs.mako.enable = true;
   programs.mako.defaultTimeout = 60 * 1000; # ms
-  # todo broken
-  # services.gpg-agent.pinentryFlavor = "gnome3";
+  services.gpg-agent.pinentryFlavor = "gnome3";
   wayland.windowManager.sway = {
     enable = true;
     config = {
@@ -146,6 +145,10 @@ in {
       ];
     };
     systemdIntegration = true;
+    # fix pinentry-gnome3
+    extraConfig = ''
+      include /etc/sway/config.d/*
+    '';
   };
 
   programs.firefox = {
