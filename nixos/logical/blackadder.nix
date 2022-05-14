@@ -42,6 +42,7 @@
   virtualisation.docker.enable = true;
   users.users.yorick.extraGroups = [ "docker" ];
 
+  # headphone control
   systemd.services.mdrd = {
     serviceConfig = {
       Type = "dbus";
