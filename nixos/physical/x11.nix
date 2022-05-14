@@ -12,6 +12,7 @@ in {
   boot.zfs.requestEncryptionCredentials = true;
 
   boot.supportedFilesystems = [ "zfs" ];
+  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
   networking.wireless.iwd.enable = true;
   networking.hostId = "54a8968e";
 
