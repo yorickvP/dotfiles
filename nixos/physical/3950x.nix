@@ -10,7 +10,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelModules = [ "nct6775" ];
+  boot.kernelModules = [ "nct6775" "i2c-dev" "i2c-piix4" ];
   boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
   networking.hostId = "c7736638";
   services.zfs.autoScrub.enable = true;
@@ -35,4 +35,5 @@ in {
     "pcie_ports=native"
     "pci=assign-busses,hpbussize=0x33,realloc"
   ];
+  environment.systemPackages = [ pkgs.openrgb ];
 }
