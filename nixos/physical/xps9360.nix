@@ -1,7 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 {
   imports = [
-    inputs.nixos-hardware.nixosModules.dell-xps-13-9360;
+    inputs.nixos-hardware.nixosModules.dell-xps-13-9360
     ./xps9360-hardware-config.nix
   ];
 

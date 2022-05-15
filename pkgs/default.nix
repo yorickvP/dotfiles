@@ -4,7 +4,7 @@
 
   ftb = super.callPackage ./ftb.nix {};
   # todo: python 2 -> 3
-  pyroscope = self.stable.callPackage ./pyroscope {};
+  pyroscope = self.nixpkgs-stable.callPackage ./pyroscope {};
 
   yscripts = super.callPackage ../bin {};
   factorio = super.factorio.override {

@@ -8,6 +8,7 @@ let
 in {
   imports = [ ./desktop.nix ./emacs.nix ./lumi.nix ];
   programs = {
+    nix-index.enable = true;
     starship = {
       enable = true;
       settings.nix_shell.disabled = false;
@@ -111,7 +112,7 @@ in {
       enable = true;
       historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
       shellAliases = {
-        nr = ''nix repl "<nixpkgs>"'';
+        nr = ''nix repl "/home/yorick/dotfiles/repl.nix"'';
         nsp = "nix-shell -p";
       };
       initExtra = ''
@@ -125,10 +126,10 @@ in {
     };
   };
   xdg.configFile."nixpkgs/config.nix".text = ''
-    import "${toString ../config.nix}"
+    throw "tried to read nixpkgs/config.nix"
   '';
   xdg.configFile."nixpkgs/overlays.nix".text = ''
-    import "${toString ../overlays.nix}"
+    throw "tried to read nixpkgs/overlays.nix"
   '';
   xdg.configFile."streamlink/config".text = ''
     player = mpv --cache 2048
@@ -285,6 +286,6 @@ in {
     recursive = true;
   };
   home.sessionVariables = {
-    FLAKE_CONFIG_URI = "/home/yorick/dotfiles#homeConfigurations.yorick";
+    FLAKE_CONFIG_URI = "/home/yorick/dotfiles#homeConfigurations.${pkgs.stdenv.system}.activationPackage";
   };
 }

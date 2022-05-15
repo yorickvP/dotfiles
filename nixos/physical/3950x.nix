@@ -2,9 +2,8 @@
 {
   imports = [
     ./.
-    inputs.nixos-hardware.nixosModules.common-cpu-amd;
     ./3950x-hardware-config.nix
-    "${sources.nixos-hardware}/common/cpu/amd"
+    inputs.nixos-hardware.nixosModules.common-cpu-amd
   ];
 
   boot.loader.systemd-boot.enable = true;

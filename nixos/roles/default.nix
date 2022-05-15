@@ -1,5 +1,5 @@
 let secrets = import ../secrets.nix;
-in { config, pkgs, lib, name, ... }:
+in { config, pkgs, lib, name, inputs, ... }:
 let
   machine = name;
   vpn = import ../vpn.nix;
@@ -13,7 +13,8 @@ in {
     ../services
   ];
 
-  nix.nixPath = [ "nixpkgs=${pkgs.path}" ];
+  nix.nixPath = [];# "nixpkgs=${pkgs.path}" ];
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
   networking.domain = "yori.cc";
   networking.hostName = machine;

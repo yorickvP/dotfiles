@@ -32,28 +32,7 @@ function :u
 	end
 
 	for arg in $argv
-		set -l out (nix-instantiate --eval --json --expr '
-let
-  tryImport = f: with builtins; let v = import f; in if isFunction v && (any (a: a) (attrValues (functionArgs v))) then v {} else v;
-  isImportable = path: with builtins; if pathExists "${path}/" then pathExists "${path}/default.nix" else pathExists "${path}";
-
-  pathBits = with builtins; map ({ prefix, path }:
-      if prefix == "" then
-        let
-          contents = readDir path;
-          names = builtins.filter (a: contents.${a} == "directory" && isImportable "${path}/${a}") (attrNames contents);
-        in
-          foldl\' (prev: val: prev // { ${val} = tryImport "${path}/${val}"; }) {} names
-      else
-        if isImportable path then
-          { ${prefix} = tryImport path; }
-        else
-          { }
-  ) nixPath;
-
-  out = builtins.foldl\' (old: new: old // new) {} pathBits;
-in with out; builtins.toPath ('"$arg"').outPath' | jq -r .)
-		[ -e $out ] || nix-store -r $out > /dev/null
+    nix build -L $argv --no-link && set -l out (nix eval --raw $argv)
 		__nr_apply $out
 	end
 end
