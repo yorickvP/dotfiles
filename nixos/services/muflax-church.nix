@@ -10,7 +10,7 @@ let
     url =
       "https://github.com/NixOS/nixpkgs-channels/archive/78e9665b48ff45d3e29f45b3ebeb6fc6c6e19922.tar.gz";
     sha256 = "09f50jaijvry9lrnx891qmcf92yb8qs64n1cvy0db2yjrmxsxyw8";
-  }) { system = builtins.currentSystem; };
+  }) { system = pkgs.stdenv.system; };
   muflax-church =
     (nixpkgs.callPackage "${muflax-source}/maintenance" { }).overrideDerivation
     (default: {

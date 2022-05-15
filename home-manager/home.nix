@@ -7,15 +7,6 @@ let
     } "${pkgs.thefuck}/bin/thefuck -a > $out";
 in {
   imports = [ ./desktop.nix ./emacs.nix ./lumi.nix ];
-  nixpkgs = {
-    config.allowUnfree = true;
-    inherit (import /home/yorick/dotfiles/config.nix) overlays;
-  };
-  home = {
-    stateVersion = "20.09";
-    username = "yorick";
-    homeDirectory = "/home/yorick";
-  };
   programs = {
     starship = {
       enable = true;
@@ -27,10 +18,7 @@ in {
       settings.aliases.co = "pr checkout";
     };
     direnv.enable = true;
-    home-manager = {
-      enable = true;
-      path = toString /home/yorick/dotfiles;
-    };
+    home-manager.enable = true;
     git = {
       #lfs.enable = true;
       enable = true;
@@ -293,11 +281,10 @@ in {
     #keyserver-options auto-key-retrieve
   '';
   home.file.".mutt" = {
-    source = /home/yorick/dotfiles/mutt/.mutt;
+    source = ../mutt/.mutt;
     recursive = true;
   };
   home.sessionVariables = {
-    HOME_MANAGER_CONFIG =
-      toString ./home.nix; # unused, but checked for existence
+    FLAKE_CONFIG_URI = "/home/yorick/dotfiles#homeConfigurations.yorick";
   };
 }

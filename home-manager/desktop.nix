@@ -1,6 +1,6 @@
 { pkgs, options, ... }:
 let
-  bin = pkgs.callPackage /home/yorick/dotfiles/bin { };
+  bin = pkgs.callPackage ../bin { };
   fixed_slack = pkgs.slack.override {
     xdg-utils = pkgs.xdg-utils.overrideAttrs (o: {
       buildInputs = o.buildInputs ++ [ pkgs.makeWrapper ];
@@ -153,7 +153,7 @@ in {
 
   programs.firefox = {
     enable = true;
-    package = pkgs.wrapFirefox pkgs.latest.firefox-bin.unwrapped {
+    package = pkgs.wrapFirefox pkgs.firefox-bin.unwrapped {
       forceWayland = true;
       applicationName = "firefox";
     };

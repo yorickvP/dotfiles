@@ -1,8 +1,8 @@
-{ config, pkgs, lib, ... }:
-let sources = import ../../nix/sources.nix;
-in {
+{ config, pkgs, lib, inputs, ... }:
+{
   imports = [
     ./.
+    inputs.nixos-hardware.nixosModules.common-cpu-amd;
     ./3950x-hardware-config.nix
     "${sources.nixos-hardware}/common/cpu/amd"
   ];

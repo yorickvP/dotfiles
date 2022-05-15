@@ -1,13 +1,12 @@
 # Edit this configuration file to define what should be installed on your system.  Help is available in the configuration.nix(5) man page and in the NixOS manual (accessible by running ‘nixos-help’).
-let sources = import ../../nix/sources.nix;
-in { config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
     ../physical/apu2c4.nix
     #<yori-nix/roles/homeserver.nix>
     ../roles
-    "${sources.nixos-hardware}/pcengines/apu"
+    inputs.nixos-hardware.nixosModules.pcengines-apu
     <nixpkgs/nixos/modules/profiles/minimal.nix>
   ];
 

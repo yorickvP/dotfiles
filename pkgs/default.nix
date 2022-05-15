@@ -3,7 +3,8 @@
   yori-cc = super.callPackage ./yori-cc.nix { };
 
   ftb = super.callPackage ./ftb.nix {};
-  pyroscope = (import (import ../nix/sources.nix).nixos-stable {}).callPackage ./pyroscope {}; # TODO: update this
+  # todo: python 2 -> 3
+  pyroscope = self.stable.callPackage ./pyroscope {};
 
   yscripts = super.callPackage ../bin {};
   factorio = super.factorio.override {

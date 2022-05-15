@@ -1,9 +1,8 @@
-{ config, pkgs, lib, ... }:
-let sources = import ../../nix/sources.nix;
-in {
+{ config, pkgs, lib, inputs, ... }:
+{
   imports = [
     ./.
-    "${sources.nixos-hardware}/lenovo/thinkpad/x1"
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1
     ./x11-hardware-config.nix
   ];
 

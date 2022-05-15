@@ -1,7 +1,6 @@
-{ config, lib, pkgs, ... }:
-let sources = import ../../nix/sources.nix;
-in {
-  imports = [ ./. "${sources.nixos-hardware}/common/cpu/intel" ];
+{ config, lib, pkgs, inputs, ... }:
+{
+  imports = [ ./. inputs.nixos-hardware.nixosModules.common-cpu-intel ];
 
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" ];

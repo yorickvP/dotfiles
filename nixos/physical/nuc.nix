@@ -1,11 +1,9 @@
-{ config, lib, pkgs, modulesPath, ... }:
-let sources = import ../../nix/sources.nix;
-in {
-
+{ config, lib, pkgs, inputs, modulesPath, ... }:
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ./.
-    "${sources.nixos-hardware}/common/cpu/intel"
+    inputs.nixos-hardware.nixosModules.common-cpu-intel
   ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

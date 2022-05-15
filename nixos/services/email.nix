@@ -1,7 +1,6 @@
-{ config, pkgs, lib, ... }:
-let sources = import ../../nix/sources.nix;
-in {
-  imports = [ ("${sources.nixos-mailserver}") ];
+{ config, pkgs, lib, inputs, ... }:
+{
+  imports = [ inputs.nixos-mailserver.nixosModule ];
 
   mailserver = rec {
     enable = true;
