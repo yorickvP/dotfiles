@@ -52,6 +52,16 @@
         };
       packages.x86_64-linux.yorick-home =
         self.homeConfigurations.x86_64-linux.activationPackage;
+      apps.x86_64-linux.update-home = {
+        type = "app";
+        program = (self.legacyPackages.x86_64-linux.writeScript "update-home" ''
+          set -euo pipefail
+          old_profile=$(nix profile list | grep home-manager-path | head -n1 | awk '{print $4}')
+          echo $old_profile
+          nix profile remove $old_profile
+          ${self.packages.x86_64-linux.yorick-home}/activate || (echo "restoring old profile"; ${self.legacyPackages.x86_64-linux.nix}/bin/nix profile install $old_profile)
+        '').outPath;
+      };
 
     };
 }
