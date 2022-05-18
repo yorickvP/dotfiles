@@ -5,11 +5,11 @@ let
   vpn = import ../vpn.nix;
 in {
   imports = [
+    inputs.agenix.nixosModule
     ../modules/tor-hidden-service.nix
     ../modules/nginx.nix
     ../modules/lumi-cache.nix
     ../modules/lumi-vpn.nix
-    ../deploy/keys.nix
     ../services
   ];
 
@@ -106,9 +106,9 @@ in {
     ipv6 = true;
     hostName = machine;
   };
-  deployment.keyys = [ (../keys + "/wg.${machine}.key") ];
+  age.secrets.wg.file = ../../secrets/wg.${machine}.age;
   networking.wireguard.interfaces.wg-y = {
-    privateKeyFile = "/root/keys/wg.${machine}.key";
+    privateKeyFile = config.age.secrets.wg.path;
     ips = [ vpn.ips.${machine} ];
     listenPort = 31790;
     peers = [{

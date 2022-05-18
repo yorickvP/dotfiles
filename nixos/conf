@@ -4,12 +4,6 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 export NIX_PATH=
 host=$1
 COPY_USER=yorick
-decrypt() {
-    if ! [ -e secrets.nix ]
-    then
-        git crypt unlock
-    fi
-}
 get_target_host() {
     TARGET_HOST=$(nix eval --raw -f vpn.nix ips.$host)
     TARGET_HOST=$(ssh $TARGET_HOST ip --json r get 1.1.1.1 | jq -r '.[0].prefsrc')
@@ -19,20 +13,12 @@ peek() {
     command "$@"
 }
 nix() {
-    decrypt
-    peek nix --extra-experimental-features nix-command "$@"
+    peek nix --extra-experimental-features "nix-command flakes" "$@"
 }
 nix-build() {
-    decrypt
     peek nix-build "$@"
 }
 case $2 in
-    copy-keys)
-        nix build -f ../. yorick.machine."$host".config.deployment.keys-copy --out-link copy-keys
-        get_target_host
-        peek ./copy-keys/bin/copy-keys "$TARGET_HOST"
-        # rm ./copy-keys
-        ;;
     ssh)
         get_target_host
         peek ssh root@"$TARGET_HOST"

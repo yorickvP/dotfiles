@@ -1,22 +1,20 @@
-{ name, ... }: {
-  deployment.keyys = [
-    (../keys + "/${name}_borg_repo.key")
-    (../keys + "/${name}_borg_ssh.key")
-  ];
+{ name, config, ... }: {
+  age.secrets.backup_repo.file = ../../secrets/${name}_borg_repo.age;
+  age.secrets.backup_ssh.file = ../../secrets/${name}_borg_ssh.age;
   services.borgbackup.jobs.backup = {
     encryption = {
       # Keep the encryption key in the repo itself
       mode = "repokey-blake2";
 
       # Password is used to decrypt the encryption key from the repo
-      passCommand = "cat /root/keys/${name}_borg_repo.key";
+      passCommand = "cat ${config.age.secrets.backup_repo.path}";
     };
     environment = {
       # Make sure we're using Borg >= 1.0
       BORG_REMOTE_PATH = "borg1";
 
       # SSH key is specific to the subaccount defined in the repo username
-      BORG_RSH = "ssh -i /root/keys/${name}_borg_ssh.key";
+      BORG_RSH = "ssh -i ${config.age.secrets.backup_ssh.path}";
     };
 
     # Define schedule

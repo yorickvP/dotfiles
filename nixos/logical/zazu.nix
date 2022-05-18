@@ -1,5 +1,5 @@
 # Edit this configuration file to define what should be installed on your system.  Help is available in the configuration.nix(5) man page and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, modulesPath, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -7,7 +7,7 @@
     #<yori-nix/roles/homeserver.nix>
     ../roles
     inputs.nixos-hardware.nixosModules.pcengines-apu
-    <nixpkgs/nixos/modules/profiles/minimal.nix>
+    "${modulesPath}/profiles/minimal.nix"
   ];
 
   boot.loader.grub.enable = true;

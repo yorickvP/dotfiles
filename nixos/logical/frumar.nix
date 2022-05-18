@@ -6,8 +6,6 @@
     ../services/torrent-wg.nix
   ];
 
-  deployment.keyys = [ ../keys/grafana.env ];
-
   system.stateVersion = "15.09";
   networking.hostId = "0702dbe9";
 
@@ -88,8 +86,8 @@
       AUTH_GOOGLE_ALLOW_SIGN_UP = "false";
     };
   };
-  systemd.services.grafana.serviceConfig.EnvironmentFile =
-    "/root/keys/grafana.env";
+  age.secrets.grafana.file = ../../secrets/grafana.env.age;
+  systemd.services.grafana.serviceConfig.EnvironmentFile = config.age.secrets.grafana.path;
   services.zfs = {
     trim.enable = false; # no ssd's
     autoScrub = {

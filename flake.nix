@@ -10,14 +10,17 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-21.05";
     nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
 
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
-    , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, self, ... }: {
+    , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, self, ... }: {
       overlay = nixpkgs.lib.composeManyExtensions [
         nixpkgs-wayland.overlay
         #nixpkgs-mozilla.overlay
         emacs-overlay.overlay
+        agenix.overlay
         (import ./fixups.nix)
         (import ./pkgs)
         (import ./pkgs/mdr.nix)

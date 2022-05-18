@@ -7,11 +7,11 @@ in {
     namespace = mkOption { type = types.str; };
   };
   config = {
-    deployment.keyys = [ (../keys + "/wg.${cfg.name}.key") ];
+    age.secrets.wg-torrent.file = ../../secrets/wg.${cfg.name}.age;
     networking.wireguard.interfaces.${cfg.name} = {
       # curl -s https://api.mullvad.net/www/relays/all/ | jq '.[] | select(.type == "wireguard" and .country_code == "nl")'
       ips = [ "10.66.30.26/32" "fc00:bbbb:bbbb:bb01::3:1e19/128" ];
-      privateKeyFile = "/root/keys/wg.${cfg.name}.key";
+      privateKeyFile = config.age.secrets.wg-torrent.path;
       peers = [{
         publicKey = "hnRyse6QxPPcZOoSwRsHUtK1W+APWXnIoaDTmH6JsHQ=";
         allowedIPs = [ "0.0.0.0/0" "::0/0" ];

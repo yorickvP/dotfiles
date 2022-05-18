@@ -44,12 +44,13 @@ in {
     };
   };
 
+  age.secrets.muflax.file = ../../secrets/http.muflax.age;
   services.muflax-blog = {
     enable = true;
     web-server = { port = 9001; };
     hidden-service = {
       hostname = "muflax65ngodyewp.onion";
-      private_key = "/root/keys/http.muflax.key";
+      private_key = config.age.secrets.muflax.path;
     };
   };
   services.nginx.commonHttpConfig = ''
@@ -89,7 +90,6 @@ in {
     };
     "media.yori.cc" = sslforward "http://${vpn.ips.frumar}:32001";
   };
-  deployment.keyys = [ ../keys/http.muflax.key ];
   networking.firewall.allowedUDPPorts = [ 31790 ]; # wg
   networking.wireguard.interfaces.wg-y.peers = lib.mkForce (lib.mapAttrsToList
     (machine: publicKey: {
