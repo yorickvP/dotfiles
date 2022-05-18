@@ -92,9 +92,8 @@ in {
       shellAliases = {
         l = "ls";
         ls = "exa";
-        nr = ''nix repl "<nixpkgs>"'';
+        nr = ''nix repl "/home/yorick/dotfiles/repl.nix"'';
         "n." = "nix repl .";
-        nsp = "nix-shell -p";
         nsd = "nix show-derivation";
         nb = "nix build";
         nl = "nix log";

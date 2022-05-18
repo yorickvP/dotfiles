@@ -7,7 +7,7 @@ system=$(nix eval --raw .#stdenv.system)
 set -x
 nixos-rebuild build --flake .#
 nix build .#yorick-home --no-link
-home-manager switch --flake .#$system
+nix run .#update-home
 nixos-rebuild switch --flake .# --target-host root@localhost
 rm -f result
 set +x
