@@ -21,7 +21,6 @@
   services.zfs.trim.enable = true;
   hardware.bluetooth.enable = true;
   services.fprintd.enable = true;
-  services.fwupd.enable = true;
 
   boot.initrd.availableKernelModules = [ "i915" ];
   boot.loader.timeout = 1;
