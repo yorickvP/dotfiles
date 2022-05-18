@@ -104,7 +104,7 @@ in {
       output."Sharp Corporation 0x144A 0x00000000".bg = bg.xps9360;
 
       # desk
-      output."Unknown  0x00000000" = {
+      output."HYC CO., LTD.  0x00000000" = {
         position = "0 0";
         bg = bg.desktop;
       };
@@ -115,7 +115,7 @@ in {
 
       # x11 carbon
       input."2:10:TPPS/2_Elan_TrackPoint".accel_profile = "flat";
-      output."Unknown 0x1403 0x00000000".bg = bg.x11carbon;
+      output."California Institute of Technology 0x1403 0x00000000".bg = bg.x11carbon;
       input."1739:30383:DLL075B:01_06CB:76AF_Touchpad" = {
         natural_scroll = "enabled";
         tap = "enabled";
