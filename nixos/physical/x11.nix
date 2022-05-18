@@ -11,7 +11,9 @@
   boot.zfs.requestEncryptionCredentials = true;
 
   boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
+  # FIXME: https://bugzilla.kernel.org/show_bug.cgi?id=215768
+  #boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_5_15;
   networking.wireless.iwd.enable = true;
   networking.hostId = "54a8968e";
 
@@ -19,6 +21,7 @@
   services.zfs.trim.enable = true;
   hardware.bluetooth.enable = true;
   services.fprintd.enable = true;
+  services.fwupd.enable = true;
 
   boot.initrd.availableKernelModules = [ "i915" ];
   boot.loader.timeout = 1;
