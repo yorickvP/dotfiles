@@ -199,6 +199,7 @@ in {
 
     gebaar-libinput
     grim
+    element-desktop-wayland
     libreoffice
     obs-studio
     obs-wlrobs
