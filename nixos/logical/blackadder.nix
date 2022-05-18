@@ -6,6 +6,7 @@
   yorick.lumi-vpn = {
     name = "yorick-homepc";
     mtu = 1408;
+    ip = "10.109.0.18";
   };
 
   # backups
