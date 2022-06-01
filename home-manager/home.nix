@@ -125,10 +125,10 @@ in {
     };
   };
   xdg.configFile."nixpkgs/config.nix".text = ''
-    throw "tried to read nixpkgs/config.nix"
+    builtins.trace "tried to read nixpkgs/config.nix" {}
   '';
   xdg.configFile."nixpkgs/overlays.nix".text = ''
-    throw "tried to read nixpkgs/overlays.nix"
+    builtins.trace "tried to read nixpkgs/overlays.nix" []
   '';
   xdg.configFile."streamlink/config".text = ''
     player = mpv --cache 2048
