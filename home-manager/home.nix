@@ -167,6 +167,7 @@ in {
     # catdoc
     expect
     fzf
+    fx
     gitAndTools.git-annex
     glxinfo
     gnupg1

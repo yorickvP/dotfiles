@@ -1,14 +1,6 @@
 { lib, config, options, pkgs, ... }: let
   epkgs = pkgs.emacsPackagesFor pkgs.emacsPgtkNativeComp;
   engpkgs = pkgs.emacsPackagesNgFor pkgs.emacsPgtkNativeComp;
-  lsp-ui = epkgs.melpaPackages.lsp-ui.overrideAttrs (o: {
-    src = pkgs.fetchFromGitHub {
-      owner = "emacs-lsp";
-      repo = "lsp-ui";
-      rev = "240a7de26400cf8b13312c3f9acf7ce653bdaa8a";
-      sha256 = "1zscdjlnkx43i4kw2qmlvji23xfpw7n5y4v99ld33205dg905fsy";
-    };
-  });
 in {
   programs.emacs = {
     enable = true;
@@ -28,6 +20,7 @@ in {
         # evil-magit
         evil-surround
         flycheck
+        flycheck-inline
         forge
         ggtags
         git-gutter-fringe
@@ -74,6 +67,7 @@ in {
 
   fonts.fontconfig.enable = true;
   home.packages = [
+    pkgs.rnix-lsp
     (pkgs.runCommand "all-the-icons-fonts" {} ''
       mkdir -p $out/share/fonts/truetype
       cp ${epkgs.melpaPackages.all-the-icons.src}/fonts/*.ttf $_
