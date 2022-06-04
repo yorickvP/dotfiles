@@ -197,6 +197,7 @@ in {
     playerctl
     vanilla-dmz
 
+    libwebp
     gebaar-libinput
     grim
     element-desktop-wayland
@@ -205,6 +206,7 @@ in {
     obs-wlrobs
     fixed_slack
     slurp
+    sway-contrib.grimshot
     swaybg
     swayidle
     swaylock
