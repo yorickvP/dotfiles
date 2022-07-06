@@ -3,7 +3,7 @@ let
   bin = pkgs.callPackage ../bin { };
   fixed_slack = pkgs.slack.override {
     xdg-utils = pkgs.xdg-utils.overrideAttrs (o: {
-      buildInputs = o.buildInputs ++ [ pkgs.makeWrapper ];
+      buildInputs = (o.buildInputs or []) ++ [ pkgs.makeWrapper ];
       postInstall = o.postInstall + ''
         wrapProgram "$out/bin/xdg-open" --unset GDK_BACKEND
       '';

@@ -47,11 +47,16 @@
       homeConfigurations.x86_64-linux =
         home-manager.lib.homeManagerConfiguration {
           pkgs = self.legacyPackages.x86_64-linux;
-          configuration = import ./home-manager/home.nix;
-          system = "x86_64-linux";
-          username = "yorick";
-          stateVersion = "20.09";
-          homeDirectory = "/home/yorick";
+          modules = [
+            ./home-manager/home.nix
+            {
+              home = {
+                username = "yorick";
+                stateVersion = "20.09";
+                homeDirectory = "/home/yorick";
+              };
+            }
+          ];
         };
       packages.x86_64-linux.yorick-home =
         self.homeConfigurations.x86_64-linux.activationPackage;
