@@ -16,7 +16,7 @@
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
     , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, self, ... }: {
-      overlay = nixpkgs.lib.composeManyExtensions [
+      overlays.default = nixpkgs.lib.composeManyExtensions [
         nixpkgs-wayland.overlay
         #nixpkgs-mozilla.overlay
         emacs-overlay.overlay
@@ -41,7 +41,7 @@
           android_sdk.accept_license = true;
         };
         system = "x86_64-linux";
-        overlays = [ self.overlay ];
+        overlays = builtins.attrValues self.overlays;
       };
       nixosConfigurations = self.legacyPackages.x86_64-linux.yorick.machine;
       homeConfigurations.x86_64-linux =
