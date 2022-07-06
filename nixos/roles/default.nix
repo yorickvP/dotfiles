@@ -131,6 +131,5 @@ in {
     disabledCollectors = [ "rapl" ];
   };
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 9100 ];
-  services.fwupd.enable = true;
   xdg.autostart.enable = false;
 }

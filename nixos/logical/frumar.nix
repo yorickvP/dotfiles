@@ -68,8 +68,8 @@
   };
   boot.zfs.requestEncryptionCredentials = false;
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 3000 9090 ];
-  networking.firewall.allowedTCPPorts = [ 1883 ];
-  networking.firewall.allowedUDPPorts = [ 1883 ];
+  networking.firewall.allowedTCPPorts = [ 1883 5357 ];
+  networking.firewall.allowedUDPPorts = [ 1883 3702 ];
   services.rabbitmq = {
     enable = true;
     plugins = [ "rabbitmq_mqtt" "rabbitmq_management" ];
@@ -93,6 +93,49 @@
     autoScrub = {
       enable = true;
       interval = "*-*-01 02:00:00"; # monthly + 2 hours
+    };
+  };
+  services.samba = {
+    enable = true;
+    openFirewall = true;
+    shares.public = {
+      path = "/data/plexmedia";
+      browseable = "yes";
+      "guest ok" = "yes";
+      "hosts allow" = "192.168.178.0/255.255.255.0";
+      "writeable" = "yes";
+      "force user" = "nobody";
+      "force directory mode" = "2777";
+    };
+  };
+  services.samba-wsdd = {
+    enable = true;
+    interface = "eno2";
+    hostname = "NAS";
+  };
+  services.sonarr = {
+    enable = true;
+    group = "plex";
+    user = "plex";
+    openFirewall = true;
+  };
+  services.radarr = {
+    enable = true;
+    group = "plex";
+    user = "plex";
+    openFirewall = true;
+  };
+  services.znapzend = {
+    enable = true;
+    pure = true;
+    features = {
+      zfsGetType = true;
+      sendRaw = true;
+    };
+    zetup = {
+      "frumar-new/plexmedia" = {
+        plan = "1w=>6h,1m=>1w,1y=>1m,2y=>6m,50y=>1y";
+      };
     };
   };
   users.users.plex.packages = with pkgs; [
