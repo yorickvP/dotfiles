@@ -19,6 +19,7 @@ in {
       settings.aliases.co = "pr checkout";
     };
     direnv.enable = true;
+    direnv.nix-direnv.enable = true;
     home-manager.enable = true;
     git = {
       #lfs.enable = true;
@@ -236,6 +237,7 @@ in {
     exa
     linuxPackages.perf
     ltrace
+    lz4json
     pssh
     smartmontools
     unzip
