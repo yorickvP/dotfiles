@@ -13,7 +13,9 @@
      (:name "all mail" :query "*" :key "a")
      (:name "inbox" :query "tag:inbox")))
  '(safe-local-variable-values
-   '((c-block-comment-prefix . "  ")
+   '((flycheck-gcc-language-standard . "c++11")
+     (flycheck-clang-language-standard . "c++11")
+     (c-block-comment-prefix . "  ")
      (eval c-set-offset 'inlambda 0)
      (eval c-set-offset 'arglist-cont-nonempty
            '(c-lineup-gcc-asm-reg c-lineup-arglist))

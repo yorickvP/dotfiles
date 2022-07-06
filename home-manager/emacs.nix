@@ -14,6 +14,8 @@ in {
         counsel-projectile
         diminish
         direnv
+        dune
+        tuareg
         elixir-mode
         evil
         evil-leader
@@ -28,13 +30,16 @@ in {
         htmlize
         ivy
         ivy-hydra
+        lua-mode
         linum-relative
         lsp-haskell
         lsp-ivy
         lsp-mode
         lsp-ui
+        lsp-treemacs
         magit
         markdown-mode
+        neotree
         nix-buffer
         nix-mode
         org-bullets
@@ -47,6 +52,7 @@ in {
         solarized-theme
         swiper
         terraform-mode
+        treemacs
         use-package
         vue-mode
         weechat

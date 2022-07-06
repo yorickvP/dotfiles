@@ -541,6 +541,12 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 *** TODO spellchecking
 *** TODO disable linum on org mode
 *** TODO use org-cliplink
+** lua
+#+BEGIN_SRC emacs-lisp
+(use-package lua-mode
+  :commands (lua-mode)
+  :mode (("\\.lua\\'" . lua-mode)))
+#+END_SRC
 ** nix
 #+BEGIN_SRC emacs-lisp
 
