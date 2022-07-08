@@ -8,6 +8,11 @@
 
   system.stateVersion = "15.09";
   networking.hostId = "0702dbe9";
+  nixpkgs.overlays = [ (self: super: {
+    openjdk8-bootstrap = super.openjdk8-bootstrap.override {
+      gtkSupport = false;
+    };
+  }) ];
 
   services.nginx.enable = false;
   # services.nginx.virtualHosts."${config.networking.hostName}" = {
@@ -24,6 +29,15 @@
   services.plex = {
     enable = true;
     openFirewall = true;
+  };
+  services.iperf3 = {
+    enable = true;
+    openFirewall = true;
+  };
+  services.unifi = {
+    enable = true;
+    openFirewall = true;
+    jrePackage = pkgs.jre8_headless;
   };
   services.victoriametrics = {
     enable = true;
@@ -67,7 +81,7 @@
     # };
   };
   boot.zfs.requestEncryptionCredentials = false;
-  networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 3000 9090 ];
+  networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 3000 9090 8443 ];
   networking.firewall.allowedTCPPorts = [ 1883 5357 ];
   networking.firewall.allowedUDPPorts = [ 1883 3702 ];
   services.rabbitmq = {
