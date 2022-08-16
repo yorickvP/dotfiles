@@ -171,6 +171,23 @@ in {
     XCURSOR_PATH = "${pkgs.gnome3.adwaita-icon-theme}/share/icons";
     XDG_CURRENT_DESKTOP = "sway";
   };
+  # todo: use home-manager unit
+  systemd.user.services.gmi = {
+    Unit.ConditionPathExists = "/home/yorick/mail/account.gmail/.gmailieer.json";
+    Service = {
+      Type = "oneshot";
+      ExecStart = "/usr/bin/env bash -c 'gmi pull && notmuch new'";
+      WorkingDirectory = "/home/yorick/mail/account.gmail";
+    };
+  };
+  systemd.user.timers.gmi = {
+    Timer = {
+      OnActiveSec = "30m";
+      OnBootSec = "5m";
+      RandomizedDelaySec = 30;
+    };
+    Install.WantedBy = ["timers.target"];
+  };
 
   systemd.user.services.gebaard = {
     Unit = {

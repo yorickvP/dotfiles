@@ -146,7 +146,7 @@ in {
   services.playerctld.enable = true;
   home.packages = (with pkgs; [
     ## utils
-    # afew
+    afew # mail
     broot
     fd
     gcr.out
