@@ -28,6 +28,7 @@ in {
       if ! [[ -e /etc/nginx/dhparam.pem ]]; then
         mkdir -p /etc/nginx/
         ${pkgs.openssl}/bin/openssl dhparam -out /etc/nginx/dhparam.pem 2048
+        chown nginx:nginx /etc/nginx/dhparam.pem
       fi
     '';
   };

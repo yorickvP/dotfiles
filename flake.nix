@@ -12,10 +12,13 @@
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
-
+    serokell-nix.url = "github:serokell/serokell.nix";
+    serokell-nix.inputs = {
+      nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
-    , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, self, ... }: {
+    , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, serokell-nix, self, ... }: {
       overlays.default = nixpkgs.lib.composeManyExtensions [
         nixpkgs-wayland.overlay
         #nixpkgs-mozilla.overlay

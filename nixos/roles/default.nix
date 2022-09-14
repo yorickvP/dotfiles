@@ -6,6 +6,7 @@ let
 in {
   imports = [
     inputs.agenix.nixosModule
+    ../modules/acme-sh.nix
     ../modules/tor-hidden-service.nix
     ../modules/nginx.nix
     ../modules/lumi-cache.nix
