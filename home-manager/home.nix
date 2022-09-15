@@ -93,8 +93,8 @@ in {
       shellAliases = {
         l = "ls";
         ls = "exa";
-        nr = ''nix repl "/home/yorick/dotfiles/repl.nix"'';
-        "n." = "nix repl .";
+        nr = ''nix repl --file "/home/yorick/dotfiles/repl.nix"'';
+        "n." = "nix repl --file .";
         nsd = "nix show-derivation";
         nb = "nix build";
         nl = "nix log";
@@ -158,6 +158,7 @@ in {
     lm_sensors
     notmuch
     watchman
+    nix-output-monitor
 
     ## misc
     moreutils

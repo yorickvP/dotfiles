@@ -1,4 +1,4 @@
-{ pkgs, options, ... }:
+{ lib, pkgs, options, ... }:
 let
   bin = pkgs.callPackage ../bin { };
   fixed_slack = pkgs.slack.override {
@@ -21,6 +21,9 @@ in {
       builtins.toJSON (builtins.fromTOML (builtins.readFile ./waybar.toml));
     onChange = "systemctl --user restart waybar";
   };
+  systemd.user.services.waybar.Service.Environment = [
+    "PATH=${lib.makeBinPath (with pkgs; [ pavucontrol xdg-utils bin.y-cal-widget playerctl ])}"
+  ];
   programs.waybar = {
     enable = true;
     style = ./waybar.css;
@@ -104,7 +107,11 @@ in {
       output."Sharp Corporation 0x144A Unknown".bg = bg.xps9360;
 
       # desk
-      output."HYC CO., LTD.  0x00000000" = {
+      output."HYC CO., LTD.  Unknown" = {
+        position = "0 0";
+        bg = bg.desktop;
+      };
+      output."HYC CO., LTD. " = {
         position = "0 0";
         bg = bg.desktop;
       };
@@ -175,6 +182,9 @@ in {
   systemd.user.services.gmi = {
     Unit.ConditionPathExists = "/home/yorick/mail/account.gmail/.gmailieer.json";
     Service = {
+      Environment = [
+        "PATH=${lib.makeBinPath (with pkgs; [ bash lieer notmuch afew ])}"
+      ];
       Type = "oneshot";
       ExecStart = "/usr/bin/env bash -c 'gmi pull && notmuch new'";
       WorkingDirectory = "/home/yorick/mail/account.gmail";
@@ -189,21 +199,21 @@ in {
     Install.WantedBy = ["timers.target"];
   };
 
-  systemd.user.services.gebaard = {
-    Unit = {
-      Description = "gebaard";
-      After = [ "graphical-session-pre.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
+  # systemd.user.services.gebaard = {
+  #   Unit = {
+  #     Description = "gebaard";
+  #     After = [ "graphical-session-pre.target" ];
+  #     PartOf = [ "graphical-session.target" ];
+  #   };
 
-    Install = { WantedBy = [ "graphical-session.target" ]; };
+  #   Install = { WantedBy = [ "graphical-session.target" ]; };
 
-    Service = {
-      ExecStart = ''
-        ${pkgs.gebaar-libinput}/bin/gebaard
-      '';
-    };
-  };
+  #   Service = {
+  #     ExecStart = ''
+  #       ${pkgs.gebaar-libinput}/bin/gebaard
+  #     '';
+  #   };
+  # };
   home.packages = with pkgs; [
     gtk-engine-murrine
     hicolor-icon-theme
