@@ -22,7 +22,7 @@ in {
     onChange = "systemctl --user restart waybar";
   };
   systemd.user.services.waybar.Service.Environment = [
-    "PATH=${lib.makeBinPath (with pkgs; [ pavucontrol xdg-utils bin.y-cal-widget playerctl ])}"
+    "PATH=${lib.makeBinPath (with pkgs; [ pavucontrol xdg-utils bin.y-cal-widget playerctl bluez ])}"
   ];
   programs.waybar = {
     enable = true;
@@ -110,6 +110,7 @@ in {
       output."HYC CO., LTD.  Unknown" = {
         position = "0 0";
         bg = bg.desktop;
+        max_render_time = "4";
       };
       output."HYC CO., LTD. " = {
         position = "0 0";
@@ -118,6 +119,7 @@ in {
       output."BenQ Corporation BenQ GW2765 36H03689019" = {
         position = "2560 0";
         bg = bg.desktop;
+        max_render_time = "4";
       };
 
       # x11 carbon
