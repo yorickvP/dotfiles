@@ -5,13 +5,42 @@ in {
   programs.emacs = {
     enable = true;
     package = pkgs.emacsPgtkNativeComp;
-    extraPackages = _:
-      (with epkgs.melpaPackages; [
+    extraConfig = ''
+      (setq copilot-node-executable "${pkgs.nodejs-slim-16_x}/bin/node")
+    '';
+    overrides = final: prev: {
+      copilot = final.melpaBuild rec {
+          pname = "copilot";
+          version = "20220916.1";
+          commit = "f316299bab75a380ee04e7ca49c79baf0fb296d6";
+
+          src = pkgs.fetchFromGitHub {
+            owner = "zerolfx";
+            repo = "copilot.el";
+            rev = commit;
+            sha256 = "sha256-n4bXnlNfCC00jVeODUlqZNThf7i8rj69zzMMfXBy8tk=";
+          };
+
+          packageRequires = with final; [ dash editorconfig s ];
+
+          recipe = pkgs.writeText "recipe" ''
+            (copilot
+            :repo "zerolfx/copilot.el"
+            :fetcher github
+            :files ("dist" "*.el"))
+          '';
+
+          meta.description = "Emacs plugin for GitHub Copilot";
+        };
+    };
+    extraPackages = p:
+      (with p; [
         all-the-icons
         avy
         company
         counsel
         counsel-projectile
+        copilot
         diminish
         direnv
         dune

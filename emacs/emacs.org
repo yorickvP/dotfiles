@@ -362,7 +362,10 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :diminish
-  :hook (after-init . global-company-mode))
+  :hook (after-init . global-company-mode)
+  :config
+  ;; use copilot
+  (delq 'company-preview-if-just-one-frontend company-frontends))
 #+END_SRC
 ** Indentation
 #+BEGIN_SRC emacs-lisp
@@ -370,7 +373,11 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
   (setq-default tab-width 2) ; or any other preferred value
   (defvaralias 'c-basic-offset 'tab-width)
   (defvaralias 'cperl-indent-level 'tab-width)
-  (define-key prog-mode-map (kbd "<tab>") #'company-indent-or-complete-common)
+(defun yorick/copilot-tab (arg)
+  (interactive "P")
+  (or (copilot-accept-completion)
+      (company-indent-or-complete-common arg)))
+  (define-key prog-mode-map (kbd "<tab>") #'yorick/copilot-tab)
 #+END_SRC
 ** smart home key
 #+BEGIN_SRC emacs-lisp
@@ -474,6 +481,13 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 #+END_SRC
 
 #+RESULTS:
+
+** copilot
+#+BEGIN_SRC emacs-lisp
+(use-package copilot
+  :commands (copilot-login copilot-mode)
+  :bind (:map copilot-mode-map ("TAB" . copilot-accept-completion)))
+#+END_SRC
 
 ** DONE fix clipboard on wayland
 #+BEGIN_SRC emacs-lisp
