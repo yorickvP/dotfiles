@@ -22,15 +22,17 @@ in {
     onChange = "systemctl --user restart waybar";
   };
   systemd.user.services.waybar.Service.Environment = [
-    "PATH=${lib.makeBinPath (with pkgs; [ pavucontrol xdg-utils bin.y-cal-widget playerctl bluez ])}"
+    "PATH=${lib.makeBinPath (with pkgs; [ pavucontrol xdg-utils bin.y-cal-widget playerctl bluez gnugrep bash ])}"
   ];
   programs.waybar = {
     enable = true;
     style = ./waybar.css;
     systemd.enable = true;
   };
-  programs.mako.enable = true;
-  programs.mako.defaultTimeout = 60 * 1000; # ms
+  programs.mako = {
+    enable = true;
+    defaultTimeout = 60 * 1000; # ms
+  };
   services.gpg-agent.pinentryFlavor = "gnome3";
   wayland.windowManager.sway = {
     enable = true;
