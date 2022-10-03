@@ -7,6 +7,7 @@ in {
     package = pkgs.emacsPgtkNativeComp;
     extraConfig = ''
       (setq copilot-node-executable "${pkgs.nodejs-slim-16_x}/bin/node")
+      (setq lsp-nix-server-path "${pkgs.nil}/bin/nil")
     '';
     overrides = final: prev: {
       copilot = final.melpaBuild rec {
@@ -102,7 +103,6 @@ in {
 
   fonts.fontconfig.enable = true;
   home.packages = [
-    pkgs.rnix-lsp
     (pkgs.runCommand "all-the-icons-fonts" {} ''
       mkdir -p $out/share/fonts/truetype
       cp ${epkgs.melpaPackages.all-the-icons.src}/fonts/*.ttf $_
