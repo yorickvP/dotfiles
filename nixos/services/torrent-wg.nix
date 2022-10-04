@@ -6,7 +6,7 @@ in {
     name = mkOption { type = types.str; };
     namespace = mkOption { type = types.str; };
   };
-  config = {
+  config = lib.mkIf cfg.enable {
     age.secrets.wg-torrent.file = ../../secrets/wg.${cfg.name}.age;
     networking.wireguard.interfaces.${cfg.name} = {
       # curl -s https://api.mullvad.net/www/relays/all/ | jq '.[] | select(.type == "wireguard" and .country_code == "nl")'

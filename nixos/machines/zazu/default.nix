@@ -3,9 +3,9 @@
 
 {
   imports = [ # Include the results of the hardware scan.
-    ../physical/apu2c4.nix
+    ./apu2c4.nix
     #<yori-nix/roles/homeserver.nix>
-    ../roles
+    ../../roles
     inputs.nixos-hardware.nixosModules.pcengines-apu
     "${modulesPath}/profiles/minimal.nix"
   ];

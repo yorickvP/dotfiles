@@ -1,6 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 {
-  imports = [ ./. inputs.nixos-hardware.nixosModules.common-cpu-intel ];
+  imports = [ inputs.nixos-hardware.nixosModules.common-cpu-intel ];
+  hardware.enableRedistributableFirmware = true;
 
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" ];

@@ -12,14 +12,13 @@ let
       proxyWebsockets = true;
     };
   };
-  vpn = import ../vpn.nix;
+  vpn = import ../../vpn.nix;
 in {
   imports = [
-    ../physical/hetznercloud.nix
-    ../roles/server.nix
-    ../modules/muflax-blog.nix
-    ../services/backup.nix
-    ../services/email.nix
+    ./hetznercloud.nix
+    ../../roles/server.nix
+    ../../services/backup.nix
+    ../../services/email.nix
   ];
 
   system.stateVersion = "19.03";
@@ -44,7 +43,7 @@ in {
     };
   };
 
-  age.secrets.muflax.file = ../../secrets/http.muflax.age;
+  age.secrets.muflax.file = ../../../secrets/http.muflax.age;
   services.muflax-blog = {
     enable = true;
     web-server = { port = 9001; };
@@ -101,7 +100,6 @@ in {
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   environment.noXlibs = true;
   users.users.yorick.packages = with pkgs; [
-    python2
     sshfs-fuse
     weechat
     ripgrep

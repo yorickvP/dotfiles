@@ -1,10 +1,11 @@
 { config, pkgs, lib, inputs, ... }:
 {
   imports = [
-    ./.
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1
     ./x11-hardware-config.nix
   ];
+
+  hardware.enableRedistributableFirmware = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

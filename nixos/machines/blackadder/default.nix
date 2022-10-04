@@ -1,5 +1,5 @@
 { config, pkgs, lib, ... }: {
-  imports = [ ../physical/3950x.nix ../roles/workstation.nix ];
+  imports = [ ./3950x.nix ../../roles/workstation.nix ];
 
   system.stateVersion = "19.09";
 

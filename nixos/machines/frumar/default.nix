@@ -1,9 +1,8 @@
 { config, pkgs, lib, ... }: {
   imports = [
-    ../physical/fractal.nix
-    ../roles/server.nix
-    ../roles/homeserver.nix
-    ../services/torrent-wg.nix
+    ./fractal.nix
+    ../../roles/server.nix
+    ../../roles/homeserver.nix
   ];
 
   system.stateVersion = "15.09";
@@ -169,9 +168,9 @@
     };
   };
   age.secrets = {
-    grafana.file = ../../secrets/grafana.env.age;
+    grafana.file = ../../../secrets/grafana.env.age;
     transip-key = {
-      file = ../../secrets/transip-key.age;
+      file = ../../../secrets/transip-key.age;
       mode = "770";
       owner = "nginx";
       group = "nginx";

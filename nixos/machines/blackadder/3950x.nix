@@ -1,10 +1,11 @@
 { config, pkgs, lib, inputs, ... }:
 {
   imports = [
-    ./.
     ./3950x-hardware-config.nix
     inputs.nixos-hardware.nixosModules.common-cpu-amd
   ];
+
+  hardware.enableRedistributableFirmware = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

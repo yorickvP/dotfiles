@@ -11,6 +11,7 @@ in {
     ../modules/nginx.nix
     ../modules/lumi-cache.nix
     ../modules/lumi-vpn.nix
+    ../modules/muflax-blog.nix
     ../services
   ];
 

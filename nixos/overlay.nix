@@ -18,6 +18,6 @@ in pkgs: super: {
         };
       in c.config.system.build // c;
     machine = pkgs.lib.genAttrs names
-      (name: nixos [ ./roles (./logical + "/${name}.nix") ] { inherit name; });
+      (name: nixos [ ./roles (./machines + "/${name}/default.nix") ] { inherit name; });
   };
 }
