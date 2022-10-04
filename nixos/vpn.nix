@@ -4,7 +4,6 @@
     jarvis = "10.209.0.2";
     frumar = "10.209.0.3";
     blackadder = "10.209.0.6";
-    zazu = "10.209.0.7";
     smithers = "10.209.0.8";
   };
   keys = {
@@ -13,7 +12,6 @@
     frumar = "UpFw4KmrvmOWdMOJ+LHvMzgN7cQMnasqlkzF8/apoGI=";
     jarvis = "2/Qaq5uiy8uGGnZLIfjeomL47XjZCsJ1dDFDD9Nlq3E=";
     pennyworth = "XoeUMsiSOWBFEFuAu+S4iQd3MzkyGhIj9dtxzZ0I500=";
-    zazu = "6X5EdNMO1MtFi18LCRGZ2cBD0d50Wq+pwkwVubjY1Ew=";
     smithers = "CXsx26Xi+mBeuB6U8hdeuOBC3o4gTnBc6biez/BCqzM=";
   };
 }
