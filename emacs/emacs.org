@@ -350,7 +350,7 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 #+END_SRC
 *** enable globally
 #+BEGIN_SRC emacs-lisp
-(global-linum-mode t)
+(global-display-line-numbers-mode)
 #+END_SRC
 ** direnv
 #+BEGIN_SRC emacs-lisp

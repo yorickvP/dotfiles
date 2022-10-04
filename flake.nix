@@ -57,7 +57,7 @@
         # updater script for home profile
         # works around https://github.com/nix-community/home-manager/issues/2848
         apps.update-home = flake-utils.lib.mkApp {
-          drv = pkgs.writeScript "update-home" ''
+          drv = pkgs.writeScriptBin "update-home" ''
             set -euo pipefail
             old_profile=$(nix profile list | grep home-manager-path | head -n1 | awk '{print $4}')
             echo $old_profile
