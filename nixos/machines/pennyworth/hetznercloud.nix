@@ -27,7 +27,7 @@ in {
   systemd.network.enable = true;
   systemd.network.networks."40-hetzner" = {
     DHCP = "ipv4";
-    address = [ ipconf.mainIPv6 ];
+    address = [ "2a01:4f8:c2c:97b6::/64" ];
     gateway = [ "fe80::1" ];
     matchConfig.Name = "ens3";
   };
