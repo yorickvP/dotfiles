@@ -152,7 +152,7 @@ in {
     gcr.out
     git-absorb
     github-cli
-    gmailieer
+    lieer
     htop
     kcachegrind
     lm_sensors
@@ -243,7 +243,7 @@ in {
     smartmontools
     unzip
     vim
-    xdg_utils
+    xdg-utils
     #wlrctl
 
     ## coins

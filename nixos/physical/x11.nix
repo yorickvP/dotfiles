@@ -11,9 +11,7 @@
   boot.zfs.requestEncryptionCredentials = true;
 
   boot.supportedFilesystems = [ "zfs" ];
-  # FIXME: https://bugzilla.kernel.org/show_bug.cgi?id=215768
-  #boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
-  boot.kernelPackages = pkgs.linuxPackages_5_15;
+  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
   networking.wireless.iwd.enable = true;
   networking.hostId = "54a8968e";
 

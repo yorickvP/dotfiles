@@ -19,7 +19,7 @@ in {
       }];
       interfaceNamespace = cfg.namespace;
       preSetup = ''
-        ${pkgs.iproute}/bin/ip netns add "${cfg.namespace}" || true
+        ${pkgs.iproute2}/bin/ip netns add "${cfg.namespace}" || true
       '';
     };
     environment.etc."netns/torrent/resolv.conf".text = ''

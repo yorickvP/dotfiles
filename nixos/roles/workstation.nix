@@ -61,7 +61,7 @@
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    # TODO (segfaults)
+    # TODO (segfaults, 192044)
     package = pkgs.pipewire.override { libcameraSupport = false; };
     alsa.enable = true;
     alsa.support32Bit = true; # todo: support32bit?
@@ -87,7 +87,7 @@
       inconsolata # monospaced
       source-code-pro
       ubuntu_font_family # Ubuntu fonts
-      source-han-sans-japanese
+      source-han-sans
       iosevka
       emojione
       font-awesome

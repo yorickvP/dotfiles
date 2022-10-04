@@ -79,9 +79,9 @@ in {
           "XF86MonBrightnessDown" = exec light "light -T 0.9";
           "ctrl+XF86MonBrightnessUp" = exec light "light -A 1";
           "ctrl+XF86MonBrightnessDown" = exec light "light -U 1";
-          "XF86AudioLowerVolume" = exec alsaUtils "amixer set Master 1%-";
-          "XF86AudioRaiseVolume" = exec alsaUtils "amixer set Master 1%+";
-          "XF86AudioMute" = exec alsaUtils "amixer set Master toggle";
+          "XF86AudioLowerVolume" = exec alsa-utils "amixer set Master 1%-";
+          "XF86AudioRaiseVolume" = exec alsa-utils "amixer set Master 1%+";
+          "XF86AudioMute" = exec alsa-utils "amixer set Master toggle";
           "XF86AudioPause" = "exec playerctl pause";
           "XF86AudioPlay" = "exec playerctl play";
           "${mod}+Shift+s" = exec bin.screenshot_public "screenshot_public >> ~/screenshot-public.log";
@@ -179,7 +179,7 @@ in {
     QT_QPA_PLATFORM = "wayland";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     XCURSOR_THEME = "Adwaita";
-    XCURSOR_PATH = "${pkgs.gnome3.adwaita-icon-theme}/share/icons";
+    XCURSOR_PATH = "${pkgs.gnome.adwaita-icon-theme}/share/icons";
     XDG_CURRENT_DESKTOP = "sway";
   };
   # todo: use home-manager unit

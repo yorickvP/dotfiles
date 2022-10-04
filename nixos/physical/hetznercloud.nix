@@ -21,7 +21,7 @@ in {
 
   swapDevices = [ ];
 
-  nix.maxJobs = lib.mkDefault 1;
+  nix.settings.max-jobs = lib.mkDefault 1;
   #services.nscd.enable = false;
   networking.dhcpcd.enable = false;
   systemd.network.enable = true;

@@ -1,6 +1,5 @@
 { lib, config, options, pkgs, ... }: let
   epkgs = pkgs.emacsPackagesFor pkgs.emacsPgtkNativeComp;
-  engpkgs = pkgs.emacsPackagesNgFor pkgs.emacsPgtkNativeComp;
 in {
   programs.emacs = {
     enable = true;
@@ -77,6 +76,7 @@ in {
         pandoc-mode
         projectile
         reason-mode
+        rescript-mode
         request
         s
         solarized-theme
@@ -87,7 +87,6 @@ in {
         vue-mode
         weechat
         which-key
-      ]) ++ (with engpkgs; [
         crdt
         doom-modeline
         evil-goggles

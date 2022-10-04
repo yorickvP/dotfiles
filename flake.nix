@@ -14,38 +14,34 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
-    , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, self, ... }: {
-      overlays.default = nixpkgs.lib.composeManyExtensions [
-        nixpkgs-wayland.overlay
-        #nixpkgs-mozilla.overlay
-        emacs-overlay.overlay
-        agenix.overlay
-        (import ./fixups.nix)
-        (import ./pkgs)
-        (import ./pkgs/mdr.nix)
-        (final: prev: {
-          nixpkgs-stable = import nixpkgs-stable {
-            system = prev.stdenv.system;
-            config = { };
-            overlays = [ ];
+    , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, flake-utils, self
+    , ... }:
+    (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
+      let pkgs = self.legacyPackages.${system};
+      in {
+        legacyPackages = import nixpkgs {
+          config = {
+            allowUnfree = true;
+            # chromium.vaapiSupport = true;
+            android_sdk.accept_license = true;
           };
-          flake-inputs = inputs;
-        })
-        (import ./nixos/overlay.nix)
-      ];
-      legacyPackages.x86_64-linux = import nixpkgs {
-        config = {
-          allowUnfree = true;
-          # chromium.vaapiSupport = true;
-          android_sdk.accept_license = true;
+          inherit system;
+          overlays = [ self.overlays.default ];
         };
-        system = "x86_64-linux";
-        overlays = builtins.attrValues self.overlays;
-      };
-      nixosConfigurations = self.legacyPackages.x86_64-linux.yorick.machine;
-      homeConfigurations.x86_64-linux =
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = self.legacyPackages.x86_64-linux;
+
+        packages = {
+          yorick-home = self.homeConfigurations.${system}.activationPackage;
+          default = pkgs.linkFarm "yori-nix" ([{
+            name = "yorick-home";
+            path = self.packages.${system}.yorick-home;
+          }] ++ (map (n: {
+            name = n.toplevel.name;
+            path = n.toplevel;
+          }) (builtins.attrValues self.nixosConfigurations)));
+        };
+
+        homeConfigurations = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
           modules = [
             ./home-manager/home.nix
             {
@@ -57,18 +53,39 @@
             }
           ];
         };
-      packages.x86_64-linux.yorick-home =
-        self.homeConfigurations.x86_64-linux.activationPackage;
-      apps.x86_64-linux.update-home = {
-        type = "app";
-        program = (self.legacyPackages.x86_64-linux.writeScript "update-home" ''
-          set -euo pipefail
-          old_profile=$(nix profile list | grep home-manager-path | head -n1 | awk '{print $4}')
-          echo $old_profile
-          nix profile remove $old_profile
-          ${self.packages.x86_64-linux.yorick-home}/activate || (echo "restoring old profile"; ${self.legacyPackages.x86_64-linux.nix}/bin/nix profile install $old_profile)
-        '').outPath;
-      };
 
-    };
+        # updater script for home profile
+        # works around https://github.com/nix-community/home-manager/issues/2848
+        apps.update-home = flake-utils.lib.mkApp {
+          drv = pkgs.writeScript "update-home" ''
+            set -euo pipefail
+            old_profile=$(nix profile list | grep home-manager-path | head -n1 | awk '{print $4}')
+            echo $old_profile
+            nix profile remove $old_profile
+            ${
+              self.packages.${system}.yorick-home
+            }/activate || (echo "restoring old profile"; ${pkgs.nix}/bin/nix profile install $old_profile)
+          '';
+        };
+      })) // {
+        overlays.default = nixpkgs.lib.composeManyExtensions [
+          nixpkgs-wayland.overlay
+          #nixpkgs-mozilla.overlay
+          emacs-overlay.overlay
+          agenix.overlay
+          (import ./fixups.nix)
+          (import ./pkgs)
+          (import ./pkgs/mdr.nix)
+          (final: prev: {
+            nixpkgs-stable = import nixpkgs-stable {
+              system = prev.stdenv.system;
+              config = { };
+              overlays = [ ];
+            };
+            flake-inputs = inputs;
+          })
+          (import ./nixos/overlay.nix)
+        ];
+        nixosConfigurations = self.legacyPackages.x86_64-linux.yorick.machine;
+      };
 }

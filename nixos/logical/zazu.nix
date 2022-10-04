@@ -58,7 +58,7 @@
       "network-link-enp1s0.service"
     ];
     before = [ "network-setup.service" ];
-    path = [ pkgs.iproute ];
+    path = [ pkgs.iproute2 ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

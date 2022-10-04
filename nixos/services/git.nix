@@ -27,11 +27,11 @@ in {
       domain = cfg.vhost;
       rootUrl = "https://${cfg.vhost}/";
       httpAddress = "localhost";
-      cookieSecure = true;
-      log.level = "Warn";
-      disableRegistration = true;
+      settings.log.LEVEL = "Warn";
       settings.service = {
+        DISABLE_REGISTRATION = true;
         REGISTER_EMAIL_CONFIRM = false;
+        COOKIE_SECURE = true;
         ENABLE_NOTIFY_MAIL = false;
         REQUIRE_SIGNIN_VIEW = false;
       };
