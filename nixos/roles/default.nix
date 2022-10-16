@@ -1,5 +1,4 @@
-let secrets = import ../secrets.nix;
-in { config, pkgs, lib, name, inputs, ... }:
+{ config, pkgs, lib, name, inputs, ... }:
 let
   machine = name;
   vpn = import ../vpn.nix;
@@ -14,6 +13,10 @@ in {
     ../modules/muflax-blog.nix
     ../services
   ];
+  age.secrets = {
+    root-user-pass.file = ../../secrets/root-user-pass.age;
+    yorick-user-pass.file = ../../secrets/yorick-user-pass.age;
+  };
 
   nix.nixPath = [];# "nixpkgs=${pkgs.path}" ];
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
@@ -26,7 +29,7 @@ in {
     openssh.authorizedKeys.keys =
       config.users.users.yorick.openssh.authorizedKeys.keys;
     # root password is useful from console, ssh has password logins disabled
-    hashedPassword = secrets.pennyworth_hashedPassword; # TODO: generate own
+    passwordFile = config.age.secrets.root-user-pass.path; # TODO: generate own
 
   };
   services.timesyncd.enable = true;
@@ -36,7 +39,7 @@ in {
     extraGroups = [ "wheel" ];
     group = "users";
     openssh.authorizedKeys.keys = with (import ../sshkeys.nix); yorick;
-    hashedPassword = secrets.yorick_hashedPassword;
+    passwordFile = config.age.secrets.yorick-user-pass.path;
     createHome = true;
   };
 

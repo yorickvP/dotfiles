@@ -1,6 +1,7 @@
 { config, pkgs, lib, inputs, ... }:
 {
   imports = [ inputs.nixos-mailserver.nixosModule ];
+  age.secrets.yorick-mail-pass.file = ../../secrets/yorick-mail-pass.age;
 
   mailserver = rec {
     enable = true;
@@ -8,7 +9,7 @@
     domains = [ "yori.cc" "yorickvanpelt.nl" ];
     loginAccounts = {
       "yorick@yori.cc" = {
-        hashedPassword = (import ../secrets.nix).yorick_mailPassword;
+        hashedPasswordFile = config.age.secrets.yorick-mail-pass.path;
         catchAll = domains;
         aliases = [ "@yori.cc" "@yorickvanpelt.nl" ];
       };
