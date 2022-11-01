@@ -10,4 +10,5 @@
 
     '';
   });
+  nginxStable = super.nginxStable.override { openssl = pkgs.openssl_1_1; };
 })
