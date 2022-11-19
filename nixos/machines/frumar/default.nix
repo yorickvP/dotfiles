@@ -111,14 +111,16 @@
   };
   services.grafana = {
     enable = true;
-    addr = "0.0.0.0";
-    domain = "grafana.yori.cc";
-    rootUrl = "https://grafana.yori.cc/";
-    extraOptions = {
-      AUTH_BASIC_ENABLED = "false";
-      AUTH_DISABLE_LOGIN_FORM = "true";
-      AUTH_GOOGLE_ENABLED = "true";
-      AUTH_GOOGLE_ALLOW_SIGN_UP = "false";
+    settings = {
+      server.http_addr = "0.0.0.0";
+      server.domain = "grafana.yori.cc";
+      server.rootUrl = "https://grafana.yori.cc/";
+      "auth.basic".enabled = false;
+      "auth.google" = {
+        enabled = true;
+        allow_sign_up = false;
+      };
+      auth.disable_login_form = true;
     };
   };
   services.zigbee2mqtt = {

@@ -47,9 +47,9 @@
 
   # development
   services.postgresql = {
-    enable = true;
+    enable = false;
     enableTCPIP = true;
-    package = pkgs.postgresql_10;
+    package = pkgs.postgresql_11;
   };
 
   # git
@@ -61,8 +61,6 @@
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    # TODO (segfaults, 192044)
-    package = pkgs.pipewire.override { libcameraSupport = false; };
     alsa.enable = true;
     alsa.support32Bit = true; # todo: support32bit?
     pulse.enable = true;

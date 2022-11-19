@@ -164,10 +164,7 @@ in {
 
   programs.firefox = {
     enable = true;
-    package = pkgs.wrapFirefox pkgs.firefox-bin.unwrapped {
-      forceWayland = true;
-      applicationName = "firefox";
-    };
+    package = pkgs.firefox-bin;
   };
   home.sessionVariables = {
     MOZ_USE_XINPUT2 = "1";
