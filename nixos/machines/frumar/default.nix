@@ -139,7 +139,9 @@
       "esphome"
       "met"
       "unifi" "yeelight" "plex" "frontend"
+      "tado"
       "automation" "device_automation"
+      "homewizard"
     ];
     config = {
       media_player = [
