@@ -264,7 +264,7 @@ in {
     tdesktop
     virt-manager
     wireshark
-    yubioath-desktop
+    yubioath-flutter
 
     ## games
     minecraft
