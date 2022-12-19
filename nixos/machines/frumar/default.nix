@@ -59,6 +59,7 @@
     enable = true;
     openFirewall = true;
     jrePackage = pkgs.jre8_headless;
+    unifiPackage = pkgs.unifiStable;
   };
   services.victoriametrics = {
     enable = true;
@@ -144,6 +145,7 @@
       "tado"
       "automation" "device_automation"
       "homewizard"
+      "github" "backup"
     ];
     config = {
       media_player = [
