@@ -164,7 +164,7 @@ in {
 
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox-bin;
+    package = pkgs.latest.firefox-beta-bin;
   };
   home.sessionVariables = {
     MOZ_USE_XINPUT2 = "1";

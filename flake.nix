@@ -70,7 +70,7 @@
       })) // {
         overlays.default = nixpkgs.lib.composeManyExtensions [
           nixpkgs-wayland.overlay
-          #nixpkgs-mozilla.overlay
+          nixpkgs-mozilla.overlay
           emacs-overlay.overlay
           agenix.overlay
           (import ./fixups.nix)
