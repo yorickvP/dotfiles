@@ -5,6 +5,7 @@ let
       TF_SHELL = shell;
       HOME = "/build";
     } "${pkgs.thefuck}/bin/thefuck -a > $out";
+  headphones = "88:C9:E8:AD:73:E8";
 in {
   imports = [ ./desktop.nix ./emacs.nix ./lumi.nix ];
   programs = {
@@ -99,8 +100,8 @@ in {
         nb = "nix build";
         nl = "nix log";
         g = "git";
-        bc = "bluetoothctl connect 94:DB:56:79:7D:86";
-        bd = "bluetoothctl disconnect 94:DB:56:79:7D:86";
+        bc = "bluetoothctl connect ${headphones}";
+        bd = "bluetoothctl disconnect ${headphones}";
       };
       interactiveShellInit = ''
         set fish_greeting
