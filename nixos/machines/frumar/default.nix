@@ -104,8 +104,10 @@
   };
   boot.zfs.requestEncryptionCredentials = false;
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 3000 9090 8443 ];
-  networking.firewall.allowedTCPPorts = [ 1883 5357 443 ];
-  networking.firewall.allowedUDPPorts = [ 1883 3702 ];
+  # mqtt, wsdd, ??, minecraft
+  networking.firewall.allowedTCPPorts = [ 1883 5357 443 25565 ];
+  # mqtt, wsdd, minecraft
+  networking.firewall.allowedUDPPorts = [ 1883 3702 25565 ];
   services.rabbitmq = {
     enable = true;
     plugins = [ "rabbitmq_mqtt" "rabbitmq_management" ];
