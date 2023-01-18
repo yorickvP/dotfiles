@@ -177,6 +177,7 @@ in {
     imagemagick
     iodine
     jo
+    jless
     jq
     lnav
     magic-wormhole
@@ -269,6 +270,7 @@ in {
 
     ## games
     minecraft
+    prismlauncher
     steam
     # minecraft
     # nottetris2

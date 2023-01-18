@@ -244,5 +244,6 @@ in {
     wldash
     # zoom-us
     bin.y-cal-widget
+    obsidian
   ];
 }
