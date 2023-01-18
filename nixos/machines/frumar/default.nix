@@ -246,6 +246,11 @@
     ranger
     pyroscope
     rtorrent
+    jq
+    mcrcon
+    # jre_headless # fails to build
+    unzip
+    yscripts.absorb
   ];
   services.acme-sh.certs.wildcard-yori-cc = {
     mainDomain = "*.yori.cc";

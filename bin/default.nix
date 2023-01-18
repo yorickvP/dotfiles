@@ -26,4 +26,7 @@ in lib.mapAttrs (k: f: f k) {
   y-cal-widget = makeWrap ./cal.py "${
       python3.withPackages (p: [ (p.toPythonModule gcalcli) p.i3ipc ])
     }/bin/python";
+  absorb = makeWrap ./absorb.py "${
+    python3.withPackages (p: [ p.requests ])
+  }/bin/python";
 }

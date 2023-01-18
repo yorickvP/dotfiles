@@ -269,7 +269,6 @@ in {
     yubioath-flutter
 
     ## games
-    minecraft
     prismlauncher
     steam
     # minecraft
