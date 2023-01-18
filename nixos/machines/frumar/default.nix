@@ -250,7 +250,7 @@
     rtorrent
     jq
     mcrcon
-    # jre_headless # fails to build
+    jdk17_headless
     unzip
     yscripts.absorb
   ];
