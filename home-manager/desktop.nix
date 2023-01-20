@@ -118,7 +118,7 @@ in {
         position = "0 0";
         bg = bg.desktop;
       };
-      output."BenQ Corporation BenQ GW2765 36H03689019" = {
+      output."BNQ BenQ GW2765 36H03689019" = {
         position = "2560 0";
         bg = bg.desktop;
         max_render_time = "4";
