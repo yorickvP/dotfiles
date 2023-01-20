@@ -164,7 +164,8 @@ in {
 
   programs.firefox = {
     enable = true;
-    package = pkgs.latest.firefox-bin;
+    # TODO (update) remove
+    package = pkgs.firefox-109;
   };
   home.sessionVariables = {
     MOZ_USE_XINPUT2 = "1";
