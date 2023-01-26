@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "es2022",
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "nodenext",
+        "target": "es2022",
+        "strict": true
+    },
+    "files": [
+        "ssh.ts",
+        "nix.ts",
+        "index.ts",
+    ]
+}
