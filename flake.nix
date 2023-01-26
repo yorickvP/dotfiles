@@ -12,9 +12,13 @@
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    nix-index-database.url = "github:Mic92/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
-    , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, flake-utils, self
+                   , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, flake-utils
+                     , nix-index-database
+                   , self
     , ... }:
     (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let pkgs = self.legacyPackages.${system};
@@ -44,6 +48,7 @@
           inherit pkgs;
           modules = [
             ./home-manager/home.nix
+            nix-index-database.hmModules.nix-index
             {
               home = {
                 username = "yorick";
