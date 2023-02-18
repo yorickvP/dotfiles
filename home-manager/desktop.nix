@@ -84,7 +84,7 @@ in {
           "XF86AudioMute" = exec alsa-utils "amixer set Master toggle";
           "XF86AudioPause" = "exec playerctl pause";
           "XF86AudioPlay" = "exec playerctl play";
-          "${mod}+Shift+s" = exec bin.screenshot_public "screenshot_public >> ~/screenshot-public.log";
+          "${mod}+Shift+s" = exec bin.screenshot_public "screenshot_public";
           "Print" = exec bin.screenshot_public "screenshot_public";
           "${mod}+Shift+t" =
             "exec --no-startup-id /home/yorick/dotfiles/bin/toggle_solarized.sh";
