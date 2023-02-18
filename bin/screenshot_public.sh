@@ -2,7 +2,7 @@
 set -e
 
 # Setup filename for the screenshot  
-myfile="$(openssl rand -base64 9)_$(date +%y%m%d%H%M%S).webp"
+myfile="$(openssl rand -base64 9 | tr / -)_$(date +%y%m%d%H%M%S).webp"
   
 webpath="https://pub.yori.cc/s/"
 fileurl="$webpath$myfile"
