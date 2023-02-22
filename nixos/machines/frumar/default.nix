@@ -60,6 +60,14 @@
         '';
       };
     };
+    virtualHosts."home-assistant.yori.cc" = {
+      onlySSL = true;
+      inherit sslCertificate sslCertificateKey;
+      locations."/" = {
+        proxyPass = "http://[::1]:8123";
+        proxyWebsockets = true;
+      };
+    };
     virtualHosts."frumar.yori.cc" = {
       enableACME = lib.mkForce false;
       forceSSL = true;
@@ -199,6 +207,10 @@
         elevation = "0";
         unit_system = "metric";
         time_zone = "Europe/Amsterdam";
+      };
+      http = {
+        use_x_forwarded_for = true;
+        trusted_proxies = [ "::1" ];
       };
     };
   };
