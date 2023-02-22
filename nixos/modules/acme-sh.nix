@@ -96,6 +96,9 @@ in
     };
   };
   config = {
+    systemd.tmpfiles.rules = if cfg.certs != {} then [
+      "d ${cfg.stateDir} 0755 root root"
+    ] else [];
     systemd.services = lib.mapAttrs' (name: value: lib.nameValuePair "acme-sh-${name}" (with value; {
       description = "Renew ACME Certificate for ${name}";
       after =
@@ -114,9 +117,6 @@ in
       };
       path = with pkgs; [ acme-sh systemd util-linuxMinimal procps ];
       preStart = ''
-        mkdir -p ${cfg.stateDir}
-        chown 'root:root' ${cfg.stateDir}
-        chmod 755 ${cfg.stateDir}
         mkdir -p "${statePath}"
         chown -R '${user}:${group}' "${statePath}"
         chmod 750 "${statePath}"
