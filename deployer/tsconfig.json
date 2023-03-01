@@ -4,7 +4,8 @@
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "nodenext",
         "target": "es2022",
-        "strict": true
+        "strict": true,
+        "experimentalDecorators": true
     },
     "files": [
         "ssh.ts",

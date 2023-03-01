@@ -3,11 +3,18 @@ import { ssh, SSH } from './ssh.js'
 import { Expression, BuiltOutput } from './nix.js'
 
 class Cmd {
-  registry: {[index: string]: (() => Promise<void>)} = {};
-  constructor() {
-  }
+  registry: Record<string, () => Promise<void>> = {};
   register(obj: string, action: string, fn: () => Promise<void>) {
     this.registry[`${obj}.${action}`] = fn
+  }
+  registerAll(obj: string, intf: Object & { _commands?: string[] }) {
+    if (!intf._commands) return
+    const proto = Object.getPrototypeOf(intf)
+    for (const name of intf._commands) {
+      if (name != "constructor" && typeof proto[name] === "function") {
+        this.register(obj, name, proto[name].bind(intf))
+      }
+    }
   }
   async run() {
     const opt = argv._[0]
@@ -48,15 +55,15 @@ class Machine {
       return this.hostname
     } else {
       // todo: directify
-      return `${name}.vpn.yori.cc`
+      return `${this.name}.vpn.yori.cc`
     }
   }
   async findIP(): Promise<typeof Machine.prototype.ssh> {
     const host = await this.sshTarget()
     return <R>(user?: string, cb?: () => Promise<R>): Promise<SSH|R> => {
       const sshTarget = user ? `${user}@${host}` : host
-      if (cb !== undefined) return ssh(host, cb)
-      return ssh(host)
+      if (cb !== undefined) return ssh(sshTarget, cb)
+      return ssh(sshTarget)
     }
   }
 
@@ -81,53 +88,75 @@ const machines = {
 for (const [name, machine] of Object.entries(machines))
     machine.name = name
 
+function cmd<R>(target: { _commands?: string[] }, propertyKey: string, descriptor: PropertyDescriptor): void {
+  if (target._commands == undefined) target._commands = []
+  target._commands.push(propertyKey)
+}
 
-for (const machine of Object.values(machines)) {
-  action.register(machine.name, "ssh", async function() {
-    (await machine.ssh()).interactive()
-  })
-  action.register(machine.name, "gc", async () => {
-    machine.ssh("root", async () => {
-      await $`nix-collect-garbage -d`
+class MachineInterface {
+  machine: Machine
+  _commands?: string[]
+  constructor(machine: Machine) {
+    this.machine = machine
+  }
+  @cmd
+  async ssh() {
+    (await this.machine.ssh()).interactive()
+  }
+  @cmd
+  gc() {
+    return this.machine.ssh("root", () => $`nix-collect-garbage -d`)
+  }
+  @cmd
+  eval() {
+    return Promise.all(this.machine.targets.map(x => x.derive()))
+  }
+  @cmd
+  build() {
+    return Promise.all(this.machine.targets.map(x => x.build()))
+  }
+  @cmd
+  status() {
+    return this.machine.ssh(undefined, async () => {
+      await $`systemctl is-system-running`
+      await $`zpool status -x`
+      await $`realpath /run/current-system /nix/var/nix/profiles/system`
     })
-  })
-  action.register(machine.name, "eval", async () => {
-    await Promise.all(machine.targets.map(x => x.derive()))
-  })
-  action.register(machine.name, "build", async () => {
-    await Promise.all(machine.targets.map(x => x.build()))
-  })
-  action.register(machine.name, "copy", async () => {
-    const machineSSH = await machine.findIP()
-    // todo merge builds
-    const outputs = (await Promise.all(machine.targets.map(x => x.build()))).flat()
-    if (machine.isLocal()) {
+  }
+
+  @cmd
+  async copy() {
+    const machineSSH = await this.machine.findIP()
+    const outputs = (await Promise.all(this.machine.targets.map(x => x.build().then(Object.values)))).flat()
+    if (this.machine.isLocal()) {
       console.log("skipping copy, is localhost")
       return
     }
     const conn = await machineSSH()
-    await Promise.all(outputs.map(x => x.copy(conn)))
+    await Promise.all(Object.values(outputs).map(x => x.copy(conn)))
     // machine.toplevel.buildAndCopy(machine.ssh)
     // Home.buildAndCopy(machine.ssh)
-  })
-  action.register(machine.name, "boot-deploy", async () => {
-    const machineSSH = await machine.findIP()
-    const path = (await machine.attr.build()).out
-    if (!machine.isLocal()) {
+  }
+  @cmd
+  async "boot-deploy"() {
+    const machineSSH = await this.machine.findIP()
+    const path = (await this.machine.attr.build()).out
+    if (!this.machine.isLocal()) {
       const conn = await machineSSH()
       await path.copy(conn)
     }
     // machine.toplevel.buildAndCopy(machine.ssh)
     // machine.ssh.within(machine.toplevel.activate("boot"))
     await machineSSH("root", async () => {
-      await $`nix-env -p /nix/var/nix/profiles/system --set ${path}`
+      await $`nix-env -p /nix/var/nix/profiles/system --set ${path.path}`
       await $`${path}/bin/switch-to-configuration boot`
     })
-  })
-  action.register(machine.name, "switch", async () => {
-    const machineSSH = await machine.findIP()
-    const path = (await machine.attr.build()).out
-    if (!machine.isLocal()) {
+  }
+  @cmd
+  async "switch"() {
+    const machineSSH = await this.machine.findIP()
+    const path = (await this.machine.attr.build()).out
+    if (!this.machine.isLocal()) {
       const conn = await machineSSH()
       await path.copy(conn)
     }
@@ -135,32 +164,32 @@ for (const machine of Object.values(machines)) {
     await machineSSH("root", async () => {
       const old_kernel = (await $`readlink /run/booted-system/kernel`).stdout
       if (new_kernel !== old_kernel) {
-        console.error(`[${machine.name}] requires reboot because of kernel update`)
+        console.error(`[${this.machine.name}] requires reboot because of kernel update`)
         process.exit(1)
       }
       await $`nix-env -p /nix/var/nix/profiles/system --set ${path.path}`
-      await $`${path}/bin/switch-to-configuration switch`
-    })
-  })
-  if (machine.hasHome) {
-    action.register(machine.name, "update-home", async () => {
-      const new_path = (await Home.build()).out
-      if (machine.isLocal()) {
-        await $`${new_path.path}/activate`
-      } else {
-        const conn = await machine.ssh()
-        await new_path.copy(conn)
-        await conn.within(() => $`${new_path.path}/activate`)
-      }
+      await $`${path.path}/bin/switch-to-configuration switch`
     })
   }
-  action.register(machine.name, "status", async () => {
-    await machine.ssh(undefined, async () => {
-      await $`systemctl is-system-running`
-      await $`zpool status -x`
-      await $`realpath /run/current-system /nix/var/nix/profiles/system`
-    })
-  })
+}
+
+class MachineInterfaceHome extends MachineInterface {
+  @cmd
+  async "update-home"() {
+    const new_path = (await Home.build()).out
+    if (this.machine.isLocal()) {
+      await $`${new_path.path}/activate`
+    } else {
+      const conn = await this.machine.ssh()
+      await new_path.copy(conn)
+      await conn.within(() => $`${new_path.path}/activate`)
+    }
+  }
+}
+
+
+for (const machine of Object.values(machines)) {
+  action.registerAll(machine.name, machine.hasHome ? new MachineInterfaceHome(machine) : new MachineInterface(machine))
 }
 
 action.register("all", "build", async () => {

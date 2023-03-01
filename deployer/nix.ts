@@ -8,14 +8,21 @@ type NixPath = DrvPath | OutPath
 type ShownDerivation = {
   args: Array<string>,
   builder: string,
-  env: { [index: string]: string } ,
-  inputDrvs: { [index: DrvPath]: Array<String> },
+  env: Record<string, string>,
+  inputDrvs: Record<DrvPath, string[]>,
   inputSrcs: Array<OutPath>,
-  outputs: { [index: string]: { path: OutPath }},
+  outputs: Record<string, { path: OutPath }>,
   system: "x86-64_linux"
 };
-type ShowDerivationOutput = {
-  [index: DrvPath]: ShownDerivation
+type ShowDerivationOutput = Record<DrvPath, ShownDerivation>
+
+type OutputSpec<R> = { out: R } & Record<string, R>
+
+type BuildOutput = {
+  drvPath: DrvPath,
+  outputs: OutputSpec<OutPath>,
+  startTime?: number,
+  stopTime?: number
 }
 
 export class Expression {
@@ -24,17 +31,20 @@ export class Expression {
     this.expr = expr
   }
   async derive(): Promise<Derivation> {
-    const drvPath = await nix.eval(this.expr)
+    const {drvPath} = await nix.derive(this.expr)
     const drv = await nix.showDerivation(drvPath)
     return new Derivation(drvPath, drv[drvPath])
   }
-  async build(): Promise<{out: BuiltOutput} & Array<BuiltOutput>> {
+  async build(): Promise<OutputSpec<BuiltOutput>> {
     const outputs = await nix.build(this.expr)
-    const drvMetaJson = await nix.showDerivation(outputs[0])
+    const drvMetaJson = await nix.showDerivation(outputs.drvPath)
     const [drvPath, drvMeta] = Object.entries(drvMetaJson)[0]
     const drv = new Derivation(drvPath, drvMeta)
-    const ret = outputs.map(x => new BuiltOutput(x, drv))
-    return Object.assign(ret, { out: new BuiltOutput(drv.meta.outputs.out.path, drv) })
+    const ret: Record<string, BuiltOutput> = {}
+    for (const [k, v] of Object.entries(outputs.outputs)) {
+      ret[k] = new BuiltOutput(v, drv)
+    }
+    return Object.assign(ret, { out: ret.out })
   }
 }
 export class Derivation {
@@ -46,8 +56,8 @@ export class Derivation {
     this.meta = meta
   }
   async build(): Promise<{out: BuiltOutput} & Array<BuiltOutput>> {
-    const outputs = await nix.build(this.path)
-    const ret = outputs.map(x => new BuiltOutput(x, this))
+    const outputs: BuildOutput = await nix.build(this.path)
+    const ret = Object.values(outputs.outputs).map(x => new BuiltOutput(x, this))
     return Object.assign(ret, { out: new BuiltOutput(this.meta.outputs.out.path, this) })
   }
 }
@@ -63,22 +73,65 @@ export class BuiltOutput {
   }
 }
 
-export const nix = {
-  async build(attr: string | Array<string>, name="result"): Promise<Array<OutPath>> {
-    const tmp = (await $`mktemp -d`).stdout.trim()
-    process.on('exit', () => fs.removeSync(tmp))
-    await $`nom build ${attr} -o ${tmp}/${name}`
-    const files = await fs.readdir(`${tmp}`)
-    return Promise.all(files.map(f => fs.readlink(`${tmp}/${f}`)))
-  },
-  async showDerivation(path: NixPath): Promise<ShowDerivationOutput> {
+function dedupe<A, B, Rest extends any[]>(fn: (xs: A[], ...rest: Rest) => Promise<B[]>):
+{ (x: A, ...rest: Rest): Promise<B>; (x: A[], ...rest: Rest): Promise<B[]>; } {
+  type QueueEntry = {
+    x: A,
+    resolve: (res: B) => void,
+    reject: (err: any) => void
+  }
+  const queues = new Map<string, QueueEntry[]>()
+  function inner(x: A, ...rest: Rest): Promise<B>
+  function inner(x: A[], ...rest: Rest): Promise<B[]>
+  function inner(x: A | A[], ...rest: Rest) {
+    // todo: also dedupe array results
+    if (Array.isArray(x)) return fn(x, ...rest)
+    // map queue by rest
+    const stringified = JSON.stringify(rest)
+    const had = queues.has(stringified)
+    const queue = queues.get(stringified) || []
+    const ret = new Promise<B>((resolve, reject) => {
+      queue.push({x, resolve, reject})
+    })
+    if (!had) {
+      queues.set(stringified, queue)
+      setImmediate(() => {
+        queues.delete(stringified)
+        fn(queue.map(({x}) => x), ...rest)
+          .then(results => {
+            for (const [i, {resolve}] of queue.entries()) resolve(results[i])
+          })
+          .catch(e => {
+            for (const {reject} of queue) reject(e)
+          })
+      })
+    }
+    return ret
+  }
+  return inner
+}
+
+//function nixBuild(attr: string[]): Promise<BuildOutput[]>
+//function nixBuild(attr: string): Promise<BuildOutput>
+async function nixBuild(attr: string[]): Promise<BuildOutput[]> {
+  const tmp = (await $`mktemp -d`).stdout.trim()
+  process.on('exit', () => fs.removeSync(tmp))
+  const ret = JSON.parse((await $`nom build --json ${attr} -o ${tmp}/result`).stdout)
+  if (Array.isArray(attr)) return ret
+  return ret[0]
+}
+
+namespace nix {
+  export const build = dedupe(nixBuild)
+  export async function showDerivation(path: NixPath): Promise<ShowDerivationOutput> {
     return JSON.parse((await $`nix show-derivation ${path}`.quiet()).stdout)
-  },
-  async eval(attr: string) : Promise<DrvPath> {
-    return JSON.parse((await $`nix eval ${attr}.drvPath --json`).stdout)
-  },
-  async copy(attrs: string | Array<string>, target: SSH): Promise<void> {
+  }
+  export const derive = dedupe(async (attr: string[]): Promise<BuildOutput[]> => {
+    return JSON.parse((await $`nom build --json --dry-run ${attr}`).stdout)
+  })
+  export const copy = dedupe(async (attrs: string[], target: SSH): Promise<void[]> => {
     process.env.NIX_SSHOPTS = "-o compression=no";
     await $`nix copy ${attrs} --to ssh://${target.host}`
-  }
+    return Array(attrs.length)
+  })
 }
