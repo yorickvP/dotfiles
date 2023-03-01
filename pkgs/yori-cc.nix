@@ -5,7 +5,7 @@ stdenv.mkDerivation {
 
   src = builtins.fetchGit {
     url = "git@git.yori.cc:yorick/yori-cc.git";
-    rev = "68c75ab84cceaf98dd8fd0646b97d73f966b8962";
+    rev = "4e3a1e9f4a5171b4c2fd54b03c9047536d5a0214";
   };
 
   buildInputs = [ ];
