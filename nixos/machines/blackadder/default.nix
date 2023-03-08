@@ -43,6 +43,8 @@
   virtualisation.docker.enable = true;
   users.users.yorick.extraGroups = [ "docker" ];
 
+  nix.optimise.automatic = true;
+
   # headphone control
   systemd.services.mdrd = {
     serviceConfig = {
