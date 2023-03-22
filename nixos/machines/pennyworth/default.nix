@@ -90,6 +90,12 @@ in {
     "media.yori.cc" = sslforward "http://${vpn.ips.frumar}:32001";
   };
   networking.firewall.allowedUDPPorts = [ 31790 ]; # wg
+  networking.firewall.allowedTCPPorts = [ 60307 ]; # weechat relay
+  security.acme.certs."pennyworth.yori.cc".postRun = ''
+    cat fullchain.pem key.pem > /home/yorick/.weechat/ssl/relay.pem
+    chown yorick:users /home/yorick/.weechat/ssl/relay.pem
+    chmod 0600 $_
+  '';
   networking.wireguard.interfaces.wg-y.peers = lib.mkForce (lib.mapAttrsToList
     (machine: publicKey: {
       inherit publicKey;
