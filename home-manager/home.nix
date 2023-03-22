@@ -261,6 +261,7 @@ in {
     calibre
     chromium
     discord
+    wayland-push-to-talk-fix
     fanficfare
     feh
     gimp

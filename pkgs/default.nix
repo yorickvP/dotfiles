@@ -33,5 +33,6 @@
       runHook postInstall
     '';
   });
+  wayland-push-to-talk-fix = self.callPackage ./wayland-push-to-talk-fix.nix {};
 
 })
