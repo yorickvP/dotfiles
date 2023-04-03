@@ -35,5 +35,11 @@
   });
   wayland-push-to-talk-fix = self.callPackage ./wayland-push-to-talk-fix.nix {};
   y-deployer = self.callPackage ../deployer/package.nix {};
+  grott = self.callPackage ./grott.nix {};
+  python3 = super.python3.override {
+    packageOverrides = pyself: pysuper: {
+      libscrc = pyself.callPackage ./libscrc.nix {};
+    };
+  };
 
 })
