@@ -14,10 +14,12 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+    nix-npm-buildpackage.url = "github:serokell/nix-npm-buildpackage";
+    nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, flake-utils
-                     , nix-index-database
+                     , nix-index-database, nix-npm-buildpackage
                    , self
     , ... }:
     (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
@@ -59,6 +61,21 @@
           ];
         };
 
+        devShells.default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            y-deployer
+          ];
+        };
+        devShells.deployer = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            yarn
+            nodePackages.typescript-language-server
+          ];
+        };
+
+        apps.default = flake-utils.lib.mkApp {
+          drv = pkgs.y-deployer;
+        };
         # updater script for home profile
         # works around https://github.com/nix-community/home-manager/issues/2848
         apps.update-home = flake-utils.lib.mkApp {
@@ -78,6 +95,7 @@
           nixpkgs-mozilla.overlay
           emacs-overlay.overlay
           agenix.overlay
+          nix-npm-buildpackage.overlays.default
           (import ./fixups.nix)
           (import ./pkgs)
           (import ./pkgs/mdr.nix)

@@ -8,10 +8,14 @@
     "test": "test"
   },
   "type": "module",
+  "bin": {
+    "ydeployer": "./bin/ydeployer.js"
+  },
   "scripts": {
     "watch": "exec tsc --noEmit -w",
     "start": "exec tsx ./index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "exec tsup ./*.ts --dts --format esm"
   },
   "repository": {
     "type": "git",
@@ -20,6 +24,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "tsup": "^6.7.0",
     "tsx": "^3.12.2",
     "typescript": "^4.9.4",
     "zx": "^7.1.1"

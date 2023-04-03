@@ -251,6 +251,7 @@ in {
     unzip
     vim
     xdg-utils
+    countfftabs
     #wlrctl
 
     ## coins
@@ -270,9 +271,10 @@ in {
     neomutt
     spotify
     tdesktop
+    signal-desktop
     virt-manager
     wireshark
-    yubioath-flutter
+    #yubioath-flutter
 
     ## games
     prismlauncher

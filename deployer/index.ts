@@ -1,4 +1,3 @@
-#!/usr/bin/env -S tsx
 import { ssh, SSH } from './ssh.js'
 import { Expression, BuiltOutput } from './nix.js'
 
@@ -18,6 +17,12 @@ class Cmd {
   }
   async run() {
     const opt = argv._[0]
+    if (opt == "__autocompletes") {
+      for (const k of Object.keys(this.registry)) {
+        console.log(k)
+      }
+      return
+    }
     if (opt && this.registry[opt]) await this.registry[opt]()
         else {
           console.log("Possible options: \n")
@@ -98,6 +103,8 @@ class MachineInterface {
   _commands?: string[]
   constructor(machine: Machine) {
     this.machine = machine
+    // hack:
+    delete this._commands
   }
   @cmd
   async ssh() {

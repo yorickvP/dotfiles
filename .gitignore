@@ -2,3 +2,5 @@ result
 *~
 /mutt/.mutt/hcache-lock
 /emacs/emacs.el
+.direnv
+

@@ -34,5 +34,6 @@
     '';
   });
   wayland-push-to-talk-fix = self.callPackage ./wayland-push-to-talk-fix.nix {};
+  y-deployer = self.callPackage ../deployer/package.nix {};
 
 })
