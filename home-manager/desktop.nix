@@ -180,6 +180,20 @@ in {
     XCURSOR_PATH = "${pkgs.gnome.adwaita-icon-theme}/share/icons";
     XDG_CURRENT_DESKTOP = "sway";
   };
+  systemd.user.services.wayland-push-to-talk-fix = let
+    kbd = "/dev/input/by-id/usb-Kinesis_Advantage2_Keyboard_314159265359-if01-event-kbd";
+  in {
+    Unit.ConditionPathExists = kbd;
+    Install.WantedBy = [ "graphical-session.target" ];
+    Unit = {
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.wayland-push-to-talk-fix}/bin/wayland-push-to-talk-fix ${kbd} -k KEY_LEFTALT -n Alt_L";
+      Restart = "on-failure";
+    };
+  };
   # todo: use home-manager unit
   systemd.user.services.gmi = {
     Unit.ConditionPathExists = "/home/yorick/mail/account.gmail/.gmailieer.json";
