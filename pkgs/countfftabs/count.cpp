@@ -37,13 +37,41 @@ padded_string read_mozlz4a_file(const std::string& file) {
   return out;
 }
 
+std::string get_default_firefox_profile_path() {
+    std::string path = std::string(std::getenv("HOME")) + "/.mozilla/firefox/profiles.ini";
+    std::ifstream file(path);
+    if (file.is_open()) {
+        std::string line;
+        bool found = false;
+        std::string default_profile;
+        while (std::getline(file, line)) {
+            if (line.find("[General]") == 0) {
+                found = true;
+            } else if (found && line.find("Default=") == 0) {
+                default_profile = line.substr(8);
+                break;
+            }
+        }
+        file.close();
+        if (!default_profile.empty()) {
+            std::stringstream ss;
+            ss << std::string(std::getenv("HOME")) << "/.mozilla/firefox/" << default_profile;
+            return ss.str();
+        }
+    }
+    return "";
+}
+
 int main(int ac, char **av) {
     ondemand::parser parser;
-    if (ac < 2) {
+    std::string path = get_default_firefox_profile_path();
+    if (ac < 2 && path.empty()) {
+      std::cerr << "Could not find default Firefox profile" << std::endl;
       std::cerr << "usage: " << av[0] << " .mozilla/firefox/*.default/sessionstore-backups/recovery.jsonlz4" << std::endl;
       exit(1);
     }
-    padded_string json = read_mozlz4a_file(av[1]);
+    
+    padded_string json = read_mozlz4a_file(ac > 1 ? av[1] : path + "/sessionstore-backups/recovery.jsonlz4");
     ondemand::document session = parser.iterate(json);
     ondemand::array windows = session["windows"];
     size_t n = 0;
