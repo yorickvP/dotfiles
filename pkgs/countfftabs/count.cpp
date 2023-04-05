@@ -65,19 +65,39 @@ std::string get_default_firefox_profile_path() {
 int main(int ac, char **av) {
     ondemand::parser parser;
     std::string path = get_default_firefox_profile_path();
-    if (ac < 2 && path.empty()) {
-      std::cerr << "Could not find default Firefox profile" << std::endl;
-      std::cerr << "usage: " << av[0] << " .mozilla/firefox/*.default/sessionstore-backups/recovery.jsonlz4" << std::endl;
-      exit(1);
+    bool print_json = false;
+    std::string json_file;
+
+    // Check for --json flag
+    for (int i = 1; i < ac; i++) {
+        if (std::string(av[i]) == "--json") {
+            print_json = true;
+            if (i + 1 < ac) {
+                json_file = av[i + 1];
+            }
+            break;
+        }
     }
-    
+
+    if (ac < 2 && path.empty() && !print_json) {
+        std::cerr << "Could not find default Firefox profile" << std::endl;
+        std::cerr << "usage: " << av[0] << " .mozilla/firefox/*.default/sessionstore-backups/recovery.jsonlz4" << std::endl;
+        exit(1);
+    }
+
+    if (print_json) {
+        padded_string json = read_mozlz4a_file(json_file.empty() ? (ac > 2 ? av[2] : path + "/sessionstore-backups/recovery.jsonlz4") : json_file);
+        std::cout << json << std::endl;
+        exit(0);
+    }
+
     padded_string json = read_mozlz4a_file(ac > 1 ? av[1] : path + "/sessionstore-backups/recovery.jsonlz4");
     ondemand::document session = parser.iterate(json);
     ondemand::array windows = session["windows"];
     size_t n = 0;
     for (auto i : windows) {
-      ondemand::array tabs = i["tabs"];
-      n += tabs.count_elements();
+        ondemand::array tabs = i["tabs"];
+        n += tabs.count_elements();
     }
     std::cout << n << std::endl;
 }
