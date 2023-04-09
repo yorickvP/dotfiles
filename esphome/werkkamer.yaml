@@ -1,0 +1,69 @@
+substitutions:
+  devicename: werkkamer
+
+esphome:
+  name: ${devicename}
+  platform: ESP32
+  board: nodemcu-32s
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${devicename} Fallback Hotspot"
+    password: !secret fallback_password
+
+captive_portal:
+web_server:
+prometheus:
+esp32_ble_tracker:
+uart:
+  - rx_pin: GPIO16
+    tx_pin: GPIO17
+    baud_rate: 9600
+sensor:
+  - <<: !include
+      file: pvvx.yaml
+      vars:
+        mac: "A4:C1:38:70:C4:53"
+        name: "werkkamer"
+  - <<: !include
+      file: pvvx.yaml
+      vars:
+        name: "larswerk"
+        mac: "A4:C1:38:89:D8:C2"
+  - <<: !include
+      file: pvvx.yaml
+      vars: 
+        name: "zolder"
+        mac: "A4:C1:38:F6:5C:72"
+  - platform: ble_rssi
+    mac_address: "E4:A8:DB:C1:F5:B9"
+    name: "Yoricks watch"
+  - platform: mhz19
+    co2:
+      name: "MH-Z19 CO2 Value"
+    temperature:
+      name: "MH-Z19 Temperature"
+    update_interval: 60s
+    automatic_baseline_calibration: false
+    id: mhz_19
+  # woonkamer: A4:C1:38:2B:03:1F (not enough power)
+
+api:
+  services:
+    - service: mhz19_calibrate_zero
+      then:
+        - mhz19.calibrate_zero: mhz_19
+# Enable logging
+logger:
+# Enable Home Assistant API
+# api:
+mqtt:
+  broker: 192.168.2.127
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+
+ota:

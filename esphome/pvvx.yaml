@@ -1,0 +1,10 @@
+platform: pvvx_mithermometer
+mac_address: ${mac}
+temperature:
+  name: "${name} temperature"
+humidity:
+  name: "${name} humidity"
+battery_level:
+  name: "${name} Battery-Level"
+battery_voltage:
+  name: "${name} Battery-Voltage"
