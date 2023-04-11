@@ -173,6 +173,7 @@ in {
     borgbackup
     bup
     # catdoc
+    # todo (upgrade): trurl
     expect
     fzf
     fx

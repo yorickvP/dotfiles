@@ -269,6 +269,9 @@
       sendRaw = true;
     };
     zetup = {
+      "frumar-new" = {
+        plan = "1w=>6h,1m=>1w,1y=>1m,2y=>6m,50y=>1y";
+      };
       "frumar-new/plexmedia" = {
         plan = "1w=>6h,1m=>1w,1y=>1m,2y=>6m,50y=>1y";
       };

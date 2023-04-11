@@ -95,7 +95,6 @@
           nixpkgs-mozilla.overlay
           emacs-overlay.overlay
           agenix.overlay
-          nix-npm-buildpackage.overlays.default
           (import ./fixups.nix)
           (import ./pkgs)
           (import ./pkgs/mdr.nix)
@@ -106,6 +105,7 @@
               overlays = [ ];
             };
             flake-inputs = inputs;
+            nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
           })
           (import ./nixos/overlay.nix)
         ];
