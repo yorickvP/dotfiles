@@ -5,9 +5,11 @@ if [ -z "$ENTRY" ]; then
     exit 1
 fi
 PASSENTRY=$(pass "$ENTRY")
-# todo: kill after 30s
-builtin echo "$PASSENTRY" | head -n1 | nohup wl-copy -f &
-disown
+builtin echo "$PASSENTRY" | head -n1 | nohup wl-copy -f -n &
+WLCOPY_PID=$!
+disown -h
+nohup bash -c "sleep 30s; kill $WLCOPY_PID" &
+disown -h
 
 NOTIFICATION=$(builtin echo "$PASSENTRY" | sed 1d)
 notify-send -t 6000 "$NOTIFICATION"
