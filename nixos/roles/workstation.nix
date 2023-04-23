@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 {
   services.fwupd.enable = true;
+  programs.fish.enable = true;
   users.users.yorick = {
     extraGroups = [ "input" "wireshark" "dialout" "video" "libvirtd" ];
     shell = pkgs.fish;

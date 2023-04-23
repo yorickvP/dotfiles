@@ -1,9 +1,9 @@
 { lib, config, options, pkgs, ... }: let
-  epkgs = pkgs.emacsPackagesFor pkgs.emacsPgtk;
+  epkgs = pkgs.emacsPackagesFor pkgs.emacsUnstablePgtk;
 in {
   programs.emacs = {
     enable = true;
-    package = pkgs.emacsPgtk;
+    package = pkgs.emacsUnstablePgtk;
     extraConfig = ''
       (setq copilot-node-executable "${pkgs.nodejs-slim-16_x}/bin/node")
       (setq lsp-nix-server-path "${pkgs.nil}/bin/nil")

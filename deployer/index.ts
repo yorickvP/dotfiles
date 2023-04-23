@@ -156,7 +156,7 @@ class MachineInterface {
     // machine.ssh.within(machine.toplevel.activate("boot"))
     await machineSSH("root", async () => {
       await $`nix-env -p /nix/var/nix/profiles/system --set ${path.path}`
-      await $`${path}/bin/switch-to-configuration boot`
+      await $`${path.path as string}/bin/switch-to-configuration boot`
     })
   }
   @cmd

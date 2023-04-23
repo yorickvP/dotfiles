@@ -4,7 +4,7 @@ let
   vpn = import ../vpn.nix;
 in {
   imports = [
-    inputs.agenix.nixosModule
+    inputs.agenix.nixosModules.default
     ../modules/acme-sh.nix
     ../modules/tor-hidden-service.nix
     ../modules/nginx.nix

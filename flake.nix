@@ -94,7 +94,7 @@
           nixpkgs-wayland.overlay
           nixpkgs-mozilla.overlay
           emacs-overlay.overlay
-          agenix.overlay
+          agenix.overlays.default
           (import ./fixups.nix)
           (import ./pkgs)
           (import ./pkgs/mdr.nix)

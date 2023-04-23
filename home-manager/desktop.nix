@@ -109,12 +109,12 @@ in {
       output."Sharp Corporation 0x144A Unknown".bg = bg.xps9360;
 
       # desk
-      output."HYC CO., LTD.  Unknown" = {
+      output."HYC CO., LTD. DUAL-DVI Unknown" = {
         position = "0 0";
         bg = bg.desktop;
         max_render_time = "4";
       };
-      output."HYC CO., LTD. " = {
+      output."HYC CO., LTD. DUAL-DVI" = {
         position = "0 0";
         bg = bg.desktop;
       };
@@ -162,11 +162,8 @@ in {
     '';
   };
 
-  programs.firefox = {
-    enable = true;
-    # TODO (update) remove
-    package = pkgs.firefox-109;
-  };
+  programs.firefox.enable = true;
+
   home.sessionVariables = {
     MOZ_USE_XINPUT2 = "1";
     MOZ_ENABLE_WAYLAND = "1";
@@ -179,6 +176,7 @@ in {
     XCURSOR_THEME = "Adwaita";
     XCURSOR_PATH = "${pkgs.gnome.adwaita-icon-theme}/share/icons";
     XDG_CURRENT_DESKTOP = "sway";
+    NIXOS_OZONE_WL = "1";
   };
   systemd.user.services.wayland-push-to-talk-fix = let
     kbd = "/dev/input/by-id/usb-Kinesis_Advantage2_Keyboard_314159265359-if01-event-kbd";
