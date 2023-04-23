@@ -38,9 +38,8 @@ export async function ssh<R>(host: string, cb?: () => Promise<R>) {
 }
 
 export class SSH {
-  host: string;
   child?: ChildProcess | null;
-  constructor(host: string) { this.host = host }
+  constructor(public host: string) { }
   within<R>(cb: () => Promise<R>): Promise<R> {
     return within(async () => {
       $.spawn = (command: string, options: any): any => {

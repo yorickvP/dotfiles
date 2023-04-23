@@ -99,10 +99,8 @@ function cmd<R>(target: { _commands?: string[] }, propertyKey: string, descripto
 }
 
 class MachineInterface {
-  machine: Machine
   _commands?: string[]
-  constructor(machine: Machine) {
-    this.machine = machine
+  constructor(public machine: Machine) {
     // hack:
     delete this._commands
   }
