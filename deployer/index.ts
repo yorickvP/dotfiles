@@ -1,9 +1,10 @@
 import { ssh, SSH } from './ssh.js'
-import { Expression, BuiltOutput } from './nix.js'
+import { Expression } from './nix.js'
 
+type Command = () => Promise<void>
 class Cmd {
-  registry: Record<string, () => Promise<void>> = {};
-  register(obj: string, action: string, fn: () => Promise<void>) {
+  registry: Record<string, Command> = {};
+  register(obj: string, action: string, fn: Command) {
     this.registry[`${obj}.${action}`] = fn
   }
   registerAll(obj: string, intf: Object & { _commands?: string[] }) {
@@ -43,10 +44,11 @@ class Machine {
   name: string;
   hasHome: boolean = false;
   hostname?: string;
-  constructor(args: {name?: string, hasHome?: boolean, hostname?: string}) {
-    Object.assign(this, args)
-    // todo
-    this.name = ""
+  constructor({name = "", hasHome = false, hostname}: {name?: string, hasHome?: boolean, hostname?: string}) {
+    this.name = name
+    this.hasHome = hasHome
+    this.hostname = hostname
+    // name can be set later
   }
   isLocal() {
     return os.hostname() == this.name
@@ -93,7 +95,7 @@ const machines = {
 for (const [name, machine] of Object.entries(machines))
     machine.name = name
 
-function cmd<R>(target: { _commands?: string[] }, propertyKey: string, descriptor: PropertyDescriptor): void {
+function cmd(target: { _commands?: string[] }, propertyKey: string, _descriptor: PropertyDescriptor): void {
   if (target._commands == undefined) target._commands = []
   target._commands.push(propertyKey)
 }
