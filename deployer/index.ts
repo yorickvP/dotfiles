@@ -1,14 +1,18 @@
 import { ssh, SSH } from './ssh.js'
 import { Expression } from './nix.js'
 
+type Dictionary<T> = Record<string, T>
 type Command = () => Promise<void>
+type Setter = (props: Dictionary<string | boolean | number>) => void
 class Cmd {
-  registry: Record<string, Command> = {};
+  registry: Dictionary<Command> = {};
+  settings: Dictionary<Setter> = {};
   register(obj: string, action: string, fn: Command) {
     this.registry[`${obj}.${action}`] = fn
   }
-  registerAll(obj: string, intf: Object & { _commands?: string[] }) {
+  registerAll(obj: string, intf: Object & { _commands?: string[], set?: Setter }) {
     if (!intf._commands) return
+    if (intf.set) this.settings[obj] = intf.set.bind(intf)
     const proto = Object.getPrototypeOf(intf)
     for (const name of intf._commands) {
       if (name != "constructor" && typeof proto[name] === "function") {
@@ -18,6 +22,14 @@ class Cmd {
   }
   async run() {
     const opt = argv._[0]
+    for (const k of Object.keys(argv)) {
+      if (k === "_") continue
+      if (this.settings[k]) {
+        this.settings[k](argv[k])
+      } else {
+        throw new Error("unknown object " + k)
+      }
+    }
     if (opt == "__autocompletes") {
       for (const k of Object.keys(this.registry)) {
         console.log(k)
@@ -62,7 +74,7 @@ class Machine {
       return this.hostname
     } else {
       // todo: directify
-      return `${this.name}.vpn.yori.cc`
+      return `${this.name}.home.yori.cc`
     }
   }
   async findIP(): Promise<typeof Machine.prototype.ssh> {
@@ -105,6 +117,10 @@ class MachineInterface {
   constructor(public machine: Machine) {
     // hack:
     delete this._commands
+  }
+  set(props: Dictionary<string | boolean | number>) {
+    console.log("setting", props)
+    Object.assign(this.machine, props)
   }
   @cmd
   async ssh() {
