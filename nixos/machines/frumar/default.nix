@@ -183,6 +183,13 @@
       "automation" "device_automation"
       "homewizard"
       "github" "backup"
+      "mqtt"
+      "brother"
+      "spotify"
+      "yamaha_musiccast"
+      "ipp"
+      "homekit_controller"
+      #"unifiprotect"
     ];
     config = {
       media_player = [
@@ -207,6 +214,7 @@
         elevation = "0";
         unit_system = "metric";
         time_zone = "Europe/Amsterdam";
+        country = "NL";
       };
       http = {
         use_x_forwarded_for = true;
