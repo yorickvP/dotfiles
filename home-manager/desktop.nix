@@ -258,5 +258,6 @@ in {
     # zoom-us
     bin.y-cal-widget
     obsidian
+    xwaylandvideobridge
   ];
 }

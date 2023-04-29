@@ -43,5 +43,6 @@
       libscrc = pyself.callPackage ./libscrc.nix {};
     };
   };
+  xwaylandvideobridge = self.callPackage ./xwaylandvideobridge.nix {};
 
 })
