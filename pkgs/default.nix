@@ -44,5 +44,6 @@
     };
   };
   xwaylandvideobridge = self.callPackage ./xwaylandvideobridge.nix {};
+  timesync = self.flake-inputs.timesync.packages.${self.system}.default;
 
 })

@@ -16,10 +16,14 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nix-npm-buildpackage.url = "github:serokell/nix-npm-buildpackage";
     nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
+    timesync = {
+      url = "github:datakami/timesync";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, flake-utils
-                     , nix-index-database, nix-npm-buildpackage
+                     , nix-index-database, nix-npm-buildpackage, timesync
                    , self
     , ... }:
     (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:

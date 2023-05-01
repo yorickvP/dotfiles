@@ -286,6 +286,9 @@ in {
     # wine
     # winetricks
 
+    # work
+    timesync
+
   ]);
 
   home.file.".gnupg/gpg.conf".text = ''
