@@ -20,7 +20,7 @@
     # Define schedule
     startAt = "hourly";
 
-    repo = "14337@ch-s012.rsync.net:${name}";
+    repo = "zh3213@zh3213.rsync.net:${name}";
     paths = [ "/home" "/root" "/var/lib" ];
 
     prune.keep = {
