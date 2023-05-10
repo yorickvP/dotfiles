@@ -39,6 +39,12 @@
     ];
   };
 
+  # judith user
+  users.users.judith = {
+    isNormalUser = true;
+    openssh.authorizedKeys.keys = with (import ../../sshkeys.nix); judith;
+  };
+
   # docker
   virtualisation.docker.enable = true;
   users.users.yorick.extraGroups = [ "docker" ];
