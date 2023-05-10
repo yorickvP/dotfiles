@@ -10,10 +10,7 @@ in {
   imports = [ ./desktop.nix ./emacs.nix ./lumi.nix ];
   programs = {
     nix-index.enable = true;
-    starship = {
-      enable = true;
-      settings.nix_shell.disabled = false;
-    };
+    # todo: fish tide
     # todo: .aws/config default region
     gh = {
       enable = true;

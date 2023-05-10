@@ -87,6 +87,7 @@
       source-code-pro
       ubuntu_font_family # Ubuntu fonts
       source-han-sans
+      nerdfonts
       iosevka
       emojione
       font-awesome
