@@ -17,6 +17,7 @@ in {
   imports = [
     ./hetznercloud.nix
     ../../roles/server.nix
+    ../../roles/datakami.nix
     ../../services/backup.nix
     ../../services/email.nix
   ];
@@ -110,5 +111,6 @@ in {
     weechat
     ripgrep
   ];
+  nix.settings.allowed-users = [ "@wheel" ];
 
 }
