@@ -89,6 +89,11 @@ in {
       '';
     };
     "media.yori.cc" = sslforward "http://${vpn.ips.frumar}:32001";
+    "calibre.yori.cc" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/".proxyPass = "http://[::1]:8083";
+    };
   };
   networking.firewall.allowedUDPPorts = [ 31790 ]; # wg
   networking.firewall.allowedTCPPorts = [ 60307 ]; # weechat relay
@@ -112,5 +117,13 @@ in {
     ripgrep
   ];
   nix.settings.allowed-users = [ "@wheel" ];
+
+  services.calibre-web = {
+    enable = true;
+    options = {
+      enableBookUploading = true;
+      #enableBookConversion = true;
+    };
+  };
 
 }
