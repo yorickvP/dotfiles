@@ -104,6 +104,7 @@
     dconf.enable = true;
     noisetorch.enable = true;
     wireshark.enable = true;
+    kdeconnect.enable = true;
     sway = {
       enable = true;
       extraSessionCommands = ''

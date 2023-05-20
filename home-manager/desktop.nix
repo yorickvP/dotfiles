@@ -228,6 +228,11 @@ in {
   #     '';
   #   };
   # };
+  services.kdeconnect = {
+    enable = true;
+    indicator = true;
+  };
+  systemd.user.services.kdeconnect-indicator.Unit.After = [ "waybar.service" ];
   home.packages = with pkgs; [
     gtk-engine-murrine
     hicolor-icon-theme
