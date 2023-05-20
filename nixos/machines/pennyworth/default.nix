@@ -89,11 +89,7 @@ in {
       '';
     };
     "media.yori.cc" = sslforward "http://${vpn.ips.frumar}:32001";
-    "calibre.yori.cc" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/".proxyPass = "http://[::1]:8083";
-    };
+    "calibre.yori.cc" = sslforward "http://[::1]:8083";
   };
   networking.firewall.allowedUDPPorts = [ 31790 ]; # wg
   networking.firewall.allowedTCPPorts = [ 60307 ]; # weechat relay
@@ -110,7 +106,6 @@ in {
   services.prometheus.exporters.wireguard = { enable = true; };
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 9586 ];
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
-  environment.noXlibs = true;
   users.users.yorick.packages = with pkgs; [
     sshfs-fuse
     weechat
@@ -125,5 +120,4 @@ in {
       #enableBookConversion = true;
     };
   };
-
 }
