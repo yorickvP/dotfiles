@@ -1,4 +1,0 @@
-set record="=Sent"
-set postponed="=Drafts"
-set trash="=Archive"
-mailboxes =INBOX =Archive =Sent =Spam =Trash

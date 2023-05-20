@@ -1,4 +1,0 @@
-text/html; w3m -I %{charset} -T text/html; copiousoutput;
-application/pdf;               pdftotext -layout -l 10 -nopgbrk /dev/stdin -; copiousoutput
-content/pdf;                   pdftotext -layout -l 10 -nopgbrk /dev/stdin -; copiousoutput
-

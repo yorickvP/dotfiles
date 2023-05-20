@@ -7,10 +7,9 @@ let
     } "${pkgs.thefuck}/bin/thefuck -a > $out";
   headphones = "88:C9:E8:AD:73:E8";
 in {
-  imports = [ ./desktop.nix ./emacs.nix ./lumi.nix ];
+  imports = [ ./desktop.nix ./emacs.nix ./lumi.nix ./email.nix ];
   programs = {
     nix-index.enable = true;
-    # todo: fish tide
     # todo: .aws/config default region
     gh = {
       enable = true;
@@ -110,6 +109,9 @@ in {
         source ${thefuck-alias "fish"}
         source ~/dotfiles/nr.fish
       '';
+      plugins = [
+        { inherit (pkgs.fishPlugins.tide) name src; }
+      ];
     };
     bash = {
       enable = true;
@@ -170,7 +172,7 @@ in {
     borgbackup
     bup
     # catdoc
-    # todo (upgrade): trurl
+    trurl
     expect
     fzf
     fx
@@ -266,7 +268,6 @@ in {
     gimp
     gopass
     hledger
-    neomutt
     spotify
     tdesktop
     signal-desktop
@@ -295,10 +296,6 @@ in {
     keyserver hkps://keys.openpgp.org
     #keyserver-options auto-key-retrieve
   '';
-  home.file.".mutt" = {
-    source = ../mutt/.mutt;
-    recursive = true;
-  };
   home.sessionVariables = {
     FLAKE_CONFIG_URI = "/home/yorick/dotfiles#homeConfigurations.${pkgs.stdenv.system}.activationPackage";
   };

@@ -1,9 +1,0 @@
-set imap_user=yorick@yori.cc
-set imap_pass = "`pass sysadmin/yori.ccMail | head -n1`"
-set folder   = "imaps://yorick@yori.cc@pennyworth.yori.cc/"
-set spoolfile = "=INBOX"
-set realname = "Yorick van Pelt"
-set from     = "Yorick van Pelt <yorick@yorickvanpelt.nl>"
-
-set smtp_url     = "smtp://yorick@yori.cc@pennyworth.yori.cc:587/"
-set smtp_pass    = "$imap_pass"
