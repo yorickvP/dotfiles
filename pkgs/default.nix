@@ -45,5 +45,13 @@
   };
   xwaylandvideobridge = self.callPackage ./xwaylandvideobridge.nix {};
   timesync = self.flake-inputs.timesync.packages.${self.system}.default;
+  wl-clipboard = super.wl-clipboard.overrideAttrs (o: {
+    patches = (o.patches or []) ++ [
+      (self.fetchpatch {
+        url = "https://puck.moe/up/zapap-suhih.patch";
+        hash = "sha256-YiFDeBN1k2+lxVnWnU5sMpIJ7/zsVPEm5OZf0nHhzJA=";
+      })
+    ];
+  });
 
 })

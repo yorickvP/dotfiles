@@ -5,7 +5,7 @@ if [ -z "$ENTRY" ]; then
     exit 1
 fi
 PASSENTRY=$(pass "$ENTRY")
-builtin echo "$PASSENTRY" | head -n1 | nohup wl-copy -f -n &
+builtin echo "$PASSENTRY" | head -n1 | nohup wl-copy -f -n --sensitive &
 WLCOPY_PID=$!
 disown -h
 nohup bash -c "sleep 30s; kill $WLCOPY_PID" &
