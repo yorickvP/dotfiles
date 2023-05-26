@@ -32,6 +32,10 @@ in {
   programs.mako = {
     enable = true;
     defaultTimeout = 60 * 1000; # ms
+    extraConfig = ''
+      [mode=do-not-disturb]
+      invisible=1
+    '';
   };
   services.gpg-agent.pinentryFlavor = "gnome3";
   wayland.windowManager.sway = {
