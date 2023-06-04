@@ -14,7 +14,7 @@
         aliases = [ "@yori.cc" "@yorickvanpelt.nl" ];
       };
     };
-    certificateScheme = 3;
+    certificateScheme = "acme-nginx";
     enableImapSsl = true;
   };
 

@@ -18,9 +18,9 @@
         implicit_autoview = "no";
       };
       binds = [
-        { map = "index"; key = "G"; action = "imap-fetch-mail"; }
-        { map = "pager"; key = "<up>"; action = "previous-line"; }
-        { map = "pager"; key = "<down>"; action = "next-line"; }
+        { map = [ "index" ]; key = "G"; action = "imap-fetch-mail"; }
+        { map = [ "pager" ]; key = "<up>"; action = "previous-line"; }
+        { map = [ "pager" ]; key = "<down>"; action = "next-line"; }
       ];
       
       extraConfig = "source ${./mutt-colors}";

@@ -29,7 +29,7 @@ in {
     style = ./waybar.css;
     systemd.enable = true;
   };
-  programs.mako = {
+  services.mako = {
     enable = true;
     defaultTimeout = 60 * 1000; # ms
     extraConfig = ''

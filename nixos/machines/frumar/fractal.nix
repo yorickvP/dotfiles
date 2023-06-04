@@ -9,7 +9,6 @@
   # Use the GRUB 2 boot loader.
   boot.loader.grub = {
     enable = true;
-    version = 2;
     # Define on which hard drive you want to install Grub.
     device = "/dev/disk/by-id/ata-Samsung_SSD_850_EVO_250GB_S21PNXAG441016B";
   };
@@ -32,5 +31,5 @@
   };
 
   nix.settings.max-jobs = 4;
-  services.avahi.interfaces = [ "enp2s0" ];
+  services.avahi.allowInterfaces = [ "enp2s0" ];
 }
