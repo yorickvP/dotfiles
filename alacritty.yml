@@ -61,7 +61,7 @@ draw_bold_text_with_bright_colors: true
 # * file:///usr/share/doc/fontconfig/fontconfig-user.html
 font:
   normal:
-    family: "DejaVuSansMono Nerd Font" # should be "Menlo" or something on macOS.
+    family: "DejaVuSansM Nerd Font" # should be "Menlo" or something on macOS.
 
   size: 12.0
 
