@@ -18,10 +18,10 @@ if not Path("~/.gcalcli_oauth").expanduser().exists():
 
 i3 = i3ipc.Connection()
 
-
+accounts = ["yorickvanpelt@gmail.com", "yorick.vanpelt@tweag.io", "yorick@datakami.nl"]
 
 gcal = GoogleCalendarInterface(
-    cal_names=parse_cal_names(["yorickvanpelt@gmail.com", "yorick.vanpelt@tweag.io"]),
+    cal_names=parse_cal_names(accounts),
     config_folder=None, refresh_cache=False,
     use_cache=True,
     ignore_started=False,
@@ -38,9 +38,9 @@ events = gcal._search_for_events(start=datetime.now(tzlocal()), end=start_date +
 opt = sys.argv[1]
 
 def authuser(evt):
-    if evt["gcalcli_cal"]["id"] == "yorickvanpelt@gmail.com":
-        return 0
-    else:
+    try:
+        return accounts.index(evt["gcalcli_cal"]["id"])
+    except ValueError:
         return 1
 
 def tooltip(evt):
