@@ -1,20 +1,21 @@
 { stdenv
 , fetchFromGitLab
 , cmake
+, fetchpatch
 , pkg-config
 , extra-cmake-modules
 , qt5
 , libsForQt5
 }: stdenv.mkDerivation rec {
   pname = "xwaylandvideobridge";
-  version = "unstable-2023-04-29";
+  version = "unstable-2023-06-04";
 
   src = fetchFromGitLab {
     domain = "invent.kde.org";
-    owner = "davidedmundson";
+    owner = "system";
     repo = "xwaylandvideobridge";
-    rev = "5efe47fdd6b90ed197c3e849fb7a1750bca3b643";
-    hash = "sha256-gfQkOIZegxdFQ9IV2Qp/lLRtfI5/g6bDD3XRBdLh4q0=";
+    rev = "75f68526fb3d2a4e1af6644e49dfdc8d9e56985c";
+    hash = "sha256-GvutiwF9FxtZ2ehd6dsR3ZY8Mq6/4k1TDpz+xE8SusE=";
   };
 
   nativeBuildInputs = [
@@ -24,9 +25,12 @@
     qt5.wrapQtAppsHook
   ];
 
-  postPatch = ''
-    sed -i /cursor_mode/d src/pwbypass.cpp
-  '';
+  patches = [
+    (fetchpatch {
+      url = "https://aur.archlinux.org/cgit/aur.git/plain/cursor-mode.patch?h=xwaylandvideobridge-cursor-mode-2-git";
+      hash = "sha256-649kCs3Fsz8VCgGpZ952Zgl8txAcTgakLoMusaJQYa4=";
+    })
+  ];
 
   buildInputs = [
     qt5.qtbase
@@ -34,14 +38,14 @@
     qt5.qtx11extras
     libsForQt5.kdelibs4support
     (libsForQt5.kpipewire.overrideAttrs (oldAttrs: {
-      version = "unstable-2023-03-28";
+      version = "5.27.5";
 
       src = fetchFromGitLab {
         domain = "invent.kde.org";
         owner = "plasma";
         repo = "kpipewire";
-        rev = "ed99b94be40bd8c5b7b2a2f17d0622f11b2ab7fb";
-        hash = "sha256-KhmhlH7gaFGrvPaB3voQ57CKutnw5DlLOz7gy/3Mzms=";
+        rev = "v5.27.5";
+        hash = "sha256-xcuSWURiyY9iuayeY9w6G59UJTbYXyPWGg8x+EiXNsY=";
       };
     }))
   ];
