@@ -17,7 +17,7 @@ index caeb853..37a78b6 100644
              }
          }
      } else if (g_strcmp0(key, "volume") == 0 &&
-@@ -613,6 +613,17 @@ static GVariant *helperfn_emoji(struct token *token, GVariant **args, int nargs,
+@@ -613,6 +613,19 @@ static GVariant *helperfn_emoji(struct token *token, GVariant **args, int nargs,
          } else {
              return g_variant_new("s", "🔊");
          }
@@ -31,6 +31,8 @@ index caeb853..37a78b6 100644
 +        return g_variant_new("s", "");
 +      } else if (g_strcmp0(playerName_str, "mpv") == 0) {
 +        return g_variant_new("s", "");
++      } else if (g_strcmp0(playerName_str, "kdeconnect") == 0) {
++        return g_variant_new("s", "");
 +      }
      }
  
