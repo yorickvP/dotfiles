@@ -296,7 +296,7 @@
     magic-wormhole
     python3
     ranger
-    pyroscope
+    pyrosimple
     rtorrent
     jq
     mcrcon

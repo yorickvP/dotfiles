@@ -7,7 +7,6 @@
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-21.05";
     nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-23.05";
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
@@ -22,7 +21,7 @@
     };
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
-                   , nixpkgs-wayland, nixpkgs-stable, nixos-hardware, agenix, flake-utils
+                   , nixpkgs-wayland, nixos-hardware, agenix, flake-utils
                      , nix-index-database, nix-npm-buildpackage, timesync
                    , self
     , ... }:
@@ -107,11 +106,6 @@
           (import ./pkgs)
           (import ./pkgs/mdr.nix)
           (final: prev: {
-            nixpkgs-stable = import nixpkgs-stable {
-              system = prev.stdenv.system;
-              config = { };
-              overlays = [ ];
-            };
             flake-inputs = inputs;
             nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
           })
