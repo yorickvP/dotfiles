@@ -25,10 +25,12 @@
   #   matchConfig.OriginalName = "*";
   #   linkConfig.NamePolicy = "mac kernel database onboard slot path";
   # };
-  boot.kernelParams = [
-    # thunderbolt
-    "pcie_ports=native"
-    "pci=assign-busses,hpbussize=0x33,realloc"
-  ];
-  environment.systemPackages = [ pkgs.openrgb ];
+  environment.systemPackages = [ pkgs.openrgb pkgs.egl-wayland ];
+  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  hardware.nvidia.powerManagement.finegrained = true;
+  hardware.nvidia.prime.offload.enable = true;
+  hardware.nvidia.prime = {
+    nvidiaBusId = "PCI:5:0:0";
+    amdgpuBusId = "PCI:15:0:0";
+  };
 }
