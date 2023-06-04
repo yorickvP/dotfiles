@@ -14,12 +14,14 @@ let
   };
   vpn = import ../../vpn.nix;
 in {
+  disabledModules = [ "services/web-apps/calibre-web.nix" ];
   imports = [
     ./hetznercloud.nix
     ../../roles/server.nix
     ../../roles/datakami.nix
     ../../services/backup.nix
     ../../services/email.nix
+    ../../modules/calibre-web.nix
   ];
 
   system.stateVersion = "19.03";
@@ -89,7 +91,16 @@ in {
       '';
     };
     "media.yori.cc" = sslforward "http://${vpn.ips.frumar}:32001";
-    "calibre.yori.cc" = sslforward "http://[::1]:8083";
+    "calibre.yori.cc" = lib.mkMerge [ (sslforward "http://[::1]:8083") {
+      locations."/kobo/" = {
+        proxyPass = "http://[::1]:8083/kobo/";
+        extraConfig = ''
+          proxy_buffer_size 128k;
+          proxy_buffers 4 256k;
+          proxy_busy_buffers_size 256k;
+        '';
+      };
+    } ];
   };
   networking.firewall.allowedUDPPorts = [ 31790 ]; # wg
   networking.firewall.allowedTCPPorts = [ 60307 ]; # weechat relay
@@ -118,6 +129,7 @@ in {
     options = {
       enableBookUploading = true;
       #enableBookConversion = true;
+      extraConfig.config_kepubifypath = "${pkgs.kepubify}/bin/kepubify";
     };
   };
 }

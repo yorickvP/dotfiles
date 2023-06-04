@@ -53,5 +53,8 @@
       })
     ];
   });
+  calibre-web = super.calibre-web.overridePythonAttrs (o: {
+    propagatedBuildInputs = o.propagatedBuildInputs ++ [ self.python3.pkgs.jsonschema ];
+  });
 
 })
