@@ -35,6 +35,7 @@ in {
     };
     extraPackages = p:
       (with p; [
+        treesit-grammars.with-all-grammars
         all-the-icons
         avy
         company

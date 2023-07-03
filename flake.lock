@@ -566,11 +566,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1682943688,
-        "narHash": "sha256-EMaETLOXkLBGWDBUhOVpfOph+cB4hmApLJmiuy2GCHY=",
+        "lastModified": 1687787528,
+        "narHash": "sha256-cAcP0FDWfPTVPaAb4q92LMxNHgfg7fQdMQKU3h0WrBw=",
         "owner": "datakami",
         "repo": "timesync",
-        "rev": "50f9d5148992bce9adc9c78828cd706ca02be2a6",
+        "rev": "f1cc532f3d135276ae0f90104ee8a88b5f608a29",
         "type": "github"
       },
       "original": {
