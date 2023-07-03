@@ -26,6 +26,7 @@
       root = "/home/dk-stage/out";
       index = "index.html";
       extraConfig = ''
+        try_files $uri.html $uri $uri/ /index.html;
         error_page 404 /404.html;
       '';
     };
