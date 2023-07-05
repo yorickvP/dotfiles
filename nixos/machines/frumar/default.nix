@@ -3,6 +3,7 @@
     ./fractal.nix
     ../../roles/server.nix
     ../../roles/homeserver.nix
+    ./paperless.nix
   ];
 
   system.stateVersion = "15.09";
@@ -137,12 +138,19 @@
     #   unifiPassword = "ReadOnlyPassword";
     # };
   };
+  services.yorick.paperless = {
+    enable = true;
+    openFirewall = true;
+    scanner_ip = "192.168.2.49";
+  };
   boot.zfs.requestEncryptionCredentials = false;
-  networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 3000 9090 8443 ];
-  # mqtt, wsdd, ??, minecraft
-  networking.firewall.allowedTCPPorts = [ 1883 5357 443 25565 ];
-  # mqtt, wsdd, minecraft
-  networking.firewall.allowedUDPPorts = [ 1883 3702 25565 ];
+  networking.firewall = {
+    interfaces.wg-y.allowedTCPPorts = [ 3000 9090 8443 ];
+    # mqtt, wsdd, ??, minecraft
+    allowedTCPPorts = [ 1883 5357 443 25565 ];
+    # mqtt, wsdd, minecraft
+    allowedUDPPorts = [ 1883 3702 25565 ];
+  };
   services.rabbitmq = {
     enable = true;
     plugins = [ "rabbitmq_mqtt" "rabbitmq_management" ];
@@ -315,5 +323,4 @@
     TRANSIP_Username = "yorickvp";
     TRANSIP_Key_File = config.age.secrets.transip-key.path;
   };
-
 }
