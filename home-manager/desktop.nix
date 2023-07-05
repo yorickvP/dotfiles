@@ -269,4 +269,11 @@ in {
     obsidian
     xwaylandvideobridge
   ];
+
+  xdg.desktopEntries.element = {
+    name = "Element Desktop";
+    genericName = "Matrix Client";
+    exec = "element-desktop %U";
+    categories = [ "Application" "Network" ];
+  };
 }
