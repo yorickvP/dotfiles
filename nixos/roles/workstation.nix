@@ -66,8 +66,11 @@
     alsa.support32Bit = true; # todo: support32bit?
     pulse.enable = true;
   };
-  # attempted to get bluetooth battery indicator
-  hardware.bluetooth.package = pkgs.bluez5-experimental;
+  # bluetooth battery indicator
+  hardware.bluetooth = {
+    package = pkgs.bluez5-experimental;
+    settings.General.Experimental = true;
+  };
   xdg.portal = {
     enable = true;
     wlr.enable = true;

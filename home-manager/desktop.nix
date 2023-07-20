@@ -118,6 +118,11 @@ in {
         bg = bg.desktop;
         max_render_time = "4";
       };
+      output."HYC CO., LTD.  Unknown" = {
+        position = "0 0";
+        bg = bg.desktop;
+        max_render_time = "4";
+      };
       output."HYC CO., LTD. DUAL-DVI" = {
         position = "0 0";
         bg = bg.desktop;
@@ -236,7 +241,11 @@ in {
     enable = true;
     indicator = true;
   };
-  systemd.user.services.kdeconnect-indicator.Unit.After = [ "waybar.service" ];
+  programs.obs-studio = {
+    enable = true;
+    plugins = [ pkgs.obs-studio-plugins.wlrobs ];
+  };
+  # systemd.user.services.kdeconnect-indicator.Unit.After = [ "waybar.service" ];
   home.packages = with pkgs; [
     gtk-engine-murrine
     hicolor-icon-theme
@@ -252,8 +261,6 @@ in {
     grim
     element-desktop-wayland
     libreoffice
-    obs-studio
-    obs-wlrobs
     fixed_slack
     slurp
     sway-contrib.grimshot
@@ -267,7 +274,7 @@ in {
     # zoom-us
     bin.y-cal-widget
     obsidian
-    xwaylandvideobridge
+    #xwaylandvideobridge
   ];
 
   xdg.desktopEntries.element = {

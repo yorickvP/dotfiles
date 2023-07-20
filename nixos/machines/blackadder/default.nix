@@ -43,6 +43,9 @@ in
     judith = {
       isNormalUser = true;
       openssh.authorizedKeys.keys = sshkeys.judith;
+      # packages = with pkgs; [
+      #   git cmake gnumake gcc python3 python3.pkgs.pip screen vim
+      # ];
     };
   };
 

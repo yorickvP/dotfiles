@@ -93,7 +93,6 @@ in {
         proxy_buffering off;
       '';
     };
-    "media.yori.cc" = sslforward "http://${vpn.ips.frumar}:32001";
   };
   networking.firewall.allowedUDPPorts = [ 31790 ]; # wg
   networking.firewall.allowedTCPPorts = [ 60307 ]; # weechat relay

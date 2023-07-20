@@ -87,6 +87,7 @@
     enable = true;
     openFirewall = true;
   };
+  systemd.services.plex.after = [ "data-plexmedia.mount" ];
   services.iperf3 = {
     enable = true;
     openFirewall = true;

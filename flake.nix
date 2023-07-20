@@ -2,6 +2,7 @@
   description = "Yoricks dotfiles";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-mozilla.url = "github:mozilla/nixpkgs-mozilla";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +33,7 @@
           config = {
             # todo remove, copilot.vim depends on it
             permittedInsecurePackages = [
-              "nodejs-slim-16.20.0"
+              "nodejs-slim-16.20.1"
             ];
             allowUnfree = true;
             # chromium.vaapiSupport = true;
@@ -98,7 +99,7 @@
         };
       })) // {
         overlays.default = nixpkgs.lib.composeManyExtensions [
-          nixpkgs-wayland.overlay
+          #nixpkgs-wayland.overlay
           nixpkgs-mozilla.overlay
           emacs-overlay.overlay
           agenix.overlays.default
@@ -108,6 +109,8 @@
           (final: prev: {
             flake-inputs = inputs;
             nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
+            inherit (nixpkgs-wayland.packages.${final.system}) wldash;
+
           })
           (import ./nixos/overlay.nix)
         ];

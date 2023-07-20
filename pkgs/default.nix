@@ -44,6 +44,15 @@
   xwaylandvideobridge = self.callPackage ./xwaylandvideobridge.nix {};
   timesync = self.flake-inputs.timesync.packages.${self.system}.default;
   wl-clipboard = super.wl-clipboard.overrideAttrs (o: {
+    # todo (upgrade): remove version override on nixos-23.11
+    src = super.fetchFromGitHub {
+      owner = "bugaevc";
+      repo = "wl-clipboard";
+      rev = "61d5fa34b4722a1fb3ce7a83e2dbc413ffef863f";
+      sha256 = "sha256-RxBW4In2ATAJ4v/cppXwwbNP6V9WgEI7GkHA6CHYQ24=";
+    };
+    version = "2023-05-03";
+    # todo: upstream
     patches = (o.patches or []) ++ [
       (self.fetchpatch {
         url = "https://puck.moe/up/zapap-suhih.patch";
