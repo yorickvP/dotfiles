@@ -242,7 +242,6 @@
   };
   systemd.services.grafana.serviceConfig.EnvironmentFile = config.age.secrets.grafana.path;
   services.zfs = {
-    trim.enable = false; # no ssd's
     autoScrub = {
       enable = true;
       interval = "*-*-01 02:00:00"; # monthly + 2 hours
@@ -291,6 +290,16 @@
       };
       "frumar-new/plexmedia" = {
         plan = "1w=>6h,1m=>1w,1y=>1m,2y=>6m,50y=>1y";
+      };
+      "ssdpool/root" = {
+        plan = "2d=>1d";
+      };
+      "ssdpool/root/var" = {
+        plan = "1w=>1d";
+        destinations.frumar-new = {
+          dataset = "frumar-new/backup/ssdpool-root-var";
+          plan = "1w=>1d,1m=>1w,1y=>1m,10y=>6m,50y=>1y";
+        };
       };
     };
   };
