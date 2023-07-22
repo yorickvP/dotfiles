@@ -23,4 +23,6 @@ in
   "yorick-mail-pass.age".publicKeys = [ yorick pennyworth ];
   "yorick-user-pass.age".publicKeys = [ yorick blackadder pennyworth frumar smithers jarvis ];
   "root-user-pass.age".publicKeys = [ yorick blackadder pennyworth frumar smithers jarvis ];
+  "frumar-mail-pass-hash.age".publicKeys = [ yorick pennyworth ];
+  "frumar-mail-pass.age".publicKeys = [ yorick frumar ];
 }

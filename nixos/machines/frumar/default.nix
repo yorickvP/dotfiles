@@ -233,6 +233,7 @@
   };
   age.secrets = {
     grafana.file = ../../../secrets/grafana.env.age;
+    frumar-mail-pass.file = ../../../secrets/frumar-mail-pass.age;
     transip-key = {
       file = ../../../secrets/transip-key.age;
       mode = "770";
@@ -332,5 +333,16 @@
   systemd.services.acme-sh-wildcard-yori-cc.environment = {
     TRANSIP_Username = "yorickvp";
     TRANSIP_Key_File = config.age.secrets.transip-key.path;
+  };
+  programs.msmtp = {
+    enable = true;
+    accounts.default = {
+      auth = true;
+      tls = true;
+      from = "frumar@yori.cc";
+      host = "pennyworth.yori.cc";
+      user = "frumar@yori.cc";
+      passwordeval = "cat ${config.age.secrets.frumar-mail-pass.path}";
+    };
   };
 }
