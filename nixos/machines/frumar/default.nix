@@ -353,4 +353,12 @@
       recipient = "yorickvanpelt@gmail.com";
     };
   };
+  services.zfs.zed.settings = {
+    ZED_EMAIL_ADDR = [ "yorickvanpelt@gmail.com" ];
+    ZED_EMAIL_PROG = "/run/wrappers/bin/sendmail";
+    ZED_EMAIL_OPTS = "@ADDRESS@";
+    ZED_NOTIFY_INTERVAL_SECS = 3600;
+    ZED_NOTIFY_VERBOSE = true;
+    ZED_SCRUB_AFTER_RESILVER = true;
+  };
 }
