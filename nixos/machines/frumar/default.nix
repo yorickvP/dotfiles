@@ -342,7 +342,15 @@
       from = "frumar@yori.cc";
       host = "pennyworth.yori.cc";
       user = "frumar@yori.cc";
-      passwordeval = "cat ${config.age.secrets.frumar-mail-pass.path}";
+      passwordeval = "${pkgs.coreutils}/bin/cat ${config.age.secrets.frumar-mail-pass.path}";
+    };
+  };
+  services.smartd = {
+    enable = true;
+    notifications.mail = {
+      enable = true;
+      sender = "frumar@yori.cc";
+      recipient = "yorickvanpelt@gmail.com";
     };
   };
 }
