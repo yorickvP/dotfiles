@@ -54,7 +54,7 @@
     fsType = "zfs";
   };
 
-  fileSystems."/home/yorick/rtorrent" = {
+  fileSystems."/torrent" = {
     device = "ssdpool/torrent";
     fsType = "zfs";
   };

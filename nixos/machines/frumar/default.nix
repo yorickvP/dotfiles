@@ -4,6 +4,7 @@
     ../../roles/server.nix
     ../../roles/homeserver.nix
     ./paperless.nix
+    ./torrent.nix
   ];
 
   system.stateVersion = "15.09";
