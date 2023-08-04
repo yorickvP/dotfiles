@@ -259,7 +259,7 @@ in {
     libwebp
     gebaar-libinput
     grim
-    element-desktop-wayland
+    element-desktop
     libreoffice
     fixed_slack
     slurp
