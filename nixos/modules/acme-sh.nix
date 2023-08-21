@@ -89,8 +89,8 @@ in
       type = types.attrsOf (types.submodule ({config, name, ...}: (with config; {
         options = submod config;
         config.statePath = "${cfg.stateDir}/${name}";
-        config.keyPath = "${statePath}/${mainDomain}/${mainDomain}.key";
-        config.certPath = "${statePath}/${mainDomain}/fullchain.cer";
+        config.keyPath = "${statePath}/${mainDomain}_ecc/${mainDomain}.key";
+        config.certPath = "${statePath}/${mainDomain}_ecc/fullchain.cer";
       })));
       default = {};
     };
