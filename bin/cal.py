@@ -50,6 +50,9 @@ def tooltip(evt):
         {evt["s"].strftime("%b %d %H:%M")} - {evt["e"].strftime("%H:%M")}
     """
 
+def openURI(uri):
+    subprocess.call(["systemd-run", "--user", "chromium", uri])
+
 def click(evt):
     # todo: only on certain time before
     if 'hangoutLink' in evt:
@@ -57,12 +60,12 @@ def click(evt):
         url = evt["hangoutLink"] + "?authuser=" + str(authuser(evt))
         subprocess.call(["playerctl", "pause"])
         i3.command("focus output 'DVI-D-1', workspace --no-auto-back-and-forth 9")
-        subprocess.call(["chromium", url])
+        openURI(url)
     else:
-        subprocess.call(["xdg-open", evt["htmlLink"]])
+        openURI(evt["htmlLink"])
 
 def rightclick(evt):
-    subprocess.call(["xdg-open", "https://calendar.google.com"])
+    openURI("https://calendar.google.com")
 
 events = [e for e in events if not gcal._DeclinedEvent(e)]
 if opt == "dump":

@@ -22,7 +22,7 @@ in {
     onChange = "systemctl --user restart waybar";
   };
   systemd.user.services.waybar.Service.Environment = [
-    "PATH=${lib.makeBinPath (with pkgs; [ pavucontrol xdg-utils bin.y-cal-widget playerctl bluez gnugrep bash ])}"
+    "PATH=${lib.makeBinPath (with pkgs; [ pavucontrol xdg-utils bin.y-cal-widget playerctl bluez gnugrep bash systemd chromium ])}"
   ];
   programs.waybar = {
     enable = true;
