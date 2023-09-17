@@ -31,10 +31,6 @@
       in {
         legacyPackages = import nixpkgs {
           config = {
-            # todo remove, copilot.vim depends on it
-            permittedInsecurePackages = [
-              "nodejs-slim-16.20.1"
-            ];
             allowUnfree = true;
             # chromium.vaapiSupport = true;
             android_sdk.accept_license = true;

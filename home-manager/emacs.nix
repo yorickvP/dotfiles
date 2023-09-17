@@ -5,20 +5,20 @@ in {
     enable = true;
     package = pkgs.emacsUnstablePgtk;
     extraConfig = ''
-      (setq copilot-node-executable "${pkgs.nodejs-slim-16_x}/bin/node")
+      (setq copilot-node-executable "${pkgs.nodejs-slim-18_x}/bin/node")
       (setq lsp-nix-server-path "${pkgs.nil}/bin/nil")
     '';
     overrides = final: prev: {
       copilot = final.melpaBuild rec {
           pname = "copilot";
-          version = "20220916.1";
-          commit = "f316299bab75a380ee04e7ca49c79baf0fb296d6";
+          version = "20230913";
+          commit = "421703f5dd5218ec2a3aa23ddf09d5f13e5014c2";
 
           src = pkgs.fetchFromGitHub {
             owner = "zerolfx";
             repo = "copilot.el";
             rev = commit;
-            sha256 = "sha256-n4bXnlNfCC00jVeODUlqZNThf7i8rj69zzMMfXBy8tk=";
+            hash = "sha256-7LKB2JoYAVu5i23ZKBVZPe6azCItHK/tlBNPgFXxztc=";
           };
 
           packageRequires = with final; [ dash editorconfig s ];

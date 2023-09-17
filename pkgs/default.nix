@@ -48,8 +48,8 @@
     src = super.fetchFromGitHub {
       owner = "bugaevc";
       repo = "wl-clipboard";
-      rev = "61d5fa34b4722a1fb3ce7a83e2dbc413ffef863f";
-      sha256 = "sha256-RxBW4In2ATAJ4v/cppXwwbNP6V9WgEI7GkHA6CHYQ24=";
+      rev = "v2.2.1";
+      sha256 = "sha256-BYRXqVpGt9FrEBYQpi2kHPSZyeMk9o1SXkxjjcduhiY=";
     };
     version = "2023-05-03";
     # todo: upstream
