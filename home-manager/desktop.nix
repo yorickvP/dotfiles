@@ -11,7 +11,7 @@ let
   };
   bg = {
     xps9360 = "/home/yorick/wp/thorns__4k__by_kasperja-daqi5g7.jpg fill";
-    desktop = "/home/yorick/wp/beyond-4k-2560×1440.jpg fill";
+    desktop = "/home/yorick/wp/leonid5-high.webp fill";
     x11carbon = "/home/yorick/wp/lawn_forest_mountains_144578_3840x2400.jpg fill";
   };
 in {
