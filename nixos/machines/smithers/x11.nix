@@ -13,7 +13,10 @@
 
   boot.supportedFilesystems = [ "zfs" ];
   boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
-  networking.wireless.enable = true;
+  networking.wireless = {
+    enable = false;
+    iwd.enable = true;
+  };
   networking.hostId = "54a8968e";
 
   services.zfs.autoScrub.enable = true;
