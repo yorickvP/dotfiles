@@ -189,7 +189,7 @@ in {
     XCURSOR_THEME = "Adwaita";
     XCURSOR_PATH = "${pkgs.gnome.adwaita-icon-theme}/share/icons";
     XDG_CURRENT_DESKTOP = "sway";
-    NIXOS_OZONE_WL = "1";
+    #NIXOS_OZONE_WL = "1";
   };
   systemd.user.services.wayland-push-to-talk-fix = let
     kbd = "/dev/input/by-id/usb-Kinesis_Advantage2_Keyboard_314159265359-if01-event-kbd";
