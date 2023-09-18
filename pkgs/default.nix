@@ -63,5 +63,8 @@
   calibre-web = super.calibre-web.overridePythonAttrs (o: {
     propagatedBuildInputs = o.propagatedBuildInputs ++ [ self.python3.pkgs.jsonschema ];
   });
+  notion-desktop = self.callPackage ./notion-desktop {
+    inherit (self.nix-npm-buildpackage) buildYarnPackage;
+  };
 
 })

@@ -1,0 +1,10 @@
+{
+  "name": "notion-desktop-buildenv",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@electron/asar": "^3.2.4",
+    "@electron/rebuild": "^3.3.0"
+  }
+}
