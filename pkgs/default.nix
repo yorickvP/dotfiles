@@ -63,8 +63,13 @@
   calibre-web = super.calibre-web.overridePythonAttrs (o: {
     propagatedBuildInputs = o.propagatedBuildInputs ++ [ self.python3.pkgs.jsonschema ];
   });
+  electron_27 = self.callPackage (self.path + /pkgs/development/tools/electron/binary/generic.nix) {} "27.0.0-beta.4" {
+    x86_64-linux = "sha256-wdPRBf65Tzu2N4/chNVJtEhaPRuLjUEWsghYZ00aGag=";
+    headers = "sha256-ZxvJrPrQX0UUy6LkXZcCXhUkRj6FLv40d7N65eGRRcY=";
+  };
   notion-desktop = self.callPackage ./notion-desktop {
     inherit (self.nix-npm-buildpackage) buildYarnPackage;
+    electron_26 = self.electron_27;
   };
 
 })
