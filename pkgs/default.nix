@@ -51,7 +51,7 @@
       rev = "v2.2.1";
       sha256 = "sha256-BYRXqVpGt9FrEBYQpi2kHPSZyeMk9o1SXkxjjcduhiY=";
     };
-    version = "2023-05-03";
+    version = "2.2.1";
     # todo: upstream
     patches = (o.patches or []) ++ [
       (self.fetchpatch {
