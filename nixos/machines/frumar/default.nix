@@ -16,13 +16,13 @@
   }) ];
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${config.services.acme-sh.stateDir}/selfsign 0700 nginx nginx"
+    "d /var/lib/acme.sh/selfsign 0700 nginx nginx"
   ];
   systemd.services."yori-selfsigned-ca" = {
     description = "Generate self-signed fallback";
     path = with pkgs; [ minica ];
     unitConfig = {
-      ConditionPathExists = "!${config.services.acme-sh.stateDir}/selfsign/selfsigned.local/key.pem";
+      ConditionPathExists = "!/var/lib/acme.sh/selfsign/selfsigned.local/key.pem";
       StartLimitIntervalSec = 0;
     };
     serviceConfig = {
@@ -31,7 +31,7 @@
       UMask = "0077";
       Type = "oneshot";
       PrivateTmp = true;
-      WorkingDirectory = "${config.services.acme-sh.stateDir}/selfsign";
+      WorkingDirectory = "/var/lib/acme.sh/selfsign";
     };
     script = "minica --domains selfsigned.local";
   };
@@ -40,19 +40,11 @@
     after = [ "yori-selfsigned-ca.service" ];
   };
 
-  services.nginx = let
-    cert = config.services.acme-sh.certs.wildcard-yori-cc;
-    sslCertificate = cert.certPath;
-    sslCertificateKey = cert.keyPath;
-  in {
+  services.nginx = {
     enable = true;
-    recommendedOptimisation = true;
-    recommendedTlsSettings = true;
-    recommendedProxySettings = true;
-    recommendedGzipSettings = true;
     virtualHosts."unifi.yori.cc" = {
       onlySSL = true;
-      inherit sslCertificate sslCertificateKey;
+      useACMEHost = "wildcard.yori.cc";
       locations."/" = {
         proxyPass = "https://[::1]:8443";
         proxyWebsockets = true;
@@ -64,7 +56,7 @@
     };
     virtualHosts."home-assistant.yori.cc" = {
       onlySSL = true;
-      inherit sslCertificate sslCertificateKey;
+      useACMEHost = "wildcard.yori.cc";
       locations."/" = {
         proxyPass = "http://[::1]:8123";
         proxyWebsockets = true;
@@ -72,10 +64,8 @@
     };
     virtualHosts."frumar.yori.cc" = {
       enableACME = lib.mkForce false;
-      forceSSL = true;
       sslCertificate = "/var/lib/acme.sh/selfsign/selfsigned.local/cert.pem";
       sslCertificateKey = "/var/lib/acme.sh/selfsign/selfsigned.local/key.pem";
-      default = true;
     };
   };
   boot.supportedFilesystems = [ "zfs" ];
@@ -235,11 +225,10 @@
   age.secrets = {
     grafana.file = ../../../secrets/grafana.env.age;
     frumar-mail-pass.file = ../../../secrets/frumar-mail-pass.age;
-    transip-key = {
+    acme-transip-key = {
       file = ../../../secrets/transip-key.age;
       mode = "770";
-      owner = "nginx";
-      group = "nginx";
+      group = "acme";
     };
   };
   systemd.services.grafana.serviceConfig.EnvironmentFile = config.age.secrets.grafana.path;
@@ -324,16 +313,15 @@
     unzip
     yscripts.absorb
   ];
-  services.acme-sh.certs.wildcard-yori-cc = {
-    mainDomain = "*.yori.cc";
-    dns = "dns_transip";
-    production = true;
-    postRun = "systemctl reload nginx || true";
-    inherit (config.services.nginx) user group;
+  security.acme.certs."wildcard.yori.cc" = {
+    domain = "*.yori.cc";
+    dnsProvider = "transip";
+    reloadServices = [ "nginx.service" ];
   };
-  systemd.services.acme-sh-wildcard-yori-cc.environment = {
-    TRANSIP_Username = "yorickvp";
-    TRANSIP_Key_File = config.age.secrets.transip-key.path;
+  users.users.nginx.extraGroups = [ "acme" ];
+  systemd.services."acme-wildcard.yori.cc".environment = {
+    TRANSIP_ACCOUNT_NAME = "yorickvp";
+    TRANSIP_PRIVATE_KEY_PATH = config.age.secrets.acme-transip-key.path;
   };
   programs.msmtp = {
     enable = true;

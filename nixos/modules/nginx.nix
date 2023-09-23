@@ -1,14 +1,6 @@
 { config, lib, pkgs, ... }:
-let
-  sslcfg = dir: ''
-    ssl on;
-    ssl_certificate_key ${dir}/key.pem;
-    ssl_certificate ${dir}/fullchain.pem;
-    ssl_trusted_certificate ${dir}/fullchain.pem;
-    add_header Strict-Transport-Security max-age=15768000;
-  '';
 
-in {
+{
   config = lib.mkIf config.services.nginx.enable {
     services.nginx = {
       recommendedTlsSettings = true;
