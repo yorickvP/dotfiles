@@ -47,11 +47,16 @@ in
       # packages = with pkgs; [
       #   git cmake gnumake gcc python3 python3.pkgs.pip screen vim
       # ];
+      extraGroups = [ "docker" ];
     };
   };
 
   # docker
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    enableNvidia = true;
+    storageDriver = "overlay2";
+  };
   users.users.yorick.extraGroups = [ "docker" ];
 
   nix.optimise.automatic = true;
