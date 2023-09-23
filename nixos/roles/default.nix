@@ -10,6 +10,7 @@ in {
     ../modules/lumi-cache.nix
     ../modules/lumi-vpn.nix
     ../modules/muflax-blog.nix
+    ../modules/selfsigned.nix
     ../services
   ];
   age.secrets = {

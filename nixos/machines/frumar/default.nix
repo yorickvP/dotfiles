@@ -15,30 +15,7 @@
     };
   }) ];
 
-  systemd.tmpfiles.rules = lib.mkAfter [
-    "d /var/lib/acme.sh/selfsign 0700 nginx nginx"
-  ];
-  systemd.services."yori-selfsigned-ca" = {
-    description = "Generate self-signed fallback";
-    path = with pkgs; [ minica ];
-    unitConfig = {
-      ConditionPathExists = "!/var/lib/acme.sh/selfsign/selfsigned.local/key.pem";
-      StartLimitIntervalSec = 0;
-    };
-    serviceConfig = {
-      User = "nginx";
-      Group = "nginx";
-      UMask = "0077";
-      Type = "oneshot";
-      PrivateTmp = true;
-      WorkingDirectory = "/var/lib/acme.sh/selfsign";
-    };
-    script = "minica --domains selfsigned.local";
-  };
-  systemd.services.nginx = {
-    requires = [ "yori-selfsigned-ca.service" ];
-    after = [ "yori-selfsigned-ca.service" ];
-  };
+  security.y-selfsigned.enable = true;
 
   services.nginx = {
     enable = true;
@@ -64,8 +41,7 @@
     };
     virtualHosts."frumar.yori.cc" = {
       enableACME = lib.mkForce false;
-      sslCertificate = "/var/lib/acme.sh/selfsign/selfsigned.local/cert.pem";
-      sslCertificateKey = "/var/lib/acme.sh/selfsign/selfsigned.local/key.pem";
+      inherit (config.security.y-selfsigned) sslCertificate sslCertificateKey;
     };
   };
   boot.supportedFilesystems = [ "zfs" ];
