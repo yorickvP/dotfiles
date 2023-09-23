@@ -4,7 +4,8 @@
     ../../roles/server.nix
     ../../roles/homeserver.nix
     ./paperless.nix
-    ./torrent.nix
+    ./media.nix
+    ./home-automation.nix
   ];
 
   system.stateVersion = "15.09";
@@ -31,30 +32,12 @@
         '';
       };
     };
-    virtualHosts."home-assistant.yori.cc" = {
-      onlySSL = true;
-      useACMEHost = "wildcard.yori.cc";
-      locations."/" = {
-        proxyPass = "http://[::1]:8123";
-        proxyWebsockets = true;
-      };
-    };
     virtualHosts."frumar.yori.cc" = {
       enableACME = lib.mkForce false;
       inherit (config.security.y-selfsigned) sslCertificate sslCertificateKey;
     };
   };
   boot.supportedFilesystems = [ "zfs" ];
-  services.yorick.torrent-vpn = {
-    enable = true;
-    name = "mullvad-nl4";
-    namespace = "torrent";
-  };
-  services.plex = {
-    enable = true;
-    openFirewall = true;
-  };
-  systemd.services.plex.after = [ "data-plexmedia.mount" ];
   services.iperf3 = {
     enable = true;
     openFirewall = true;
@@ -128,74 +111,13 @@
     settings = {
       server.http_addr = "0.0.0.0";
       server.domain = "grafana.yori.cc";
-      server.rootUrl = "https://grafana.yori.cc/";
+      server.root_url = "https://grafana.yori.cc/";
       "auth.basic".enabled = false;
       "auth.google" = {
         enabled = true;
         allow_sign_up = false;
       };
       auth.disable_login_form = true;
-    };
-  };
-  services.zigbee2mqtt = {
-    enable = true;
-    settings.availability = true;
-    settings.device_options = {
-      retain = true;
-      legacy = false;
-    };
-    settings.serial.port = "/dev/ttyUSB0";
-  };
-  services.home-assistant = {
-    enable = true;
-    openFirewall = true;
-    extraComponents = [
-      "default_config"
-      "androidtv"
-      "esphome"
-      "met"
-      "unifi" "yeelight" "plex" "frontend"
-      "tado"
-      "automation" "device_automation"
-      "homewizard"
-      "github" "backup"
-      "mqtt"
-      "brother"
-      "spotify"
-      "yamaha_musiccast"
-      "ipp"
-      "homekit_controller"
-      #"unifiprotect"
-    ];
-    config = {
-      media_player = [
-        {
-          platform = "androidtv";
-          host = "192.168.2.181";
-          name = "shield";
-          device_class = "androidtv";
-        }
-      ];
-      mobile_app = {};
-      default_config = {};
-      system_log = {};
-      "map" = {};
-      
-      frontend.themes = "!include_dir_merge_named themes";
-      automation = "!include automations.yaml";
-      homeassistant = {
-        name = "Home";
-        latitude = "51.84";
-        longitude = "5.85";
-        elevation = "0";
-        unit_system = "metric";
-        time_zone = "Europe/Amsterdam";
-        country = "NL";
-      };
-      http = {
-        use_x_forwarded_for = true;
-        trusted_proxies = [ "::1" ];
-      };
     };
   };
   age.secrets = {
@@ -208,41 +130,9 @@
     };
   };
   systemd.services.grafana.serviceConfig.EnvironmentFile = config.age.secrets.grafana.path;
-  services.zfs = {
-    autoScrub = {
-      enable = true;
-      interval = "*-*-01 02:00:00"; # monthly + 2 hours
-    };
-  };
-  services.samba = {
-    enable = false;
-    openFirewall = false;
-    shares.public = {
-      path = "/data/plexmedia";
-      browseable = "yes";
-      "guest ok" = "yes";
-      "hosts allow" = "192.168.178.0/255.255.255.0";
-      "writeable" = "yes";
-      "force user" = "nobody";
-      "force directory mode" = "2777";
-    };
-  };
-  services.samba-wsdd = {
+  services.zfs.autoScrub = {
     enable = true;
-    interface = "eno1";
-    hostname = "NAS";
-  };
-  services.sonarr = {
-    enable = true;
-    group = "plex";
-    user = "plex";
-    openFirewall = true;
-  };
-  services.radarr = {
-    enable = true;
-    group = "plex";
-    user = "plex";
-    openFirewall = true;
+    interval = "*-*-01 02:00:00"; # monthly + 2 hours
   };
   services.znapzend = {
     enable = true;
@@ -270,9 +160,6 @@
       };
     };
   };
-  users.users.plex.packages = with pkgs; [
-    ffmpeg
-  ];
   users.users.yorick.packages = with pkgs; [
     borgbackup
     bup
@@ -281,13 +168,10 @@
     magic-wormhole
     python3
     ranger
-    pyrosimple
-    rtorrent
     jq
     mcrcon
     jdk17_headless
     unzip
-    yscripts.absorb
   ];
   security.acme.certs."wildcard.yori.cc" = {
     domain = "*.yori.cc";
