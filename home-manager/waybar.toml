@@ -2,7 +2,7 @@ layer = "top"
 height = 26
 modules-left = [ "sway/workspaces", "sway/mode", "custom/spotify" ]
 modules-center = [ "sway/window" ]
-modules-right = [ "custom/cal", "pulseaudio", "network", "disk", "battery", "clock", "tray" ]
+modules-right = [ "custom/marvin", "custom/cal", "pulseaudio", "network", "disk", "battery", "clock", "tray" ]
 
 ["sway/workspaces"]
 all-outputs = false
@@ -82,3 +82,10 @@ escape = true
 max-length = 40
 on-click = "playerctl play-pause"
 exec = "$HOME/dotfiles/bin/spotify_meta.sh 2> /dev/null"
+
+["custom/marvin"]
+format = "{}"
+escape = true
+max-length = 40
+exec = "/home/yorick/tmp/marvin-cli --public tracking --json | /home/yorick/.nix-profile/bin/jq -r .title"
+interval = 120

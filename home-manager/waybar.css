@@ -29,7 +29,7 @@ window#waybar {
     border-bottom: 3px solid white;
 }
 
-#clock, #battery, #cpu, #memory, #network, #disk, #pulseaudio, #custom-spotify, #tray, #mode, #custom-cal {
+#clock, #battery, #cpu, #memory, #network, #disk, #pulseaudio, #custom-spotify, #tray, #mode, #custom-cal, #custom-marvin {
     padding: 0 10px;
     margin: 0 5px;
 }
@@ -108,6 +108,11 @@ window#waybar {
 }
 #custom-cal.user-2 {
     background: #33b679;
+}
+
+#custom-marvin {
+    background: #5ec0bc;
+    color: white;
 }
 
 #tray {
