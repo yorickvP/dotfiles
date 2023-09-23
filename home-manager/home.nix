@@ -80,6 +80,7 @@ in {
         frumar.hostname = "frumar.local";
         pennyworth.hostname = "pennyworth.yori.cc";
         smithers.hostname = "10.209.0.8";
+        replicate.hostname = "216.153.63.208";
         # "192.168.178.*" = {
         # only if wired
         #   extraOptions.Compression = "no";
