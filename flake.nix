@@ -68,6 +68,7 @@
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             y-deployer
+            pkgs.agenix
           ];
         };
         devShells.deployer = pkgs.mkShell {
