@@ -287,6 +287,7 @@ in {
 
     # work
     timesync
+    r8-cog
 
   ]);
 
