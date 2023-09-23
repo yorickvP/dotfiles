@@ -10,6 +10,7 @@ import json
 import subprocess
 import sys
 import i3ipc
+import html
 from pathlib import Path
 
 if not Path("~/.gcalcli_oauth").expanduser().exists():
@@ -46,7 +47,7 @@ def authuser(evt):
 def tooltip(evt):
     # todo: location
     return f"""
-        <b>{evt["summary"]}</b>
+        <b>{html.escape(evt["summary"])}</b>
         {evt["s"].strftime("%b %d %H:%M")} - {evt["e"].strftime("%H:%M")}
     """
 
