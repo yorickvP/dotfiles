@@ -71,6 +71,12 @@
     inherit (self.nix-npm-buildpackage) buildYarnPackage;
     electron_26 = self.electron_27;
   };
+  dashy = self.callPackage ./dashy.nix {
+    inherit (self.nix-npm-buildpackage.override {
+      nodejs = self.nodejs_16;
+      yarn = self.yarn.override { nodejs = self.nodejs_16; };
+    }) buildYarnPackage;
+  };
   r8-cog = self.stdenvNoCC.mkDerivation rec {
     pname = "cog";
     version = "0.8.6";

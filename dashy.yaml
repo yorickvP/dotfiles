@@ -1,0 +1,108 @@
+pageInfo:
+  title: Dashy
+  navLinks:
+    - title: Documentation
+      path: https://dashy.to/docs
+appConfig:
+  theme: nord
+  layout: auto
+  iconSize: medium
+  language: en
+  defaultOpeningMethod: sametab
+  webSearch:
+    searchEngine: google
+    openingMethod: sametab
+sections:
+  - name: Local Devices
+    icon: fas fa-network-wired
+    items:
+      - title: EdgeRouter 4
+        icon: fas fa-router
+        url: https://router.home.yori.cc
+      - title: Unifi
+        icon: hl-unifi-controller
+        url: https://unifi.yori.cc/
+      - title: EdgeSwitch 8
+        icon: fas fa-ethernet
+        url: https://192.168.2.62/
+      - title: Scanner
+        url: http://192.168.2.49/
+        icon: fas fa-scanner-image
+      - title: Printer
+        url: "http://[2a02:a464:5ed:1:3205:5cff:fe44:20a7]/"
+        icon: fas fa-print
+  - name: Media
+    icon: fas fa-photo-video
+    items:
+      - title: Plex
+        icon: hl-plex
+        url: https://plex.yori.cc/web/index.html
+      - title: Sonarr
+        icon: hl-sonarr
+        url: https://priv.yori.cc/sonarr
+      - title: Radarr
+        icon: hl-radarr
+        url: https://priv.yori.cc/radarr
+      - title: Calibre
+        icon: hl-calibre-web
+        url: https://calibre.yori.cc/
+  - name: Monitoring
+    icon: fas fa-tachometer-alt-fast
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 1
+      collapsed: false
+      hideForGuests: false
+    items:
+      - title: Grafana
+        icon: hl-grafana
+        url: https://grafana.yori.cc
+      - title: Prometheus
+        icon: hl-prometheus
+        url: https://prometheus.yori.cc
+      - title: Home Assistant
+        icon: hl-home-assistant
+        url: https://home-assistant.yori.cc
+  - name: Public
+    icon: fas fa-globe
+    items:
+      - title: yori.cc
+        icon: mdi-account-box
+        url: https://yorickvanpelt.nl
+        statusCheck: true
+      - title: Gitea
+        icon: hl-gitea
+        url: https://git.yori.cc/
+  - name: Frequently Used
+    icon: fas fa-link
+    displayData:
+      cols: 2
+    items:
+      - title: Youtube
+        icon: fab fa-youtube
+        url: https://youtube.com
+      - title: NOS
+        icon: hl-nos
+        url: https://nos.nl
+      - title: Hacker News
+        icon: fab fa-hacker-news
+        url: https://news.ycombinator.com
+      - title: De Gelderlander
+        icon: fas fa-newspaper
+        url: https://gelderlander.nl
+      - title: reddit
+        icon: fab fa-reddit
+        url: https://reddit.com/
+      - title: newsblur
+        icon: hl-newsblur
+        url: https://newsblur.com
+      - title: GMail
+        icon: mdi-gmail
+        url: https://mail.google.com
+      - title: ChatGPT
+        icon: hl-chatgpt
+        url: https://chat.openai.com
+      - title: GitHub
+        icon: fab fa-github
+        url: https://github.com

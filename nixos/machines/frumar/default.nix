@@ -222,4 +222,9 @@
     nginx.virtualHosts = [ "priv.yori.cc" ];
     extraConfig.whitelist-domain = ["priv.yori.cc"];
   };
+  services.dashy = {
+    enable = true;
+    host = "127.0.0.1";
+    configFile = "${../../../dashy.yaml}";
+  };
 }

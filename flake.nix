@@ -34,6 +34,10 @@
             allowUnfree = true;
             # chromium.vaapiSupport = true;
             android_sdk.accept_license = true;
+            # todo: dashy
+            permittedInsecurePackages = [
+              "nodejs-16.20.2"
+            ];
           };
           inherit system;
           overlays = [ self.overlays.default ];
