@@ -87,5 +87,4 @@ exec = "$HOME/dotfiles/bin/spotify_meta.sh 2> /dev/null"
 format = "{}"
 escape = true
 max-length = 40
-exec = "/home/yorick/tmp/marvin-cli --public tracking --json | /home/yorick/.nix-profile/bin/jq -r .title"
-interval = 120
+exec = "$HOME/dotfiles/bin/marvin-sub.sh"

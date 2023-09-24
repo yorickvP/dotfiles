@@ -1,0 +1,14 @@
+{
+  "name": "marvin-tracker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+    "type": "module",
+  "dependencies": {
+    "mqtt": "^5.0.5"
+  },
+  "private": true,
+  "bin": {
+    "server": "./index.js"
+  }
+}

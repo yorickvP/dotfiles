@@ -60,6 +60,10 @@
         proxyPass = "http://127.0.0.1:7878";
         extraConfig = oauth2Block;
       };
+      locations."/marvin-tracker/" = {
+        proxyPass = "http://[::1]:4001/";
+        # handles auth using arg
+      };
     };
     virtualHosts."frumar.yori.cc" = {
       enableACME = lib.mkForce false;
@@ -227,4 +231,5 @@
     host = "127.0.0.1";
     configFile = "${../../../dashy.yaml}";
   };
+  services.yorick.marvin-tracker.enable = true;
 }
