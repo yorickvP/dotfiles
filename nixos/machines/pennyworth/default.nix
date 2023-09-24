@@ -20,6 +20,7 @@ in {
     ../../roles/datakami.nix
     ../../services/backup.nix
     ../../services/email.nix
+    # TODO: check if this can be removed when nixpkgs#251597 is merged
     ../../services/calibre-web.nix
   ];
 

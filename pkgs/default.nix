@@ -32,12 +32,9 @@
     '';
   });
   wayland-push-to-talk-fix = self.callPackage ./wayland-push-to-talk-fix.nix {};
-  y-deployer = self.callPackage ../deployer/package.nix {
-    inherit (self.nix-npm-buildpackage) buildYarnPackage;
-  };
-  marvin-tracker = self.callPackage ./marvin-tracker {
-    inherit (self.nix-npm-buildpackage) buildYarnPackage;
-  };
+  y-deployer = self.callPackage ../deployer/package.nix {};
+  inherit (self.nix-npm-buildpackage) buildYarnPackage;
+  marvin-tracker = self.callPackage ./marvin-tracker {};
   grott = self.callPackage ./grott.nix {};
   python3 = super.python3.override {
     packageOverrides = pyself: pysuper: {
@@ -63,6 +60,7 @@
       })
     ];
   });
+  # remove once https://github.com/NixOS/nixpkgs/pull/251597 is merged
   calibre-web = super.calibre-web.overridePythonAttrs (o: {
     propagatedBuildInputs = o.propagatedBuildInputs ++ [ self.python3.pkgs.jsonschema ];
   });
@@ -71,7 +69,6 @@
     headers = "sha256-ZxvJrPrQX0UUy6LkXZcCXhUkRj6FLv40d7N65eGRRcY=";
   };
   notion-desktop = self.callPackage ./notion-desktop {
-    inherit (self.nix-npm-buildpackage) buildYarnPackage;
     electron_26 = self.electron_27;
   };
   dashy = self.callPackage ./dashy.nix {
