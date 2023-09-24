@@ -74,6 +74,9 @@ sections:
       - title: Gitea
         icon: hl-gitea
         url: https://git.yori.cc/
+      - title: 2048
+        icon: "https://yorickvp.github.io/2048/meta/apple-touch-icon.png"
+        url: "https://yorickvp.github.io/2048/"
   - name: Frequently Used
     icon: fas fa-link
     displayData:
