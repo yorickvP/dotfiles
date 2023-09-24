@@ -74,7 +74,7 @@ sections:
       - title: Gitea
         icon: hl-gitea
         url: https://git.yori.cc/
-      - title: 2048
+      - title: "2048"
         icon: "https://yorickvp.github.io/2048/meta/apple-touch-icon.png"
         url: "https://yorickvp.github.io/2048/"
   - name: Frequently Used
@@ -86,7 +86,7 @@ sections:
         icon: fab fa-youtube
         url: https://youtube.com
       - title: NOS
-        icon: hl-nos
+        icon: "https://static.nos.nl/img/favicon/android-chrome-192x192.png"
         url: https://nos.nl
       - title: Hacker News
         icon: fab fa-hacker-news
