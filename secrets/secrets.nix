@@ -25,4 +25,5 @@ in
   "root-user-pass.age".publicKeys = [ yorick blackadder pennyworth frumar smithers jarvis ];
   "frumar-mail-pass-hash.age".publicKeys = [ yorick pennyworth ];
   "frumar-mail-pass.age".publicKeys = [ yorick frumar ];
+  "oauth2-proxy.age".publicKeys = [ yorick frumar ];
 }

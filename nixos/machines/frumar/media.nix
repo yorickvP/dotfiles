@@ -25,13 +25,11 @@
     enable = true;
     group = "plex";
     user = "plex";
-    openFirewall = true;
   };
   services.radarr = {
     enable = true;
     group = "plex";
     user = "plex";
-    openFirewall = true;
   };
   users.users.plex.packages = with pkgs; [
     ffmpeg

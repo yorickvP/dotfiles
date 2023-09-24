@@ -32,6 +32,35 @@
         '';
       };
     };
+    virtualHosts."priv.yori.cc" = let
+      oauth2Block = ''
+        auth_request /oauth2/auth;
+        error_page 401 = /oauth2/sign_in;
+
+        # pass information via X-User and X-Email headers to backend,
+        # requires running with --set-xauthrequest flag
+        auth_request_set $user   $upstream_http_x_auth_request_user;
+        auth_request_set $email  $upstream_http_x_auth_request_email;
+        proxy_set_header X-User  $user;
+        proxy_set_header X-Email $email;
+
+        # if you enabled --cookie-refresh, this is needed for it to work with auth_request
+        auth_request_set $auth_cookie $upstream_http_set_cookie;
+        add_header Set-Cookie $auth_cookie;
+      '';
+    in {
+      onlySSL = true;
+      useACMEHost = "wildcard.yori.cc";
+      locations."/".proxyPass = "http://127.0.0.1:4000";
+      locations."/sonarr" = {
+        proxyPass = "http://127.0.0.1:8989";
+        extraConfig = oauth2Block;
+      };
+      locations."/radarr" = {
+        proxyPass = "http://127.0.0.1:7878";
+        extraConfig = oauth2Block;
+      };
+    };
     virtualHosts."frumar.yori.cc" = {
       enableACME = lib.mkForce false;
       inherit (config.security.y-selfsigned) sslCertificate sslCertificateKey;
@@ -57,37 +86,11 @@
     extraFlags = [ "--web.enable-admin-api" ];
     # victoriametrics
     remoteWrite = [{ url = "http://127.0.0.1:8428/api/v1/write"; }];
-    scrapeConfigs = [
-      # {
-      #   job_name = "smartmeter";
-      #   # prometheus doesn't support mdns :thinking_face:
-      #   static_configs = [{ targets = [ "192.168.178.30" ]; }];
-      #   scrape_interval = "10s";
-      # }
-      {
-        job_name = "node";
-        static_configs = [{ targets = [ "localhost:9100" ]; }];
-        # } {
-        #   job_name = "unifi";
-        #   static_configs = [ { targets = [ "localhost:9130" ]; } ];
-      }
-      # {
-      #   job_name = "thermometer";
-      #   static_configs = [{ targets = [ "192.168.178.21:8000" ]; }];
-      # }
-      # {
-      #   job_name = "esphome";
-      #   static_configs = [{ targets = [ "192.168.178.77" ]; }];
-      # }
-    ];
+    scrapeConfigs = [{
+      job_name = "node";
+      static_configs = [{ targets = [ "localhost:9100" ]; }];
+    }];
     exporters.node.enable = true;
-    # exporters.unifi = {
-    #   enable = true;
-    #   unifiAddress = "https://localhost:8443";
-    #   unifiInsecure = true;
-    #   unifiUsername = "ReadOnlyUser";
-    #   unifiPassword = "ReadOnlyPassword";
-    # };
   };
   services.yorick.paperless = {
     enable = true;
@@ -96,11 +99,11 @@
   };
   boot.zfs.requestEncryptionCredentials = false;
   networking.firewall = {
-    interfaces.wg-y.allowedTCPPorts = [ 3000 9090 8443 ];
-    # mqtt, wsdd, ??, minecraft
-    allowedTCPPorts = [ 1883 5357 443 25565 ];
-    # mqtt, wsdd, minecraft
-    allowedUDPPorts = [ 1883 3702 25565 ];
+    interfaces.wg-y.allowedTCPPorts = [ 3000 9090 ]; # grafana and prometheus via pennyworth
+    # mqtt
+    allowedTCPPorts = [ 1883 ];
+    # mqtt
+    allowedUDPPorts = [ 1883 ];
   };
   services.rabbitmq = {
     enable = true;
@@ -121,13 +124,14 @@
     };
   };
   age.secrets = {
-    grafana.file = ../../../secrets/grafana.env.age;
-    frumar-mail-pass.file = ../../../secrets/frumar-mail-pass.age;
     acme-transip-key = {
       file = ../../../secrets/transip-key.age;
       mode = "770";
       group = "acme";
     };
+    frumar-mail-pass.file = ../../../secrets/frumar-mail-pass.age;
+    grafana.file = ../../../secrets/grafana.env.age;
+    oauth2-proxy.file = ../../../secrets/oauth2-proxy.age;
   };
   systemd.services.grafana.serviceConfig.EnvironmentFile = config.age.secrets.grafana.path;
   services.zfs.autoScrub = {
@@ -169,8 +173,6 @@
     python3
     ranger
     jq
-    mcrcon
-    jdk17_headless
     unzip
   ];
   security.acme.certs."wildcard.yori.cc" = {
@@ -209,5 +211,15 @@
     ZED_NOTIFY_INTERVAL_SECS = 3600;
     ZED_NOTIFY_VERBOSE = true;
     ZED_SCRUB_AFTER_RESILVER = true;
+  };
+  services.oauth2_proxy = {
+    enable = true;
+    email.addresses = "yorickvanpelt@gmail.com";
+    redirectURL = "https://priv.yori.cc/oauth2/callback";
+    reverseProxy = true;
+    keyFile = config.age.secrets.oauth2-proxy.path;
+    setXauthrequest = true;
+    nginx.virtualHosts = [ "priv.yori.cc" ];
+    extraConfig.whitelist-domain = ["priv.yori.cc"];
   };
 }
