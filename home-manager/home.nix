@@ -33,6 +33,7 @@ in {
       extraConfig.help.autocorrect = 5;
       extraConfig.push.default = "simple";
       extraConfig.pull.ff = "only";
+      extraConfig.hub.protocol = "ssh";
       ignores = [
         "/.envrc"
         "/.cache"
