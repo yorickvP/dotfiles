@@ -24,8 +24,16 @@
   hardware.bluetooth.enable = true;
   services.fprintd.enable = true;
 
-  boot.initrd.availableKernelModules = [ "i915" ];
-  boot.loader.timeout = 1;
-  boot.kernelParams = [ "i915.fastboot=1" ];
-  #boot.plymouth.enable = true;
+  boot = {
+    initrd.availableKernelModules = [ "i915" ];
+    # flickerfree
+    initrd.systemd.enable = true;
+    initrd.verbose = false;
+    plymouth.enable = true;
+    consoleLogLevel = 0;
+    kernelParams = [ "quiet" "udev.log_level=3" "i915.fastboot=1" ];
+  };
+  boot.loader.timeout = 0;
+
+  networking.dhcpcd.extraConfig = "noarp";
 }
