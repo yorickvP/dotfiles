@@ -64,12 +64,16 @@
         proxyPass = "http://[::1]:4001/";
         # handles auth using arg
       };
+      locations."/media/" = {
+        root = "/var/mediashare";
+      };
     };
     virtualHosts."frumar.yori.cc" = {
       enableACME = lib.mkForce false;
       inherit (config.security.y-selfsigned) sslCertificate sslCertificateKey;
     };
   };
+  systemd.services.nginx.serviceConfig.BindReadOnlyPaths = [ "/data/plexmedia/ca" "/var/mediashare" ];
   boot.supportedFilesystems = [ "zfs" ];
   services.iperf3 = {
     enable = true;
