@@ -64,10 +64,16 @@ def ca_import(source: Path) -> Path:
     print(hash)
     ca_dest = (plexmedia / "ca" / hash).with_suffix(sourcepath.suffix)
     print(f"[{source.name}] copy")
-    try:
-        shutil.copyfile(sourcepath, ca_dest)
-    except shutil.SameFileError:
-        print(f"warning: skipping copy, already in place")
+    if ca_dest.exists():
+        print(f"warning: skipping copy, already in store")
+    else:
+        tmp_path = ca_dest.with_suffix(ca_dest.suffix + ".tmp")
+        tmp_path.unlink(missing_ok=True)
+        try:
+            shutil.copyfile(sourcepath, tmp_path)
+        except shutil.SameFileError:
+            print(f"warning: skipping copy, already in place")
+        tmp_path.rename(ca_dest)
     #print(f"chown plex:plex {ca_dest}")
     shutil.chown(ca_dest, user="plex", group="plex")
     return ca_dest
