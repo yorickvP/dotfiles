@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -I nixpkgs=flake:nixpkgs -p bkt -p fzf -p moreutils -p ncdu -i bash
+#!nix-shell -I nixpkgs=flake:nixpkgs -p bkt fzf moreutils ncdu -i bash
 set -euo pipefail
 
 # todo's:
@@ -29,7 +29,7 @@ export BKT_CACHE_DIR="$STATE/cache"
 export BKT_TTL=10m
 export FZF_DEFAULT_COMMAND='bkt -- nix path-info -rSsh $(tail -1 '"$STATE/path"') | sort -hk$(cat '"$STATE/sort"') | cut -c12-'
 
-/nix/store/w1g37hv5k1h77wlxraq6ci0dbbcxhiir-fzf-0.42.0/bin/fzf --no-sort \
+fzf --no-sort \
     --layout=reverse-list \
     --bind=load:last \
     --track \
