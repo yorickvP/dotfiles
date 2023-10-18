@@ -19,7 +19,7 @@ if not Path("~/.gcalcli_oauth").expanduser().exists():
 
 i3 = i3ipc.Connection()
 
-accounts = ["yorickvanpelt@gmail.com", "yorick.vanpelt@tweag.io", "yorick@datakami.nl"]
+accounts = ["yorickvanpelt@gmail.com", "yorick@datakami.nl", "yorick@replicate.com"]
 
 gcal = GoogleCalendarInterface(
     cal_names=parse_cal_names(accounts),
