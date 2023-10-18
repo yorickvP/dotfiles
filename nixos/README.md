@@ -58,5 +58,4 @@ Main laptop.
 
 thinkpad x1 carbon (gen 9) (RAM: 24GB, storage: 256GB ssd, 4 cores + hyperthreading)
 
-Property of Tweag.
 

@@ -25,10 +25,6 @@ in {
       userEmail = "yorick@yorickvanpelt.nl";
       signing.key = "A36E70F9DC014A15";
       signing.signByDefault = true;
-      includes = [{
-        condition = "gitdir:~/tweag";
-        contents.user.email = "yorick.vanpelt@tweag.io";
-      }];
       extraConfig.merge.conflictStyle = "diff3";
       extraConfig.help.autocorrect = 5;
       extraConfig.push.default = "simple";
