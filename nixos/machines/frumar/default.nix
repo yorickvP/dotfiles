@@ -64,6 +64,10 @@
         proxyPass = "http://[::1]:4001/";
         # handles auth using arg
       };
+      locations."/paperless/" = {
+        proxyPass = "http://127.0.0.1:${toString config.services.paperless.port}/";
+        extraConfig = oauth2Block;
+      };
       locations."/media/" = {
         root = "/var/mediashare";
       };

@@ -38,8 +38,17 @@ in {
       writeEnable = true;
       chrootlocalUser = true;
       allowWriteableChroot = true;
+      extraConfig = "local_umask=007";
       userlist = [ "ads1600w" ];
     };
     # todo: back up this dir
+    services.paperless.enable = true;
+    services.paperless.extraConfig = {
+      # todo: PAPERLESS_ENABLE_HTTP_REMOTE_USER, PAPERLESS_LOGOUT_REDIRECT_URL
+      PAPERLESS_URL = "https://priv.yori.cc";
+      PAPERLESS_FORCE_SCRIPT_NAME = "/paperless";
+      PAPERLESS_STATIC_URL = "/paperless/static/";
+    };
+    users.users.paperless.extraGroups = [ "ads1600w" ];
   };
 }
