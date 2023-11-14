@@ -71,4 +71,9 @@ in
     wantedBy = [ "graphical-session.target" ];
   };
   services.dbus.packages = [ pkgs.mdrd ];
+  services.fooocus = {
+    enable = true;
+    listen = "0.0.0.0";
+  };
+  networking.firewall.allowedTCPPorts = [ config.services.fooocus.port ];
 }

@@ -72,6 +72,14 @@
         root = "/var/mediashare";
       };
     };
+    virtualHosts."fooocus.yori.cc" = {
+      onlySSL = true;
+      useACMEHost = "wildcard.yori.cc";
+      locations."/" = {
+        proxyPass = "http://192.168.2.135:7860";
+        proxyWebsockets = true;
+      };
+    };
     virtualHosts."frumar.yori.cc" = {
       enableACME = lib.mkForce false;
       inherit (config.security.y-selfsigned) sslCertificate sslCertificateKey;
