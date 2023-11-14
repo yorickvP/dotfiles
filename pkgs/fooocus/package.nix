@@ -2,15 +2,15 @@
   imports = [ dream2nix.modules.dream2nix.pip ];
 
   name = "Fooocus";
-  version = "2.1.750";
+  version = "2.1.807";
 
   # todo
   mkDerivation = {
     src = config.deps.fetchFromGitHub {
       owner = "lllyasviel";
       repo = config.name;
-      rev = "4607316c2f8771cae76440d26fc8c186f9136f6f";
-      hash = "sha256-tKzsUpWWnif6vbqj4L+lrXCVPQwq8UU/JkU9UJaCmwM=";
+      rev = "515846321686424bb5e61ad9f1912c49c37903eb";
+      hash = "sha256-gKLkMntmZnfwAyOwivcf8mRmdBSIGQhhHnAaGQgtx40=";
     };
     buildPhase = "true";
     installPhase = ''
@@ -20,11 +20,12 @@
       ln -s /var/models/Fooocus/models $out/models
       ln -s /var/sd/outputs/sdxl $out/outputs
       ln -s /var/sd/sdxl-input $out/input
-      ln -s /var/sd/user_path_config.txt $out/user_path_config.txt
+      ln -s /var/sd/config.txt $out/config.txt
+      ln -s /var/sd/config_modification_tutorial.txt $out/config_modification_tutorial.txt
       for f in $out/{launch,webui}.py; do
         chmod +x $f
         sed -i '1s;^;#!/usr/bin/env python\n;' $f
-        wrapProgram $f --set PYTHONPATH "$PYTHONPATH"
+        wrapProgram $f --set PYTHONPATH "$PYTHONPATH:$out/backend/headless"
       done
     '';
   };
@@ -70,6 +71,7 @@
       "xformers>=0.0.20"
       "triton"
       "setuptools"
+      "httpx==0.24.1"
       "--extra-index-url" "https://download.pytorch.org/whl/cu121"
     ];
   };
