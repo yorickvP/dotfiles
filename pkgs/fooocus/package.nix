@@ -4,24 +4,18 @@
   name = "Fooocus";
   version = "2.1.807";
 
-  # todo
   mkDerivation = {
     src = config.deps.fetchFromGitHub {
-      owner = "lllyasviel";
+      owner = "yorickvP";
       repo = config.name;
-      rev = "515846321686424bb5e61ad9f1912c49c37903eb";
-      hash = "sha256-gKLkMntmZnfwAyOwivcf8mRmdBSIGQhhHnAaGQgtx40=";
+      rev = "cc11a770ea8db7573ae58b9b8fc30edabaa4a146";
+      hash = "sha256-9DV9r1GG3vVwsx+0KYXL3Sd8g5qjSShbBWa1j74BnUs=";
     };
     buildPhase = "true";
     installPhase = ''
       mkdir $out
       cp -r ./* $out
-      mv $out/models{,-orig}
-      ln -s /var/models/Fooocus/models $out/models
-      ln -s /var/sd/outputs/sdxl $out/outputs
-      ln -s /var/sd/sdxl-input $out/input
-      ln -s /var/sd/config.txt $out/config.txt
-      ln -s /var/sd/config_modification_tutorial.txt $out/config_modification_tutorial.txt
+      ln -s /tmp/fooocus $out/input
       for f in $out/{launch,webui}.py; do
         chmod +x $f
         sed -i '1s;^;#!/usr/bin/env python\n;' $f

@@ -5,6 +5,7 @@ let
 in {
   imports = [
     inputs.agenix.nixosModules.default
+    inputs.fooocus.nixosModules.default
     ../modules/dashy.nix
     ../modules/tor-hidden-service.nix
     ../modules/nginx.nix

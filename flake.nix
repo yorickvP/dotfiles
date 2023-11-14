@@ -20,6 +20,7 @@
       url = "github:datakami/timesync";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    fooocus.url = "path:./pkgs/fooocus";
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixpkgs-wayland, nixos-hardware, agenix, flake-utils
@@ -110,6 +111,7 @@
           (final: prev: {
             flake-inputs = inputs;
             nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
+            fooocus = inputs.fooocus.packages.${final.system}.default;
             inherit (nixpkgs-wayland.packages.${final.system}) wldash;
 
           })

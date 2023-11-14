@@ -22,5 +22,6 @@
       packages.x86_64-linux.default = package;
       devShells.x86_64-linux.default = package.devShell;
       packages.x86_64-linux.lock = package.config.lock.refresh;
+      nixosModules.default = ./module.nix;
     };
 }
