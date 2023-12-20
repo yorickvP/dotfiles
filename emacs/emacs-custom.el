@@ -13,7 +13,14 @@
      (:name "all mail" :query "*" :key "a")
      (:name "inbox" :query "tag:inbox")))
  '(safe-local-variable-values
-   '((flycheck-gcc-language-standard . "c++11")
+   '((transient-values
+      (magit-commit "--signoff"))
+     (magit-status-mode
+      (transient-values
+       (magit-commit "--signoff")))
+     (magit-commit-signoff quote t)
+     (magit-commit-signoff 't)
+     (flycheck-gcc-language-standard . "c++11")
      (flycheck-clang-language-standard . "c++11")
      (c-block-comment-prefix . "  ")
      (eval c-set-offset 'inlambda 0)

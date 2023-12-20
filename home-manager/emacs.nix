@@ -63,6 +63,7 @@ in {
         lua-mode
         linum-relative
         lsp-haskell
+        lsp-pyright
         lsp-ivy
         lsp-mode
         lsp-ui
