@@ -1,5 +1,5 @@
 { stdenv, lib, p7zip, fetchurl, electron_26, makeWrapper, buildYarnPackage, python3
-, nodejs, makeDesktopItem, copyDesktopItems, jq }:
+, nodejs, makeDesktopItem, copyDesktopItems, jq, runCommand, gzip, xz }:
 
 let
   env = buildYarnPackage {
@@ -22,7 +22,13 @@ in stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ p7zip makeWrapper python3 nodejs copyDesktopItems jq ];
-  npm_config_tarball = electron_26.headers;
+  # https://github.com/NixOS/nixpkgs/issues/275627
+  # npm_config_tarball = electron_26.headers;
+  npm_config_tarball = runCommand "node-headers.tar.gz" {
+    nativeBuildInputs = [ gzip xz ];
+  } ''
+    xzcat ${electron_26.headers} | gzip > $out
+  '';
 
   unpackPhase = ''
     runHook preUnpack

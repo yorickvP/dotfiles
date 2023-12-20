@@ -44,14 +44,6 @@
   xwaylandvideobridge = self.callPackage ./xwaylandvideobridge.nix {};
   timesync = self.flake-inputs.timesync.packages.${self.system}.default;
   wl-clipboard = super.wl-clipboard.overrideAttrs (o: {
-    # todo (upgrade): remove version override on nixos-23.11
-    src = super.fetchFromGitHub {
-      owner = "bugaevc";
-      repo = "wl-clipboard";
-      rev = "v2.2.1";
-      sha256 = "sha256-BYRXqVpGt9FrEBYQpi2kHPSZyeMk9o1SXkxjjcduhiY=";
-    };
-    version = "2.2.1";
     # todo: upstream
     patches = (o.patches or []) ++ [
       (self.fetchpatch {
@@ -60,22 +52,8 @@
       })
     ];
   });
-  # remove once https://github.com/NixOS/nixpkgs/pull/251597 is merged
-  calibre-web = super.calibre-web.overridePythonAttrs (o: {
-    propagatedBuildInputs = o.propagatedBuildInputs ++ [ self.python3.pkgs.jsonschema ];
-  });
-  electron_27 = self.callPackage (self.path + /pkgs/development/tools/electron/binary/generic.nix) {} "27.0.0-beta.4" {
-    x86_64-linux = "sha256-wdPRBf65Tzu2N4/chNVJtEhaPRuLjUEWsghYZ00aGag=";
-    headers = "sha256-ZxvJrPrQX0UUy6LkXZcCXhUkRj6FLv40d7N65eGRRcY=";
-  };
   notion-desktop = self.callPackage ./notion-desktop {
     electron_26 = self.electron_27;
-  };
-  dashy = self.callPackage ./dashy.nix {
-    inherit (self.nix-npm-buildpackage.override {
-      nodejs = self.nodejs_16;
-      yarn = self.yarn.override { nodejs = self.nodejs_16; };
-    }) buildYarnPackage;
   };
   r8-cog = self.stdenvNoCC.mkDerivation rec {
     pname = "cog";
@@ -93,5 +71,12 @@
       $out/bin/cog completion zsh > $out/share/zsh/site-functions/_cog
     '';
   };
-
+  obsidian = with self.lib; throwIf (versionOlder "1.4.16" super.obsidian.version) "Obsidian no longer requires EOL Electron" (
+    super.obsidian.override {
+      electron = self.electron_25.overrideAttrs (_: {
+        preFixup = "patchelf --add-needed ${self.libglvnd}/lib/libEGL.so.1 $out/bin/electron"; # NixOS/nixpkgs#272912
+        meta.knownVulnerabilities = [ ]; # NixOS/nixpkgs#273611
+      });
+    }
+  );
 })

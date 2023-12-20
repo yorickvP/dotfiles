@@ -3,7 +3,7 @@
 in {
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs-unstable-pgtk;
+    package = pkgs.emacs29-pgtk;
     extraConfig = ''
       (setq copilot-node-executable "${pkgs.nodejs-slim-18_x}/bin/node")
       (setq lsp-nix-server-path "${pkgs.nil}/bin/nil")
@@ -11,14 +11,14 @@ in {
     overrides = final: prev: {
       copilot = final.melpaBuild rec {
           pname = "copilot";
-          version = "20230913";
-          commit = "421703f5dd5218ec2a3aa23ddf09d5f13e5014c2";
+          version = "20231220";
+          commit = "d4fa14cea818e041b4a536c5052cf6d28c7223d7";
 
           src = pkgs.fetchFromGitHub {
             owner = "zerolfx";
             repo = "copilot.el";
             rev = commit;
-            hash = "sha256-7LKB2JoYAVu5i23ZKBVZPe6azCItHK/tlBNPgFXxztc=";
+            hash = "sha256-Tzs0Dawqa+OD0RSsf66ORbH6MdBp7BMXX7z+5UuNwq4=";
           };
 
           packageRequires = with final; [ dash editorconfig s ];
@@ -39,6 +39,7 @@ in {
         all-the-icons
         avy
         company
+        company-box
         counsel
         counsel-projectile
         copilot

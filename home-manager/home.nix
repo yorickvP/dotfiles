@@ -92,7 +92,7 @@ in {
       enable = true;
       shellAliases = {
         l = "ls";
-        ls = "exa";
+        ls = "eza";
         nr = ''nix repl --file "/home/yorick/dotfiles/repl.nix"'';
         "n." = "nix repl --file .";
         nsd = "nix show-derivation";
@@ -240,7 +240,7 @@ in {
     ## misc
     asciinema
     cargo
-    exa
+    eza
     linuxPackages.perf
     ltrace
     lz4json

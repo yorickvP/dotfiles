@@ -6,7 +6,6 @@ in {
   imports = [
     inputs.agenix.nixosModules.default
     inputs.fooocus.nixosModules.default
-    ../modules/dashy.nix
     ../modules/tor-hidden-service.nix
     ../modules/nginx.nix
     ../modules/lumi-cache.nix
@@ -47,7 +46,7 @@ in {
   };
 
   # Nix
-  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
 
   #nix.buildCores = config.nix.maxJobs;
   nix.extraOptions = ''
