@@ -22,13 +22,7 @@ in stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ p7zip makeWrapper python3 nodejs copyDesktopItems jq ];
-  # https://github.com/NixOS/nixpkgs/issues/275627
-  # npm_config_tarball = electron_26.headers;
-  npm_config_tarball = runCommand "node-headers.tar.gz" {
-    nativeBuildInputs = [ gzip xz ];
-  } ''
-    xzcat ${electron_26.headers} | gzip > $out
-  '';
+  npm_config_tarball = electron_26.headers;
 
   unpackPhase = ''
     runHook preUnpack
