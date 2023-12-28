@@ -79,4 +79,21 @@
       });
     }
   );
+  noulith = self.rustPlatform.buildRustPackage rec {
+    pname = "noulith";
+    version = "20231228";
+
+    src = self.fetchFromGitHub {
+      owner = "betaveros";
+      rev = "3bce693335d8170895407846c237b6dad10ef7ec";
+      repo = pname;
+      hash = "sha256-Ye/Htcp9lrRo80ix4QQ+lDZSmpDSA6t1MCcWL6yTvGg=";
+    };
+    buildFeatures = [ "cli" "request" "crypto" ];
+
+
+    cargoHash = "sha256-N/BeeJIkbEccELqZhTFkHiaWJZgNiBazQLRqkqtPfJY=";
+    nativeBuildInputs = [ self.pkg-config ];
+    buildInputs = [ self.openssl.dev ];
+  };
 })

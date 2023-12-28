@@ -214,6 +214,7 @@ in {
     python3
     silver-searcher
     sqlite
+    noulith
 
     ## nix
     nix-tree
