@@ -21,12 +21,9 @@
   nix = {
     gc.automatic = pkgs.lib.mkOverride 30 false;
     settings.substituters = [
-      "https://cache.nixos.org"
       #"s3://yori-nix?endpoint=s3.eu-central-003.backblazeb2.com&profile=backblaze-read"
-      #"https://nixpkgs-wayland.cachix.org"
     ];
     settings.trusted-public-keys = [
-      #"nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
       "yorick:Pmd0gyrTvVdzpQyb/raHJKdoOag8RLaj434qBgMm4I0="
     ];
   };
