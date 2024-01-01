@@ -18,71 +18,81 @@
 
   security.y-selfsigned.enable = true;
 
-  services.nginx = {
-    enable = true;
-    virtualHosts."unifi.yori.cc" = {
+  services.nginx = let
+    sslForward = proxyPass: extra: lib.mkMerge [ {
       onlySSL = true;
       useACMEHost = "wildcard.yori.cc";
       locations."/" = {
-        proxyPass = "https://[::1]:8443";
+        inherit proxyPass;
         proxyWebsockets = true;
-        extraConfig = ''
+      };
+    } extra ];
+  in {
+    enable = true;
+    virtualHosts = {
+      "unifi.yori.cc" = sslForward "https://[::1]:8443" {
+        locations."/".extraConfig = ''
           proxy_ssl_verify off;
           proxy_ssl_session_reuse on;
         '';
       };
-    };
-    virtualHosts."priv.yori.cc" = let
-      oauth2Block = ''
-        auth_request /oauth2/auth;
-        error_page 401 = /oauth2/sign_in;
-
-        # pass information via X-User and X-Email headers to backend,
-        # requires running with --set-xauthrequest flag
-        auth_request_set $user   $upstream_http_x_auth_request_user;
-        auth_request_set $email  $upstream_http_x_auth_request_email;
-        proxy_set_header X-User  $user;
-        proxy_set_header X-Email $email;
-
-        # if you enabled --cookie-refresh, this is needed for it to work with auth_request
-        auth_request_set $auth_cookie $upstream_http_set_cookie;
-        add_header Set-Cookie $auth_cookie;
-      '';
-    in {
-      onlySSL = true;
-      useACMEHost = "wildcard.yori.cc";
-      locations."/".proxyPass = "http://127.0.0.1:4000";
-      locations."/sonarr" = {
-        proxyPass = "http://127.0.0.1:8989";
-        extraConfig = oauth2Block;
+      "grafana.yori.cc" = sslForward "http://127.0.0.1:3000" {};
+      "prometheus.yori.cc" = sslForward "http://127.0.0.1:9090" {
+        # only over VPN
+        listen = [ { addr = "10.209.0.3"; port = 443; ssl = true; } ];
       };
-      locations."/radarr" = {
-        proxyPass = "http://127.0.0.1:7878";
-        extraConfig = oauth2Block;
+      "plex.yori.cc" = sslForward "http://127.0.0.1:32400" {
+        extraConfig = ''
+          gzip on;
+          gzip_vary on;
+          gzip_min_length 1000;
+	        gzip_proxied any;
+	        gzip_types text/plain text/css text/xml application/xml text/javascript application/x-javascript image/svg+xml;
+          proxy_http_version 1.1;
+          proxy_buffering off;
+        '';
       };
-      locations."/marvin-tracker/" = {
-        proxyPass = "http://[::1]:4001/";
-        # handles auth using arg
+      "fooocus.yori.cc" = sslForward "http://192.168.2.135:7860" {}; 
+      "priv.yori.cc" = let
+        oauth2Block = ''
+          auth_request /oauth2/auth;
+          error_page 401 = /oauth2/sign_in;
+  
+          # pass information via X-User and X-Email headers to backend,
+          # requires running with --set-xauthrequest flag
+          auth_request_set $user   $upstream_http_x_auth_request_user;
+          auth_request_set $email  $upstream_http_x_auth_request_email;
+          proxy_set_header X-User  $user;
+          proxy_set_header X-Email $email;
+  
+          # if you enabled --cookie-refresh, this is needed for it to work with auth_request
+          auth_request_set $auth_cookie $upstream_http_set_cookie;
+          add_header Set-Cookie $auth_cookie;
+        '';
+        proxyOauth2 = proxyPass: {
+          inherit proxyPass;
+          extraConfig = oauth2Block;
+        };
+      in {
+        onlySSL = true;
+        useACMEHost = "wildcard.yori.cc";
+        # TODO remove dashy
+        locations."/".proxyPass = "http://127.0.0.1:4000";
+        locations."/sonarr" = proxyOauth2 "http://127.0.0.1:8989";
+        locations."/radarr" = proxyOauth2 "http://127.0.0.1:7878";
+        locations."/marvin-tracker/" = {
+          proxyPass = "http://[::1]:4001/";
+          # handles auth using arg
+        };
+        locations."/paperless/" = proxyOauth2 "http://127.0.0.1:${toString config.services.paperless.port}/";
+        locations."/media/" = {
+          root = "/var/mediashare";
+        };
       };
-      locations."/paperless/" = {
-        proxyPass = "http://127.0.0.1:${toString config.services.paperless.port}/";
-        extraConfig = oauth2Block;
+      "frumar.yori.cc" = {
+        enableACME = lib.mkForce false;
+        inherit (config.security.y-selfsigned) sslCertificate sslCertificateKey;
       };
-      locations."/media/" = {
-        root = "/var/mediashare";
-      };
-    };
-    virtualHosts."fooocus.yori.cc" = {
-      onlySSL = true;
-      useACMEHost = "wildcard.yori.cc";
-      locations."/" = {
-        proxyPass = "http://192.168.2.135:7860";
-        proxyWebsockets = true;
-      };
-    };
-    virtualHosts."frumar.yori.cc" = {
-      enableACME = lib.mkForce false;
-      inherit (config.security.y-selfsigned) sslCertificate sslCertificateKey;
     };
   };
   systemd.services.nginx.serviceConfig.BindReadOnlyPaths = [ "/data/plexmedia/ca" "/var/mediashare" ];
