@@ -3,8 +3,6 @@
 let
   cfg = config.services.yorick.calibre-web;
 in {
-  disabledModules = [ "services/web-apps/calibre-web.nix" ];
-  imports = [ ../modules/calibre-web.nix ];
   options.services.yorick.calibre-web = with lib; {
     enable = mkEnableOption "calibre-web";
     vhost = mkOption { type = types.str; };
@@ -15,7 +13,7 @@ in {
       options = {
         enableBookUploading = true;
         #enableBookConversion = true;
-        extraConfig.config_kepubifypath = "${pkgs.kepubify}/bin/kepubify";
+        enableKepubify = true;
       };
     };
     services.nginx.virtualHosts.${cfg.vhost} = {
