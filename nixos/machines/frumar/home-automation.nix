@@ -9,12 +9,11 @@
   };
   services.zigbee2mqtt = {
     enable = true;
-    settings.availability = true;
-    settings.device_options = {
-      retain = true;
-      legacy = false;
+    settings = {
+      availability = true;
+      device_options.legacy = false;
+      serial.port = "/dev/ttyUSB0";
     };
-    settings.serial.port = "/dev/ttyUSB0";
   };
   services.home-assistant = {
     enable = true;

@@ -130,14 +130,10 @@
   boot.zfs.requestEncryptionCredentials = false;
   networking.firewall = {
     interfaces.wg-y.allowedTCPPorts = [ 3000 9090 ]; # grafana and prometheus via pennyworth
-    # mqtt
-    allowedTCPPorts = [ 1883 ];
+    # mqtt, nats
+    allowedTCPPorts = [ 1883 4222 ];
     # mqtt
     allowedUDPPorts = [ 1883 ];
-  };
-  services.rabbitmq = {
-    enable = true;
-    plugins = [ "rabbitmq_mqtt" "rabbitmq_management" ];
   };
   services.grafana = {
     enable = true;
@@ -162,8 +158,10 @@
     frumar-mail-pass.file = ../../../secrets/frumar-mail-pass.age;
     grafana.file = ../../../secrets/grafana.env.age;
     oauth2-proxy.file = ../../../secrets/oauth2-proxy.age;
+    zigbee2mqtt.file = ../../../secrets/zigbee2mqtt.env.age;
   };
   systemd.services.grafana.serviceConfig.EnvironmentFile = config.age.secrets.grafana.path;
+  systemd.services.zigbee2mqtt.serviceConfig.EnvironmentFile = config.age.secrets.zigbee2mqtt.path;
   services.zfs.autoScrub = {
     enable = true;
     interval = "*-*-01 02:00:00"; # monthly + 2 hours
@@ -252,5 +250,38 @@
     nginx.virtualHosts = [ "priv.yori.cc" ];
     extraConfig.whitelist-domain = ["priv.yori.cc"];
   };
-  services.yorick.marvin-tracker.enable = true;
+  services.nats = {
+    enable = true;
+    jetstream = true;
+    settings = {
+      mqtt.port = 1883;
+      system_account = "SYS";
+      accounts = {
+        SYS.users = [ {
+          user = "admin";
+          password = "$2y$10$TWoKGC7/VKQRnIK163akm.0JRdhSA00lMMVn8fa1tPyKBgbED0BL2";
+        } ];
+        default = {
+          jetstream = "enabled";
+          users = [
+            {
+              user = "yorick";
+              password = "$2y$10$EtQh8YX0I91X774PhDxhKOSGSc0IAAvGwZErVKV3z.IfeHTcT1.yy";
+            }
+            {
+              user = "iot";
+              password = "$2y$10$.JF/0CQ1PYCFPITsSXGj..k5v60rZvDc.LWCIDhZpoc93NyyIa5wS";
+              allowed_connection_types = [ "MQTT" ];
+            }
+            {
+              user = "zigbee2mqtt";
+              password = "$2a$11$CC5NVYiTUeoa4A4w94NFMORO/0jhMR60JWgPUgjct8c2vg29wwIGG";
+              allowed_connection_types = [ "MQTT" ];
+            }
+          ];
+        };
+      };
+    };
+  };
+  # services.yorick.marvin-tracker.enable = true;
 }
