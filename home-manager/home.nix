@@ -290,6 +290,9 @@ in {
     mutagen
     zoom-us
 
+    # admin
+    nsc
+    natscli
   ]);
 
   home.file.".gnupg/gpg.conf".text = ''
