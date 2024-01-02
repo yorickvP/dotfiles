@@ -26,5 +26,6 @@ in
   "frumar-mail-pass-hash.age".publicKeys = [ yorick pennyworth ];
   "frumar-mail-pass.age".publicKeys = [ yorick frumar ];
   "zigbee2mqtt.env.age".publicKeys = [ yorick frumar ];
+  "marvin-tracker.env.age".publicKeys = [ yorick frumar ];
   "oauth2-proxy.age".publicKeys = [ yorick frumar ];
 }

@@ -159,6 +159,7 @@
     grafana.file = ../../../secrets/grafana.env.age;
     oauth2-proxy.file = ../../../secrets/oauth2-proxy.age;
     zigbee2mqtt.file = ../../../secrets/zigbee2mqtt.env.age;
+    marvin-tracker.file = ../../../secrets/marvin-tracker.env.age;
   };
   systemd.services.grafana.serviceConfig.EnvironmentFile = config.age.secrets.grafana.path;
   systemd.services.zigbee2mqtt.serviceConfig.EnvironmentFile = config.age.secrets.zigbee2mqtt.path;
@@ -278,10 +279,18 @@
               password = "$2a$11$CC5NVYiTUeoa4A4w94NFMORO/0jhMR60JWgPUgjct8c2vg29wwIGG";
               allowed_connection_types = [ "MQTT" ];
             }
+            {
+              user = "marvin-tracker";
+              password = "$2a$11$V9G2gT52obCsDOBwibHfMudnibwP/s3NwUjwvtsnlHfkn5kJHOOEe";
+              allowed_connection_types = [ "MQTT" ];
+            }
           ];
         };
       };
     };
   };
-  # services.yorick.marvin-tracker.enable = true;
+  services.yorick.marvin-tracker = {
+    enable = true;
+    secretFile = config.age.secrets.marvin-tracker.path;
+  };
 }
