@@ -71,4 +71,5 @@
   '';
 
   users.users.yorick.packages = with pkgs; [ sshfs-fuse weechat ripgrep ];
+  networking.firewall.allowedTCPPorts = [ 60307 ]; # weechat relay
 }
