@@ -60,6 +60,14 @@
       "pub.yori.cc".locations."/muflax/".extraConfig = ''
         rewrite ^/muflax/(.*)$ https://alt.muflax.church/$1 permanent;
       '';
+      "docuseal.yori.cc" = {
+        enableACME = true;
+        forceSSL = true;
+        locations."/" = {
+          recommendedProxySettings = true;
+          proxyPass = "http://127.0.0.1:3001";
+        };
+      };
     };
   };
 
@@ -72,4 +80,10 @@
 
   users.users.yorick.packages = with pkgs; [ sshfs-fuse weechat ripgrep ];
   networking.firewall.allowedTCPPorts = [ 60307 ]; # weechat relay
+
+  virtualisation.oci-containers.containers.docuseal = {
+    image = "docuseal/docuseal:latest";
+    ports = [ "127.0.0.1:3001:3000" ];
+    volumes = [ "docuseal:/data" ];
+  };
 }
