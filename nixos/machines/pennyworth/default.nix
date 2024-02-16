@@ -60,7 +60,7 @@
       "pub.yori.cc".locations."/muflax/".extraConfig = ''
         rewrite ^/muflax/(.*)$ https://alt.muflax.church/$1 permanent;
       '';
-      "docuseal.yori.cc" = {
+      "docuseal.datakami.nl" = {
         enableACME = true;
         forceSSL = true;
         locations."/" = {
