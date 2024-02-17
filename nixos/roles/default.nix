@@ -18,6 +18,7 @@ in {
   age.secrets = {
     root-user-pass.file = ../../secrets/root-user-pass.age;
     yorick-user-pass.file = ../../secrets/yorick-user-pass.age;
+    nix-netrc-yorick.file = ../../secrets/nix-netrc-yorick.age;
   };
 
   nix.nixPath = [];# "nixpkgs=${pkgs.path}" ];
@@ -81,6 +82,7 @@ in {
     hdparm
     lm_sensors
     ncdu
+    attic
 
     # utils
     file
@@ -128,8 +130,6 @@ in {
   };
   security.acme.defaults.email = "acme@yori.cc";
   security.acme.acceptTerms = true;
-  nix.settings.trusted-public-keys =
-    [ "yorick:Pmd0gyrTvVdzpQyb/raHJKdoOag8RLaj434qBgMm4I0=" ];
 
   nix.settings.trusted-users = [ "@wheel" ];
   services.prometheus.exporters.node = {
@@ -139,4 +139,12 @@ in {
   };
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 9100 ];
   xdg.autostart.enable = false;
+
+  nix.settings = {
+    substituters = [ "https://cache.yori.cc/yorick" ];
+    netrc-file = config.age.secrets.nix-netrc-yorick.path;
+    trusted-public-keys = [
+      "yorick:sWqvIllvDhMS9vcWyk4+zSk9L6zq8UgcLPEEQJsAdW4="
+    ];
+  };
 }

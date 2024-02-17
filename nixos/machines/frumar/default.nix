@@ -6,6 +6,7 @@
     ./paperless.nix
     ./media.nix
     ./home-automation.nix
+    ./cache.nix
   ];
 
   system.stateVersion = "15.09";

@@ -17,6 +17,7 @@ in
   "grafana.env.age".publicKeys = [ yorick frumar ];
   "http.muflax.age".publicKeys = [ yorick pennyworth ];
   "nix-netrc.age".publicKeys = [ yorick blackadder jarvis ];
+  "nix-netrc-yorick.age".publicKeys = [ yorick blackadder pennyworth frumar smithers jarvis ];
   "pennyworth_borg_repo.age".publicKeys = [ yorick pennyworth ];
   "pennyworth_borg_ssh.age".publicKeys = [ yorick pennyworth ];
   "transip-key.age".publicKeys = [ yorick frumar ];
@@ -28,4 +29,5 @@ in
   "zigbee2mqtt.env.age".publicKeys = [ yorick frumar ];
   "marvin-tracker.env.age".publicKeys = [ yorick frumar ];
   "oauth2-proxy.age".publicKeys = [ yorick frumar ];
+  "attic.env.age".publicKeys = [ yorick frumar ];
 }

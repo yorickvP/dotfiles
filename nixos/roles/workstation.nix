@@ -18,15 +18,7 @@
     "${gsettings-desktop-schemas}/share/gsettings-schemas/${gsettings-desktop-schemas.name}"
     # emacs?
   ];
-  nix = {
-    gc.automatic = pkgs.lib.mkOverride 30 false;
-    settings.substituters = [
-      #"s3://yori-nix?endpoint=s3.eu-central-003.backblazeb2.com&profile=backblaze-read"
-    ];
-    settings.trusted-public-keys = [
-      "yorick:Pmd0gyrTvVdzpQyb/raHJKdoOag8RLaj434qBgMm4I0="
-    ];
-  };
+  nix.gc.automatic = lib.mkOverride 30 false;
   virtualisation.libvirtd.enable = true;
   # fix glasgow, fomu, backlight
   services.udev.extraRules = ''
@@ -87,7 +79,18 @@
       source-code-pro
       ubuntu_font_family # Ubuntu fonts
       source-han-sans
-      nerdfonts
+      (nerdfonts.override {
+        fonts = [
+          "DejaVuSansMono"
+          "Inconsolata"
+          "Noto"
+          "SourceCodePro"
+          "Ubuntu"
+          "UbuntuMono"
+          "Iosevka"
+          "IosevkaTerm"
+        ];
+      })
       iosevka
       emojione
       font-awesome

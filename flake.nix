@@ -16,6 +16,14 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nix-npm-buildpackage.url = "github:serokell/nix-npm-buildpackage";
     nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
+    attic = {
+      url = "github:zhaofengli/attic";
+      inputs = {
+        nixpkgs-stable.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
     timesync = {
       url = "github:datakami/timesync";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,7 +32,8 @@
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixpkgs-wayland, nixos-hardware, agenix, flake-utils
-                     , nix-index-database, nix-npm-buildpackage, timesync
+                   , nix-index-database, nix-npm-buildpackage, timesync
+                   , attic
                    , self
     , ... }:
     (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
@@ -102,6 +111,7 @@
           nixpkgs-mozilla.overlay
           emacs-overlay.overlay
           agenix.overlays.default
+          attic.overlays.default
           (import ./fixups.nix)
           (import ./pkgs)
           (import ./pkgs/mdr.nix)
