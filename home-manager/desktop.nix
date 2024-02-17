@@ -66,7 +66,7 @@ in {
           #"${mod}+ctrl+l" = "exec --no-startup-id loginctl lock-session";
           "${mod}+ctrl+l" =
             "exec --no-startup-id \"playerctl -a pause; (bluetoothctl disconnect 88:C9:E8:AD:73:E8 &) && sleep 1s && pkill -USR1 swayidle\"";
-          "${mod}+Return" = "exec alacritty";
+          "${mod}+Return" = "exec alacritty msg create-window || alacritty";
           "${mod}+Escape" = "workspace back_and_forth";
           "${mod}+0" = "workspace 10";
           "${mod}+Shift+0" = "move container to workspace 10";
