@@ -11,13 +11,13 @@ in {
   config = lib.mkIf cfg.enable {
     users.extraUsers.git = {
       createHome = true;
-      home = config.services.gitea.stateDir;
+      home = config.services.forgejo.stateDir;
       group = "git";
       useDefaultShell = true;
       isSystemUser = true;
     };
     users.groups.git = {};
-    services.gitea = {
+    services.forgejo = {
       enable = true;
       user = "git";
       database.user = "root";
@@ -41,7 +41,7 @@ in {
         picture.DISABLE_GRAVATAR = false;
         mailer = {
           ENABLED = false;
-          AVATAR_UPLOAD_PATH = "${config.services.gitea.stateDir}/data/avatars";
+          AVATAR_UPLOAD_PATH = "${config.services.forgejo.stateDir}/data/avatars";
         };
       };
     };
@@ -50,7 +50,7 @@ in {
       enableACME = true;
       locations."/" = {
         proxyPass =
-          "http://127.0.0.1:${toString config.services.gitea.settings.server.HTTP_PORT}";
+          "http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}";
         extraConfig = ''
           proxy_buffering off;
         '';
