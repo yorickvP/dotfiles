@@ -34,17 +34,10 @@
       "yamaha_musiccast"
       "ipp"
       "homekit_controller"
+      "tuya" "ffmpeg"
       #"unifiprotect"
     ];
     config = {
-      media_player = [
-        {
-          platform = "androidtv";
-          host = "192.168.2.181";
-          name = "shield";
-          device_class = "androidtv";
-        }
-      ];
       mobile_app = {};
       default_config = {};
       system_log = {};
