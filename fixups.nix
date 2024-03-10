@@ -12,4 +12,5 @@
     doCheck = false;
     vendorHash = "sha256-lVCWTZvzLkYl+o+EUQ0kzIhgl9C236w9i3RRA5o+IAw=";
   };
+  # todo re-enable cachix
 })
