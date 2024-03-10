@@ -131,7 +131,7 @@ namespace nix {
   })
   export const copy = dedupe(async (attrs: string[], target: SSH): Promise<void[]> => {
     process.env.NIX_SSHOPTS = "-o compression=no";
-    await $`nix copy ${attrs} --to ssh://${target.host}`
+    await $`nix copy ${attrs} -s --to ssh://${target.host}`
     return Array(attrs.length)
   })
 }
