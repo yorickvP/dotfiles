@@ -289,6 +289,7 @@ in {
     r8-cog
     mutagen
     zoom-us
+    llm
 
     # admin
     nsc

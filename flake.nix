@@ -29,11 +29,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fooocus.url = "path:./pkgs/fooocus";
+    dream2nix.url = "github:nix-community/dream2nix";
+    dream2nix.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixpkgs-wayland, nixos-hardware, agenix, flake-utils
                    , nix-index-database, nix-npm-buildpackage, timesync
-                   , attic
+                   , attic, dream2nix
                    , self
     , ... }:
     (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:

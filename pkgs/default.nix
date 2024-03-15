@@ -96,4 +96,5 @@
     nativeBuildInputs = [ self.pkg-config ];
     buildInputs = [ self.openssl.dev ];
   };
+  llm = super.callPackage ./llm.nix {};
 })
