@@ -54,11 +54,19 @@ def tooltip(evt):
 def openURI(uri):
     subprocess.call(["systemd-run", "--user", "chromium", uri])
 
+def getEventURL(evt):
+    """ Get URL that jumps into video call """
+    if 'location' in evt and evt['location'].startswith("https://app.gather.town"):
+        return evt['location']
+    elif 'hangoutLink' in evt:
+        # jump into video call
+        return evt["hangoutLink"] + "?authuser=" + str(authuser(evt))
+    return None
+
 def click(evt):
     # todo: only on certain time before
-    if 'hangoutLink' in evt:
-        # jump into video call
-        url = evt["hangoutLink"] + "?authuser=" + str(authuser(evt))
+    url = getEventURL(evt)
+    if url is not None:
         subprocess.call(["playerctl", "pause"])
         i3.command("focus output 'DVI-D-1', workspace --no-auto-back-and-forth 9")
         openURI(url)
@@ -68,7 +76,13 @@ def click(evt):
 def rightclick(evt):
     openURI("https://calendar.google.com")
 
-events = [e for e in events if not gcal._DeclinedEvent(e)]
+def interestedEvent(evt):
+    # ignore started all-day
+    if "date" in evt['start'] and evt['s'] < gcal.now:
+        return False
+    return not gcal._DeclinedEvent(evt) and evt['eventType'] == "default"
+    
+events = [e for e in events if interestedEvent(e)]
 if opt == "dump":
     print(json.dumps(events, default=str))
 
@@ -85,6 +99,9 @@ if opt == "list": # todo: rename to first
     for evt in events:
         icon = ""
         # todo: tooltip
+        if 'location' in evt and evt['location'].startswith("https://app.gather.town"):
+            # md-town_hall
+            icon = '\U000f1875'
         if 'hangoutLink' in evt:
             icon = ""
         print(json.dumps({
