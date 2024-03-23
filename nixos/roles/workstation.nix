@@ -82,13 +82,8 @@
       (nerdfonts.override {
         fonts = [
           "DejaVuSansMono"
-          "Inconsolata"
           "Noto"
-          "SourceCodePro"
-          "Ubuntu"
-          "UbuntuMono"
-          "Iosevka"
-          "IosevkaTerm"
+          "NerdFontsSymbolsOnly"
         ];
       })
       iosevka
