@@ -168,7 +168,7 @@ in {
         }
       ];
     };
-    systemdIntegration = true;
+    systemd.enable = true;
     # fix pinentry-gnome3
     extraConfig = ''
       include /etc/sway/config.d/*

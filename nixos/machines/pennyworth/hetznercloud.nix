@@ -21,7 +21,7 @@
 
   nix.settings.max-jobs = lib.mkDefault 1;
   #services.nscd.enable = false;
-  networking.dhcpcd.enable = false;
+  networking.useDHCP = false;
   systemd.network.enable = true;
   systemd.network.networks."40-hetzner" = {
     DHCP = "ipv4";

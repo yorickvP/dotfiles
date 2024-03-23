@@ -32,7 +32,7 @@ in {
     openssh.authorizedKeys.keys =
       config.users.users.yorick.openssh.authorizedKeys.keys;
     # root password is useful from console, ssh has password logins disabled
-    passwordFile = config.age.secrets.root-user-pass.path; # TODO: generate own
+    hashedPasswordFile = config.age.secrets.root-user-pass.path; # TODO: generate own
 
   };
   services.timesyncd.enable = true;
@@ -42,7 +42,7 @@ in {
     extraGroups = [ "wheel" ];
     group = "users";
     openssh.authorizedKeys.keys = with (import ../sshkeys.nix); yorick;
-    passwordFile = config.age.secrets.yorick-user-pass.path;
+    hashedPasswordFile = config.age.secrets.yorick-user-pass.path;
     createHome = true;
   };
 

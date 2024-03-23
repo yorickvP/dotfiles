@@ -73,7 +73,7 @@
   fonts = {
     fontDir.enable = true;
     enableGhostscriptFonts = true;
-    fonts = with pkgs; [
+    packages = with pkgs; [
       corefonts # Micrsoft free fonts
       inconsolata # monospaced
       source-code-pro
