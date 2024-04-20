@@ -40,6 +40,14 @@ in
       openssh.authorizedKeys.keys = sshkeys.lars;
     };
 
+    mickey = {
+      isNormalUser = true;
+      openssh.authorizedKeys.keys = sshkeys.mickey;
+      packages = with pkgs; [
+        git cmake gnumake gcc python3 python3.pkgs.pip screen vim
+      ];
+      extraGroups = [ "docker" ];
+    };
     judith = {
       isNormalUser = true;
       openssh.authorizedKeys.keys = sshkeys.judith;
