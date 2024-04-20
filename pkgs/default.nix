@@ -96,5 +96,7 @@
     nativeBuildInputs = [ self.pkg-config ];
     buildInputs = [ self.openssl.dev ];
   };
-  llm = super.callPackage ./llm.nix {};
+  llm = super.callPackage ./llm.nix {
+    python3 = self.python312;
+  };
 })

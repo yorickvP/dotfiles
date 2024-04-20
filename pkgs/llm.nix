@@ -9,6 +9,7 @@ let
     pip.requirementsList = [
       "llm==0.13.1"
       "llm-claude-3==0.3"
+      "llm-replicate==0.3.1"
     ];
     pip.flattenDependencies = true;
     public = config.pip.env;
