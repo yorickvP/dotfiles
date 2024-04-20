@@ -114,4 +114,5 @@
   };
   services.pcscd.enable = true;
   services.xserver.gdk-pixbuf.modulePackages = [ pkgs.webp-pixbuf-loader ];
+  hardware.ledger.enable = true;
 }
