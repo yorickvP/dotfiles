@@ -32,6 +32,7 @@ in {
   services.mako = {
     enable = true;
     defaultTimeout = 60 * 1000; # ms
+    height = 200;
     extraConfig = ''
       [mode=do-not-disturb]
       invisible=1
