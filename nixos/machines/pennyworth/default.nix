@@ -2,13 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, inputs, ... }: {
   imports = [
     ./hetznercloud.nix
     ../../roles/server.nix
     ../../roles/datakami.nix
     ../../services/backup.nix
     ../../services/email.nix
+    inputs.yobot.nixosModules.default
   ];
 
   system.stateVersion = "19.03";
@@ -85,5 +86,10 @@
     image = "docuseal/docuseal:latest";
     ports = [ "127.0.0.1:3001:3000" ];
     volumes = [ "docuseal:/data" ];
+  };
+  age.secrets.yobot.file = ../../../secrets/yobot.toml.age;
+  services.yobot = {
+    enable = true;
+    configFile = config.age.secrets.yobot.path;
   };
 }

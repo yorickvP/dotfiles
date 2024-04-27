@@ -30,4 +30,5 @@ in
   "marvin-tracker.env.age".publicKeys = [ yorick frumar ];
   "oauth2-proxy.age".publicKeys = [ yorick frumar ];
   "attic.env.age".publicKeys = [ yorick frumar ];
+  "yobot.toml.age".publicKeys = [ yorick pennyworth ];
 }

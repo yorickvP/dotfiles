@@ -16,6 +16,7 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nix-npm-buildpackage.url = "github:serokell/nix-npm-buildpackage";
     nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
+    yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
     attic = {
       url = "github:zhaofengli/attic";
       inputs = {
@@ -35,7 +36,7 @@
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixpkgs-wayland, nixos-hardware, agenix, flake-utils
                    , nix-index-database, nix-npm-buildpackage, timesync
-                   , attic, dream2nix
+                   , attic, dream2nix, yobot
                    , self
     , ... }:
     (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
