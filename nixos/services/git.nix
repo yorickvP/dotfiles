@@ -56,5 +56,14 @@ in {
         '';
       };
     };
+
+    services.borgbackup.jobs.backup.exclude = let
+      sd = config.services.forgejo.stateDir;
+    in [
+      "${sd}/data/tmp"
+      "${sd}/tmp"
+      "${sd}/data/repo-archive"
+      "${sd}/log"
+    ];
   };
 }
