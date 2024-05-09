@@ -367,7 +367,8 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
   ;; use copilot
   (delq 'company-preview-if-just-one-frontend company-frontends))
 (use-package company-box
-  :hook (company-mode . company-box-mode))
+  ;:hook (company-mode . company-box-mode)
+  )
 #+END_SRC
 ** Indentation
 #+BEGIN_SRC emacs-lisp
