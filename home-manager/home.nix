@@ -226,7 +226,7 @@ in {
     nix-du
     nix-top
     nix-diff
-    #cachix
+    cachix
     cached-nix-shell
 
     ## js
