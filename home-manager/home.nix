@@ -14,6 +14,7 @@ in {
     gh = {
       enable = true;
       settings.aliases.co = "pr checkout";
+      settings.git_protocol = "ssh";
     };
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
