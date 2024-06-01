@@ -274,5 +274,8 @@ in {
     obsidian
     #xwaylandvideobridge
   ];
+  xdg.configFile."alacritty/alacritty.toml" = {
+    source = ../alacritty/alacritty.toml;
+  };
 
 }
