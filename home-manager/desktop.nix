@@ -1,14 +1,6 @@
 { lib, pkgs, options, ... }:
 let
   bin = pkgs.callPackage ../bin { };
-  fixed_slack = pkgs.slack.override {
-    xdg-utils = pkgs.xdg-utils.overrideAttrs (o: {
-      buildInputs = (o.buildInputs or []) ++ [ pkgs.makeWrapper ];
-      postInstall = o.postInstall + ''
-        wrapProgram "$out/bin/xdg-open" --unset GDK_BACKEND
-      '';
-    });
-  };
   bg = {
     xps9360 = "/home/yorick/wp/thorns__4k__by_kasperja-daqi5g7.jpg fill";
     desktop = "/home/yorick/wp/leonid5-high.webp fill";
@@ -38,9 +30,10 @@ in {
       invisible=1
     '';
   };
-  services.gpg-agent.pinentryFlavor = "gnome3";
+  services.gpg-agent.pinentryPackage = pkgs.pinentry.gnome3;
   wayland.windowManager.sway = {
     enable = true;
+    checkConfig = false; # looks for wallpapers
     config = {
       bars = [ ];
       gaps.inner = 5;
@@ -266,7 +259,7 @@ in {
     grim
     element-desktop
     libreoffice
-    fixed_slack
+    slack
     slurp
     sway-contrib.grimshot
     swaybg

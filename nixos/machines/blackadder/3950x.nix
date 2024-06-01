@@ -33,4 +33,8 @@
     nvidiaBusId = "PCI:5:0:0";
     amdgpuBusId = "PCI:15:0:0";
   };
+  hardware.cpu.amd = {
+    ryzen-smu.enable = true;
+    updateMicrocode = true;
+  };
 }

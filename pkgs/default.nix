@@ -71,14 +71,6 @@
       $out/bin/cog completion zsh > $out/share/zsh/site-functions/_cog
     '';
   };
-  obsidian = with self.lib; throwIf (versionOlder "1.4.16" super.obsidian.version) "Obsidian no longer requires EOL Electron" (
-    super.obsidian.override {
-      electron = self.electron_25.overrideAttrs (_: {
-        preFixup = "patchelf --add-needed ${self.libglvnd}/lib/libEGL.so.1 $out/bin/electron"; # NixOS/nixpkgs#272912
-        meta.knownVulnerabilities = [ ]; # NixOS/nixpkgs#273611
-      });
-    }
-  );
   noulith = self.rustPlatform.buildRustPackage rec {
     pname = "noulith";
     version = "20231228";

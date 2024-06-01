@@ -163,6 +163,7 @@ in {
     notmuch
     watchman
     nix-output-monitor
+    appimage-run
 
     ## misc
     moreutils
@@ -220,7 +221,7 @@ in {
     ## nix
     nix-tree
     niv
-    nixfmt
+    nixfmt-rfc-style
     patchelf
     nix-prefetch-git
     nix-du
@@ -252,10 +253,12 @@ in {
     vim
     xdg-utils
     countfftabs
+    datasette
     #wlrctl
 
     ## coins
     electrum
+    ledger-live-desktop
 
     ## apps
     alacritty
@@ -284,6 +287,7 @@ in {
     # openttd
     # wine
     # winetricks
+    kmines
 
     # work
     timesync

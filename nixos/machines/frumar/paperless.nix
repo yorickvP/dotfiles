@@ -43,7 +43,7 @@ in {
     };
     # todo: back up this dir
     services.paperless.enable = true;
-    services.paperless.extraConfig = {
+    services.paperless.settings = {
       # todo: PAPERLESS_ENABLE_HTTP_REMOTE_USER, PAPERLESS_LOGOUT_REDIRECT_URL
       PAPERLESS_URL = "https://priv.yori.cc";
       PAPERLESS_FORCE_SCRIPT_NAME = "/paperless";

@@ -105,8 +105,7 @@
   services.unifi = {
     enable = true;
     openFirewall = true;
-    jrePackage = pkgs.jre8_headless;
-    unifiPackage = pkgs.unifiStable;
+    unifiPackage = pkgs.unifi;
   };
   services.victoriametrics = {
     enable = true;
@@ -234,22 +233,26 @@
       recipient = "yorickvanpelt@gmail.com";
     };
   };
-  services.zfs.zed.settings = {
-    ZED_EMAIL_ADDR = [ "yorickvanpelt@gmail.com" ];
-    ZED_EMAIL_PROG = "/run/wrappers/bin/sendmail";
-    ZED_EMAIL_OPTS = "@ADDRESS@";
-    ZED_NOTIFY_INTERVAL_SECS = 3600;
-    ZED_NOTIFY_VERBOSE = true;
-    ZED_SCRUB_AFTER_RESILVER = true;
+  services.zfs.zed = {
+    enableMail = true;
+    settings = {
+      ZED_EMAIL_ADDR = [ "yorickvanpelt@gmail.com" ];
+      ZED_NOTIFY_INTERVAL_SECS = 3600;
+      ZED_NOTIFY_VERBOSE = true;
+      ZED_SCRUB_AFTER_RESILVER = true;
+    };
   };
-  services.oauth2_proxy = {
+  services.oauth2-proxy = {
     enable = true;
     email.addresses = "yorickvanpelt@gmail.com";
     redirectURL = "https://priv.yori.cc/oauth2/callback";
     reverseProxy = true;
     keyFile = config.age.secrets.oauth2-proxy.path;
     setXauthrequest = true;
-    nginx.virtualHosts = [ "priv.yori.cc" ];
+    nginx.virtualHosts."priv.yori.cc" = {
+      allowed_emails = ["yorickvanpelt@gmail.com"];
+    };
+    nginx.domain = "priv.yori.cc";
     extraConfig.whitelist-domain = ["priv.yori.cc"];
   };
   services.nats = {

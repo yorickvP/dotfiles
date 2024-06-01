@@ -29,7 +29,7 @@
   };
   services.logind.lidSwitch = "ignore";
 
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   networking.wireless = {
     enable = false;
@@ -38,7 +38,6 @@
   hardware.bluetooth.enable = true;
   hardware.enableRedistributableFirmware = true;
 
-  services.udev.packages = [ pkgs.crda ];
   hardware.firmware = [ pkgs.wireless-regdb ];
   # gotta go faster
   networking.dhcpcd.extraConfig = ''

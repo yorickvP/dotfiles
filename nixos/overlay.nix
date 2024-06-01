@@ -9,6 +9,7 @@ in pkgs: super: {
           modules =
             [ ({ lib, ... }: {
               config.nixpkgs.pkgs = lib.mkDefault pkgs;
+              config.nixpkgs.flake.source = pkgs.flake-inputs.nixpkgs;
               config._module.args = extraArgs;
             }) ]
             ++ (if builtins.isList configuration then

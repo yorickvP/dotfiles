@@ -21,8 +21,7 @@ in {
     nix-netrc-yorick.file = ../../secrets/nix-netrc-yorick.age;
   };
 
-  nix.nixPath = [];# "nixpkgs=${pkgs.path}" ];
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  nix.package = pkgs.lix;
 
   networking.domain = "yori.cc";
   networking.hostName = machine;
@@ -147,4 +146,6 @@ in {
       "yorick:sWqvIllvDhMS9vcWyk4+zSk9L6zq8UgcLPEEQJsAdW4="
     ];
   };
+
+  fonts.fontconfig.subpixel.rgba = "rgb";
 }
