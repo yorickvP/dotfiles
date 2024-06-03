@@ -5,12 +5,14 @@ if [ -z "$ENTRY" ]; then
     exit 1
 fi
 PASSENTRY=$(pass "$ENTRY")
-builtin echo "$PASSENTRY" | head -n1 | nohup wl-copy -f -n --sensitive &
+(builtin echo "$PASSENTRY" | head -n1 | nohup wl-copy -f -n --sensitive) &
 WLCOPY_PID=$!
 disown -h
 nohup bash -c "sleep 30s; kill $WLCOPY_PID" &
 disown -h
 
 NOTIFICATION=$(builtin echo "$PASSENTRY" | sed 1d)
-notify-send -t 6000 "$NOTIFICATION"
+if [ ! -z "${NOTIFICATION}" ]; then
+  notify-send -t 6000 "$NOTIFICATION"
+fi
 builtin echo "$NOTIFICATION"
