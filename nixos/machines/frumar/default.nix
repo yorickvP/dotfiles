@@ -56,18 +56,12 @@
       "fooocus.yori.cc" = sslForward "http://192.168.2.135:7860" {}; 
       "priv.yori.cc" = let
         oauth2Block = ''
-          auth_request /oauth2/auth;
-          error_page 401 = /oauth2/sign_in;
-  
           # pass information via X-User and X-Email headers to backend,
           # requires running with --set-xauthrequest flag
-          auth_request_set $user   $upstream_http_x_auth_request_user;
-          auth_request_set $email  $upstream_http_x_auth_request_email;
           proxy_set_header X-User  $user;
           proxy_set_header X-Email $email;
   
           # if you enabled --cookie-refresh, this is needed for it to work with auth_request
-          auth_request_set $auth_cookie $upstream_http_set_cookie;
           add_header Set-Cookie $auth_cookie;
         '';
         proxyOauth2 = proxyPass: {
@@ -77,14 +71,23 @@
       in {
         onlySSL = true;
         useACMEHost = "wildcard.yori.cc";
-        # TODO remove dashy
-        locations."/".proxyPass = "http://127.0.0.1:4000";
+        locations."/".root = pkgs.writeTextDir "index.html" ''
+          <!DOCTYPE HTML>
+          <ul>
+          <li><a href="/paperless/">paperless</a>
+          <li><a href="/sonarr/">sonarr</a>
+          <li><a href="/radarr/">radarr</a>
+          <li><a href="/oauth2/sign_out?rd=/">sign out</a>
+          </ul>
+        '';
         locations."/sonarr" = proxyOauth2 "http://127.0.0.1:8989";
         locations."/radarr" = proxyOauth2 "http://127.0.0.1:7878";
         locations."/marvin-tracker/" = {
           proxyPass = "http://[::1]:4001/";
+          extraConfig = "auth_request off;";
           # handles auth using arg
         };
+        locations."/oauth2/".extraConfig = "auth_request off;"; # todo upstream?
         locations."/paperless/" = proxyOauth2 "http://127.0.0.1:${toString config.services.paperless.port}/";
         locations."/media/" = {
           root = "/var/mediashare";

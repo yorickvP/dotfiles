@@ -44,10 +44,12 @@ in {
     # todo: back up this dir
     services.paperless.enable = true;
     services.paperless.settings = {
-      # todo: PAPERLESS_ENABLE_HTTP_REMOTE_USER, PAPERLESS_LOGOUT_REDIRECT_URL
       PAPERLESS_URL = "https://priv.yori.cc";
       PAPERLESS_FORCE_SCRIPT_NAME = "/paperless";
       PAPERLESS_STATIC_URL = "/paperless/static/";
+      PAPERLESS_ENABLE_HTTP_REMOTE_USER = "true";
+      PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME = "HTTP_X_EMAIL";
+      PAPERLESS_LOGOUT_REDIRECT_URL = "/oauth2/sign_out?rd=/";
     };
     users.users.paperless.extraGroups = [ "ads1600w" ];
   };
