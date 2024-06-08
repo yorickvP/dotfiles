@@ -83,6 +83,7 @@ in {
           "XF86AudioPause" = "exec playerctl pause";
           "XF86AudioPlay" = "exec playerctl play";
           "${mod}+Shift+s" = exec bin.screenshot_public "screenshot_public";
+          "${mod}+Ctrl+Shift+s" = exec pkgs.sway-contrib.grimshot "grimshot --notify copy anything";
           "Print" = exec bin.screenshot_public "screenshot_public";
           "${mod}+Shift+t" =
             "exec --no-startup-id /home/yorick/dotfiles/bin/toggle_solarized.sh";

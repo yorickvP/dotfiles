@@ -9,7 +9,7 @@ fileurl="$webpath$myfile"
 
 # copy-paste
 wl-copy <<< "$fileurl"
-grimshot save window "$HOME/screenshot-tmp.ppm"
+grimshot save anything "$HOME/screenshot-tmp.ppm"
 cwebp -preset picture -q 100 "$HOME/screenshot-tmp.ppm" -o "$HOME/public/s/$myfile"
 rm "$HOME/screenshot-tmp.ppm"
 
