@@ -5,10 +5,7 @@ if [ -z "$ENTRY" ]; then
     exit 1
 fi
 PASSENTRY=$(pass "$ENTRY")
-(builtin echo "$PASSENTRY" | head -n1 | nohup wl-copy -f -n --sensitive) &
-WLCOPY_PID=$!
-disown -h
-nohup bash -c "sleep 30s; kill $WLCOPY_PID" &
+(builtin echo "$PASSENTRY" | head -n1 | timeout 30 wl-copy -f -n --sensitive) &
 disown -h
 
 NOTIFICATION=$(builtin echo "$PASSENTRY" | sed 1d)
