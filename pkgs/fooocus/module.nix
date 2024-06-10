@@ -100,6 +100,8 @@ let cfg = config.services.fooocus; in
       description = "Fooocus server";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
+      environment.config_path = "${configFile}";
+      environment.config_example_path = "/var/lib/fooocus/config_modification_tutorial.txt";
       serviceConfig = {
         Type = "simple";
         # it wants to write for no good reason
@@ -111,7 +113,7 @@ let cfg = config.services.fooocus; in
           ln -sfn ${cfg.package}/javascript /var/lib/fooocus/javascript
           ln -sfn ${cfg.package}/css /var/lib/fooocus/css
         '';
-        ExecStart = "${cfg.package}/webui.py --port ${toString cfg.port} --disable-auto-launch --listen ${cfg.listen}";
+        ExecStart = "${cfg.package}/bin/fooocus --port ${toString cfg.port} --disable-in-browser --multi-user --listen ${cfg.listen} --always-high-vram";
         Restart = "always";
         RestartSec = "10";
         User = "fooocus";

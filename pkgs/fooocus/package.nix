@@ -2,31 +2,37 @@
   imports = [ dream2nix.modules.dream2nix.pip ];
 
   name = "Fooocus";
-  version = "2.1.807";
+  version = "2.4.3";
 
   mkDerivation = {
     src = config.deps.fetchFromGitHub {
-      owner = "yorickvP";
+      owner = "lllyasviel";
       repo = config.name;
-      rev = "cc11a770ea8db7573ae58b9b8fc30edabaa4a146";
-      hash = "sha256-9DV9r1GG3vVwsx+0KYXL3Sd8g5qjSShbBWa1j74BnUs=";
+      rev = "v${config.version}";
+      hash = "sha256-+vf/uggcO8FeCuGLrgovRSae/Rka1Y2u69qttImtMdY=";
     };
+    nativeBuildInputs = [ config.deps.which ];
     buildPhase = "true";
     installPhase = ''
       mkdir $out
       cp -r ./* $out
       ln -s /tmp/fooocus $out/input
+      ln -s /var/lib/fooocus/auth.json $out/auth.json
+      ln -s /var/lib/fooocus/sorted_styles.json $out/sorted_styles.json
       for f in $out/{launch,webui}.py; do
         chmod +x $f
         sed -i '1s;^;#!/usr/bin/env python\n;' $f
-        wrapProgram $f --set PYTHONPATH "$PYTHONPATH:$out/backend/headless"
+        # wrapProgram $f --set PYTHONPATH "$PYTHONPATH:$out/backend/headless"
       done
+      makeWrapper $(which python) $out/bin/fooocus \
+        --add-flags $out/launch.py \
+        --set PYTHONPATH "$PYTHONPATH:$out/backend/headless"
     '';
   };
   buildPythonPackage.format = "other";
 
   deps = { nixpkgs, ... }: {
-    inherit (nixpkgs) fetchFromGitHub;
+    inherit (nixpkgs) fetchFromGitHub which;
     inherit (nixpkgs.cudaPackages_12_1) cudatoolkit cudnn;
   };
   pip = {
@@ -39,7 +45,7 @@
       # libcudart.so.12
       xformers.mkDerivation.buildInputs = [ config.deps.cudatoolkit.lib ];
     };
-    pypiSnapshotDate = "2023-10-29";
+    pypiSnapshotDate = "2024-06-10";
     flattenDependencies = true;
     buildDependencies.setuptools = false;
 
@@ -60,9 +66,9 @@
       "gradio==3.41.2"
       "pygit2==1.12.2"
       "opencv-contrib-python==4.8.0.74"
-      "torch==2.1.0+cu121"
-      "torchvision==0.16.0"
-      "xformers>=0.0.20"
+      "torch==2.1.1+cu121"
+      "torchvision==0.16.1"
+      "xformers==0.0.23"
       "triton"
       "setuptools"
       "httpx==0.24.1"
