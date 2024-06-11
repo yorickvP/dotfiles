@@ -116,15 +116,4 @@
   services.xserver.gdk-pixbuf.modulePackages = [ pkgs.webp-pixbuf-loader ];
   hardware.ledger.enable = true;
 
-  networking.wireguard.interfaces.wg-dk = {
-    privateKeyFile =
-      "/home/yorick/datakami/infra/keys/wg.yorick.key";
-    ips = [ "10.100.0.4/32" ];
-    peers = [{
-      publicKey = "teCEYc4KWT6rGchNOp6sIFO0jmkhwTjv6reOzGscAm8=";
-      endpoint = "dk-1.datakami.nl:51820";
-      allowedIPs = [ "10.100.0.0/24" ];
-      persistentKeepalive = 25;
-    }];
-  };
 }

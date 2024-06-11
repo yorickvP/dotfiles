@@ -84,4 +84,8 @@ in
     listen = "0.0.0.0";
   };
   networking.firewall.allowedTCPPorts = [ config.services.fooocus.port ];
+  yorick.dk-vpn = {
+    enable = true;
+    ip = "10.100.0.4";
+  };
 }

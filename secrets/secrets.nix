@@ -31,4 +31,6 @@ in
   "oauth2-proxy.age".publicKeys = [ yorick frumar ];
   "attic.env.age".publicKeys = [ yorick frumar ];
   "yobot.toml.age".publicKeys = [ yorick pennyworth ];
+  "wg.dk.blackadder.age".publicKeys = [ yorick blackadder ];
+  "wg.dk.smithers.age".publicKeys = [ yorick smithers ];
 }

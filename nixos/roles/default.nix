@@ -6,6 +6,7 @@ in {
   imports = [
     inputs.agenix.nixosModules.default
     inputs.fooocus.nixosModules.default
+    ../modules/dk-vpn.nix
     ../modules/tor-hidden-service.nix
     ../modules/nginx.nix
     ../modules/lumi-cache.nix
