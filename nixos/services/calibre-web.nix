@@ -22,6 +22,9 @@ in {
       locations."/" = {
         proxyPass = "http://[::1]:8083";
         proxyWebsockets = true;
+        extraConfig = ''
+          client_max_body_size 64M;
+        '';
       };
       locations."/kobo/" = {
         proxyPass = "http://[::1]:8083/kobo/";
