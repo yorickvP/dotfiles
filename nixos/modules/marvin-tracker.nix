@@ -8,7 +8,7 @@ let cfg = config.services.yorick.marvin-tracker; in
       type = types.str;
     };
     port = mkOption {
-      default = 4001;
+      default = 4008;
       type = types.port;
     };
     package = mkOption {

@@ -15,6 +15,12 @@
       serial.port = "/dev/ttyUSB0";
     };
   };
+  age.secrets.govee2mqtt-env.file = ../../../secrets/govee2mqtt.env.age;
+  services.govee2mqtt = {
+    enable = true;
+    environmentFile = config.age.secrets.govee2mqtt-env.path;
+  };
+  networking.firewall.allowedUDPPorts = [ 4002 ]; # govee2mqtt
   services.home-assistant = {
     enable = true;
     openFirewall = true;
@@ -35,6 +41,7 @@
       "ipp"
       "homekit_controller"
       "tuya" "ffmpeg"
+      "govee_light_local"
       #"unifiprotect"
     ];
     customComponents = [
@@ -66,7 +73,6 @@
       mobile_app = {};
       default_config = {};
       system_log = {};
-      "map" = {};
       
       frontend.themes = "!include_dir_merge_named themes";
       automation = "!include automations.yaml";

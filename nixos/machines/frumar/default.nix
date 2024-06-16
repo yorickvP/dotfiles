@@ -83,7 +83,7 @@
         locations."/sonarr" = proxyOauth2 "http://127.0.0.1:8989";
         locations."/radarr" = proxyOauth2 "http://127.0.0.1:7878";
         locations."/marvin-tracker/" = {
-          proxyPass = "http://[::1]:4001/";
+          proxyPass = "http://[::1]:${toString config.services.yorick.marvin-tracker.port}/";
           extraConfig = "auth_request off;";
           # handles auth using arg
         };
@@ -289,6 +289,11 @@
             {
               user = "marvin-tracker";
               password = "$2a$11$V9G2gT52obCsDOBwibHfMudnibwP/s3NwUjwvtsnlHfkn5kJHOOEe";
+              allowed_connection_types = [ "MQTT" ];
+            }
+            {
+              user = "govee2mqtt";
+              password = "$2y$10$7EOQkxOjWdHV.hCb.a92JOAU30Qgok0faew/1xU3SJhaXVuKbZ1bm";
               allowed_connection_types = [ "MQTT" ];
             }
           ];
