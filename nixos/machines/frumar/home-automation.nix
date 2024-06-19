@@ -13,6 +13,10 @@
       availability = true;
       device_options.legacy = false;
       serial.port = "/dev/ttyUSB0";
+      frontend = {
+        port = 8081;
+        url = "http://frumar.vpn.yori.cc:8081";
+      };
     };
   };
   age.secrets.govee2mqtt-env.file = ../../../secrets/govee2mqtt.env.age;
@@ -21,6 +25,7 @@
     environmentFile = config.age.secrets.govee2mqtt-env.path;
   };
   networking.firewall.allowedUDPPorts = [ 4002 ]; # govee2mqtt
+  networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 8081 ];
   services.home-assistant = {
     enable = true;
     openFirewall = true;
