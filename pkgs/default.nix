@@ -92,4 +92,5 @@
     python3 = self.python312;
   };
   govee2mqtt = super.callPackage ./govee2mqtt.nix { inherit (super) govee2mqtt; };
+  play-nijmegen-calendar = super.callPackage ./play-nijmegen-calendar/default.nix {};
 })

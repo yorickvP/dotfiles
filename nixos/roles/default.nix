@@ -13,6 +13,7 @@ in {
     ../modules/lumi-vpn.nix
     ../modules/marvin-tracker.nix
     ../modules/muflax-blog.nix
+    ../modules/play-nijmegen-calendar.nix
     ../modules/selfsigned.nix
     ../services
   ];

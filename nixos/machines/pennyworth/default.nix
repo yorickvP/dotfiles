@@ -79,4 +79,5 @@
     enable = true;
     configFile = config.age.secrets.yobot.path;
   };
+  services.play-nijmegen-calendar.enable = true;
 }
