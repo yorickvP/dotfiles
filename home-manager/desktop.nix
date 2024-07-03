@@ -214,9 +214,8 @@ in {
   };
   systemd.user.timers.gmi = {
     Timer = {
-      OnActiveSec = "30m";
-      OnBootSec = "5m";
-      RandomizedDelaySec = 30;
+      OnCalendar = "hourly";
+      RandomizedDelaySec = "5min";
     };
     Install.WantedBy = ["timers.target"];
   };
