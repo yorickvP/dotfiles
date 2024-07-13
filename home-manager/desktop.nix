@@ -87,7 +87,6 @@ in {
           "Print" = exec bin.screenshot_public "screenshot_public";
           "${mod}+Shift+t" =
             "exec --no-startup-id /home/yorick/dotfiles/bin/toggle_solarized.sh";
-          "--locked ${mod}+x" = "exec /home/yorick/dotfiles/bin/docked.sh";
           "${mod}+p" = "exec /home/yorick/dotfiles/bin/ala-fzf-pass.sh";
           #"${mod}+p" = exec rofi-pass "rofi-pass";
           "${mod}+e" = exec pkgs.wldash "wldash start-or-kill";

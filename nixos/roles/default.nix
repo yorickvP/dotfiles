@@ -9,8 +9,6 @@ in {
     ../modules/dk-vpn.nix
     ../modules/tor-hidden-service.nix
     ../modules/nginx.nix
-    ../modules/lumi-cache.nix
-    ../modules/lumi-vpn.nix
     ../modules/marvin-tracker.nix
     ../modules/muflax-blog.nix
     ../modules/play-nijmegen-calendar.nix

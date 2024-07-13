@@ -45,9 +45,6 @@
   # git
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 1024000000;
 
-  yorick.lumi-vpn.enable = false;
-  yorick.lumi-cache.enable = true;
-
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;

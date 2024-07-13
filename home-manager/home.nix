@@ -7,7 +7,7 @@ let
     } "${pkgs.thefuck}/bin/thefuck -a > $out";
   headphones = "88:C9:E8:AD:73:E8";
 in {
-  imports = [ ./desktop.nix ./emacs.nix ./lumi.nix ./email.nix ];
+  imports = [ ./desktop.nix ./emacs.nix ./email.nix ];
   programs = {
     nix-index.enable = true;
     # todo: .aws/config default region

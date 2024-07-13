@@ -6,12 +6,6 @@ in
 
   system.stateVersion = "19.09";
 
-  yorick.lumi-vpn = {
-    name = "yorick-homepc";
-    mtu = 1408;
-    ip = "10.109.0.18";
-  };
-
   # backups
   services.znapzend = {
     enable = true;
