@@ -96,6 +96,13 @@ in {
         vundo
         weechat
         which-key
+        marginalia
+        kind-icon
+        corfu
+        corfu-terminal
+        cape
+        embark
+        embark-consult
       ]);
   };
   

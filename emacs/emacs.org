@@ -207,6 +207,9 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
               ("M-DEL" . vertico-directory-delete-word))
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+(use-package marginalia
+  :config
+  (marginalia-mode))
 (use-package savehist
   :config
   (savehist-mode))
