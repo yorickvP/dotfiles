@@ -14,7 +14,6 @@
 ** use-package compile-time
 #+BEGIN_SRC emacs-lisp
 (eval-when-compile (require 'use-package))
-(require 'diminish)
 (require 'bind-key)
 #+END_SRC
 ** Custom file
@@ -33,17 +32,6 @@
 
   ")
 #+END_SRC
-** modules
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
-** keybindings
-#+BEGIN_SRC emacs-lisp
-  (bind-keys :map global-map
-             ("C-c l" . org-store-link)
-             ("C-c a" . org-agenda)
-             ("C-c b" . org-iswitchb)
-             ("C-c c" . org-capture))
-#+END_SRC
 ** config
 #+BEGIN_SRC emacs-lisp
   (setq org-pretty-entities t)
@@ -55,46 +43,18 @@
   (setq org-log-done t)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAIT" "|" "DONE(d)" "CANCEL")))
-  (setq org-agenda-files (list "~/org/life.org"
-            "~/org/ru.org" 
-            "~/org/symfo.org"
-            "~/org/fiction.org"
-            "~/serokell/serok.el/2019.org"
-            "~/engineering/lumi.org"
-            "~/serokell/serok.el/tasks.org"))
   (setq org-use-fast-todo-selection t)
-  (setq org-directory "~/org")
 
   (defun org-file-path (filename)
     "Return the absolute address of an org file, given its relative name."
     (concat (file-name-as-directory org-directory) filename))
 
-  ; (setq org-inbox-file "~/org/inbox.org")
   (setq org-index-file (org-file-path "life.org"))
   (setq org-archive-location
       (concat (org-file-path "archive.org") "::* From %s"))
 
-  (setq org-default-notes-file "~/org/refile.org")
 
   (setq org-agenda-todo-ignore-scheduled t)
-
-  (setq org-capture-templates
-        '(("l" "Today I learned"
-           entry
-           (file+datetree (org-file-path "til.org"))
-           "* %?\n")
-          ("u" "link"
-           entry
-           (file+headline org-index-file "check links")
-           "* %^L\n")
-          ("w" "Week review"
-           entry
-           (file+datetree (org-file-path "weeklog.org"))
-           "* %?\n")
-          ("t" "todo item"
-           entry
-           (file+headline org-index-file "todo")
-           "* TODO %?\n")))
 
 
 #+END_SRC
@@ -123,16 +83,8 @@
 ** org-bullets
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
-    :init (add-hook 'org-mode-hook 'org-bullets-mode t)
     :commands org-bullets-mode
-)
-#+END_SRC
-** TODO org-ref
-#+BEGIN_SRC emacs-lisp
-  (use-package org-ref
-      :disabled
-      :config
-      (setq org-ref-completion-library 'org-ref-ivy-cite))
+    :hook org-mode-hook)
 #+END_SRC
 * Look
 ** Solarized
@@ -235,48 +187,66 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 (global-unset-key (kbd "C-z"))
 
 #+END_SRC
-** Ivy
+** vertico and consult
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy
-      :init
-      (setq ivy-height 10)
-      (setq ivy-use-virtual-buffers t)
-      (setq enable-recursive-minibuffers t)
-      :config
-      (ivy-mode t)
-      :diminish
-      :bind (("C-s" . swiper)
-             ("C-c C-r" . ivy-resume)
-             ("C-x b" . ivy-switch-buffer)
-             ("<f6>" . ivy-resume)))
+(use-package vertico
+  :config
+  (vertico-mode)
+  :demand
+  :bind (:map vertico-map
+             ("<prior>" . vertico-scroll-down)
+             ("<next>" . vertico-scroll-up)))
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  ;; More convenient directory navigation commands
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("/" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+(use-package savehist
+  :config
+  (savehist-mode))
+(use-package consult
+  :bind (("C-x b" . consult-buffer)
+         ("C-s" . consult-line)))
+(use-package orderless
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+(use-package emacs
+  :custom
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Emacs 28 and newer: Hide commands in M-x which do not work in the current
+  ;; mode.  Vertico commands are hidden in normal buffers. This setting is
+  ;; useful beyond Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+
 #+END_SRC
-** Counsel
-#+BEGIN_SRC emacs-lisp
-    (use-package counsel
-        :bind (("M-x" . counsel-M-x)
-               ("C-x C-f" . counsel-find-file)
-               ("C-h f" . counsel-describe-function)
-               ("C-h v" . counsel-describe-variable)))
-#+END_SRC
-    (global-set-key (kbd "<f1> l") 'counsel-find-library)
-    (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-    (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-    ;; (global-set-key (kbd "C-c g") 'counsel-git)
-    ;; (global-set-key (kbd "C-c j") 'counsel-git-grep)
-    ;; (global-set-key (kbd "C-c k") 'counsel-ag)
-    ;; (global-set-key (kbd "C-x l") 'counsel-locate)
-    ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-    ;; (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-** projectile
-#+BEGIN_SRC emacs-lisp
-    (use-package projectile
-      :init
-      (setq projectile-mode-line "Projectile")
-      :config
-      (projectile-global-mode t)
-      )
-  ;(use-package counsel-projectile))
-#+END_SRC
+
+#+RESULTS:
 ** ggtags
 #+BEGIN_SRC emacs-lisp
 (use-package ggtags
@@ -335,7 +305,6 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 #+RESULTS:
 : move-border-down
 
-** TODO i3-emacs
 ** Terminal
 #+BEGIN_SRC emacs-lisp
 (xterm-mouse-mode 1)
@@ -360,8 +329,7 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 #+END_SRC
 ** autocomplete
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :diminish
+(use-package company
   :hook (after-init . global-company-mode)
   :config
   ;; use copilot
@@ -424,7 +392,6 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 ** Undo-tree
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
-    :diminish undo-tree-mode
     :init
     ;; prevent .~undo-tree file pollution
     (setq undo-tree-auto-save-history nil)
@@ -451,7 +418,6 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
     :config (global-evil-mc-mode 1)
     :after evil)
   (use-package which-key
-    :diminish
     :init
     (setq which-key-allow-evil-operators t)
     (setq which-key-show-operator-state-maps t)
@@ -466,7 +432,6 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 *** evil-goggles
 #+BEGIN_SRC emacs-lisp
   (use-package evil-goggles
-    :diminish
     :after evil
     :config
     (evil-goggles-mode)
@@ -519,40 +484,39 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 * Tools
 ** Magit
 #+BEGIN_SRC emacs-lisp
-  (use-package magit
-      :bind (("C-c g" . magit-status)
-             ("C-c C-g l" . magit-log-all)))
-  (use-package forge
-    :init
-(setq forge-topic-list-limit '(60 . 0))
-    :after magit)
+(use-package magit
+  :bind (("C-c g" . magit-status)
+         ("C-c C-g l" . magit-log-all)))
+(use-package forge
+  :config
+  (setq forge-topic-list-limit '(60 . 0))
+  :after magit)
 #+END_SRC
 ** weechat
 #+BEGIN_SRC emacs-lisp
 (use-package weechat
   :commands weechat-connect
-  :init
+  :config
   (setq weechat-more-lines-amount 100)
   (setq weechat-host-default "pennyworth.yori.cc")
   (setq weechat-mode-default "ssh -W localhost:%p %h")
-  (setq weechat-modules '(weechat-button weechat-complete weechat-notifications))
-)
+  (setq weechat-modules '(weechat-button weechat-complete weechat-notifications)))
 #+END_SRC
 ** notmuch
 #+BEGIN_SRC emacs-lisp
 (use-package notmuch
-      :bind (("C-c n" . notmuch)))
+  :bind (("C-c n" . notmuch)))
 #+END_SRC
 ** TODO https://github.com/mbork/beeminder.el
 * language-specific
 ** markdown
 #+BEGIN_SRC emacs-lisp
-  (use-package markdown-mode
-    :commands (markdown-mode gfm-mode)
-    :mode (("README\\.md\\'" . gfm-mode)
-           ("\\.md\\'" . markdown-mode)
-           ("\\.markdown\\'" . markdown-mode))
-    :init (setq markdown-command "multimarkdown"))
+(use-package markdown-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 #+END_SRC
 ** org
 *** TODO spellchecking
@@ -566,41 +530,32 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 #+END_SRC
 ** nix
 #+BEGIN_SRC emacs-lisp
-
-  (defun nix-flake-current-dir ()
-    (interactive)
-    (let ((default-directory (projectile-project-root)))
-      (nix-flake (projectile-project-root))))
-  (use-package nix-mode
-    :commands (nix-mode nix-flake)
-    :bind (("C-c f" . nix-flake-current-dir))
-    :mode (("\\.nix\\'" . nix-mode)))
+(defun nix-flake-current-dir ()
+  (interactive)
+  (nix-flake (project-root (project-current))))
+(use-package nix-mode
+  :commands (nix-mode nix-flake)
+  :bind (("C-c f" . nix-flake-current-dir))
+  :mode (("\\.nix\\'" . nix-mode)))
 #+END_SRC
 ** lsp
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :init
-    (setq lsp-keymap-prefix "C-c s")
-    :hook
-    (lsp-mode . lsp-enable-which-key-integration)
-    :commands
-    (lsp lsp-deferred))
-  (use-package lsp-ivy
-    :commands lsp-ivy-workspace-symbol
-    :after lsp)
-  (use-package lsp-ui
-    :commands lsp-ui-mode
-    :after lsp)
-  (setq gc-cons-threshold 100000000)
-  (setq read-process-output-max (* 1024 1024 3)) ;; 3mb
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c s")
+  :hook
+  (lsp-mode . lsp-enable-which-key-integration)
+  :commands
+  (lsp lsp-deferred))
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :after lsp)
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024 3)) ;; 3mb
 #+END_SRC
-
-#+RESULTS:
-: 3145728
-
 ** haskell
 #+BEGIN_SRC emacs-lisp
-  (load-library "haskell-mode-autoloads")
+(load-library "haskell-mode-autoloads")
   ;;   (use-package intero
   ;;    :config     (add-hook 'haskell-mode-hook 'intero-mode)
   ;;   )
@@ -610,26 +565,14 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 ** rust
 #+BEGIN_SRC emacs-lisp
 (use-package rust-mode
-    :commands (rust-mode)
-    :mode (("\\.rs\\'" . rust-mode)))
+  :commands (rust-mode)
+  :mode (("\\.rs\\'" . rust-mode)))
 #+END_SRC
 ** terraform-mode
 #+BEGIN_SRC emacs-lisp
 (use-package terraform-mode
-    :commands (terraform-mode)
-    :mode (("\\.tf\\'" . terraform-mode)))
-#+END_SRC
-** vue
-#+BEGIN_SRC emacs-lisp
-(use-package vue-mode
-    :commands (vue-mode)
-    :mode (("\\.vue\\'" . vue-mode)))
-#+END_SRC
-** reason
-#+BEGIN_SRC emacs-lisp
-(use-package reason-mode
-    :commands (reason-mode)
-    :mode (("\\.re\\'" . reason-mode)))
+  :commands (terraform-mode)
+  :mode (("\\.tf\\'" . terraform-mode)))
 #+END_SRC
 ** TODO proof-general
 * Inspiration

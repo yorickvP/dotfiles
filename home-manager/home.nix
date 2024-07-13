@@ -164,6 +164,7 @@ in {
     watchman
     nix-output-monitor
     appimage-run
+    ripgrep
 
     ## misc
     moreutils

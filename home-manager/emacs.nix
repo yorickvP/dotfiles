@@ -35,70 +35,67 @@ in {
     };
     extraPackages = p:
       (with p; [
-        treesit-grammars.with-all-grammars
+        # evil-magit
         all-the-icons
         avy
         company
         company-box
-        counsel
-        counsel-projectile
+        consult
         copilot
+        crdt
         diminish
         direnv
+        doom-modeline
         dune
-        tuareg
         elixir-mode
         evil
+        evil-goggles
         evil-leader
-        # evil-magit
+        evil-mc
         evil-surround
         flycheck
         flycheck-inline
+        flymake-flycheck
         forge
         ggtags
         git-gutter-fringe
         haskell-mode
         htmlize
-        ivy
-        ivy-hydra
-        lua-mode
         linum-relative
         lsp-haskell
-        lsp-pyright
-        lsp-ivy
         lsp-mode
-        lsp-ui
+        lsp-pyright
         lsp-treemacs
+        lsp-ui
+        lua-mode
         magit
         markdown-mode
         neotree
         nix-buffer
         nix-mode
+        notmuch
+        orderless
         org-bullets
+        org-cliplink
         org-ref
+        ox-mediawiki
         pandoc-mode
-        projectile
-        reason-mode
-        rescript-mode
         request
+        rescript-mode
+        rust-mode
         s
         solarized-theme
-        swiper
         terraform-mode
         treemacs
+        treesit-grammars.with-all-grammars
+        tuareg
+        undo-tree
         use-package
+        vertico
         vue-mode
+        vundo
         weechat
         which-key
-        crdt
-        doom-modeline
-        evil-goggles
-        evil-mc
-        notmuch
-        org-cliplink
-        ox-mediawiki
-        rust-mode
-        undo-tree
       ]);
   };
   
