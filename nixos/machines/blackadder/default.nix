@@ -63,6 +63,7 @@ in
   virtualisation.docker = {
     enable = true;
     storageDriver = "overlay2";
+    enableNvidia = true;
   };
   hardware.nvidia-container-toolkit.enable = true;
   users.users.yorick.extraGroups = [ "docker" ];
