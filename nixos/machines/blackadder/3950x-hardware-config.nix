@@ -34,7 +34,7 @@
   };
 
   swapDevices = [
-    # { device = "/dev/disk/by-uuid/61a23e27-2cd4-4456-bcde-aec68be04239"; } # mp600
+    { device = "/dev/disk/by-uuid/61a23e27-2cd4-4456-bcde-aec68be04239"; } # mp600
     { device = "/dev/disk/by-uuid/15057589-6483-4e10-9f87-67ed7e314d26"; } # 980pro
   ];
 
