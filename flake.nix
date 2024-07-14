@@ -8,7 +8,7 @@
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master"; # todo: nixos-24.05
+    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-24.05";
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
@@ -94,19 +94,6 @@
 
         apps.default = flake-utils.lib.mkApp {
           drv = pkgs.y-deployer;
-        };
-        # updater script for home profile
-        # works around https://github.com/nix-community/home-manager/issues/2848
-        apps.update-home = flake-utils.lib.mkApp {
-          drv = pkgs.writeScriptBin "update-home" ''
-            set -euo pipefail
-            old_profile=$(nix profile list | grep home-manager-path | head -n1 | awk '{print $4}')
-            echo $old_profile
-            nix profile remove $old_profile
-            ${
-              self.packages.${system}.yorick-home
-            }/activate || (echo "restoring old profile"; ${pkgs.nix}/bin/nix profile install $old_profile)
-          '';
         };
       })) // {
         overlays.default = nixpkgs.lib.composeManyExtensions [
