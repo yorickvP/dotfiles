@@ -34,4 +34,4 @@
             (setq-default inhibit-redisplay nil
                           inhibit-message nil)
             (redisplay)))
-(setenv "LSP_USE_PLISTS" "true")
+;(setenv "LSP_USE_PLISTS" "true")

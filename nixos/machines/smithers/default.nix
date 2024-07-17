@@ -10,4 +10,5 @@
     enable = true;
     ip = "10.100.0.6";
   };
+  virtualisation.libvirtd.enable = lib.mkForce false;
 }

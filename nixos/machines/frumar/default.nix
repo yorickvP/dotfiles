@@ -87,7 +87,6 @@
           extraConfig = "auth_request off;";
           # handles auth using arg
         };
-        locations."/oauth2/".extraConfig = "auth_request off;"; # todo upstream?
         locations."/paperless/" = proxyOauth2 "http://127.0.0.1:${toString config.services.paperless.port}/";
         locations."/media/" = {
           root = "/var/mediashare";
