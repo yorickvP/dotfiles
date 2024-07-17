@@ -12,6 +12,7 @@
     inputs.yobot.nixosModules.default
   ];
 
+  services.borgbackup.jobs.backup.paths = [ "/home" "/root" "/var/lib" ];
   system.stateVersion = "19.03";
 
   services.yorick = {

@@ -7,8 +7,10 @@
     ./media.nix
     ./home-automation.nix
     ./cache.nix
+    ../../services/backup.nix
   ];
 
+  services.borgbackup.jobs.backup.paths = [ "/var/lib/hass" "/var/lib/paperless" "/var/lib/redis-paperless" "/var/lib/zigbee2mqtt" ];
   system.stateVersion = "15.09";
   networking.hostId = "0702dbe9";
   nixpkgs.overlays = [ (self: super: {
