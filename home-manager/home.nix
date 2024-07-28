@@ -296,6 +296,7 @@ in {
     mutagen
     zoom-us
     llm
+    google-cloud-sdk
 
     # admin
     nsc
