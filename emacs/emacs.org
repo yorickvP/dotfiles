@@ -7,6 +7,10 @@
 (setq max-lisp-eval-depth 10000)
 (setq max-specpdl-size 13000)
 #+END_SRC
+** keep track of recent files
+#+BEGIN_SRC emacs-lisp
+(recentf-mode 1)
+#+END_SRC
 ** start server
 #+BEGIN_SRC emacs-lisp
 (server-start)
@@ -343,6 +347,7 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
         treemacs-is-never-other-window t
         treemacs-sorting 'alphabetic-case-insensitive-asc
         treemacs-indentation 1
+        treemacs-user-mode-line-format 'none
         treemacs-width 28)
   :config
   (treemacs-fringe-indicator-mode 'always)
