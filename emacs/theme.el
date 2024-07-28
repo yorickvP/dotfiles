@@ -23,6 +23,9 @@
             (foreground . "#3d3d3c")
             (red . "#d70000")
             (yellow . "#d75f00")
+            (green . "#718c00")
+            (navy . "#005f87")
+            (olive . "#5f8700")
             (orange . "#d75f00")))))
 
 (setq color-theme-sanityinc-tomorrow-colors
@@ -51,8 +54,14 @@ faces immediately.  Calls `custom-theme-set-faces', which see."
     (advice-remove #'enable-theme fn-name)
     (advice-add #'enable-theme :after fn-name)))
 
+(defun +ygc (sym)
+  (cdr (assoc sym (cdr (assoc 'day color-theme-sanityinc-tomorrow-colors)))))
+(+ygc 'red)
 (unpackaged/customize-theme-faces
  'sanityinc-tomorrow-day
- `(cursor ((t :background "#005f87" :foreground "#eeeeee")))
- `(show-paren-match ((t :background "#c6c6c6" :foreground "#005f87" :weight bold))))
-
+ `(cursor ((t :background ,(+ygc 'navy) :foreground ,(+ygc 'background))))
+ `(font-lock-keyword-face ((t :weight bold :foreground ,(+ygc 'green))))
+ `(font-lock-variable-name-face ((t :foreground ,(+ygc 'navy))))
+ `(font-lock-string-face ((t :foreground ,(+ygc 'olive))))
+ `(magit-section-highlight ((t :background ,(+ygc 'alt-background) :weight normal :extend t)))
+ `(show-paren-match ((t :background "#c6c6c6" :foreground ,(+ygc 'navy) :weight bold))))
