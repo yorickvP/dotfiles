@@ -32,6 +32,7 @@ in {
       extraConfig.push.default = "simple";
       extraConfig.pull.ff = "only";
       extraConfig.hub.protocol = "ssh";
+      extraConfig.github.user = "yorickvP";
       ignores = [
         "/.envrc"
         "/.cache"
