@@ -63,5 +63,7 @@ faces immediately.  Calls `custom-theme-set-faces', which see."
  `(font-lock-keyword-face ((t :weight bold :foreground ,(+ygc 'green))))
  `(font-lock-variable-name-face ((t :foreground ,(+ygc 'navy))))
  `(font-lock-string-face ((t :foreground ,(+ygc 'olive))))
- `(magit-section-highlight ((t :background ,(+ygc 'alt-background) :weight normal :extend t)))
+ `(magit-section-highlight ((t :background ,(+ygc 'alt-background) :extend t)))
+ `(magit-section-heading ((t :weight bold :foreground ,(+ygc 'yellow))))
+ `(magit-section-heading-selection ((t :weight bold)))
  `(show-paren-match ((t :background "#c6c6c6" :foreground ,(+ygc 'navy) :weight bold))))
