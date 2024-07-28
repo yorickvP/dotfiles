@@ -109,6 +109,9 @@ in {
         diff-hl
         highlight-indent-guides
         vterm
+        treemacs-evil
+        treemacs-magit
+        treemacs-nerd-icons
       ]);
   };
   

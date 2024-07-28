@@ -331,6 +331,70 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 (xterm-mouse-mode 1)
 (define-key local-function-key-map "\033[73;5~" [(control return)])
 #+END_SRC
+** treemacs
+#+BEGIN_SRC emacs-lisp
+(use-package treemacs
+  :defer t
+  :init
+  (setq treemacs-follow-after-init t
+        treemacs-is-never-other-window t
+        treemacs-sorting 'alphabetic-case-insensitive-asc
+        treemacs-indentation 1
+        treemacs-width 28)
+  :config
+  (treemacs-fringe-indicator-mode 'always)
+  (treemacs-git-commit-diff-mode t)
+  (treemacs-git-mode 'deferred)
+  (treemacs-project-follow-mode))
+
+(add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+(add-hook 'treemacs-mode-hook #'hide-mode-line-mode)
+(add-hook 'treemacs-mode-hook (lambda () (display-line-numbers-mode -1)))
+(with-eval-after-load 'treemacs
+  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
+(use-package treemacs-nerd-icons
+  :defer t
+  :init
+  (with-eval-after-load 'lsp-treemacs
+    (require 'treemacs-nerd-icons))
+  :config (treemacs-load-theme "nerd-icons"))
+(use-package treemacs-evil
+  :defer t
+  :init
+  (with-eval-after-load 'treemacs (require 'treemacs-evil)))
+  ;; :config
+  ;; (define-key! evil-treemacs-state-map
+  ;;   [return] #'treemacs-RET-action
+  ;;   [tab]    #'treemacs-TAB-action
+  ;;   "TAB"    #'treemacs-TAB-action
+  ;;   ;; REVIEW Fix #1875 to be consistent with C-w {v,s}, but this should really
+  ;;   ;;        be considered upstream.
+  ;;   "o v"    #'treemacs-visit-node-horizontal-split
+  ;;   "o s"    #'treemacs-visit-node-vertical-split))
+(use-package treemacs-magit
+  :after treemacs magit)
+(use-package lsp-treemacs
+  :after treemacs)
+(with-eval-after-load 'lsp-treemacs
+  (dolist (face '(treemacs-root-face
+                  treemacs-git-unmodified-face
+                  treemacs-git-modified-face
+                  treemacs-git-renamed-face
+                  treemacs-git-ignored-face
+                  treemacs-git-untracked-face
+                  treemacs-git-added-face
+                  treemacs-git-conflict-face
+                  treemacs-directory-face
+                  treemacs-directory-collapsed-face
+                  treemacs-file-face
+                  treemacs-tags-face))
+    (set-face-attribute face nil :family "DejaVuSans" :height 120))
+    (set-face-attribute 'treemacs-root-face nil :height 130))
+
+#+END_SRC
+
+#+RESULTS:
+
 * editing
 ** line numbers
 *** relative
