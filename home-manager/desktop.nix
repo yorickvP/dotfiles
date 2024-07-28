@@ -145,10 +145,10 @@ in {
           criteria.app_id = "ala-fzf";
           command = "floating enable";
         }
-        {
-          criteria.app_id = "emacs";
-          command = "opacity 0.95";
-        }
+        # {
+        #   criteria.app_id = "emacs";
+        #   command = "opacity 0.95";
+        # }
         {
           criteria.title = "Firefox — Sharing Indicator";
           command = "floating enable";

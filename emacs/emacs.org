@@ -120,6 +120,8 @@
 #+BEGIN_SRC emacs-lisp
 (when window-system (global-hl-line-mode))
 (show-paren-mode t)
+(set-frame-parameter nil 'alpha-background 95)
+(add-to-list 'default-frame-alist '(alpha-background . 95))
 #+END_SRC
 ** live hex color previews
 from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
