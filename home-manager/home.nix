@@ -6,6 +6,7 @@ let
       HOME = "/build";
     } "${pkgs.thefuck}/bin/thefuck -a > $out";
   headphones = "88:C9:E8:AD:73:E8";
+  emacsPackages = pkgs.emacsPackagesFor config.programs.emacs.package;
 in {
   imports = [ ./desktop.nix ./emacs.nix ./email.nix ];
   programs = {
@@ -103,10 +104,14 @@ in {
         bc = "bluetoothctl connect ${headphones}";
         bd = "bluetoothctl disconnect ${headphones}";
       };
-      interactiveShellInit = ''
+      interactiveShellInit = let
+        inherit (emacsPackages) vterm;
+        vtermPath = "${vterm}/share/emacs/site-lisp/elpa/${vterm.pname}-${vterm.version}/etc/emacs-vterm.fish";
+      in ''
         set fish_greeting
         source ${thefuck-alias "fish"}
         source ~/dotfiles/nr.fish
+        source ${vtermPath}
       '';
       plugins = [
         { inherit (pkgs.fishPlugins.tide) name src; }

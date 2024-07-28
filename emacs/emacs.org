@@ -580,14 +580,24 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 (add-hook 'term-mode-hook #'hide-mode-line-mode)
 (defun +yorick-term-hscroll-0 ()
   (setq hscroll-margin 0)
-  (display-line-numbers-mode -1)
-  (hl-line-mode -1))
+  (display-line-numbers-mode -1))
 (add-hook 'term-mode-hook #'+yorick-term-hscroll-0)
+(add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
 (use-package vterm
   :hook (vterm-mode . +yorick-term-hscroll-0)
   :config
   (setq vterm-timer-delay 0.03)
+  (push (list "find-file-other-window"
+              'find-file-other-window)
+      vterm-eval-cmds)
   )
+(defun evil-collection-vterm-escape-stay ()
+  "Go back to normal state but don't move
+   cursor backwards. Moving cursor backwards is the default vim behavior but it is
+   not appropriate in some cases like terminals."
+  (setq-local evil-move-cursor-back nil))
+
+(add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay)
 
 #+END_SRC
 * language-specific
