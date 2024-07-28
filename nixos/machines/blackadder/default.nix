@@ -83,4 +83,7 @@ in
     enable = true;
     ip = "10.100.0.4";
   };
+  # add service but don't enable by default
+  services.tailscale.enable = true;
+  systemd.services.tailscaled.wantedBy = lib.mkForce [];
 }
