@@ -87,29 +87,32 @@
     :hook org-mode-hook)
 #+END_SRC
 * Look
-** Solarized
+** Theme
 #+BEGIN_SRC emacs-lisp
 ;; used to fix modeline
 (defvar after-load-theme-hook nil
   "Hook run after a color theme is loaded using `load-theme'.")
-(defun reload-solarized (event)
-  (let ((theme (intern (concat "solarized-" (with-temp-buffer
-                                              (insert-file-contents "~/dotfiles/color-scheme")
-                                              (string-trim (buffer-string))
-                                              )))))
-    (load-theme theme t)
+(defun +y-map-theme (color-scheme)
+  (cond ((eq color-scheme 'light) 'sanityinc-tomorrow-day)
+        ((eq color-scheme 'dark) 'sanityinc-tomorrow-night)))
+(defun +y-applicable-theme ()
+  (+y-map-theme (intern (with-temp-buffer 
+    (insert-file-contents "~/dotfiles/color-scheme")
+    (string-trim (buffer-string))))))
+(defun +y-reload-theme (event)
+  (let ((theme (+y-applicable-theme)))
+    (enable-theme theme)
     (run-hooks 'after-load-theme-hook)))
-(use-package solarized
-  :init
-  (setq solarized-distinct-fringe-background t)
-  (setq solarized-scale-org-headlines nil)
-  :config (reload-solarized nil))
 
 ;; auto-reload
 (use-package filenotify
-  :after solarized
+  :after color-theme-sanityinc-tomorrow
   :config
-  (file-notify-add-watch "~/dotfiles/color-scheme" '(change) 'reload-solarized))
+  (file-notify-add-watch "~/dotfiles/color-scheme" '(change) '+y-reload-theme))
+(use-package color-theme-sanityinc-tomorrow
+  :config
+  (load "/home/yorick/dotfiles/emacs/theme.el")
+  (+y-reload-theme nil))
 #+END_SRC
 ** Cleaner frames
 #+BEGIN_SRC emacs-lisp

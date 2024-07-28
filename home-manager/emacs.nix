@@ -112,6 +112,7 @@ in {
         treemacs-evil
         treemacs-magit
         treemacs-nerd-icons
+        color-theme-sanityinc-tomorrow
       ]);
   };
   
