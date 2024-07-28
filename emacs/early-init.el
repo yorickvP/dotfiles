@@ -21,7 +21,7 @@
 (setq package-quickstart 't)
 
 (set-face-attribute 'default nil
-                    :family "monospace"
+                    :family "DejaVuSansM Nerd Font Propo"
                     :height 120
                     :weight 'normal
                     :width 'normal)
