@@ -43,7 +43,6 @@ in {
         consult
         copilot
         crdt
-        diminish
         direnv
         doom-modeline
         dune
@@ -58,7 +57,6 @@ in {
         flymake-flycheck
         forge
         ggtags
-        git-gutter-fringe
         haskell-mode
         htmlize
         linum-relative
@@ -103,6 +101,14 @@ in {
         cape
         embark
         embark-consult
+        hide-mode-line
+        llm
+        gptel
+        magit-gptcommit
+        # consult-web
+        diff-hl
+        highlight-indent-guides
+        vterm
       ]);
   };
   

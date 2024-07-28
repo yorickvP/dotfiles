@@ -141,10 +141,26 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 #+END_SRC
 ** doom-modeline
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-modeline
+(use-package hide-mode-line)
+(use-package doom-modeline
     :hook
     (after-init . doom-modeline-mode)
-    (after-load-theme . doom-modeline-mode))
+    (after-load-theme . doom-modeline-mode)
+    (doom-modeline-mode . size-indication-mode)
+    (doom-modeline-mode . column-number-mode)
+    :init
+    (setq doom-modeline-buffer-encoding 'nondefault
+          doom-modeline-default-eol-type 0
+          )
+    :config
+    (add-hook 'magit-mode-hook
+               (defun +modeline-hide-in-non-status-buffer-h ()
+                 "Show minimal modeline in magit-status buffer, no modeline elsewhere."
+                 (if (eq major-mode 'magit-status-mode)
+                     (doom-modeline-set-modeline 'magit)
+                   (hide-mode-line-mode))))
+    )
+
 #+END_SRC
 * Feel
 #+BEGIN_SRC emacs-lisp
@@ -343,10 +359,10 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 #+END_SRC
 ** Indentation
 #+BEGIN_SRC emacs-lisp
-  (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 2) ; or any other preferred value
-  (defvaralias 'c-basic-offset 'tab-width)
-  (defvaralias 'cperl-indent-level 'tab-width)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2) ; or any other preferred value
+(defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'cperl-indent-level 'tab-width)
 (defun yorick/copilot-tab (arg)
   (interactive "P")
   (or (copilot-accept-completion)
@@ -394,12 +410,12 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 #+END_SRC
 ** Undo-tree
 #+BEGIN_SRC emacs-lisp
-  (use-package undo-tree
-    :init
-    ;; prevent .~undo-tree file pollution
-    (setq undo-tree-auto-save-history nil)
-    :config
-    (global-undo-tree-mode))
+(use-package undo-tree
+  :init
+  ;; prevent .~undo-tree file pollution
+  (setq undo-tree-auto-save-history nil)
+  :config
+  (global-undo-tree-mode))
 
 #+END_SRC
 ** Evil
@@ -495,6 +511,54 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
   (setq forge-topic-list-limit '(60 . 0))
   :after magit)
 #+END_SRC
+** gpt keys
+#+BEGIN_SRC emacs-lisp
+(defun +y-get-llm-keys (key)
+  "Read JSON from FILE-PATH, parse it, and return the value associated with KEY."
+  (let* ((file-path (expand-file-name "~/.config/io.datasette.llm/keys.json"))
+         (json-object-type 'alist)
+         (json-key-type 'symbol))
+  (with-temp-buffer
+    (insert-file-contents file-path)
+    (goto-char (point-min))
+    (alist-get key (json-read)))))
+#+END_SRC
+** magit-gptcommit
+#+BEGIN_SRC emacs-lisp
+
+(use-package magit-gptcommit
+  :demand t
+  :after magit
+  :init
+  (require 'llm-claude)
+  :custom
+  (magit-gptcommit-llm-provider
+   (make-llm-claude
+    :key (+y-get-llm-keys 'claude)
+    :chat-model "claude-3-5-sonnet-20240620"))
+  (llm-warn-on-nonfree nil)
+  :config
+  (magit-gptcommit-status-buffer-setup))
+
+#+END_SRC
+** gptel
+#+BEGIN_SRC emacs-lisp
+
+(use-package gptel
+  :commands gptel gptel-mode
+  :config
+  (setq
+   gptel-api-key (lambda () (+y-get-llm-keys 'openai))
+   gptel-model "claude-3-5-sonnet-20240620"
+   gptel-backend (gptel-make-anthropic "Claude"
+                   :stream t
+                   :key (lambda () (+y-get-llm-keys 'claude))))
+  (gptel-make-gemini "Gemini"
+    :stream t
+    :key (lambda () (+y-get-llm-keys 'gemini)))
+  )
+
+#+END_SRC
 ** weechat
 #+BEGIN_SRC emacs-lisp
 (use-package weechat
@@ -511,6 +575,21 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
   :bind (("C-c n" . notmuch)))
 #+END_SRC
 ** TODO https://github.com/mbork/beeminder.el
+** term
+#+BEGIN_SRC emacs-lisp
+(add-hook 'term-mode-hook #'hide-mode-line-mode)
+(defun +yorick-term-hscroll-0 ()
+  (setq hscroll-margin 0)
+  (display-line-numbers-mode -1)
+  (hl-line-mode -1))
+(add-hook 'term-mode-hook #'+yorick-term-hscroll-0)
+(use-package vterm
+  :hook (vterm-mode . +yorick-term-hscroll-0)
+  :config
+  (setq vterm-timer-delay 0.03)
+  )
+
+#+END_SRC
 * language-specific
 ** markdown
 #+BEGIN_SRC emacs-lisp
