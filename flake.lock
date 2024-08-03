@@ -1073,11 +1073,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1722153994,
-        "narHash": "sha256-Sl5fV3bvRnYYDzew9ItlakdcWBHXi4uHuIioHDXs29o=",
+        "lastModified": 1722676854,
+        "narHash": "sha256-gJ0WHjlBMmK7E458gTc1S3vp3iFCNFVdo1ZPA7X2+Y0=",
         "ref": "refs/heads/main",
-        "rev": "4bca8369fa2768b18ca814a012698454403e4eeb",
-        "revCount": 17,
+        "rev": "5ac37cd2d3220bbe5806336679c41668aa1df125",
+        "revCount": 18,
         "type": "git",
         "url": "https://git.yori.cc/yorick/yobot.git"
       },
