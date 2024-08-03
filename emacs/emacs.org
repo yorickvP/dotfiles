@@ -94,29 +94,33 @@
 ** Theme
 #+BEGIN_SRC emacs-lisp
 ;; used to fix modeline
-(defvar after-load-theme-hook nil
-  "Hook run after a color theme is loaded using `load-theme'.")
-(defun +y-map-theme (color-scheme)
-  (cond ((eq color-scheme 'light) 'sanityinc-tomorrow-day)
-        ((eq color-scheme 'dark) 'sanityinc-tomorrow-night)))
+;; (defvar after-load-theme-hook nil
+;;   "Hook run after a color theme is loaded using `load-theme'.")
 (defun +y-applicable-theme ()
-  (+y-map-theme (intern (with-temp-buffer 
-    (insert-file-contents "~/dotfiles/color-scheme")
-    (string-trim (buffer-string))))))
+  (let ((color-scheme
+         (intern (with-temp-buffer 
+                   (insert-file-contents "~/dotfiles/color-scheme")
+                   (string-trim (buffer-string))))))
+    (cond ((eq color-scheme 'light) 'latte)
+          ((eq color-scheme 'dark) 'mocha))))
+
 (defun +y-reload-theme (event)
+  ;(message "reload theme called")
   (let ((theme (+y-applicable-theme)))
-    (enable-theme theme)
-    (run-hooks 'after-load-theme-hook)))
+    (if (not (eq catppuccin-flavor theme))
+        (catppuccin-load-flavor theme))))
+
+(use-package catppuccin-theme
+  :custom (catppuccin-flavor (+y-applicable-theme))
+  :config (load-theme 'catppuccin t))
 
 ;; auto-reload
 (use-package filenotify
-  :after color-theme-sanityinc-tomorrow
+  ;:after catppuccin-theme
   :config
   (file-notify-add-watch "~/dotfiles/color-scheme" '(change) '+y-reload-theme))
-(use-package color-theme-sanityinc-tomorrow
-  :config
-  (load "/home/yorick/dotfiles/emacs/theme.el")
-  (+y-reload-theme nil))
+
+
 #+END_SRC
 ** Cleaner frames
 #+BEGIN_SRC emacs-lisp
@@ -154,7 +158,7 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 (use-package doom-modeline
     :hook
     (after-init . doom-modeline-mode)
-    (after-load-theme . doom-modeline-mode)
+    ;(after-load-theme . doom-modeline-mode)
     (doom-modeline-mode . size-indication-mode)
     (doom-modeline-mode . column-number-mode)
     :init
@@ -170,6 +174,12 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
                    (hide-mode-line-mode))))
     )
 
+#+END_SRC
+** solaire mode
+#+BEGIN_SRC emacs-lisp
+(use-package solaire-mode
+  :config
+  (solaire-global-mode +1))
 #+END_SRC
 * Feel
 #+BEGIN_SRC emacs-lisp
@@ -360,6 +370,13 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 (add-hook 'treemacs-mode-hook (lambda () (display-line-numbers-mode -1)))
 (with-eval-after-load 'treemacs
   (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
+;; (use-package kaolin-themes
+;;   :custom
+;;   (kaolin-themes-comments-style 'normal)
+;;   (kaolin-themes-italic-comments t)
+;;   :config
+;;   (load-theme 'kaolin-light t))
+;;   ;; (kaolin-treemacs-theme)
 (use-package treemacs-nerd-icons
   :defer t
   :init
@@ -383,7 +400,7 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
   :after treemacs magit)
 (use-package lsp-treemacs
   :after treemacs)
-(with-eval-after-load 'lsp-treemacs
+(defun +y-fix-treemacs-face (&optional theme enable)
   (dolist (face '(treemacs-root-face
                   treemacs-git-unmodified-face
                   treemacs-git-modified-face
@@ -397,7 +414,10 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
                   treemacs-file-face
                   treemacs-tags-face))
     (set-face-attribute face nil :family "DejaVuSans" :height 120))
-    (set-face-attribute 'treemacs-root-face nil :height 130))
+  (set-face-attribute 'treemacs-root-face nil :height 140 :weight 'normal :background 'unspecified))
+(with-eval-after-load 'lsp-treemacs
+  (+y-fix-treemacs-face))
+(advice-add 'load-theme :after #'+y-fix-treemacs-face)
 
 #+END_SRC
 

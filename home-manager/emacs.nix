@@ -68,7 +68,6 @@ in {
         lua-mode
         magit
         markdown-mode
-        neotree
         nix-buffer
         nix-mode
         notmuch
@@ -113,6 +112,11 @@ in {
         treemacs-magit
         treemacs-nerd-icons
         color-theme-sanityinc-tomorrow
+        catppuccin-theme
+        solaire-mode
+        doom-themes
+        nano-theme
+        kaolin-themes
       ]);
   };
   
