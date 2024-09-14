@@ -18,9 +18,7 @@
   hardware.bluetooth.enable = true;
 
   networking.useDHCP = false;
-  networking.usePredictableInterfaceNames = false;
-  networking.bridges.br0.interfaces = [ "eth0" ];
-  networking.interfaces.br0.useDHCP = true;
+  networking.interfaces.enp10s0.useDHCP = true;
   # systemd.network.links."98-namepolicy" = {
   #   matchConfig.OriginalName = "*";
   #   linkConfig.NamePolicy = "mac kernel database onboard slot path";
