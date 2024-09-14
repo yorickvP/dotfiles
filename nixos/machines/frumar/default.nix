@@ -92,6 +92,7 @@
         locations."/paperless/" = proxyOauth2 "http://127.0.0.1:${toString config.services.paperless.port}/";
         locations."/media/" = {
           root = "/var/mediashare";
+          extraConfig = "auth_request off;";
         };
       };
       "frumar.yori.cc" = {
