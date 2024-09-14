@@ -113,4 +113,5 @@
   services.xserver.gdk-pixbuf.modulePackages = [ pkgs.webp-pixbuf-loader ];
   hardware.ledger.enable = true;
 
+  i18n.extraLocaleSettings.LC_TIME = "nl_NL.UTF-8";
 }
