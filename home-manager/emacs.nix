@@ -117,6 +117,7 @@ in {
         doom-themes
         nano-theme
         kaolin-themes
+        hledger-mode
       ]);
   };
   
