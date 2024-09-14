@@ -283,7 +283,7 @@ in {
     signal-desktop
     virt-manager
     wireshark
-    notion-desktop
+    # notion-desktop
     #yubioath-flutter
 
     ## games

@@ -52,9 +52,9 @@
       })
     ];
   });
-  notion-desktop = self.callPackage ./notion-desktop {
-    electron_26 = self.electron_27;
-  };
+  # notion-desktop = self.callPackage ./notion-desktop {
+  #   electron_26 = self.electron_28;
+  # };
   r8-cog = self.stdenvNoCC.mkDerivation rec {
     pname = "cog";
     version = "0.9.5";

@@ -5,13 +5,13 @@ let
     imports = [ dream2nix.modules.dream2nix.pip ];
     name = "llm-env";
     deps.python = python3;
-    version = "0.14";
+    version = "0.16";
     pip.requirementsList = [
-      "llm==0.14"
-      "llm-claude-3==0.4"
+      "llm==0.16"
+      "llm-claude-3==0.4.1"
       "llm-replicate==0.3.1"
       "llm-gemini==0.1a4"
-      "llm-cmd==0.1a0"
+      "llm-cmd==0.2a0"
     ];
     pip.flattenDependencies = true;
     public = config.pip.env;

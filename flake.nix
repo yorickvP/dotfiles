@@ -22,7 +22,6 @@
       inputs = {
         nixpkgs-stable.follows = "nixpkgs";
         nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
       };
     };
     timesync = {

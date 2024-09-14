@@ -110,7 +110,7 @@
   services.unifi = {
     enable = true;
     openFirewall = true;
-    unifiPackage = pkgs.unifi;
+    unifiPackage = pkgs.unifi8;
   };
   services.victoriametrics = {
     enable = true;
