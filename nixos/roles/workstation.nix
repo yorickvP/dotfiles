@@ -114,4 +114,12 @@
   hardware.ledger.enable = true;
 
   i18n.extraLocaleSettings.LC_TIME = "nl_NL.UTF-8";
+
+  # add service but don't enable by default
+  services.tailscale.enable = true;
+  # https://github.com/tailscale/tailscale/issues/10430
+  systemd.services.tailscaled = {
+    wantedBy = lib.mkForce [];
+    serviceConfig.Environment = ["TS_DEBUG_DISABLE_PORTLIST=true"];
+  };
 }

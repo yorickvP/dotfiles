@@ -83,9 +83,4 @@ in
     enable = true;
     ip = "10.100.0.4";
   };
-  # add service but don't enable by default
-  services.tailscale.enable = true;
-  # https://github.com/tailscale/tailscale/issues/10430
-  systemd.services.tailscaled.wantedBy = lib.mkForce [];
-  systemd.services.tailscaled.serviceConfig.Environment = ["TS_DEBUG_DISABLE_PORTLIST=true"] ;
 }
