@@ -6,6 +6,8 @@
   ];
 
   hardware.enableRedistributableFirmware = true;
+  services.thermald.enable = true;
+  services.thermald.ignoreCpuidCheck = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
