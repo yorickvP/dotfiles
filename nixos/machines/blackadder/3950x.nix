@@ -35,4 +35,9 @@
     ryzen-smu.enable = true;
     updateMicrocode = true;
   };
+
+  # prevent desk usb hub from suspending
+  services.udev.extraRules = ''
+     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="2109", ATTR{idProduct}=="2811", TEST=="power/control", ATTR{power/control}="on"
+  '';
 }
