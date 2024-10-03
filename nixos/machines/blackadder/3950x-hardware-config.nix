@@ -23,7 +23,23 @@
   };
 
   fileSystems."/home/yorick/steam-games" = {
-    device = "rpool/steam";
+    device = "dpool/steam";
+    fsType = "zfs";
+  };
+  fileSystems."/var/models" = {
+    device = "dpool/models";
+    fsType = "zfs";
+  };
+  fileSystems."/home/yorick/VirtualBox VMs" = {
+    device = "dpool/virtualbox-vms";
+    fsType = "zfs";
+  };
+  fileSystems."/var/lib/docker" = {
+    device = "dpool/docker";
+    fsType = "zfs";
+  };
+  fileSystems."/var/lib/libvirt" = {
+    device = "dpool/libvirt";
     fsType = "zfs";
   };
 

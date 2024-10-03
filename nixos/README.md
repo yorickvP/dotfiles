@@ -16,6 +16,16 @@ There is a [list of components](https://tweakers.net/gallery/468325/inventaris/?
 - It has a camera (sony alpha 6000) mounted on top of the left screen using a [smallrig super clamp](https://www.amazon.nl/-/en/gp/product/B08B63WXWN/).
 - It has a Tobii Eye Tracker 4c attached to the left screen.
 
+- 1TB SSD (Corsair Force MP600)
+  - steam games
+  - docker images
+  - models
+  - VM images
+
+- 1TB SSD (Samsung SSD 980 PRO 1TB)
+  - root
+  - home dirs
+
 
 [frumar](https://en.wikipedia.org/wiki/Frumar)
 --------

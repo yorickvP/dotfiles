@@ -2,7 +2,7 @@ layer = "top"
 height = 26
 modules-left = [ "sway/workspaces", "sway/mode", "custom/spotify" ]
 modules-center = [ "sway/window" ]
-modules-right = [ "custom/marvin", "custom/cal", "pulseaudio", "network", "disk", "battery", "clock", "tray" ]
+modules-right = [ "custom/marvin", "custom/cal", "pulseaudio", "network", "disk", "disk#store", "battery", "clock", "tray" ]
 
 ["sway/workspaces"]
 all-outputs = false
@@ -33,6 +33,10 @@ on-click = "xdg-open https://calendar.google.com"
 
 [disk]
 format = "{free} "
+
+["disk#store"]
+format = "{free} "
+path = "/var/models"
 
 [battery]
 format = "{capacity}% {icon}"
