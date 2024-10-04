@@ -59,6 +59,7 @@ in
     storageDriver = "overlay2";
     enableNvidia = true;
   };
+  virtualisation.oci-containers.backend = "docker";
   hardware.nvidia-container-toolkit.enable = true;
   users.users.yorick.extraGroups = [ "docker" ];
 
@@ -82,5 +83,8 @@ in
   yorick.dk-vpn = {
     enable = true;
     ip = "10.100.0.4";
+  };
+  age.secrets."wg.dk.archbox.conf" = {
+    file = ../../../secrets/wg.dk.archbox.conf.age;
   };
 }

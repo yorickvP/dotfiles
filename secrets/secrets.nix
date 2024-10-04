@@ -37,5 +37,6 @@ builtins.mapAttrs (x: y: {
   "yobot.toml.age" = [ pennyworth ];
   "wg.dk.blackadder.age" = [ blackadder ];
   "wg.dk.smithers.age" = [ smithers ];
+  "wg.dk.archbox.conf.age" = [ blackadder ];
   "govee2mqtt.env.age" = [ frumar ];
 }
