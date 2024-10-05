@@ -39,7 +39,7 @@
   services.postgresql = {
     enable = false;
     enableTCPIP = true;
-    package = pkgs.postgresql_11;
+    package = pkgs.postgresql_15;
   };
 
   # git
