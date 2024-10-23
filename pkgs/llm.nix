@@ -8,7 +8,7 @@ let
     version = "0.16";
     pip.requirementsList = [
       "llm==0.16"
-      "llm-claude-3==0.4.1"
+      "llm-claude-3==0.5"
       "llm-replicate==0.3.1"
       "llm-gemini==0.1a4"
       "llm-cmd==0.2a0"
