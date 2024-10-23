@@ -22,6 +22,11 @@
     fsType = "zfs";
   };
 
+  fileSystems."/home/judith" = {
+    device = "rpool/home-enc/judith";
+    fsType = "zfs";
+  };
+
   fileSystems."/home/yorick/steam-games" = {
     device = "dpool/steam";
     fsType = "zfs";
