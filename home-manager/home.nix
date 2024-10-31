@@ -104,6 +104,8 @@ in {
         g = "git";
         bc = "bluetoothctl connect ${headphones}";
         bd = "bluetoothctl disconnect ${headphones}";
+        bw-personal = "BITWARDENCLI_APPDATA_DIR=~/.config/Bitwarden\\ CLI\\ Personal bw";
+        bw-work = "BITWARDENCLI_APPDATA_DIR=~/.config/Bitwarden\\ CLI\\ Work bw";
       };
       interactiveShellInit = let
         inherit (emacsPackages) vterm;
@@ -113,6 +115,12 @@ in {
         source ${thefuck-alias "fish"}
         source ~/dotfiles/nr.fish
         source ${vtermPath}
+        function tmp --description 'cd to ~/tmp/YYYY-MM-DD, creating it if needed'
+          set dated_tmp $HOME"/tmp/"(date +%Y-%m-%d)
+          mkdir -p $dated_tmp
+          cd $dated_tmp
+        end
+
       '';
       plugins = [
         { inherit (pkgs.fishPlugins.tide) name src; }
@@ -157,7 +165,6 @@ in {
   home.packages = (with pkgs; [
     ## utils
     afew # mail
-    broot
     fd
     gcr.out
     git-absorb
@@ -204,6 +211,7 @@ in {
     sshuttle
     thefuck
     wakelan
+    tty-clock
 
     ## media
     aria2
@@ -211,6 +219,7 @@ in {
     nodePackages.peerflix
     streamlink
     yt-dlp
+    ffmpeg
 
     ## code
     cloc
@@ -283,6 +292,8 @@ in {
     signal-desktop
     virt-manager
     wireshark
+    inkscape
+    bitwarden-cli
     # notion-desktop
     #yubioath-flutter
 
@@ -303,6 +314,10 @@ in {
     zoom-us
     llm
     google-cloud-sdk
+    kubectl
+    uv
+    ruff
+    oathToolkit
 
     # admin
     nsc
