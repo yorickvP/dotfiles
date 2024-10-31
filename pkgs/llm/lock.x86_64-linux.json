@@ -129,10 +129,10 @@
       },
       "llm-claude-3": {
         "is_direct": false,
-        "sha256": "27b57d23df7a5c4588818ba6ab9f423a984a6fa2b6a33176d670a7deba06e318",
+        "sha256": "5da20be2510bc000c2ed2133e3b39a71fbe3229885fe57828b29e2174c160d51",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/26/58/82b24088c9e001b37aa85f76b28c9492b598dbb34c272c40875dedacac5c/llm_claude_3-0.6-py3-none-any.whl",
-        "version": "0.6"
+        "url": "https://files.pythonhosted.org/packages/6e/99/aebf975b7b5ec8505ff5be077e355d08d0d2c77711c4a6990e33cd3da771/llm_claude_3-0.5-py3-none-any.whl",
+        "version": "0.5"
       },
       "llm-cmd": {
         "is_direct": false,
@@ -521,5 +521,5 @@
       }
     }
   },
-  "invalidationHash": "f39924d66fc78ea2768211e6b08a01f5452ddc7fbba2a0ce32276d08916db2a1"
+  "invalidationHash": "a6add6d51106ae94a07d3ab08612873f95f372a1e37a7d620b959dab4b8ddcc4"
 }
