@@ -148,4 +148,6 @@ in {
   };
 
   fonts.fontconfig.subpixel.rgba = "rgb";
+  # enabled by fish, slow
+  documentation.man.generateCaches = false;
 }

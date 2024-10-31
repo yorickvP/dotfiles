@@ -319,4 +319,6 @@ in {
   home.sessionVariables = {
     FLAKE_CONFIG_URI = "/home/yorick/dotfiles#homeConfigurations.${pkgs.stdenv.system}.activationPackage";
   };
+  # enabled by fish, slow
+  programs.man.generateCaches = false;
 }
