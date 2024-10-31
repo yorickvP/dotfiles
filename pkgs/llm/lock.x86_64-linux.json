@@ -10,10 +10,10 @@
       },
       "anthropic": {
         "is_direct": false,
-        "sha256": "3f57b9fdbc1aa43e00468d0690d71e5fde668dc489e5a48d1d20c955e8ce18f3",
+        "sha256": "8f550f88906823752e2abf99fbe491fbc8d40bce4cb26b9663abdf7be990d721",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/8d/f2/9dba068014a34fbb456303dcf1abc5564ff9f96fff44c8ba71b73eee43da/anthropic-0.37.0-py3-none-any.whl",
-        "version": "0.37.0"
+        "url": "https://files.pythonhosted.org/packages/4e/40/bbb252b77f7a0345aa8c759bab8280d97eab5a9acf4df49fa2251f4a3a58/anthropic-0.37.1-py3-none-any.whl",
+        "version": "0.37.1"
       },
       "anyio": {
         "is_direct": false,
@@ -94,10 +94,10 @@
       },
       "huggingface-hub": {
         "is_direct": false,
-        "sha256": "5927a8fc64ae68859cd954b7cc29d1c8390a5e15caba6d3d349c973be8fdacf3",
+        "sha256": "98c2a5a8e786c7b2cb6fdeb2740893cba4d53e312572ed3d8afafda65b128c46",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/d7/4d/017d8d7cff5100092da8ea19139bcb1965bbadcbb5ddd0480e2badc299e8/huggingface_hub-0.26.1-py3-none-any.whl",
-        "version": "0.26.1"
+        "url": "https://files.pythonhosted.org/packages/60/bf/cea0b9720c32fa01b0c4ec4b16b9f4ae34ca106b202ebbae9f03ab98cd8f/huggingface_hub-0.26.2-py3-none-any.whl",
+        "version": "0.26.2"
       },
       "idna": {
         "is_direct": false,
@@ -122,17 +122,17 @@
       },
       "llm": {
         "is_direct": false,
-        "sha256": "b9fe4f43b0b7da4b2f53d9c051e6abf3cd5db7b14fee6747655b9242f0aee22e",
+        "sha256": "f1fb15c78fff122ac36ecef40633f7fe3d33946df5b4d7a6f30b7aaa7d1eaf27",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/ff/8e/a450b23155621c28ae46716a6398afcd9e23fa5a34401d3ca8e4560f5ee4/llm-0.16-py3-none-any.whl",
-        "version": "0.16"
+        "url": "https://files.pythonhosted.org/packages/ad/3c/375ade56d690a07fec3e052561a6c1f5bbed92f54a8719ef7b0cc9b73f06/llm-0.17-py3-none-any.whl",
+        "version": "0.17"
       },
       "llm-claude-3": {
         "is_direct": false,
-        "sha256": "5da20be2510bc000c2ed2133e3b39a71fbe3229885fe57828b29e2174c160d51",
+        "sha256": "27b57d23df7a5c4588818ba6ab9f423a984a6fa2b6a33176d670a7deba06e318",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/6e/99/aebf975b7b5ec8505ff5be077e355d08d0d2c77711c4a6990e33cd3da771/llm_claude_3-0.5-py3-none-any.whl",
-        "version": "0.5"
+        "url": "https://files.pythonhosted.org/packages/26/58/82b24088c9e001b37aa85f76b28c9492b598dbb34c272c40875dedacac5c/llm_claude_3-0.6-py3-none-any.whl",
+        "version": "0.6"
       },
       "llm-cmd": {
         "is_direct": false,
@@ -143,10 +143,17 @@
       },
       "llm-gemini": {
         "is_direct": false,
-        "sha256": "b4f0ef4c67e2b486268a19734e99e576114a9d31188fc0dac276978a56ec2b29",
+        "sha256": "b795c7c809790f2b1f5337398b89c2bb81576e0f6f6dc48049f63444f64f7757",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/17/b9/87f783f94a1a79aa7af69f895b6c26b0635e5139c48255453217d36b9910/llm_gemini-0.1a4-py3-none-any.whl",
-        "version": "0.1a4"
+        "url": "https://files.pythonhosted.org/packages/65/80/7b14867041437955add9ce530be4a6bd955502a411c63e8dd87640fd5d88/llm_gemini-0.3-py3-none-any.whl",
+        "version": "0.3"
+      },
+      "llm-jq": {
+        "is_direct": false,
+        "sha256": "6b3f0a87784c29fcce079cd2c5c07aa2e2cb53a178a2ad3c951fc399f3375a78",
+        "type": "url",
+        "url": "https://files.pythonhosted.org/packages/35/8c/e681accf36bbbd53ac429013103bf572838bb509686d64f8420cb5b6eb94/llm_jq-0.1.1-py3-none-any.whl",
+        "version": "0.1.1"
       },
       "llm-replicate": {
         "is_direct": false,
@@ -155,12 +162,19 @@
         "url": "https://files.pythonhosted.org/packages/7d/b7/2bf20e72b57d463dd3b759773f1a5c675e229c7cb03e7737f9f2f560cfb1/llm_replicate-0.3.1-py3-none-any.whl",
         "version": "0.3.1"
       },
+      "llm-whisper-api": {
+        "is_direct": false,
+        "sha256": "3b7bae8ec9257e9d4a51e1614b3b31ab2151dd93f7aebb9fbf5dcec28defa437",
+        "type": "url",
+        "url": "https://files.pythonhosted.org/packages/bd/50/0135f23d7c839ba67b6356865994136380ee894392aa6fa0d6b486422ff2/llm_whisper_api-0.1.1-py3-none-any.whl",
+        "version": "0.1.1"
+      },
       "openai": {
         "is_direct": false,
-        "sha256": "0c249f20920183b0a2ca4f7dba7b0452df3ecd0fa7985eb1d91ad884bc3ced9c",
+        "sha256": "20f408c32fc5cb66e60c6882c994cdca580a5648e10045cd840734194f033418",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/39/1e/9dc3ccee95d0e16e54e353d3c355bb7cc506d56a2dbb0a07bc739cc48eac/openai-1.52.0-py3-none-any.whl",
-        "version": "1.52.0"
+        "url": "https://files.pythonhosted.org/packages/85/6f/b32b84d031c7f31b3f32c95c2a9b5ca441b254131a6c982a3dac73d3fffd/openai-1.53.0-py3-none-any.whl",
+        "version": "1.53.0"
       },
       "packaging": {
         "is_direct": false,
@@ -171,10 +185,10 @@
       },
       "pip": {
         "is_direct": false,
-        "sha256": "2cd581cf58ab7fcfca4ce8efa6dcacd0de5bf8d0a3eb9ec927e07405f4d9e2a2",
+        "sha256": "3790624780082365f47549d032f3770eeb2b1e8bd1f7b2e02dace1afa361b4ed",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/d4/55/90db48d85f7689ec6f81c0db0622d704306c5284850383c090e6c7195a5c/pip-24.2-py3-none-any.whl",
-        "version": "24.2"
+        "url": "https://files.pythonhosted.org/packages/ef/7d/500c9ad20238fcfcb4cb9243eede163594d7020ce87bd9610c9e02771876/pip-24.3.1-py3-none-any.whl",
+        "version": "24.3.1"
       },
       "pluggy": {
         "is_direct": false,
@@ -189,6 +203,13 @@
         "type": "url",
         "url": "https://files.pythonhosted.org/packages/a9/6a/fd08d94654f7e67c52ca30523a178b3f8ccc4237fce4be90d39c938a831a/prompt_toolkit-3.0.48-py3-none-any.whl",
         "version": "3.0.48"
+      },
+      "puremagic": {
+        "is_direct": false,
+        "sha256": "e16cb9708ee2007142c37931c58f07f7eca956b3472489106a7245e5c3aa1241",
+        "type": "url",
+        "url": "https://files.pythonhosted.org/packages/c5/53/200a97332d10ed3edd7afcbc5f5543920ac59badfe5762598327999f012e/puremagic-1.28-py3-none-any.whl",
+        "version": "1.28"
       },
       "pydantic": {
         "is_direct": false,
@@ -234,10 +255,10 @@
       },
       "replicate": {
         "is_direct": false,
-        "sha256": "808009853d5e49f706c9a67a9f97b712c89e2c75e63947f7cc012b847c28bef2",
+        "sha256": "8c49d63444b7ea9ac1d6af99eb23a01efb5b7f079cc8a020d6f52b38843db1da",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/6f/9d/fc1ff5da0f539990ca8a7d53e5935b8df753fea57f42465ffa7afdbbb401/replicate-1.0.2-py3-none-any.whl",
-        "version": "1.0.2"
+        "url": "https://files.pythonhosted.org/packages/f5/4f/f945ca8064f53a75041b838a8a427abb7f1ebfb15b6109bf99350faab437/replicate-1.0.3-py3-none-any.whl",
+        "version": "1.0.3"
       },
       "requests": {
         "is_direct": false,
@@ -255,10 +276,10 @@
       },
       "setuptools": {
         "is_direct": false,
-        "sha256": "a7fcb66f68b4d9e8e66b42f9876150a3371558f98fa32222ffaa5bced76406f8",
+        "sha256": "f2504966861356aa38616760c0f66568e535562374995367b4e69c7143cf6bcd",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/31/2d/90165d51ecd38f9a02c6832198c13a4e48652485e2ccf863ebb942c531b6/setuptools-75.2.0-py3-none-any.whl",
-        "version": "75.2.0"
+        "url": "https://files.pythonhosted.org/packages/90/12/282ee9bce8b58130cb762fbc9beabd531549952cac11fc56add11dcb7ea0/setuptools-75.3.0-py3-none-any.whl",
+        "version": "75.3.0"
       },
       "six": {
         "is_direct": false,
@@ -311,10 +332,10 @@
       },
       "tqdm": {
         "is_direct": false,
-        "sha256": "90279a3770753eafc9194a0364852159802111925aa30eb3f9d85b0e805ac7cd",
+        "sha256": "223e8b5359c2efc4b30555531f09e9f2f3589bcd7fdd389271191031b49b7a63",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/48/5d/acf5905c36149bbaec41ccf7f2b68814647347b72075ac0b1fe3022fdc73/tqdm-4.66.5-py3-none-any.whl",
-        "version": "4.66.5"
+        "url": "https://files.pythonhosted.org/packages/41/73/02342de9c2d20922115f787e101527b831c0cffd2105c946c4a4826bcfd4/tqdm-4.66.6-py3-none-any.whl",
+        "version": "4.66.6"
       },
       "typing-extensions": {
         "is_direct": false,
@@ -394,6 +415,7 @@
           "openai",
           "pip",
           "pluggy",
+          "puremagic",
           "pydantic",
           "python-ulid",
           "pyyaml",
@@ -415,10 +437,17 @@
           "ijson",
           "llm"
         ],
+        "llm-jq": [
+          "llm"
+        ],
         "llm-replicate": [
           "llm",
           "replicate",
           "requests-mock"
+        ],
+        "llm-whisper-api": [
+          "httpx",
+          "llm"
         ],
         "openai": [
           "anyio",
@@ -436,6 +465,7 @@
         "prompt-toolkit": [
           "wcwidth"
         ],
+        "puremagic": [],
         "pydantic": [
           "annotated-types",
           "pydantic-core",
@@ -491,5 +521,5 @@
       }
     }
   },
-  "invalidationHash": "17c3fc10c1320c56ca3d07fa210e0417350648a14efef1a6a081fc0cad04278a"
+  "invalidationHash": "f39924d66fc78ea2768211e6b08a01f5452ddc7fbba2a0ce32276d08916db2a1"
 }
