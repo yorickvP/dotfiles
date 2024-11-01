@@ -135,7 +135,6 @@ in {
       };
       initExtra = ''
         source ${thefuck-alias "bash"}
-        eval "$(broot --print-shell-function bash)"
         if [ "$IN_CACHED_NIX_SHELL" ]; then
           eval "$shellHook"
           unset shellHook
