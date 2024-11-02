@@ -10,10 +10,10 @@
       },
       "anthropic": {
         "is_direct": false,
-        "sha256": "8f550f88906823752e2abf99fbe491fbc8d40bce4cb26b9663abdf7be990d721",
+        "sha256": "2c8117b53da7051d8ab65f4e8e05925bd53c53380183115802ace77bde14d4eb",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/4e/40/bbb252b77f7a0345aa8c759bab8280d97eab5a9acf4df49fa2251f4a3a58/anthropic-0.37.1-py3-none-any.whl",
-        "version": "0.37.1"
+        "url": "https://files.pythonhosted.org/packages/bc/14/f588c45cb545a9546ea398e2718c7e65a9dde6adf361e7abf4eaa6f38513/anthropic-0.38.0-py3-none-any.whl",
+        "version": "0.38.0"
       },
       "anyio": {
         "is_direct": false,
@@ -115,24 +115,24 @@
       },
       "jiter": {
         "is_direct": false,
-        "sha256": "7a3567c8228afa5ddcce950631c6b17397ed178003dc9ee7e567c4c4dcae9fa0",
+        "sha256": "90443994bbafe134f0b34201dad3ebe1c769f0599004084e046fb249ad912425",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/bd/3b/612ea6daa52d64bc0cc46f2bd2e138952c58f1edbe86b17fd89e07c33d86/jiter-0.6.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
-        "version": "0.6.1"
+        "url": "https://files.pythonhosted.org/packages/9d/a2/914587a68cba16920b1f979267a4e5c19f6977cac8fb8a6fbbd00035d0ed/jiter-0.7.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "version": "0.7.0"
       },
       "llm": {
         "is_direct": false,
-        "sha256": "f1fb15c78fff122ac36ecef40633f7fe3d33946df5b4d7a6f30b7aaa7d1eaf27",
+        "sha256": "e963e9694a2c54cea25c0a493d32fb5e631c53b7351d6688b11c55b8f846a7c2",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/ad/3c/375ade56d690a07fec3e052561a6c1f5bbed92f54a8719ef7b0cc9b73f06/llm-0.17-py3-none-any.whl",
-        "version": "0.17"
+        "url": "https://files.pythonhosted.org/packages/b4/b9/f741e7929c51dbd898a9e67c595d0e9dc5228e1b00bd10e74c152a059c1f/llm-0.17.1-py3-none-any.whl",
+        "version": "0.17.1"
       },
       "llm-claude-3": {
         "is_direct": false,
-        "sha256": "5da20be2510bc000c2ed2133e3b39a71fbe3229885fe57828b29e2174c160d51",
+        "sha256": "bc76ad3b81e31fa571cc16351f598c342c41af20860f6f4e5f97b73546c0d29d",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/6e/99/aebf975b7b5ec8505ff5be077e355d08d0d2c77711c4a6990e33cd3da771/llm_claude_3-0.5-py3-none-any.whl",
-        "version": "0.5"
+        "url": "https://files.pythonhosted.org/packages/13/a5/a72a8152b2067306818ee7be0ef4298cdbae7779425239e7a8daf65fd70b/llm_claude_3-0.7-py3-none-any.whl",
+        "version": "0.7"
       },
       "llm-cmd": {
         "is_direct": false,
@@ -521,5 +521,5 @@
       }
     }
   },
-  "invalidationHash": "a6add6d51106ae94a07d3ab08612873f95f372a1e37a7d620b959dab4b8ddcc4"
+  "invalidationHash": "2d81cd7692d3daa29bfcc8701f4f0f87eed7fe66030f20858831cdd7d1071122"
 }

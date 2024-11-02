@@ -7,8 +7,8 @@ let
     deps.python = python3;
     version = "0.17";
     pip.requirementsList = [
-      "llm==0.17"
-      "llm-claude-3==0.5"
+      "llm==0.17.1"
+      "llm-claude-3==0.7"
       "llm-replicate==0.3.1"
       "llm-gemini==0.3"
       "llm-cmd==0.2a0"
