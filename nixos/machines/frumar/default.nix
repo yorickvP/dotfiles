@@ -307,4 +307,5 @@
     enable = true;
     secretFile = config.age.secrets.marvin-tracker.path;
   };
+  programs.fish.enable = true;
 }

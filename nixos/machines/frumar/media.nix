@@ -38,5 +38,6 @@
     pyrosimple
     rtorrent
     yscripts.absorb
+    ffmpeg
   ];
 }
