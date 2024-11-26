@@ -103,4 +103,5 @@ in
   age.secrets."wg.dk.archbox.conf" = {
     file = ../../../secrets/wg.dk.archbox.conf.age;
   };
+  services.openssh.settings.StreamLocalBindUnlink = true;
 }

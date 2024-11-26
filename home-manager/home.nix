@@ -159,6 +159,7 @@ in {
   services.gpg-agent = {
     enable = true;
     enableSshSupport = true;
+    enableExtraSocket = true;
   };
   services.playerctld.enable = true;
   home.packages = (with pkgs; [
