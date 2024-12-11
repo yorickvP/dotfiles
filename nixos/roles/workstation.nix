@@ -12,6 +12,7 @@
   };
   environment.systemPackages = with pkgs; [
     ghostscript yubikey-manager glib
+    solaar
   ];
   environment.sessionVariables.XDG_DATA_DIRS = with pkgs; [
     "${gnome-themes-extra}/share"
@@ -122,4 +123,16 @@
     wantedBy = lib.mkForce [];
     serviceConfig.Environment = ["TS_DEBUG_DISABLE_PORTLIST=true"];
   };
+  programs.criu.enable = true;
+  hardware.logitech.wireless = {
+    enable = true;
+    enableGraphical = true;
+  };
+  # services.udev.extraHwdb = ''
+  #   mouse:*:name:*MX * 3*:
+  #     MOUSE_WHEEL_CLICK_ANGLE=1
+  #     MOUSE_WHEEL_CLICK_COUNT=1
+  #     MOUSE_WHEEL_CLICK_ANGLE_HORIZONTAL=26
+  #     MOUSE_WHEEL_CLICK_COUNT_HORIZONTAL=14
+  # '';
 }
