@@ -1,14 +1,14 @@
 {
   description = "Yoricks dotfiles";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-mozilla.url = "github:mozilla/nixpkgs-mozilla";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-24.05";
+    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
@@ -17,13 +17,6 @@
     nix-npm-buildpackage.url = "github:serokell/nix-npm-buildpackage";
     nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
-    attic = {
-      url = "github:zhaofengli/attic";
-      inputs = {
-        nixpkgs-stable.follows = "nixpkgs";
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
     timesync = {
       url = "github:datakami/timesync";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,7 +28,7 @@
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixpkgs-wayland, nixos-hardware, agenix, flake-utils
                    , nix-index-database, nix-npm-buildpackage, timesync
-                   , attic, dream2nix, yobot
+                   , dream2nix, yobot
                    , self
     , ... }:
     (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
@@ -46,7 +39,13 @@
             allowUnfree = true;
             # chromium.vaapiSupport = true;
             android_sdk.accept_license = true;
-            permittedInsecurePackages = [];
+            permittedInsecurePackages = [
+              # sonarr, https://github.com/NixOS/nixpkgs/issues/360592
+              "aspnetcore-runtime-6.0.36"
+              "aspnetcore-runtime-wrapped-6.0.36"
+              "dotnet-sdk-6.0.428"
+              "dotnet-sdk-wrapped-6.0.428"
+            ];
           };
           inherit system;
           overlays = [ self.overlays.default ];
@@ -100,7 +99,6 @@
           nixpkgs-mozilla.overlay
           emacs-overlay.overlay
           agenix.overlays.default
-          attic.overlays.default
           (import ./fixups.nix)
           (import ./pkgs)
           (import ./pkgs/mdr.nix)

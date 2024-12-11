@@ -11,7 +11,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
   boot.kernelModules = [ "nct6775" "i2c-dev" "i2c-piix4" ];
-  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
   networking.hostId = "c7736638";
   services.zfs.autoScrub.enable = true;
   services.zfs.trim.enable = true;
@@ -25,6 +24,7 @@
   # };
   environment.systemPackages = [ pkgs.openrgb pkgs.egl-wayland ];
   services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  hardware.nvidia.open = false;
   hardware.nvidia.powerManagement.finegrained = true;
   hardware.nvidia.prime.offload.enable = true;
   hardware.nvidia.prime = {

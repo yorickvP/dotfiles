@@ -63,9 +63,9 @@
     wlr.enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   fonts = {
@@ -111,7 +111,7 @@
     };
   };
   services.pcscd.enable = true;
-  services.xserver.gdk-pixbuf.modulePackages = [ pkgs.webp-pixbuf-loader ];
+  programs.gdk-pixbuf.modulePackages = [ pkgs.webp-pixbuf-loader ];
   hardware.ledger.enable = true;
 
   i18n.extraLocaleSettings.LC_TIME = "nl_NL.UTF-8";

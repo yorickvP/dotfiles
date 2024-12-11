@@ -181,7 +181,7 @@ in {
     QT_QPA_PLATFORM = "wayland";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     XCURSOR_THEME = "Adwaita";
-    XCURSOR_PATH = "${pkgs.gnome.adwaita-icon-theme}/share/icons";
+    XCURSOR_PATH = "${pkgs.adwaita-icon-theme}/share/icons";
     XDG_CURRENT_DESKTOP = "sway";
     #NIXOS_OZONE_WL = "1";
   };

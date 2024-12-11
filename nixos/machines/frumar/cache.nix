@@ -1,7 +1,4 @@
 { config, pkgs, lib, inputs, ... }: {
-  imports = [
-    inputs.attic.nixosModules.atticd
-  ];
   age.secrets.attic.file = ../../../secrets/attic.env.age;
 
   services.nginx.virtualHosts."cache.yori.cc" = {
@@ -19,7 +16,7 @@
   };
   services.atticd = {
     enable = true;
-    credentialsFile = config.age.secrets.attic.path;
+    environmentFile = config.age.secrets.attic.path;
     settings = {
       storage = {
         type = "local";

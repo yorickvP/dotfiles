@@ -111,10 +111,11 @@
     enable = true;
     openFirewall = true;
     unifiPackage = pkgs.unifi8;
+    mongodbPackage = pkgs.mongodb-6_0;
   };
   services.victoriametrics = {
     enable = true;
-    retentionPeriod = 12;
+    retentionPeriod = "1y";
   };
   services.prometheus = {
     enable = true;

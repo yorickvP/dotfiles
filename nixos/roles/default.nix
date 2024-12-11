@@ -81,7 +81,7 @@ in {
     hdparm
     lm_sensors
     ncdu
-    attic
+    attic-client
 
     # utils
     file
@@ -137,7 +137,8 @@ in {
     disabledCollectors = [ "rapl" ];
   };
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 9100 ];
-  xdg.autostart.enable = false;
+  # go away, teams!
+  xdg.autostart.enable = lib.mkForce false;
 
   nix.settings = {
     substituters = [ "https://cache.yori.cc/yorick" ];

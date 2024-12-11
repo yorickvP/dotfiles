@@ -14,7 +14,6 @@
   boot.zfs.requestEncryptionCredentials = true;
 
   boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
   networking.wireless = {
     enable = false;
     iwd.enable = true;
