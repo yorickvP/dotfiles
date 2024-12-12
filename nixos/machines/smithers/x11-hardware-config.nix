@@ -33,6 +33,11 @@
       fsType = "zfs";
     };
 
+  fileSystems."/home/yorick/steam-games" =
+    { device = "rpool/root/steam";
+      fsType = "zfs";
+    };
+
   swapDevices = [ ];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
