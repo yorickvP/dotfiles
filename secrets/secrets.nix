@@ -5,7 +5,7 @@ let
   frumar = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC3ljgcmFgfcZA2UP4Mah4lMVKTtXkDurwsj9gAzn8fA";
   smithers = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWdp+DQk3P1JioWlwyEHE0Htri9tz5OMwJf9d8xnAgE";
   jarvis = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKd8oRn7T+NnzDbTLaWyiUGIRZ21n42zdozkuUoHp8IX";
-
+  kirei = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPE2ctlrLLIR78hJ5/TQi6K6/+GckHAdjUwVfAnTuNIL";
 in
 builtins.mapAttrs (x: y: {
   publicKeys = [ yorick ] ++ y;
@@ -15,6 +15,7 @@ builtins.mapAttrs (x: y: {
   "wg.jarvis.age" = [ jarvis ];
   "wg.pennyworth.age" = [ pennyworth ];
   "wg.smithers.age" = [ smithers ];
+  "wg.kirei.age" = [ kirei ];
   "wg.mullvad-nl4.age" = [ frumar ];
   "grafana.env.age" = [ frumar ];
   "http.muflax.age" = [ pennyworth ];

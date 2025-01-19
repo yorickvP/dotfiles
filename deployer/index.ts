@@ -103,6 +103,7 @@ const machines = {
   blackadder: new Machine({hasHome: true}),
   jarvis: new Machine({hasHome: true}),
   smithers: new Machine({hasHome: true}),
+  kirei: new Machine({hostname: "kirei.yori.cc"}),
 }
 for (const [name, machine] of Object.entries(machines))
     machine.name = name

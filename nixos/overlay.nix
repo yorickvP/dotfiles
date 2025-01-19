@@ -1,4 +1,4 @@
-let names = [ "pennyworth" "jarvis" "blackadder" "frumar" "smithers" ];
+let names = [ "pennyworth" "jarvis" "blackadder" "frumar" "smithers" "kirei" ];
 in pkgs: super: {
   yorick = (super.yorick or { }) // rec {
     nixos = configuration: extraArgs:
