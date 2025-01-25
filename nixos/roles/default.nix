@@ -108,7 +108,13 @@ in {
     arp-scan
 
     #gitMinimal
-  ];
+  ] ++ (with pkgs.pkgsBuildBuild; (map (x: x.terminfo) [
+    alacritty
+    st
+    foot
+    ghostty
+    tmux
+  ]));
   nix.gc.automatic = true;
 
   services.avahi = {
