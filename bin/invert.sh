@@ -8,7 +8,9 @@ touch -h ~/.config/alacritty/alacritty.toml
 if [ "$cs" = "dark" ]; then
     dconf write /org/gnome/desktop/interface/gtk-theme "'Adwaita-dark'"
     gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+    gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 else
     dconf write /org/gnome/desktop/interface/gtk-theme "'Adwaita'"
     gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
+    gsettings set org.gnome.desktop.interface color-scheme prefer-light
 fi
