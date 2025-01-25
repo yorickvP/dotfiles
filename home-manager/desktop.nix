@@ -277,6 +277,7 @@ in {
     bin.y-cal-widget
     obsidian
     #xwaylandvideobridge
+    easyeffects
   ];
   xdg.configFile."alacritty/alacritty.toml" = {
     source = ../alacritty/alacritty.toml;

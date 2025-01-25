@@ -178,6 +178,7 @@ in {
     nix-output-monitor
     appimage-run
     ripgrep
+    zip
 
     ## misc
     moreutils
@@ -272,6 +273,7 @@ in {
     datasette
     spacer
     #wlrctl
+    asciiquarium-transparent
 
     ## coins
     electrum
@@ -297,6 +299,7 @@ in {
     bitwarden-cli
     # notion-desktop
     #yubioath-flutter
+    gnucash
 
     ## games
     prismlauncher
