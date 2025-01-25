@@ -477,7 +477,11 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 
 #+END_SRC
 
-
+** mouse jumps
+#+BEGIN_SRC emacs-lisp
+(global-set-key [mouse-8] 'evil-jump-backward)
+(global-set-key [mouse-9] 'evil-jump-forward)
+#+END_SRC
 ** git-gutter-fringe
 #+BEGIN_SRC emacs-lisp
   ;; (use-package git-gutter-fringe
