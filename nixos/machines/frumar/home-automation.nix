@@ -32,6 +32,7 @@
     extraComponents = [
       "default_config"
       "androidtv"
+      "androidtv_remote"
       "esphome"
       "met"
       "unifi" "yeelight" "plex" "frontend"
@@ -41,6 +42,7 @@
       "github" "backup"
       "mqtt"
       "brother"
+      "utility_meter"
       "spotify"
       "yamaha_musiccast" "cast"
       "ipp"
@@ -80,7 +82,10 @@
       system_log = {};
       
       frontend.themes = "!include_dir_merge_named themes";
+      frontend.extra_module_url = "/local/card-mod.js";
       automation = "!include automations.yaml";
+      script = "!include scripts.yaml";
+      scene = "!include scenes.yaml";
       homeassistant = {
         name = "Home";
         latitude = "51.84";
@@ -93,6 +98,10 @@
       http = {
         use_x_forwarded_for = true;
         trusted_proxies = [ "::1" ];
+      };
+      lovelace = {
+        mode = "storage";
+        dashboards = "!include dashboards.yaml";
       };
     };
   };
