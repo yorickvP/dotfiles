@@ -10,38 +10,31 @@
       },
       "anthropic": {
         "is_direct": false,
-        "sha256": "442028ae8790ff9e3b6f8912043918755af1230d193904ae2ef78cc22995280c",
+        "sha256": "f36aff71d2c232945e64d1970be68a91b05a2ef5e3afa6c1ff195c3303a95ad3",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/cb/18/a68cfb9a11990377650c36c25b5dfb0baece900e9e505b68e1aa06ad0227/anthropic-0.40.0-py3-none-any.whl",
-        "version": "0.40.0"
+        "url": "https://files.pythonhosted.org/packages/63/a0/f8ad781d83ccd8184692ace3c557294b1ece7c0b071f912300276b7cdb4a/anthropic-0.45.0-py3-none-any.whl",
+        "version": "0.45.0"
       },
       "anyio": {
         "is_direct": false,
-        "sha256": "ea60c3723ab42ba6fff7e8ccb0488c898ec538ff4df1f1d5e642c3601d07e352",
+        "sha256": "b5011f270ab5eb0abf13385f851315585cc37ef330dd88e27ec3d34d651fd47a",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/a0/7a/4daaf3b6c08ad7ceffea4634ec206faeff697526421c20f07628c7372156/anyio-4.7.0-py3-none-any.whl",
-        "version": "4.7.0"
+        "url": "https://files.pythonhosted.org/packages/46/eb/e7f063ad1fec6b3178a3cd82d1a3c4de82cccf283fc42746168188e1cdd5/anyio-4.8.0-py3-none-any.whl",
+        "version": "4.8.0"
       },
       "certifi": {
         "is_direct": false,
-        "sha256": "922820b53db7a7257ffbda3f597266d435245903d80737e34f8a45ff3e3230d8",
+        "sha256": "1275f7a45be9464efc1173084eaa30f866fe2e47d389406136d332ed4967ec56",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/12/90/3c9ff0512038035f59d279fddeb79f5f1eccd8859f06d6163c58798b9487/certifi-2024.8.30-py3-none-any.whl",
-        "version": "2024.8.30"
-      },
-      "charset-normalizer": {
-        "is_direct": false,
-        "sha256": "8cda06946eac330cbe6598f77bb54e690b4ca93f593dee1568ad22b04f347c15",
-        "type": "url",
-        "url": "https://files.pythonhosted.org/packages/16/92/92a76dc2ff3a12e69ba94e7e05168d37d0345fa08c87e1fe24d0c2a42223/charset_normalizer-3.4.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
-        "version": "3.4.0"
+        "url": "https://files.pythonhosted.org/packages/a5/32/8f6669fc4798494966bf446c8c4a162e0b5d893dff088afddf76414f70e1/certifi-2024.12.14-py3-none-any.whl",
+        "version": "2024.12.14"
       },
       "click": {
         "is_direct": false,
-        "sha256": "ae74fb96c20a0277a1d615f1e4d73c8414f5a98db8b799a7931d1582f3390c28",
+        "sha256": "63c132bbbed01578a06712a2d1f497bb62d9c1c0d329b7903a866228027263b2",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/00/2e/d53fa4befbf2cfa713304affc7ca780ce4fc1fd8710527771b58311a3229/click-8.1.7-py3-none-any.whl",
-        "version": "8.1.7"
+        "url": "https://files.pythonhosted.org/packages/7e/d4/7ebdbd03970677812aac39c869717059dbb71a4cfc033ca6e5221787892c/click-8.1.8-py3-none-any.whl",
+        "version": "8.1.8"
       },
       "click-default-group": {
         "is_direct": false,
@@ -101,17 +94,17 @@
       },
       "llm": {
         "is_direct": false,
-        "sha256": "6450fe6ab7b844365da21a8dfacf03d1e26730109f487aec456b872ffc85ae63",
+        "sha256": "530d8e88a9e662376360a8ec17bcd603d6ed5812c69766ef5a146189839d0f08",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/b5/ef/14d336309ceddce6d35670aca73bcbd7aede32ce60d4c39a8a949773b8f0/llm-0.19.1-py3-none-any.whl",
-        "version": "0.19.1"
+        "url": "https://files.pythonhosted.org/packages/0d/5a/60bacc305c578c74f995f90498856dd3121ee054aef4f8038c6fe9bd0334/llm-0.20-py3-none-any.whl",
+        "version": "0.20"
       },
-      "llm-claude-3": {
+      "llm-anthropic": {
         "is_direct": false,
-        "sha256": "77c089cc5c7248c30d08fde18d7041ee462bb5e5a15b4169b29039bf19240538",
+        "sha256": "44c557d10a7d8616607075d2a3787476e6bebe77e4f7c4946a5555ca705b6d2a",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/f6/2c/ea53305c35a6ea4d009722615c2a4c991e7de9cfbeb8f7f7b99d04a333a8/llm_claude_3-0.10-py3-none-any.whl",
-        "version": "0.10"
+        "url": "https://files.pythonhosted.org/packages/24/3c/0f38d9d186b84bccfa085ce8bd29582b841cdce3809ac31dd1889cbec780/llm_anthropic-0.11-py3-none-any.whl",
+        "version": "0.11"
       },
       "llm-cmd": {
         "is_direct": false,
@@ -120,12 +113,26 @@
         "url": "https://files.pythonhosted.org/packages/c6/6f/47f53d22873d0915fdd12a34a94f142554981d128820ea1b9aaa6b2db46e/llm_cmd-0.2a0-py3-none-any.whl",
         "version": "0.2a0"
       },
+      "llm-deepseek": {
+        "is_direct": false,
+        "sha256": "b8d930c636d2da3546a12485e06e4f367719dee35a156c647879bc4fd883f513",
+        "type": "url",
+        "url": "https://files.pythonhosted.org/packages/9d/1d/b9ce678c68c0230004bb7ab796b1620b0b1005b9e277217427f5d2e4db19/llm_deepseek-0.1.4-py3-none-any.whl",
+        "version": "0.1.4"
+      },
+      "llm-fireworks": {
+        "is_direct": false,
+        "sha256": "a538559fd4f01f25d47e3c09d8b32fe2cb33f5c765ccefe73b53fed3ae6f62ad",
+        "type": "url",
+        "url": "https://files.pythonhosted.org/packages/75/09/bc5c289188bf72c54085741bc29aeaf98186d6bb2c72fa0924cd512d6f9c/llm_fireworks-0.1a0-py3-none-any.whl",
+        "version": "0.1a0"
+      },
       "llm-gemini": {
         "is_direct": false,
-        "sha256": "18f2b3ef1e9e6f24196ae95d81d133f98185e75e5d4d6347c301b5e7ea4ef00f",
+        "sha256": "bc763d341f960415fb15d9ba2ca0c16f03e7bbf18cae4726d5a034bad132503b",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/7f/9d/fa0bc3b9d2cd12c92967751abaae73f40e1b63d0db3474994f5282952e96/llm_gemini-0.7-py3-none-any.whl",
-        "version": "0.7"
+        "url": "https://files.pythonhosted.org/packages/98/a3/114a4f4276d681e7d637e58b4c5d1d449fcec561b563101f5680e73cb869/llm_gemini-0.9-py3-none-any.whl",
+        "version": "0.9"
       },
       "llm-jq": {
         "is_direct": false,
@@ -133,13 +140,6 @@
         "type": "url",
         "url": "https://files.pythonhosted.org/packages/35/8c/e681accf36bbbd53ac429013103bf572838bb509686d64f8420cb5b6eb94/llm_jq-0.1.1-py3-none-any.whl",
         "version": "0.1.1"
-      },
-      "llm-replicate": {
-        "is_direct": false,
-        "sha256": "7ae240d7390f0f557b249f3d3889c7cd3015b4a6818747495ca48f31a8a4a177",
-        "type": "url",
-        "url": "https://files.pythonhosted.org/packages/7d/b7/2bf20e72b57d463dd3b759773f1a5c675e229c7cb03e7737f9f2f560cfb1/llm_replicate-0.3.1-py3-none-any.whl",
-        "version": "0.3.1"
       },
       "llm-whisper-api": {
         "is_direct": false,
@@ -150,17 +150,10 @@
       },
       "openai": {
         "is_direct": false,
-        "sha256": "c4034a5676eb252ef2e0ed1f46d040ca3bdde24bb61b432f50bb0b38d0cf9ecf",
+        "sha256": "714181ec1c452353d456f143c22db892de7b373e3165063d02a2b798ed575ba1",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/8c/14/e33e944fcf03c79cde60ad0677dc4f1bc13b4a1ef7fcbf1961b8d13a568c/openai-1.57.3-py3-none-any.whl",
-        "version": "1.57.3"
-      },
-      "packaging": {
-        "is_direct": false,
-        "sha256": "09abb1bccd265c01f4a3aa3f7a7db064b36514d2cba19a2f694fe6150451a759",
-        "type": "url",
-        "url": "https://files.pythonhosted.org/packages/88/ef/eb23f262cca3c0c4eb7ab1933c3b1f03d021f2c48f54763065b6f0e321be/packaging-24.2-py3-none-any.whl",
-        "version": "24.2"
+        "url": "https://files.pythonhosted.org/packages/7a/ad/55b2d03feda5a0adc0a86048dcb7c9863fd24a3726815a04d5669e82e41e/openai-1.60.1-py3-none-any.whl",
+        "version": "1.60.1"
       },
       "pip": {
         "is_direct": false,
@@ -178,10 +171,10 @@
       },
       "prompt-toolkit": {
         "is_direct": false,
-        "sha256": "f49a827f90062e411f1ce1f854f2aedb3c23353244f8108b89283587397ac10e",
+        "sha256": "9b6427eb19e479d98acff65196a307c555eb567989e6d88ebbb1b509d9779198",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/a9/6a/fd08d94654f7e67c52ca30523a178b3f8ccc4237fce4be90d39c938a831a/prompt_toolkit-3.0.48-py3-none-any.whl",
-        "version": "3.0.48"
+        "url": "https://files.pythonhosted.org/packages/e4/ea/d836f008d33151c7a1f62caf3d8dd782e4d15f6a43897f64480c2b8de2ad/prompt_toolkit-3.0.50-py3-none-any.whl",
+        "version": "3.0.50"
       },
       "puremagic": {
         "is_direct": false,
@@ -192,24 +185,24 @@
       },
       "pydantic": {
         "is_direct": false,
-        "sha256": "be04d85bbc7b65651c5f8e6b9976ed9c6f41782a55524cef079a34a0bb82144d",
+        "sha256": "427d664bf0b8a2b34ff5dd0f5a18df00591adcee7198fbd71981054cef37b584",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/62/51/72c18c55cf2f46ff4f91ebcc8f75aa30f7305f3d726be3f4ebffb4ae972b/pydantic-2.10.3-py3-none-any.whl",
-        "version": "2.10.3"
+        "url": "https://files.pythonhosted.org/packages/f4/3c/8cc1cc84deffa6e25d2d0c688ebb80635dfdbf1dbea3e30c541c8cf4d860/pydantic-2.10.6-py3-none-any.whl",
+        "version": "2.10.6"
       },
       "pydantic-core": {
         "is_direct": false,
-        "sha256": "7597c07fbd11515f654d6ece3d0e4e5093edc30a436c63142d9a4b8e22f19c35",
+        "sha256": "6fb4aadc0b9a0c063206846d603b92030eb6f03069151a625667f982887153e2",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/8a/c6/8ae0831bf77f356bb73127ce5a95fe115b10f820ea480abbd72d3cc7ccf3/pydantic_core-2.27.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
-        "version": "2.27.1"
+        "url": "https://files.pythonhosted.org/packages/8d/f0/49129b27c43396581a635d8710dae54a791b17dfc50c70164866bbf865e3/pydantic_core-2.27.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+        "version": "2.27.2"
       },
       "pygments": {
         "is_direct": false,
-        "sha256": "b8e6aca0523f3ab76fee51799c488e38782ac06eafcf95e7ba832985c8e7b13a",
+        "sha256": "9ea1544ad55cecf4b8242fab6dd35a93bbce657034b0611ee383099054ab6d8c",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/f7/3f/01c8b82017c199075f8f788d0d906b9ffbbc5a47dc9918a945e13d5a2bda/pygments-2.18.0-py3-none-any.whl",
-        "version": "2.18.0"
+        "url": "https://files.pythonhosted.org/packages/8a/0b/9fcc47d19c48b59121088dd6da2488a49d5f72dacf8262e2790a1d2c7d15/pygments-2.19.1-py3-none-any.whl",
+        "version": "2.19.1"
       },
       "python-dateutil": {
         "is_direct": false,
@@ -232,33 +225,12 @@
         "url": "https://files.pythonhosted.org/packages/b9/2b/614b4752f2e127db5cc206abc23a8c19678e92b23c3db30fc86ab731d3bd/PyYAML-6.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
         "version": "6.0.2"
       },
-      "replicate": {
-        "is_direct": false,
-        "sha256": "f568f6271ff715067901b6094c23c37373bbcfd7de0ff9b85e9c9ead567e09e7",
-        "type": "url",
-        "url": "https://files.pythonhosted.org/packages/c4/79/9596172f868a94858ffbd5b366386bf2c367ff10525ad7a67d679011ae3c/replicate-1.0.4-py3-none-any.whl",
-        "version": "1.0.4"
-      },
-      "requests": {
-        "is_direct": false,
-        "sha256": "70761cfe03c773ceb22aa2f671b4757976145175cdfca038c02654d061d6dcc6",
-        "type": "url",
-        "url": "https://files.pythonhosted.org/packages/f9/9b/335f9764261e915ed497fcdeb11df5dfd6f7bf257d4a6a2a686d80da4d54/requests-2.32.3-py3-none-any.whl",
-        "version": "2.32.3"
-      },
-      "requests-mock": {
-        "is_direct": false,
-        "sha256": "b1e37054004cdd5e56c84454cc7df12b25f90f382159087f4b6915aaeef39563",
-        "type": "url",
-        "url": "https://files.pythonhosted.org/packages/97/ec/889fbc557727da0c34a33850950310240f2040f3b1955175fdb2b36a8910/requests_mock-1.12.1-py2.py3-none-any.whl",
-        "version": "1.12.1"
-      },
       "setuptools": {
         "is_direct": false,
-        "sha256": "ce74b49e8f7110f9bf04883b730f4765b774ef3ef28f722cce7c273d253aaf7d",
+        "sha256": "e3982f444617239225d675215d51f6ba05f845d4eec313da4418fdbb56fb27e3",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/55/21/47d163f615df1d30c094f6c8bbb353619274edccf0327b185cc2493c2c33/setuptools-75.6.0-py3-none-any.whl",
-        "version": "75.6.0"
+        "url": "https://files.pythonhosted.org/packages/69/8a/b9dc7678803429e4a3bc9ba462fa3dd9066824d3c607490235c6a796be5a/setuptools-75.8.0-py3-none-any.whl",
+        "version": "75.8.0"
       },
       "six": {
         "is_direct": false,
@@ -316,13 +288,6 @@
         "url": "https://files.pythonhosted.org/packages/26/9f/ad63fc0248c5379346306f8668cda6e2e2e9c95e01216d2b8ffd9ff037d0/typing_extensions-4.12.2-py3-none-any.whl",
         "version": "4.12.2"
       },
-      "urllib3": {
-        "is_direct": false,
-        "sha256": "ca899ca043dcb1bafa3e262d73aa25c465bfb49e0bd9dd5d59f1d0acba2f8fac",
-        "type": "url",
-        "url": "https://files.pythonhosted.org/packages/ce/d9/5f4c13cecde62396b0d3fe530a50ccea91e7dfc1ccf0e09c228841bb5ba8/urllib3-2.2.3-py3-none-any.whl",
-        "version": "2.2.3"
-      },
       "wcwidth": {
         "is_direct": false,
         "sha256": "3da69048e4540d84af32131829ff948f1e022c1c6bdb8d6102117aac784f6859",
@@ -349,7 +314,6 @@
           "typing-extensions"
         ],
         "certifi": [],
-        "charset-normalizer": [],
         "click": [],
         "click-default-group": [
           "click"
@@ -383,7 +347,7 @@
           "sqlite-migrate",
           "sqlite-utils"
         ],
-        "llm-claude-3": [
+        "llm-anthropic": [
           "anthropic",
           "llm"
         ],
@@ -392,6 +356,12 @@
           "prompt-toolkit",
           "pygments"
         ],
+        "llm-deepseek": [
+          "llm"
+        ],
+        "llm-fireworks": [
+          "llm"
+        ],
         "llm-gemini": [
           "httpx",
           "ijson",
@@ -399,11 +369,6 @@
         ],
         "llm-jq": [
           "llm"
-        ],
-        "llm-replicate": [
-          "llm",
-          "replicate",
-          "requests-mock"
         ],
         "llm-whisper-api": [
           "httpx",
@@ -419,7 +384,6 @@
           "tqdm",
           "typing-extensions"
         ],
-        "packaging": [],
         "pip": [],
         "pluggy": [],
         "prompt-toolkit": [
@@ -440,21 +404,6 @@
         ],
         "python-ulid": [],
         "pyyaml": [],
-        "replicate": [
-          "httpx",
-          "packaging",
-          "pydantic",
-          "typing-extensions"
-        ],
-        "requests": [
-          "certifi",
-          "charset-normalizer",
-          "idna",
-          "urllib3"
-        ],
-        "requests-mock": [
-          "requests"
-        ],
         "setuptools": [],
         "six": [],
         "sniffio": [],
@@ -473,10 +422,9 @@
         "tabulate": [],
         "tqdm": [],
         "typing-extensions": [],
-        "urllib3": [],
         "wcwidth": []
       }
     }
   },
-  "invalidationHash": "534d3dfae6c2b7ea115d55d197a465718fa0716b80642d2b0c77f0e6d27d7455"
+  "invalidationHash": "66e83a1fdd39cb273ed44049f69ab2b50be7b1dc15381e95083accaec0c717f0"
 }
