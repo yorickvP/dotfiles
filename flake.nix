@@ -24,11 +24,14 @@
     fooocus.url = "path:./pkgs/fooocus";
     dream2nix.url = "github:nix-community/dream2nix";
     dream2nix.inputs.nixpkgs.follows = "nixpkgs";
+    ghostty.url = "github:ghostty-org/ghostty";
+    ghostty.inputs.nixpkgs-stable.follows = "nixpkgs";
+    ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixpkgs-wayland, nixos-hardware, agenix, flake-utils
                    , nix-index-database, nix-npm-buildpackage, timesync
-                   , dream2nix, yobot
+                   , dream2nix, yobot, ghostty
                    , self
     , ... }:
     (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
@@ -106,6 +109,7 @@
             flake-inputs = inputs;
             nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
             fooocus = inputs.fooocus.packages.${final.system}.default;
+            inherit (inputs.ghostty.packages.${final.system}) ghostty;
             inherit (nixpkgs-wayland.packages.${final.system}) wldash;
 
           })

@@ -60,7 +60,7 @@ in {
           #"${mod}+ctrl+l" = "exec --no-startup-id loginctl lock-session";
           "${mod}+ctrl+l" =
             "exec --no-startup-id \"playerctl -a pause; (bluetoothctl disconnect 88:C9:E8:AD:73:E8 &) && sleep 1s && pkill -USR1 swayidle\"";
-          "${mod}+Return" = "exec alacritty msg create-window || alacritty";
+          "${mod}+Return" = "exec bash /home/yorick/dotfiles/bin/new-ghostty.sh";
           "${mod}+Escape" = "workspace back_and_forth";
           "${mod}+0" = "workspace 10";
           "${mod}+Shift+0" = "move container to workspace 10";
@@ -256,6 +256,7 @@ in {
     pavucontrol
     playerctl
     vanilla-dmz
+    ghostty
 
     libwebp
     gebaar-libinput
@@ -280,5 +281,26 @@ in {
   xdg.configFile."alacritty/alacritty.toml" = {
     source = ../alacritty/alacritty.toml;
   };
+  xdg.configFile."ghostty/config".text = ''
+    font-family = "DejaVuSansM Nerd Font"
+    font-size = 12
+    background-opacity = 0.95
+    theme = dark:catppuccin-mocha,light:catppuccin-latte
+    gtk-single-instance = true
+    window-decoration = false
+    adjust-cursor-thickness = 3
+    minimum-contrast = 1.7
+    keybind = alt+one=unbind
+    keybind = alt+two=unbind
+    keybind = alt+three=unbind
+    keybind = alt+four=unbind
+    keybind = alt+five=unbind
+    keybind = alt+six=unbind
+    keybind = alt+seven=unbind
+    keybind = alt+eight=unbind
+    keybind = alt+nine=unbind
+    keybind = alt+zero=unbind
+    keybind = ctrl+backspace=text:\x1B\x7F
+  '';
 
 }
