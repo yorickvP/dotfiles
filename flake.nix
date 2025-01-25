@@ -6,10 +6,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-mozilla.url = "github:mozilla/nixpkgs-mozilla";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
-    nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/master";
+    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-24.11";
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-mailserver.inputs.nixpkgs-24_11.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     nix-index-database.url = "github:Mic92/nix-index-database";
@@ -29,7 +28,7 @@
     ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
-                   , nixpkgs-wayland, nixos-hardware, agenix, flake-utils
+                   , nixos-hardware, agenix, flake-utils
                    , nix-index-database, nix-npm-buildpackage, timesync
                    , dream2nix, yobot, ghostty
                    , self
@@ -98,7 +97,6 @@
         };
       })) // {
         overlays.default = nixpkgs.lib.composeManyExtensions [
-          #nixpkgs-wayland.overlay
           nixpkgs-mozilla.overlay
           emacs-overlay.overlay
           agenix.overlays.default
@@ -110,7 +108,6 @@
             nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
             fooocus = inputs.fooocus.packages.${final.system}.default;
             inherit (inputs.ghostty.packages.${final.system}) ghostty;
-            inherit (nixpkgs-wayland.packages.${final.system}) wldash;
 
           })
           (import ./nixos/overlay.nix)
