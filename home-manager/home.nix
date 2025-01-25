@@ -270,6 +270,7 @@ in {
     xdg-utils
     countfftabs
     datasette
+    spacer
     #wlrctl
 
     ## coins

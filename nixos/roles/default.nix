@@ -82,6 +82,7 @@ in {
     lm_sensors
     ncdu
     attic-client
+    nvme-cli
 
     # utils
     file
