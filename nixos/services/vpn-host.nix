@@ -21,5 +21,7 @@ in {
       }) vpn.keys);
     };
     boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+
+    services.wg-restarter.enable = lib.mkForce false;
   };
 }

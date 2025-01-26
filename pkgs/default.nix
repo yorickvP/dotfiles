@@ -110,4 +110,9 @@
       homepage = "https://pypi.org/project/proquint/";
     };
   }) {};
+  wg-restarter = self.buildGoModule {
+    name = "wg-restarter";
+    src = ./wg-restarter;
+    vendorHash = null;
+  };
 })

@@ -13,6 +13,7 @@ in {
     ../modules/muflax-blog.nix
     ../modules/play-nijmegen-calendar.nix
     ../modules/selfsigned.nix
+    ../modules/wg-restarter.nix
     ../services
   ];
   age.secrets = {
@@ -134,6 +135,12 @@ in {
     }];
     postSetup = "ip link set dev wg-y mtu 1371";
   };
+  services.wg-restarter = {
+    enable = true;
+    gateway = "10.209.0.1";
+    service = "wireguard-wg-y";
+  };
+
   security.acme.defaults.email = "acme@yori.cc";
   security.acme.acceptTerms = true;
 
