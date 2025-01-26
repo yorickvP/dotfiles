@@ -23,7 +23,7 @@
   networking.hostName = "kirei"; # Define your hostname.
 
   age.secrets = {
-    frumar-mail-pass.file = ../../../secrets/frumar-mail-pass.age;
+    kirei-mail-pass.file = ../../../secrets/kirei-mail-pass.age;
   };
 
   services.zfs.autoScrub = {
@@ -37,8 +37,8 @@
       tls = true;
       from = "kirei@yori.cc";
       host = "pennyworth.yori.cc";
-      user = "frumar@yori.cc";
-      passwordeval = "${pkgs.coreutils}/bin/cat ${config.age.secrets.frumar-mail-pass.path}";
+      user = "kirei@yori.cc";
+      passwordeval = "${pkgs.coreutils}/bin/cat ${config.age.secrets.kirei-mail-pass.path}";
     };
   };
   services.smartd = {
@@ -58,4 +58,7 @@
       ZED_SCRUB_AFTER_RESILVER = true;
     };
   };
+  boot.zfs.extraPools = [ "zpool" ];
+  boot.zfs.requestEncryptionCredentials = false;
+  age.secrets.root-user-pass.file = lib.mkForce ../../../secrets/kirei-root-user-pass.age;
 }

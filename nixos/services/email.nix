@@ -3,6 +3,7 @@
   imports = [ inputs.nixos-mailserver.nixosModule ];
   age.secrets.yorick-mail-pass.file = ../../secrets/yorick-mail-pass.age;
   age.secrets.frumar-mail-pass-hash.file = ../../secrets/frumar-mail-pass-hash.age;
+  age.secrets.kirei-mail-pass-hash.file = ../../secrets/kirei-mail-pass-hash.age;
 
   mailserver = rec {
     enable = true;
@@ -16,6 +17,10 @@
       };
       "frumar@yori.cc" = {
         hashedPasswordFile = config.age.secrets.frumar-mail-pass-hash.path;
+        sendOnly = true;
+      };
+      "kirei@yori.cc" = {
+        hashedPasswordFile = config.age.secrets.kirei-mail-pass-hash.path;
         sendOnly = true;
       };
     };
