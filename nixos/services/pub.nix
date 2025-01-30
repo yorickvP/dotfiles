@@ -28,6 +28,9 @@ in {
         root = "/home/public/public";
         index = "index.html";
       };
+      extraConfig = ''
+        charset utf-8;
+      '';
     };
   };
 }
