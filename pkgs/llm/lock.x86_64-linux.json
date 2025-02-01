@@ -10,10 +10,10 @@
       },
       "anthropic": {
         "is_direct": false,
-        "sha256": "f36aff71d2c232945e64d1970be68a91b05a2ef5e3afa6c1ff195c3303a95ad3",
+        "sha256": "ecd746f7274451dfcb7e1180571ead624c7e1195d1d46cb7c70143d2aedb4d35",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/63/a0/f8ad781d83ccd8184692ace3c557294b1ece7c0b071f912300276b7cdb4a/anthropic-0.45.0-py3-none-any.whl",
-        "version": "0.45.0"
+        "url": "https://files.pythonhosted.org/packages/74/86/e81814e542d1eaeec84d2312bec93a99b9ef1d78d9bfae1fc5dd74abdf15/anthropic-0.45.2-py3-none-any.whl",
+        "version": "0.45.2"
       },
       "anyio": {
         "is_direct": false,
@@ -24,10 +24,10 @@
       },
       "certifi": {
         "is_direct": false,
-        "sha256": "1275f7a45be9464efc1173084eaa30f866fe2e47d389406136d332ed4967ec56",
+        "sha256": "ca78db4565a652026a4db2bcdf68f2fb589ea80d0be70e03929ed730746b84fe",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/a5/32/8f6669fc4798494966bf446c8c4a162e0b5d893dff088afddf76414f70e1/certifi-2024.12.14-py3-none-any.whl",
-        "version": "2024.12.14"
+        "url": "https://files.pythonhosted.org/packages/38/fc/bce832fd4fd99766c04d1ee0eead6b0ec6486fb100ae5e74c1d91292b982/certifi-2025.1.31-py3-none-any.whl",
+        "version": "2025.1.31"
       },
       "click": {
         "is_direct": false,
@@ -94,17 +94,17 @@
       },
       "llm": {
         "is_direct": false,
-        "sha256": "530d8e88a9e662376360a8ec17bcd603d6ed5812c69766ef5a146189839d0f08",
+        "sha256": "d045276c92d0eb4e5f2978123ad1a0f607085cdd454ef055731a55487ae5c0a6",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/0d/5a/60bacc305c578c74f995f90498856dd3121ee054aef4f8038c6fe9bd0334/llm-0.20-py3-none-any.whl",
-        "version": "0.20"
+        "url": "https://files.pythonhosted.org/packages/ba/6f/c7c799fc3aafb01f0f909443f47b758a5b8d58a7acf12807ce95cbd4623c/llm-0.21-py3-none-any.whl",
+        "version": "0.21"
       },
       "llm-anthropic": {
         "is_direct": false,
-        "sha256": "44c557d10a7d8616607075d2a3787476e6bebe77e4f7c4946a5555ca705b6d2a",
+        "sha256": "7898b5b3d28e8b503e490f2c8e4ef3c220e32f66bee7195a26dc27222ca53427",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/24/3c/0f38d9d186b84bccfa085ce8bd29582b841cdce3809ac31dd1889cbec780/llm_anthropic-0.11-py3-none-any.whl",
-        "version": "0.11"
+        "url": "https://files.pythonhosted.org/packages/2b/4b/677f10b8a2434d6ff5506ba3867371e168be36b604a4e1a5ac0bfacc71ae/llm_anthropic-0.12-py3-none-any.whl",
+        "version": "0.12"
       },
       "llm-cmd": {
         "is_direct": false,
@@ -150,17 +150,17 @@
       },
       "openai": {
         "is_direct": false,
-        "sha256": "714181ec1c452353d456f143c22db892de7b373e3165063d02a2b798ed575ba1",
+        "sha256": "e8c512c0743accbdbe77f3429a1490d862f8352045de8dc81969301eb4a4f666",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/7a/ad/55b2d03feda5a0adc0a86048dcb7c9863fd24a3726815a04d5669e82e41e/openai-1.60.1-py3-none-any.whl",
-        "version": "1.60.1"
+        "url": "https://files.pythonhosted.org/packages/93/76/70c5ad6612b3e4c89fa520266bbf2430a89cae8bd87c1e2284698af5927e/openai-1.61.0-py3-none-any.whl",
+        "version": "1.61.0"
       },
       "pip": {
         "is_direct": false,
-        "sha256": "3790624780082365f47549d032f3770eeb2b1e8bd1f7b2e02dace1afa361b4ed",
+        "sha256": "b6eb97a803356a52b2dd4bb73ba9e65b2ba16caa6bcb25a7497350a4e5859b65",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/ef/7d/500c9ad20238fcfcb4cb9243eede163594d7020ce87bd9610c9e02771876/pip-24.3.1-py3-none-any.whl",
-        "version": "24.3.1"
+        "url": "https://files.pythonhosted.org/packages/85/8a/1ddf40be20103bcc605db840e9ade09c8e8c9f920a03e9cfe88eae97a058/pip-25.0-py3-none-any.whl",
+        "version": "25.0"
       },
       "pluggy": {
         "is_direct": false,
@@ -426,5 +426,5 @@
       }
     }
   },
-  "invalidationHash": "66e83a1fdd39cb273ed44049f69ab2b50be7b1dc15381e95083accaec0c717f0"
+  "invalidationHash": "0187d9c553119d01b9e196a9d7a6d2feb8ca1a1f1ca5c5878d2ffdcd674b539f"
 }
