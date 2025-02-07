@@ -115,4 +115,5 @@
     src = ./wg-restarter;
     vendorHash = null;
   };
+  claude-desktop = super.callPackage ./claude-desktop.nix {};
 })
