@@ -90,10 +90,6 @@ in {
           "${mod}+p" = "exec /home/yorick/dotfiles/bin/ala-fzf-pass.sh";
           #"${mod}+p" = exec rofi-pass "rofi-pass";
           "${mod}+e" = exec pkgs.wldash "wldash start-or-kill";
-          "--locked ${mod}+bracketleft" =
-            "exec --no-startup-id /home/yorick/dotfiles/bin/sunplate.sh 0";
-          "--locked ${mod}+bracketright" =
-            "exec --no-startup-id /home/yorick/dotfiles/bin/sunplate.sh 1";
         });
       workspaceAutoBackAndForth = true;
 
