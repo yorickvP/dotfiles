@@ -251,6 +251,23 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 (use-package consult
   :bind (("C-x b" . consult-buffer)
          ("C-s" . consult-line)))
+(use-package embark
+  :bind (("C-," . embark-act))
+  :config
+  (keymap-set embark-identifier-map "t" #'lsp-find-type-definition)
+  (keymap-set embark-identifier-map "R" #'lsp-rename)
+  (keymap-set embark-identifier-map "A" #'lsp-execute-code-action)
+  (keymap-set embark-identifier-map "h" #'lsp-describe-thing-at-point)
+  (push 'embark--allow-edit
+        (alist-get 'lsp-rename embark-target-injection-hooks))
+  (push 'embark--ignore-target
+        (alist-get 'lsp-execute-code-action embark-target-injection-hooks))
+  )
+
+(use-package embark-consult
+  :ensure t
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 (use-package orderless
   :custom
   ;; Configure a custom style dispatcher (see the Consult wiki)
