@@ -166,6 +166,7 @@
     oauth2-proxy.file = ../../../secrets/oauth2-proxy.age;
     zigbee2mqtt.file = ../../../secrets/zigbee2mqtt.env.age;
     marvin-tracker.file = ../../../secrets/marvin-tracker.env.age;
+    frumar-disk-encryption.file = ../../../secrets/frumar-disk-encryption.age;
   };
   systemd.services.grafana.serviceConfig.EnvironmentFile = config.age.secrets.grafana.path;
   systemd.services.zigbee2mqtt.serviceConfig.EnvironmentFile = config.age.secrets.zigbee2mqtt.path;
@@ -181,7 +182,7 @@
       sendRaw = true;
     };
     zetup = {
-      "frumar-new" = {
+      "frumar-new/userdata" = {
         plan = "1w=>6h,1m=>1w,1y=>1m,2y=>6m,50y=>1y";
       };
       "frumar-new/plexmedia" = {

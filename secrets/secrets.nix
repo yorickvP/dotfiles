@@ -43,4 +43,5 @@ builtins.mapAttrs (x: y: {
   "wg.dk.smithers.age" = [ smithers ];
   "wg.dk.archbox.conf.age" = [ blackadder ];
   "govee2mqtt.env.age" = [ frumar ];
+  "frumar-disk-encryption.age" = [ frumar ];
 }

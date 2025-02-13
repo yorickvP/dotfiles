@@ -25,7 +25,7 @@
   swapDevices = [{ device = "/dev/disk/by-label/ssd-swap"; }];
 
   fileSystems."/data" = {
-    device = "frumar-new";
+    device = "frumar-new/userdata";
     fsType = "zfs";
   };
 
