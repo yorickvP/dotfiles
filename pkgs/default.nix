@@ -126,4 +126,35 @@
       fetchSubmodules = true;
     };
   };
+  victorialogs = with self; stdenv.mkDerivation {
+    pname = "victorialogs";
+    version = "1.10.0";
+
+    srcs = [
+      (fetchurl {
+        url = "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.10.0-victorialogs/victoria-logs-linux-amd64-v1.10.0-victorialogs.tar.gz";
+        sha256 = "f0348f8233446efaef7ec924b5159fcaa3c91186857b25130cdeda11d1e70bc2";
+      })
+      (fetchurl {
+        url = "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.10.0-victorialogs/vlogscli-linux-amd64-v1.10.0-victorialogs.tar.gz";
+        sha256 = "aa397460df2e130baf657984fed5e90f953fed2988494e8352fbc3dabb668774";
+      })
+    ];
+
+    sourceRoot = ".";
+
+    installPhase = ''
+      mkdir -p $out/bin
+      cp victoria-logs-prod $out/bin/victoria-logs
+      cp vlogscli-prod $out/bin/vlogscli
+      chmod +x $out/bin/*
+    '';
+
+    meta = with lib; {
+      description = "VictoriaLogs - high-performance logs storage and processing";
+      homepage = "https://github.com/VictoriaMetrics/VictoriaMetrics";
+      license = licenses.asl20;
+      platforms = platforms.linux;
+    };
+  };
 })

@@ -7,12 +7,13 @@ in {
     inputs.agenix.nixosModules.default
     inputs.fooocus.nixosModules.default
     ../modules/dk-vpn.nix
-    ../modules/tor-hidden-service.nix
-    ../modules/nginx.nix
     ../modules/marvin-tracker.nix
     ../modules/muflax-blog.nix
+    ../modules/nginx.nix
     ../modules/play-nijmegen-calendar.nix
     ../modules/selfsigned.nix
+    ../modules/tor-hidden-service.nix
+    ../modules/victorialogs.nix
     ../modules/wg-restarter.nix
     ../services
   ];
@@ -165,4 +166,8 @@ in {
   fonts.fontconfig.subpixel.rgba = "rgb";
   # enabled by fish, slow
   documentation.man.generateCaches = false;
+  services.journald.upload.settings.Upload = {
+    URL = "http://frumar.vpn.yori.cc:9428/insert/journald";
+    NetworkTimeoutSec = "5min";
+  };
 }

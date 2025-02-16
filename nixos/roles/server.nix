@@ -2,6 +2,7 @@
   documentation.nixos.enable = false;
   services.sshguard.enable = true;
   programs.mosh.enable = true;
+  services.journald.upload.enable = true;
 
   # environment.noXlibs = true;
   networking.firewall.logRefusedConnections =

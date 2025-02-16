@@ -96,4 +96,5 @@ in
     file = ../../../secrets/wg.dk.archbox.conf.age;
   };
   services.openssh.settings.StreamLocalBindUnlink = true;
+  services.journald.upload.enable = true;
 }

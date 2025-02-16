@@ -80,6 +80,7 @@
           <li><a href="/sonarr/">sonarr</a>
           <li><a href="/radarr/">radarr</a>
           <li><a href="/transmission/">transmission</a>
+          <li><a href="/victorialogs/select/vmui">victorialogs</a>
           <li><a href="/oauth2/sign_out?rd=/">sign out</a>
           </ul>
         '';
@@ -100,6 +101,7 @@
           (proxyOauth2 "http://unix:/torrent/sockets/transmission.sock")
           { extraConfig = "auth_request off;"; }
         ];
+        locations."/victorialogs/" = proxyOauth2 "http://127.0.0.1:9428/";
       };
       "frumar.yori.cc" = {
         enableACME = lib.mkForce false;
@@ -141,7 +143,8 @@
   };
   boot.zfs.requestEncryptionCredentials = false;
   networking.firewall = {
-    interfaces.wg-y.allowedTCPPorts = [ 3000 9090 ]; # grafana and prometheus via pennyworth
+    # grafana and prometheus via pennyworth, victorialogs on 9428
+    interfaces.wg-y.allowedTCPPorts = [ 3000 9090 9428 ];
     # mqtt, nats
     allowedTCPPorts = [ 1883 4222 ];
     # mqtt
@@ -316,4 +319,13 @@
     secretFile = config.age.secrets.marvin-tracker.path;
   };
   programs.fish.enable = true;
+  services.victorialogs = {
+    enable = true;
+    extraOptions = {
+      "journald.streamFields" = "_HOSTNAME,_SYSTEMD_SLICE,_SYSTEMD_UNIT,SYSLOG_IDENTIFIER";
+      "memory.allowedPercent" = "10";
+      "retentionPeriod" = "14d";
+      "retention.maxDiskSpaceUsageBytes" = "10GiB";
+    };
+  };
 }
