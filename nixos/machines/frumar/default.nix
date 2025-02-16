@@ -79,6 +79,7 @@
           <li><a href="/paperless/">paperless</a>
           <li><a href="/sonarr/">sonarr</a>
           <li><a href="/radarr/">radarr</a>
+          <li><a href="/transmission/">transmission</a>
           <li><a href="/oauth2/sign_out?rd=/">sign out</a>
           </ul>
         '';
@@ -94,6 +95,11 @@
           root = "/var/mediashare";
           extraConfig = "auth_request off;";
         };
+        locations."/transmission/" = proxyOauth2 "http://unix:/torrent/sockets/transmission.sock";
+        locations."/transmission/rpc" = lib.mkMerge [
+          (proxyOauth2 "http://unix:/torrent/sockets/transmission.sock")
+          { extraConfig = "auth_request off;"; }
+        ];
       };
       "frumar.yori.cc" = {
         enableACME = lib.mkForce false;
@@ -101,7 +107,7 @@
       };
     };
   };
-  systemd.services.nginx.serviceConfig.BindReadOnlyPaths = [ "/data/plexmedia/ca" "/var/mediashare" ];
+  systemd.services.nginx.serviceConfig.BindReadOnlyPaths = [ "/data/plexmedia/ca" "/var/mediashare" "/torrent/sockets" ];
   boot.supportedFilesystems = [ "zfs" ];
   services.iperf3 = {
     enable = true;

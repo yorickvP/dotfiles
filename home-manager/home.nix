@@ -221,6 +221,7 @@ in {
     streamlink
     yt-dlp
     ffmpeg
+    transmission-remote-gtk
 
     ## code
     cloc

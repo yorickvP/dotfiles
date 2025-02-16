@@ -44,4 +44,5 @@ builtins.mapAttrs (x: y: {
   "wg.dk.archbox.conf.age" = [ blackadder ];
   "govee2mqtt.env.age" = [ frumar ];
   "frumar-disk-encryption.age" = [ frumar ];
+  "transmission-rpc.age" = [ frumar ];
 }

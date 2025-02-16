@@ -1,4 +1,8 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, ... }:
+let
+  vpnCfg = config.services.yorick.torrent-vpn;
+in
+{
   users.users.torrent = {
     isSystemUser = true;
     createHome = false;
@@ -35,9 +39,47 @@
     ffmpeg
   ];
   users.users.yorick.packages = with pkgs; [
-    pyrosimple
-    rtorrent
+    pyrosimple # todo remove
+    rtorrent # todo remove
     yscripts.absorb
     ffmpeg
+    pkgs.transmission_405
   ];
+  services.transmission = {
+    enable = true;
+    home = "/torrent";
+    user = "torrent";
+    group = "torrent";
+    package = pkgs.transmission_405;
+    webHome = pkgs.flood-for-transmission;
+    settings = {
+      # https://github.com/transmission/transmission/blob/main/docs/Editing-Configuration-Files.md
+      anti-brute-force-enabled = true;
+      bind-address-ipv4 = vpnCfg.ipv4;
+      bind-address-ipv6 = vpnCfg.ipv6;
+      cache-size-mb = 64;
+      incomplete-dir = "/torrent/incomplete";
+      incomplete-dir-enabled = true;
+      message-level = 3;
+      peer-port = 56340;
+      port-forwarding-enabled = false;
+      rename-partial-files = false;
+      rpc-authentication-required = true;
+      rpc-bind-address = "unix:/torrent/sockets/transmission.sock";
+      rpc-enabled = true;
+      rpc-username = "admin";
+      rpc-socket-mode = "0722";
+    };
+    credentialsFile = config.age.secrets.transmission-rpc.path;
+  };
+  age.secrets.transmission-rpc.file = ../../../secrets/transmission-rpc.age;
+  systemd.services.transmission = {
+    serviceConfig = {
+      BindReadOnlyPaths = ["/etc/netns/torrent/resolv.conf:/etc/resolv.conf:norbind" "/data/plexmedia/ca"];
+      NetworkNamespacePath = "/run/netns/torrent";
+      BindPaths = [ "/torrent/sockets" ];
+    };
+    unitConfig.RequiresMountsFor = [ "/data/plexmedia/ca" ];
+    after = [ "wireguard-${vpnCfg.name}.service" ];
+  };
 }
