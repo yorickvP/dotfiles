@@ -111,6 +111,8 @@ in {
         treemacs-evil
         treemacs-magit
         treemacs-nerd-icons
+        nerd-icons-dired
+        nerd-icons-completion
         color-theme-sanityinc-tomorrow
         catppuccin-theme
         solaire-mode
