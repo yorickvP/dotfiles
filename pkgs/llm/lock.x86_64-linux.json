@@ -10,10 +10,10 @@
       },
       "anthropic": {
         "is_direct": false,
-        "sha256": "ecd746f7274451dfcb7e1180571ead624c7e1195d1d46cb7c70143d2aedb4d35",
+        "sha256": "a822e8731613026410f7819604c58ccab50416158ccdda3b96a3abaf3a061453",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/74/86/e81814e542d1eaeec84d2312bec93a99b9ef1d78d9bfae1fc5dd74abdf15/anthropic-0.45.2-py3-none-any.whl",
-        "version": "0.45.2"
+        "url": "https://files.pythonhosted.org/packages/92/f8/05c68c9cf935720ca4fb013e1155fa006f9deb562f6ac8a55c8d732491ab/anthropic-0.47.1-py3-none-any.whl",
+        "version": "0.47.1"
       },
       "anyio": {
         "is_direct": false,
@@ -94,17 +94,17 @@
       },
       "llm": {
         "is_direct": false,
-        "sha256": "d045276c92d0eb4e5f2978123ad1a0f607085cdd454ef055731a55487ae5c0a6",
+        "sha256": "ea0448a848e19a0965b04711b97f93173d7ec1c84a1f5d9e352d471d59d9e3f5",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/ba/6f/c7c799fc3aafb01f0f909443f47b758a5b8d58a7acf12807ce95cbd4623c/llm-0.21-py3-none-any.whl",
-        "version": "0.21"
+        "url": "https://files.pythonhosted.org/packages/2e/0f/8c8007a2552378aa42f673bc142e2d9c80caff823c41c7ab12d7ce77bf9b/llm-0.22-py3-none-any.whl",
+        "version": "0.22"
       },
       "llm-anthropic": {
         "is_direct": false,
-        "sha256": "7898b5b3d28e8b503e490f2c8e4ef3c220e32f66bee7195a26dc27222ca53427",
+        "sha256": "06f28218cc88116f875e6934150960ac0c0e163021a3130d91275f306474130f",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/2b/4b/677f10b8a2434d6ff5506ba3867371e168be36b604a4e1a5ac0bfacc71ae/llm_anthropic-0.12-py3-none-any.whl",
-        "version": "0.12"
+        "url": "https://files.pythonhosted.org/packages/0b/3d/7817db8e5bf0dd7f151779c0e783e184f6ea217b07d842fe2688c6daf1b1/llm_anthropic-0.14-py3-none-any.whl",
+        "version": "0.14"
       },
       "llm-cmd": {
         "is_direct": false,
@@ -129,10 +129,10 @@
       },
       "llm-gemini": {
         "is_direct": false,
-        "sha256": "17c76e397702ed9ad45132eadc60d96780ac6feae965add90d6eed762e534628",
+        "sha256": "efd1a212dbdc4f1fd9250d45e21804701cd8925363aca9489dcc31f2e2bf5deb",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/20/af/91f749d964a4a0d5a59d5d76dafcd6cad259e0b5e909d767a2c677b6ad30/llm_gemini-0.10-py3-none-any.whl",
-        "version": "0.10"
+        "url": "https://files.pythonhosted.org/packages/2c/1d/38d41727d4732333a3d1fd65cb5842a2f01a9c72634486642d4d1d62dc97/llm_gemini-0.11-py3-none-any.whl",
+        "version": "0.11"
       },
       "llm-jq": {
         "is_direct": false,
@@ -150,17 +150,17 @@
       },
       "openai": {
         "is_direct": false,
-        "sha256": "72b0826240ce26026ac2cd17951691f046e5be82ad122d20a8e1b30ca18bd11e",
+        "sha256": "20f85cde9e95e9fbb416e3cb5a6d3119c0b28308afd6e3cc47bf100623dac623",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/9a/b6/2e2a011b2dc27a6711376808b4cd8c922c476ea0f1420b39892117fa8563/openai-1.61.1-py3-none-any.whl",
-        "version": "1.61.1"
+        "url": "https://files.pythonhosted.org/packages/9a/1a/e62718f311daa26d208800976d7944e5ee6d503e1ea474522b2a15a904bb/openai-1.64.0-py3-none-any.whl",
+        "version": "1.64.0"
       },
       "pip": {
         "is_direct": false,
-        "sha256": "b6eb97a803356a52b2dd4bb73ba9e65b2ba16caa6bcb25a7497350a4e5859b65",
+        "sha256": "c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/85/8a/1ddf40be20103bcc605db840e9ade09c8e8c9f920a03e9cfe88eae97a058/pip-25.0-py3-none-any.whl",
-        "version": "25.0"
+        "url": "https://files.pythonhosted.org/packages/c9/bc/b7db44f5f39f9d0494071bddae6880eb645970366d0a200022a1a93d57f5/pip-25.0.1-py3-none-any.whl",
+        "version": "25.0.1"
       },
       "pluggy": {
         "is_direct": false,
@@ -426,5 +426,5 @@
       }
     }
   },
-  "invalidationHash": "a1c7787981d17e5b27b2fdbf4ff7193c04ece0b5bdbeb745abd7d1ba589f76df"
+  "invalidationHash": "0193ea51ef0f29979a666573f5148863698b73b4b7971be582a39acfff5cf110"
 }
