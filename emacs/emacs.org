@@ -767,8 +767,12 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 (use-package lsp-ui
   :commands lsp-ui-mode
   :after lsp)
-(use-package lsp-ruff
-  :after lsp)
+;; (use-package lsp-bridge
+;;   :init (global-lsp-bridge-mode)
+;;   :custom
+;;   (lsp-bridge-python-lsp-server "pyright")
+;;   (lsp-bridge-python-multi-lsp-server "pyright_ruff")
+;;   )
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024 3)) ;; 3mb
 #+END_SRC

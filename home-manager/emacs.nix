@@ -32,6 +32,27 @@ in {
 
           meta.description = "Emacs plugin for GitHub Copilot";
         };
+      aidermacs = final.melpaBuild rec {
+        pname = "aidermacs";
+        version = "20250221";
+        commit = "e06f47cea7670d8ffff0a4b9968796a00bbeb56f";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "MatthewZMD";
+          repo = pname;
+          rev = commit;
+          hash = "sha256-cmY7OaNgp+fEwgVpuslFENv2A02OaPnDzr7kNmVLT8o=";
+        };
+        postPatch = "rm aidermacs-helm.el";
+        packageRequires = with final; [ transient vterm ];
+
+        recipe = pkgs.writeText "recipe" ''
+          (aidermacs
+          :repo "MatthewZMD/aidermacs"
+          :fetcher github
+          :files ("*.el"))
+        '';
+      };
     };
     extraPackages = p:
       (with p; [
@@ -120,6 +141,8 @@ in {
         nano-theme
         kaolin-themes
         hledger-mode
+        lsp-bridge
+        aidermacs
       ]);
   };
   
