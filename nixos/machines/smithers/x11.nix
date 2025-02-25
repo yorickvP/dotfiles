@@ -40,8 +40,11 @@
   networking.interfaces.wlan0.useDHCP = false;
   networking.interfaces.wg-y.useDHCP = false;
   networking.interfaces.wg-dk.useDHCP = false;
-  networking.wireless.iwd.settings.General.EnableNetworkConfiguration = true;
-  networking.wireless.iwd.settings.Network.NameResolvingService = "resolvconf";
+  networking.wireless.iwd.settings = {
+    General.EnableNetworkConfiguration = true;
+    Network.NameResolvingService = "resolvconf";
+    Network.RoutePriorityOffset = 2000;
+  };
   zramSwap = {
     enable = true;
     memoryPercent = 30;
