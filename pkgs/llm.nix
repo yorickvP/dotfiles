@@ -8,8 +8,8 @@ let
     version = "0.22";
     pip.requirementsList = [
       "llm==0.22"
-      "llm-anthropic==0.14"
-      "llm-gemini==0.11"
+      "llm-anthropic==0.14.1"
+      "llm-gemini==0.12"
       "llm-cmd==0.2a0"
       "llm-jq==0.1.1"
       "llm-whisper-api==0.1.1"
