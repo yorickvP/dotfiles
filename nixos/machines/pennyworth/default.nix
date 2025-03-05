@@ -62,6 +62,11 @@
       "pub.yori.cc".locations."/muflax/".extraConfig = ''
         rewrite ^/muflax/(.*)$ https://alt.muflax.church/$1 permanent;
       '';
+      "recepten.yori.cc" = {
+        enableACME = true;
+        forceSSL = true;
+        locations."/".proxyPass = "http://127.0.0.1:8003";
+      };
     };
   };
 
