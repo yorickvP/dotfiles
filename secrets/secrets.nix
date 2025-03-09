@@ -45,4 +45,5 @@ builtins.mapAttrs (x: y: {
   "govee2mqtt.env.age" = [ frumar ];
   "frumar-disk-encryption.age" = [ frumar ];
   "transmission-rpc.age" = [ frumar ];
+  "rspamd-env.age" = [ pennyworth ];
 }
