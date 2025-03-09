@@ -9,7 +9,7 @@ let
     pip.requirementsList = [
       "llm==0.23"
       "llm-anthropic==0.15.1"
-      "llm-gemini==0.13.1"
+      "llm-gemini==0.14.1"
       "llm-cmd==0.2a0"
       "llm-jq==0.1.1"
       "llm-whisper-api==0.1.1"

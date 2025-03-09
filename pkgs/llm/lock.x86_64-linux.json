@@ -129,10 +129,10 @@
       },
       "llm-gemini": {
         "is_direct": false,
-        "sha256": "85b481b562a7f9337c7d89a49b033019afd9b20ac41e68ec4060d1a4d424a67a",
+        "sha256": "b7811dcbc7b97ab0ad2157fc3bd1681470c977d658f231afc7a238b86366a53b",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/ff/6f/1746c333e182c3c5f2d6a02a0f01a4d0e98888530258c4c1e1a05ecd1e41/llm_gemini-0.13.1-py3-none-any.whl",
-        "version": "0.13.1"
+        "url": "https://files.pythonhosted.org/packages/38/72/b92cf55828fa84ff46c6ed4dd8a3c091b654a16c25038cc617c7893566d5/llm_gemini-0.14.1-py3-none-any.whl",
+        "version": "0.14.1"
       },
       "llm-jq": {
         "is_direct": false,
@@ -150,10 +150,10 @@
       },
       "openai": {
         "is_direct": false,
-        "sha256": "a155fa5d60eccda516384d3d60d923e083909cc126f383fe4a350f79185c232a",
+        "sha256": "15566d46574b94eae3d18efc2f9a4ebd1366d1d44bfc1bdafeea7a5cf8271bcb",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/86/d5/b8378be0f4cf192992aa3080eb9ddcdca3109b399be61984424aaa79f847/openai-1.65.3-py3-none-any.whl",
-        "version": "1.65.3"
+        "url": "https://files.pythonhosted.org/packages/ba/db/7bab832be24631a793492c1c61ecbf029018b99696f435db3b63d690bf1c/openai-1.65.4-py3-none-any.whl",
+        "version": "1.65.4"
       },
       "pip": {
         "is_direct": false,
@@ -227,10 +227,10 @@
       },
       "setuptools": {
         "is_direct": false,
-        "sha256": "558e47c15f1811c1fa7adbd0096669bf76c1d3f433f58324df69f3f5ecac4e8f",
+        "sha256": "0a6f876d62f4d978ca1a11ab4daf728d1357731f978543ff18ecdbf9fd071f73",
         "type": "url",
-        "url": "https://files.pythonhosted.org/packages/a9/38/7d7362e031bd6dc121e5081d8cb6aa6f6fedf2b67bf889962134c6da4705/setuptools-75.8.2-py3-none-any.whl",
-        "version": "75.8.2"
+        "url": "https://files.pythonhosted.org/packages/8d/28/19ad82a0549d73ec6feffa6711eacf9246035a9426b8a8b528440c9959d2/setuptools-75.9.1-py3-none-any.whl",
+        "version": "75.9.1"
       },
       "six": {
         "is_direct": false,
@@ -426,5 +426,5 @@
       }
     }
   },
-  "invalidationHash": "780a3dbd750232bf5dbaca33910f093798a32c50e2e4491ac6e25d1d7db70236"
+  "invalidationHash": "f48cd818cacf3352e7d62160569256180900a24ca7e0bcd74fd9a23bfbf2be87"
 }
