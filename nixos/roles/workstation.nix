@@ -135,4 +135,11 @@
   #     MOUSE_WHEEL_CLICK_ANGLE_HORIZONTAL=26
   #     MOUSE_WHEEL_CLICK_COUNT_HORIZONTAL=14
   # '';
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      zlib libusb1
+    ];
+  };
+  services.envfs.enable = true;
 }
