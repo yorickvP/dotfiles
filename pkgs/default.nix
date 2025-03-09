@@ -126,18 +126,18 @@
       fetchSubmodules = true;
     };
   };
-  victorialogs = with self; stdenv.mkDerivation {
+  victorialogs = with self; stdenv.mkDerivation (rec {
     pname = "victorialogs";
-    version = "1.10.0";
+    version = "1.15.0";
 
     srcs = [
       (fetchurl {
-        url = "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.10.0-victorialogs/victoria-logs-linux-amd64-v1.10.0-victorialogs.tar.gz";
-        sha256 = "f0348f8233446efaef7ec924b5159fcaa3c91186857b25130cdeda11d1e70bc2";
+        url = "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v${version}-victorialogs/victoria-logs-linux-amd64-v${version}-victorialogs.tar.gz";
+        hash = "sha256-pz0WIgZvb4YB+NU82toauhFnrkSQyogyDRLOp/eMNG8=";
       })
       (fetchurl {
-        url = "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.10.0-victorialogs/vlogscli-linux-amd64-v1.10.0-victorialogs.tar.gz";
-        sha256 = "aa397460df2e130baf657984fed5e90f953fed2988494e8352fbc3dabb668774";
+        url = "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v${version}-victorialogs/vlogscli-linux-amd64-v${version}-victorialogs.tar.gz";
+        hash = "sha256-1pCulayo5RdjlAGaIkvXyxvaJ9QM3wdL6XfhKJpwV6k=";
       })
     ];
 
@@ -156,5 +156,5 @@
       license = licenses.asl20;
       platforms = platforms.linux;
     };
-  };
+  });
 })
