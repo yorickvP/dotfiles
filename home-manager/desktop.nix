@@ -273,6 +273,7 @@ in {
     # zoom-us
     bin.y-cal-widget
     obsidian
+    thunderbird
     #xwaylandvideobridge
     easyeffects
   ];
