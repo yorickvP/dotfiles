@@ -102,8 +102,9 @@
             flake-inputs = inputs;
             nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
             fooocus = inputs.fooocus.packages.${final.system}.default;
-            inherit (inputs.ghostty.packages.${final.system}) ghostty;
-
+            ghostty = inputs.ghostty.packages.${final.system}.ghostty.overrideAttrs (o: {
+              patches = (o.patches or []) ++ [ ./pkgs/ghostty-scroll.patch ];
+            });
           })
           (import ./nixos/overlay.nix)
         ];
