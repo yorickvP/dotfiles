@@ -116,7 +116,15 @@ function dedupe<A, B, Rest extends any[]>(fn: (xs: A[], ...rest: Rest) => Promis
 async function nixBuild(attr: string[]): Promise<BuildOutput[]> {
   const tmp = (await $`mktemp -d`).stdout.trim()
   process.on('exit', () => fs.removeSync(tmp))
-  const ret = JSON.parse((await $`nom build --json ${attr} -o ${tmp}/result`).stdout)
+  let ret
+  try {
+    ret = JSON.parse((await $`nom build --json ${attr} -o ${tmp}/result`).stdout)
+  } catch (e) {
+    if (e instanceof ProcessOutput) {
+      throw new Error(`process exited with code ${e.exitCode} by signal ${e.signal}`)
+    }
+    throw e
+  }
   if (Array.isArray(attr)) return ret
   return ret[0]
 }
