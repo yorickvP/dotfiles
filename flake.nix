@@ -23,7 +23,8 @@
     fooocus.url = "path:./pkgs/fooocus";
     dream2nix.url = "github:nix-community/dream2nix";
     dream2nix.inputs.nixpkgs.follows = "nixpkgs";
-    ghostty.url = "github:ghostty-org/ghostty";
+    # last version supporting old zig
+    ghostty.url = "github:ghostty-org/ghostty/95daca616db5c24d7bb37fd5a3ac2f8762bb4ead";
     ghostty.inputs.nixpkgs-stable.follows = "nixpkgs";
     ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
   };
@@ -41,13 +42,7 @@
             allowUnfree = true;
             # chromium.vaapiSupport = true;
             android_sdk.accept_license = true;
-            permittedInsecurePackages = [
-              # sonarr, https://github.com/NixOS/nixpkgs/issues/360592
-              "aspnetcore-runtime-6.0.36"
-              "aspnetcore-runtime-wrapped-6.0.36"
-              "dotnet-sdk-6.0.428"
-              "dotnet-sdk-wrapped-6.0.428"
-            ];
+            permittedInsecurePackages = [];
           };
           inherit system;
           overlays = [ self.overlays.default ];

@@ -3,7 +3,7 @@
 in {
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs29-pgtk;
+    package = pkgs.emacs30-pgtk;
     extraConfig = ''
       (setq copilot-node-executable "${pkgs.nodejs-slim-18_x}/bin/node")
       (setq lsp-nix-server-path "${pkgs.nil}/bin/nil")
