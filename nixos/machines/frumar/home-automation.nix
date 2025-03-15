@@ -24,6 +24,11 @@
     enable = true;
     environmentFile = config.age.secrets.govee2mqtt-env.path;
   };
+  systemd.services.govee2mqtt.serviceConfig = {
+    RestartSec = 2;
+    RestartSteps = 10;
+    RestartMaxDelaySec = 60;
+  };
   networking.firewall.allowedUDPPorts = [ 4002 ]; # govee2mqtt
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 8081 ];
   services.home-assistant = {
