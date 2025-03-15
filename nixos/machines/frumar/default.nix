@@ -141,7 +141,7 @@
     openFirewall = true;
     scanner_ip = "192.168.2.49";
   };
-  boot.zfs.requestEncryptionCredentials = false;
+  boot.zfs.requestEncryptionCredentials = [ "frumar-new/userdata" ];
   networking.firewall = {
     # grafana and prometheus via pennyworth, victorialogs on 9428
     interfaces.wg-y.allowedTCPPorts = [ 3000 9090 9428 ];
