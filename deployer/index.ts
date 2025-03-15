@@ -238,4 +238,10 @@ action.register("local", "status", async () => {
   await action.registry[`${os.hostname()}.status`]()
 })
 
+// restore the cursor on ctrl-c
+process.on("SIGINT", () => {
+  process.stdout.write('\u001B[?25h');
+  process.exit(130)
+})
+
 await action.run()
