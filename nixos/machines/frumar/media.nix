@@ -78,6 +78,7 @@ in
       BindReadOnlyPaths = ["/etc/netns/torrent/resolv.conf:/etc/resolv.conf:norbind" "/data/plexmedia/ca"];
       NetworkNamespacePath = "/run/netns/torrent";
       BindPaths = [ "/torrent/sockets" ];
+      StateDirectoryMode = "751";
     };
     unitConfig.RequiresMountsFor = [ "/data/plexmedia/ca" ];
     after = [ "wireguard-${vpnCfg.name}.service" ];
