@@ -42,21 +42,54 @@ std::string get_default_firefox_profile_path() {
     std::ifstream file(path);
     if (file.is_open()) {
         std::string line;
-        bool found = false;
-        std::string default_profile;
+        std::string profile_path;
+        bool is_relative = true;
+        bool in_profile_section = false;
+        bool found_default = false;
+
         while (std::getline(file, line)) {
-            if (line.find("[General]") == 0) {
-                found = true;
-            } else if (found && line.find("Default=") == 0) {
-                default_profile = line.substr(8);
-                break;
+            // Start of a Profile section
+            if (line.find("[Profile") == 0) {
+                // If we already found the default profile in a previous section, we're done
+                if (found_default) {
+                    break;
+                }
+
+                // Reset for new profile section
+                in_profile_section = true;
+                profile_path = "";
+                is_relative = true;
+            }
+            // Start of a non-Profile section
+            else if (line[0] == '[' && line.find("[Profile") != 0) {
+                in_profile_section = false;
+            }
+
+            // Only process these lines if we're in a Profile section
+            if (in_profile_section) {
+                // Path line
+                if (line.find("Path=") == 0) {
+                    profile_path = line.substr(5);
+                }
+                // IsRelative line
+                else if (line.find("IsRelative=") == 0) {
+                    is_relative = (line.substr(11) == "1");
+                }
+                // Default line - if this is the default profile, we've found what we need
+                else if (line.find("Default=1") == 0) {
+                    found_default = true;
+                }
             }
         }
+
         file.close();
-        if (!default_profile.empty()) {
-            std::stringstream ss;
-            ss << std::string(std::getenv("HOME")) << "/.mozilla/firefox/" << default_profile;
-            return ss.str();
+
+        // If we found the default profile, return its path
+        if (found_default && !profile_path.empty()) {
+            if (!is_relative) {
+                return profile_path;
+            }
+            return std::string(std::getenv("HOME")) + "/.mozilla/firefox/" + profile_path;
         }
     }
     return "";
