@@ -32,6 +32,10 @@
       };
     };
   };
+  systemd.services.atticd = {
+    after = [ "postgresql.service" ];
+    requires = [ "postgresql.service" ];
+  };
   systemd.tmpfiles.rules = with config.services.atticd; [
     "d /attic 0770 ${user} ${group}"
   ];
