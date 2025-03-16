@@ -103,7 +103,10 @@
             nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
             fooocus = inputs.fooocus.packages.${final.system}.default;
             ghostty = inputs.ghostty.packages.${final.system}.ghostty.overrideAttrs (o: {
-              patches = (o.patches or []) ++ [ ./pkgs/ghostty-scroll.patch ];
+              patches = (o.patches or []) ++ [
+                ./pkgs/ghostty-delimiter.patch
+                ./pkgs/ghostty-scroll.patch
+              ];
             });
           })
           (import ./nixos/overlay.nix)
