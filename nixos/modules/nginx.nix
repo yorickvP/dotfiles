@@ -14,6 +14,9 @@
         forceSSL = true;
         default = true;
       };
+      commonHttpConfig = ''
+        proxy_set_header X-Middleware-Subrequest "";
+      '';
     };
     networking.firewall.allowedTCPPorts = [ 80 443 ];
     system.activationScripts.nginxdhparams = ''
