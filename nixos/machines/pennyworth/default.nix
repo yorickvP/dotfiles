@@ -10,6 +10,7 @@
     ../../services/backup.nix
     ../../services/email.nix
     inputs.yobot.nixosModules.default
+    "${inputs.nixpkgs-unstable}/nixos/modules/services/web-apps/actual.nix"
   ];
 
   services.borgbackup.jobs.backup.paths = [ "/home" "/root" "/var/lib" ];
@@ -67,6 +68,18 @@
         forceSSL = true;
         locations."/".proxyPass = "http://127.0.0.1:8003";
       };
+
+      "actual.yori.cc" = {
+        enableACME = true;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://[::1]:8004";
+          #proxyWebsockets = true;
+          extraConfig = ''
+            client_max_body_size 64M;
+          '';
+        };
+      };
     };
   };
 
@@ -86,4 +99,13 @@
     configFile = config.age.secrets.yobot.path;
   };
   services.play-nijmegen-calendar.enable = true;
+  services.actual = {
+    enable = true;
+    settings = {
+      hostname = "::1";
+      port = 8004;
+      allowedLoginMethods = [ "password" ];
+      trustedProxies = ["::1"];
+    };
+  };
 }

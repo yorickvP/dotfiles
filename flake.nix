@@ -108,6 +108,7 @@
                 # ./pkgs/ghostty-scroll.patch
               ];
             });
+            inherit (inputs.nixpkgs-unstable.legacyPackages.${final.system}) actual-server;
           })
           (import ./nixos/overlay.nix)
         ];
