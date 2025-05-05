@@ -276,6 +276,7 @@ in {
     thunderbird
     #xwaylandvideobridge
     easyeffects
+    bitwarden-desktop
   ];
   xdg.configFile."alacritty/alacritty.toml" = {
     source = ../alacritty/alacritty.toml;
