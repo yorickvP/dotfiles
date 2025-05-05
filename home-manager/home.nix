@@ -27,16 +27,23 @@ in {
       userEmail = "yorick@yorickvanpelt.nl";
       signing.key = "A36E70F9DC014A15";
       signing.signByDefault = true;
-      extraConfig.merge.conflictStyle = "diff3";
-      extraConfig.help.autocorrect = 5;
-      extraConfig.push.default = "simple";
-      extraConfig.pull.ff = "only";
-      extraConfig.hub.protocol = "ssh";
-      extraConfig.github.user = "yorickvP";
+      extraConfig = {
+        merge.conflictStyle = "diff3";
+        help.autocorrect = 5;
+        push.default = "simple";
+        push.autoSetupRemote = true;
+        pull.ff = "only";
+        hub.protocol = "ssh";
+        github.user = "yorickvP";
+        init.defaultBranch = "main";
+        rebase.autoSquash = true;
+        branch.sort = "-committerdate";
+      };
       ignores = [
         "/.envrc"
         "/.cache"
         "/.direnv"
+        "/.aider.*"
       ];
       aliases = {
         lg =
