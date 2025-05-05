@@ -12,7 +12,7 @@
     };
     environment = {
       # Make sure we're using Borg >= 1.0
-      BORG_REMOTE_PATH = "borg1";
+      BORG_REMOTE_PATH = "borg14";
 
       # SSH key is specific to the subaccount defined in the repo username
       BORG_RSH = "ssh -i ${config.age.secrets.backup_ssh.path}";
