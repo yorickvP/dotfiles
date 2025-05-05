@@ -23,10 +23,10 @@
     fooocus.url = "path:./pkgs/fooocus";
     dream2nix.url = "github:nix-community/dream2nix";
     dream2nix.inputs.nixpkgs.follows = "nixpkgs";
-    # last version supporting old zig
-    ghostty.url = "github:ghostty-org/ghostty/95daca616db5c24d7bb37fd5a3ac2f8762bb4ead";
+    ghostty.url = "github:ghostty-org/ghostty";
     ghostty.inputs.nixpkgs-stable.follows = "nixpkgs";
-    ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
+    ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixos-hardware, agenix, flake-utils
@@ -105,7 +105,7 @@
             ghostty = inputs.ghostty.packages.${final.system}.ghostty.overrideAttrs (o: {
               patches = (o.patches or []) ++ [
                 ./pkgs/ghostty-delimiter.patch
-                ./pkgs/ghostty-scroll.patch
+                # ./pkgs/ghostty-scroll.patch
               ];
             });
           })
