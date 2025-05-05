@@ -278,7 +278,6 @@ in {
     vim
     xdg-utils
     countfftabs
-    datasette
     spacer
     #wlrctl
     asciiquarium-transparent
@@ -324,11 +323,8 @@ in {
     r8-cog
     mutagen
     zoom-us
-    llm
     google-cloud-sdk
     kubectl
-    uv
-    ruff
     oathToolkit
 
     # admin
@@ -348,4 +344,6 @@ in {
   };
   # enabled by fish, slow
   programs.man.generateCaches = false;
+  # uv
+  home.sessionPath = [ "$HOME/.local/bin" ];
 }
