@@ -240,7 +240,7 @@ in {
     hub
     python3
     silver-searcher
-    sqlite
+    sqlite-interactive
     noulith
 
     ## nix
