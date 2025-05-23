@@ -603,7 +603,10 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 #+BEGIN_SRC emacs-lisp
   (setq wl-copy-process nil)
   (defun wl-copy (text)
-    (setq wl-copy-process (let ((default-directory "~"))
+    (setq wl-copy-process (let (
+                                (default-directory "~")
+                                ;(process-environment (frame-parameter nil 'environment))
+                                )
                             (make-process :name "wl-copy"
                                           :buffer nil
                                           :command '("wl-copy" "-f" "-n")
@@ -614,7 +617,10 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
   (defun wl-paste ()
     (if (and wl-copy-process (process-live-p wl-copy-process))
         nil
-        (let ((default-directory "~"))
+        (let (
+              (default-directory "~")
+              ;(process-environment (frame-parameter nil 'environment))
+              )
           (shell-command-to-string "wl-paste -n | tr -d '\r'"))))
   (setq interprogram-cut-function 'wl-copy)
   (setq interprogram-paste-function 'wl-paste)
