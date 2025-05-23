@@ -105,7 +105,6 @@
             ghostty = inputs.ghostty.packages.${final.system}.ghostty.overrideAttrs (o: {
               patches = (o.patches or []) ++ [
                 ./pkgs/ghostty-delimiter.patch
-                # ./pkgs/ghostty-scroll.patch
               ];
             });
             inherit (inputs.nixpkgs-unstable.legacyPackages.${final.system}) actual-server;
