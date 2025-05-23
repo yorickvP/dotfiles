@@ -146,6 +146,10 @@ in {
           criteria.app_id = "ala-fzf";
           command = "floating enable";
         }
+        {
+          criteria.app_id = "Waydroid";
+          command = "floating enable";
+        }
         # {
         #   criteria.app_id = "emacs";
         #   command = "opacity 0.95";
@@ -277,6 +281,7 @@ in {
     #xwaylandvideobridge
     easyeffects
     bitwarden-desktop
+    soco-cli
   ];
   xdg.configFile."alacritty/alacritty.toml" = {
     source = ../alacritty/alacritty.toml;

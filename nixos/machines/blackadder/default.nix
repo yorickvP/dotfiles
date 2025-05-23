@@ -97,4 +97,5 @@ in
   };
   services.openssh.settings.StreamLocalBindUnlink = true;
   services.journald.upload.enable = true;
+  virtualisation.waydroid.enable = true;
 }
