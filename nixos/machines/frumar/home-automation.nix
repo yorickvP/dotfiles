@@ -54,6 +54,7 @@
       "homekit_controller"
       "tuya" "ffmpeg"
       "govee_light_local"
+      "sonos"
       #"unifiprotect"
     ];
     customComponents = [
