@@ -5,7 +5,7 @@ let
       TF_SHELL = shell;
       HOME = "/build";
     } "${pkgs.thefuck}/bin/thefuck -a > $out";
-  headphones = "88:C9:E8:AD:73:E8";
+  headphones = "80:99:E7:E4:01:78";
   emacsPackages = pkgs.emacsPackagesFor config.programs.emacs.package;
 in {
   imports = [ ./desktop.nix ./emacs.nix ./email.nix ];
