@@ -34,14 +34,7 @@ in
     };
   };
 
-  # lars user
-  nix.settings.trusted-users = [ "lars" ];
   users.users = {
-    lars = {
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = sshkeys.lars;
-    };
-
     judith = {
       isNormalUser = true;
       openssh.authorizedKeys.keys = sshkeys.judith;
