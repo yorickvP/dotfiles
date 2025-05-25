@@ -6,6 +6,7 @@ let
     desktop = "/home/yorick/wp/leonid5-high.webp fill";
     x11carbon = "/home/yorick/wp/lawn_forest_mountains_144578_3840x2400.jpg fill";
   };
+  headphones = "80:99:E7:E4:01:78";
 in {
   # TODO: waybar module from home-manager
   xdg.configFile."waybar/config" = {
@@ -59,7 +60,7 @@ in {
             "exec --no-startup-id bash /home/yorick/dotfiles/bin/invert.sh";
           #"${mod}+ctrl+l" = "exec --no-startup-id loginctl lock-session";
           "${mod}+ctrl+l" =
-            "exec --no-startup-id \"playerctl -a pause; (bluetoothctl disconnect 88:C9:E8:AD:73:E8 &) && sleep 1s && pkill -USR1 swayidle\"";
+            "exec --no-startup-id \"playerctl -a pause; (bluetoothctl disconnect ${headphones} &) && sleep 1s && pkill -USR1 swayidle\"";
           "--locked ${mod}+ctrl+u" = "output * dpms on";
           "${mod}+Return" = "exec bash /home/yorick/dotfiles/bin/new-ghostty.sh";
           "${mod}+Escape" = "workspace back_and_forth";
