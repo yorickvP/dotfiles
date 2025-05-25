@@ -281,6 +281,7 @@ in {
     spacer
     #wlrctl
     asciiquarium-transparent
+    wakeonlan
 
     ## coins
     electrum
@@ -317,6 +318,7 @@ in {
     # wine
     # winetricks
     kdePackages.kmines
+    gamescope
 
     # work
     timesync
@@ -326,6 +328,7 @@ in {
     google-cloud-sdk
     kubectl
     oathToolkit
+    mitmproxy
 
     # admin
     nsc
