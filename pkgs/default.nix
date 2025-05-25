@@ -84,7 +84,7 @@
     buildFeatures = [ "cli" "request" "crypto" ];
 
 
-    cargoHash = "sha256-N/BeeJIkbEccELqZhTFkHiaWJZgNiBazQLRqkqtPfJY=";
+    cargoHash = "sha256-9mGswL1QberwXpO0qj7NbyY5zozWj88dwCCY6kQ92uU";
     nativeBuildInputs = [ self.pkg-config ];
     buildInputs = [ self.openssl.dev ];
   };

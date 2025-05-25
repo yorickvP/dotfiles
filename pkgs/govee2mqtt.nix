@@ -9,7 +9,7 @@ rustPlatform.buildRustPackage rec {
     rev = "968b98a2efb7174ac34989b6383e5d21249e567f";
     hash = "sha256-U8cxmQoWlNtBvVwCSPAkPP2rJbWM2DVnN/CvPMU2wpQ=";
   };
-  cargoHash = "sha256-/iAK6Vp6tCW5W1fsA2S9TqGml2EvyBMMwovMt/oVDSo=";
+  cargoHash = "sha256-UuKqnBQ7BLUC06ZJvhq5r6LsF0H4zj4jvN5J2jx66BQ";
   cargoPatches = [ ./dont-vendor-openssl.patch ];
 
   nativeBuildInputs = [ pkg-config ];
