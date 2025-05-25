@@ -8,19 +8,14 @@ let
   };
   headphones = "80:99:E7:E4:01:78";
 in {
-  # TODO: waybar module from home-manager
-  xdg.configFile."waybar/config" = {
-    text =
-      builtins.toJSON (builtins.fromTOML (builtins.readFile ./waybar.toml));
-    onChange = "systemctl --user restart waybar";
-  };
   systemd.user.services.waybar.Service.Environment = [
-    "PATH=${lib.makeBinPath (with pkgs; [ pavucontrol xdg-utils bin.y-cal-widget playerctl bluez gnugrep bash systemd chromium ])}"
+    "PATH=${lib.makeBinPath (with pkgs; [ pavucontrol xdg-utils bin.y-cal-widget playerctl bluez gnugrep bash systemd chromium sway ])}"
   ];
   programs.waybar = {
     enable = true;
     style = ./waybar.css;
     systemd.enable = true;
+    settings.main = builtins.fromTOML (builtins.readFile ./waybar.toml);
   };
   services.mako = {
     enable = true;

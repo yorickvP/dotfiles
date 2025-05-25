@@ -29,7 +29,7 @@ spacing = 10
 
 [clock]
 format = "{:%a %d %b %H:%M}"
-on-click = "xdg-open https://calendar.google.com"
+on-click = "swaymsg exec \"xdg-open https://calendar.google.com\""
 
 [disk]
 format = "{free} "
