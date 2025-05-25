@@ -129,7 +129,6 @@
       static_configs = [{ targets = [ "localhost:9100" ]; }];
     }];
   };
-  services.prometheus.exporters.node.enable = true;
   services.yorick.paperless = {
     enable = true;
     openFirewall = true;
