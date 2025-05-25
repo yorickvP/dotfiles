@@ -24,7 +24,7 @@
   # };
   environment.systemPackages = [ pkgs.openrgb pkgs.egl-wayland ];
   services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
-  hardware.nvidia.open = false;
+  hardware.nvidia.open = false; # TODO
   hardware.nvidia.powerManagement.finegrained = true;
   hardware.nvidia.prime.offload.enable = true;
   hardware.nvidia.prime = {

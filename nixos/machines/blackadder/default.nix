@@ -50,7 +50,6 @@ in
   virtualisation.docker = {
     enable = true;
     storageDriver = "overlay2";
-    enableNvidia = true;
   };
   virtualisation.oci-containers.backend = "docker";
   hardware.nvidia-container-toolkit.enable = true;

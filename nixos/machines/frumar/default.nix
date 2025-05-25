@@ -118,7 +118,7 @@
   services.unifi = {
     enable = true;
     openFirewall = true;
-    unifiPackage = pkgs.unifi8;
+    unifiPackage = pkgs.unifi;
     mongodbPackage = pkgs.mongodb-6_0;
   };
   services.victoriametrics = {
@@ -321,11 +321,11 @@
   programs.fish.enable = true;
   services.victorialogs = {
     enable = true;
-    extraOptions = {
-      "journald.streamFields" = "_HOSTNAME,_SYSTEMD_SLICE,_SYSTEMD_UNIT,SYSLOG_IDENTIFIER";
-      "memory.allowedPercent" = "10";
-      "retentionPeriod" = "14d";
-      "retention.maxDiskSpaceUsageBytes" = "10GiB";
-    };
+    extraOptions = [
+      "journald.streamFields=_HOSTNAME,_SYSTEMD_SLICE,_SYSTEMD_UNIT,SYSLOG_IDENTIFIER"
+      "memory.allowedPercent=10"
+      "retentionPeriod=14d"
+      "retention.maxDiskSpaceUsageBytes=10GiB"
+    ];
   };
 }
