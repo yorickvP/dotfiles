@@ -39,8 +39,6 @@ in
     ffmpeg
   ];
   users.users.yorick.packages = with pkgs; [
-    pyrosimple # todo remove
-    rtorrent # todo remove
     yscripts.absorb
     ffmpeg
     pkgs.transmission_405
