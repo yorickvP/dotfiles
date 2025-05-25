@@ -1,7 +1,7 @@
 #!/usr/bin/env nix-shell
 #!nix-shell -p python3 -p gcalcli -p python3.pkgs.i3ipc -i python3
 #bin.y-cal-widget
-from gcalcli.gcal import GoogleCalendarInterface
+from gcalcli.gcal import GoogleCalendarInterface, PRINTER
 from datetime import datetime, timedelta
 from collections import namedtuple
 from gcalcli.cli import parse_cal_names
@@ -13,7 +13,7 @@ import i3ipc
 import html
 from pathlib import Path
 
-if not Path("~/.gcalcli_oauth").expanduser().exists():
+if not Path("~/.local/share/gcalcli/oauth").expanduser().exists():
     print(json.dumps({"text": "run gcalcli"}))
     sys.exit(0)
 
@@ -22,7 +22,7 @@ i3 = i3ipc.Connection()
 accounts = ["yorickvanpelt@gmail.com", "yorick@datakami.com"]
 
 gcal = GoogleCalendarInterface(
-    cal_names=parse_cal_names(accounts),
+    cal_names=parse_cal_names(accounts, printer=PRINTER),
     config_folder=None, refresh_cache=False,
     use_cache=True,
     ignore_started=False,
