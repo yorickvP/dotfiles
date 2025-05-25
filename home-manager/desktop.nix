@@ -24,14 +24,13 @@ in {
   };
   services.mako = {
     enable = true;
-    defaultTimeout = 60 * 1000; # ms
-    height = 200;
-    extraConfig = ''
-      [mode=do-not-disturb]
-      invisible=1
-    '';
+    settings = {
+      default-timeout = 60 * 1000; # ms
+      height = 200;
+      "mode=do-not-disturb".invisible = 1;
+    };
   };
-  services.gpg-agent.pinentryPackage = pkgs.pinentry.gnome3;
+  services.gpg-agent.pinentry.package = pkgs.pinentry.gnome3;
   wayland.windowManager.sway = {
     enable = true;
     checkConfig = false; # looks for wallpapers
@@ -244,9 +243,10 @@ in {
     enable = true;
     indicator = true;
   };
-  programs.obs-studio = {
-    enable = true;
-    plugins = [ pkgs.obs-studio-plugins.wlrobs ];
+  programs.obs-studio = rec {
+      enable = true;
+      plugins = [ (pkgs.obs-studio-plugins.wlrobs.override { obs-studio = package; }) ];
+      package = pkgs.obs-studio.override { browserSupport = false; };
   };
   # systemd.user.services.kdeconnect-indicator.Unit.After = [ "waybar.service" ];
   home.packages = with pkgs; [
@@ -281,7 +281,7 @@ in {
     thunderbird
     #xwaylandvideobridge
     easyeffects
-    bitwarden-desktop
+    # bitwarden-desktop
     soco-cli
   ];
   xdg.configFile."alacritty/alacritty.toml" = {

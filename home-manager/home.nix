@@ -178,7 +178,7 @@ in {
     github-cli
     lieer
     htop
-    kcachegrind
+    kdePackages.kcachegrind
     lm_sensors
     notmuch
     watchman
@@ -309,20 +309,20 @@ in {
     gnucash
 
     ## games
-    prismlauncher
+    # (prismlauncher.override { jdks = [ jdk21 ] })
     steam
     # minecraft
     # nottetris2
     # openttd
     # wine
     # winetricks
-    kmines
+    kdePackages.kmines
 
     # work
     timesync
     r8-cog
     mutagen
-    zoom-us
+    # zoom-us
     google-cloud-sdk
     kubectl
     oathToolkit

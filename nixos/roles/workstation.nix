@@ -77,13 +77,9 @@
       source-code-pro
       ubuntu_font_family # Ubuntu fonts
       source-han-sans
-      (nerdfonts.override {
-        fonts = [
-          "DejaVuSansMono"
-          "Noto"
-          "NerdFontsSymbolsOnly"
-        ];
-      })
+      nerd-fonts.dejavu-sans-mono
+      nerd-fonts.noto
+      nerd-fonts.symbols-only
       iosevka
       emojione
       font-awesome

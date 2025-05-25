@@ -5,10 +5,11 @@ in {
     enable = true;
     package = pkgs.emacs30-pgtk;
     extraConfig = ''
-      (setq copilot-node-executable "${pkgs.nodejs-slim-18_x}/bin/node")
+      (setq copilot-node-executable "${pkgs.nodejs-slim_20}/bin/node")
       (setq lsp-nix-server-path "${pkgs.nil}/bin/nil")
     '';
     overrides = final: prev: {
+      # TODO: update
       copilot = final.melpaBuild rec {
           pname = "copilot";
           version = "20231220";
@@ -112,7 +113,6 @@ in {
         vertico
         vue-mode
         vundo
-        weechat
         which-key
         marginalia
         kind-icon
