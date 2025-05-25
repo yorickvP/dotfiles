@@ -22,37 +22,20 @@
 
   networking.hostName = "kirei"; # Define your hostname.
 
-  age.secrets = {
-    kirei-mail-pass.file = ../../../secrets/kirei-mail-pass.age;
-  };
+  age.secrets.msmtp-mail-pass.file = ../../../secrets/kirei-mail-pass.age;
 
   services.zfs.autoScrub = {
     enable = true;
     interval = "*-*-01 02:00:00"; # monthly + 2 hours
   };
-  programs.msmtp = {
-    enable = true;
-    accounts.default = {
-      auth = true;
-      tls = true;
-      from = "kirei@yori.cc";
-      host = "pennyworth.yori.cc";
-      user = "kirei@yori.cc";
-      passwordeval = "${pkgs.coreutils}/bin/cat ${config.age.secrets.kirei-mail-pass.path}";
-    };
-  };
+  programs.msmtp.enable = true;
   services.smartd = {
     enable = true;
-    notifications.mail = {
-      enable = true;
-      sender = "kirei@yori.cc";
-      recipient = "yorickvanpelt@gmail.com";
-    };
+    notifications.mail.enable = true;
   };
   services.zfs.zed = {
     enableMail = true;
     settings = {
-      ZED_EMAIL_ADDR = [ "yorickvanpelt@gmail.com" ];
       ZED_NOTIFY_INTERVAL_SECS = 3600;
       ZED_NOTIFY_VERBOSE = true;
       ZED_SCRUB_AFTER_RESILVER = true;

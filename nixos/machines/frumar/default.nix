@@ -159,7 +159,7 @@
     };
   };
   age.secrets = {
-    frumar-mail-pass.file = ../../../secrets/frumar-mail-pass.age;
+    msmtp-mail-pass.file = ../../../secrets/frumar-mail-pass.age;
     grafana.file = ../../../secrets/grafana.env.age;
     oauth2-proxy.file = ../../../secrets/oauth2-proxy.age;
     zigbee2mqtt.file = ../../../secrets/zigbee2mqtt.env.age;
@@ -174,11 +174,6 @@
   };
   services.znapzend = {
     enable = true;
-    pure = true;
-    features = {
-      zfsGetType = true;
-      sendRaw = true;
-    };
     zetup = {
       "frumar-new/userdata" = {
         plan = "1w=>6h,1m=>1w,1y=>1m,2y=>6m,50y=>1y";
@@ -209,29 +204,14 @@
     jq
     unzip
   ];
-  programs.msmtp = {
-    enable = true;
-    accounts.default = {
-      auth = true;
-      tls = true;
-      from = "frumar@yori.cc";
-      host = "pennyworth.yori.cc";
-      user = "frumar@yori.cc";
-      passwordeval = "${pkgs.coreutils}/bin/cat ${config.age.secrets.frumar-mail-pass.path}";
-    };
-  };
+  programs.msmtp.enable = true;
   services.smartd = {
     enable = true;
-    notifications.mail = {
-      enable = true;
-      sender = "frumar@yori.cc";
-      recipient = "yorickvanpelt@gmail.com";
-    };
+    notifications.mail.enable = true;
   };
   services.zfs.zed = {
     enableMail = true;
     settings = {
-      ZED_EMAIL_ADDR = [ "yorickvanpelt@gmail.com" ];
       ZED_NOTIFY_INTERVAL_SECS = 3600;
       ZED_NOTIFY_VERBOSE = true;
       ZED_SCRUB_AFTER_RESILVER = true;

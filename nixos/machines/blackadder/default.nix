@@ -9,11 +9,6 @@ in
   # backups
   services.znapzend = {
     enable = true;
-    pure = true;
-    features = {
-      zfsGetType = true;
-      sendRaw = true;
-    };
     zetup = {
       "rpool/home-enc" = {
         plan = "1d=>1h,1m=>1w";
@@ -67,6 +62,7 @@ in
     wantedBy = [ "graphical-session.target" ];
   };
   services.dbus.packages = [ pkgs.mdrd ];
+  # fooocus
   services.fooocus = {
     enable = true;
     listen = "0.0.0.0";
@@ -87,6 +83,7 @@ in
   age.secrets."wg.dk.archbox.conf" = {
     file = ../../../secrets/wg.dk.archbox.conf.age;
   };
+  # allow gpg agent forwarding
   services.openssh.settings.StreamLocalBindUnlink = true;
   services.journald.upload.enable = true;
   virtualisation.waydroid.enable = true;

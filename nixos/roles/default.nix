@@ -169,4 +169,26 @@ in {
     URL = "http://frumar.vpn.yori.cc:9428/insert/journald";
     NetworkTimeoutSec = "5min";
   };
+  programs.msmtp.accounts.default = {
+    auth = true;
+    tls = true;
+    from = "${name}@yori.cc";
+    host = "pennyworth.yori.cc";
+    user = "${name}@yori.cc";
+    passwordeval = "${pkgs.coreutils}/bin/cat ${config.age.secrets.msmtp-mail-pass.path}";
+  };
+  services.smartd.notifications.mail = {
+    sender = "${name}@yori.cc";
+    recipient = "yorickvanpelt@gmail.com";
+  };
+  services.zfs.zed.settings = {
+    ZED_EMAIL_ADDR = [ "yorickvanpelt@gmail.com" ];
+  };
+  services.znapzend = {
+    pure = true;
+    features = {
+      zfsGetType = true;
+      sendRaw = true;
+    };
+  };
 }
