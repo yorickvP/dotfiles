@@ -11,7 +11,7 @@ in
   };
   users.groups.torrent = {};
   systemd.tmpfiles.rules = [
-    "d /torrent 770 torrent torrent"
+    "d /torrent 771 torrent torrent"
   ];
   users.users.yorick.extraGroups = [ "torrent" ];
 

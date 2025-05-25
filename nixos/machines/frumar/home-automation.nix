@@ -7,12 +7,19 @@
       proxyWebsockets = true;
     };
   };
+  systemd.services.home-assistant = {
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+  };
   services.zigbee2mqtt = {
     enable = true;
     settings = {
       availability = true;
       device_options.legacy = false;
-      serial.port = "/dev/ttyUSB0";
+      serial = {
+        port = "/dev/ttyUSB0";
+        adapter = "zstack";
+      };
       frontend = {
         port = 8081;
         url = "http://frumar.vpn.yori.cc:8081";
@@ -24,10 +31,14 @@
     enable = true;
     environmentFile = config.age.secrets.govee2mqtt-env.path;
   };
-  systemd.services.govee2mqtt.serviceConfig = {
-    RestartSec = 2;
-    RestartSteps = 10;
-    RestartMaxDelaySec = 60;
+  systemd.services.govee2mqtt = {
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    serviceConfig = {
+      RestartSec = 2;
+      RestartSteps = 10;
+      RestartMaxDelaySec = 60;
+    };
   };
   networking.firewall.allowedUDPPorts = [ 4002 ]; # govee2mqtt
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 8081 ];
@@ -57,30 +68,11 @@
       "sonos"
       #"unifiprotect"
     ];
-    customComponents = [
-      (pkgs.buildHomeAssistantComponent rec {
-        owner = "georgezhao2010";
-        domain = "midea_ac_lan";
-        version = "0.3.22";
-        src = pkgs.fetchFromGitHub {
-          inherit owner;
-          repo = domain;
-          rev = "v${version}";
-          hash = "sha256-xTnbA4GztHOE61QObEJbzUSdbuSrhbcJ280DUDdM+n4=";
-        };
-      })
-      (pkgs.buildHomeAssistantComponent rec {
-        owner = "rospogrigio";
-        domain = "localtuya";
-        version = "5.2.1";
-        src = pkgs.fetchFromGitHub {
-          owner = "rospogrigio";
-          repo = "localtuya";
-          rev = "v${version}";
-          hash = "sha256-hA/1FxH0wfM0jz9VqGCT95rXlrWjxV5oIkSiBf0G0ac=";
-        };
-      })
+    customComponents = with pkgs.home-assistant-custom-components; [
+      midea_ac_lan
+      # localtuya
       # todo: adaptive-lighting?
+      # sleep_as_android
     ];
     config = {
       mobile_app = {};
