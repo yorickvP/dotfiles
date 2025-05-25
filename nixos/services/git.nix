@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 
 let
   cfg = config.services.yorick.git;
@@ -7,6 +7,16 @@ in {
   options.services.yorick.git = with lib; {
     enable = mkEnableOption "git";
     vhost = mkOption { type = types.str; };
+    nginx = mkOption {
+      type = types.submodule (recursiveUpdate (import
+        (modulesPath + "/services/web-servers/nginx/vhost-options.nix") {
+          inherit config lib;
+        }) { });
+      default = { };
+      description = ''
+        With this option, you can customize the nginx virtualHost settings.
+      '';
+    };
   };
   config = lib.mkIf cfg.enable {
     users.extraUsers.git = {
@@ -45,17 +55,18 @@ in {
         };
       };
     };
-    services.nginx.virtualHosts.${vhost} = {
-      forceSSL = true;
-      enableACME = true;
-      locations."/" = {
-        proxyPass =
-          "http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}";
-        extraConfig = ''
-          proxy_buffering off;
-        '';
-      };
-    };
+    services.nginx.virtualHosts.${vhost} = lib.mkMerge [
+      cfg.nginx
+      {
+        locations."/" = {
+          proxyPass =
+            "http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}";
+          extraConfig = ''
+            proxy_buffering off;
+          '';
+        };
+      }
+    ];
 
     services.borgbackup.jobs.backup.exclude = let
       sd = config.services.forgejo.stateDir;

@@ -159,11 +159,6 @@
     };
   };
   age.secrets = {
-    acme-transip-key = {
-      file = ../../../secrets/transip-key.age;
-      mode = "770";
-      group = "acme";
-    };
     frumar-mail-pass.file = ../../../secrets/frumar-mail-pass.age;
     grafana.file = ../../../secrets/grafana.env.age;
     oauth2-proxy.file = ../../../secrets/oauth2-proxy.age;
@@ -214,16 +209,6 @@
     jq
     unzip
   ];
-  security.acme.certs."wildcard.yori.cc" = {
-    domain = "*.yori.cc";
-    dnsProvider = "transip";
-    reloadServices = [ "nginx.service" ];
-  };
-  users.users.nginx.extraGroups = [ "acme" ];
-  systemd.services."acme-wildcard.yori.cc".environment = {
-    TRANSIP_ACCOUNT_NAME = "yorickvp";
-    TRANSIP_PRIVATE_KEY_PATH = config.age.secrets.acme-transip-key.path;
-  };
   programs.msmtp = {
     enable = true;
     accounts.default = {
@@ -312,6 +297,7 @@
     enable = true;
     secretFile = config.age.secrets.marvin-tracker.path;
   };
+  services.yorick.cert."wildcard.yori.cc".enable = true;
   programs.fish.enable = true;
   services.victorialogs = {
     enable = true;

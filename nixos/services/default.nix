@@ -7,5 +7,6 @@
     ./vpn-host.nix
     ./website.nix
     ./torrent-wg.nix
+    ./wildcard-yori-cc.nix
   ];
 }

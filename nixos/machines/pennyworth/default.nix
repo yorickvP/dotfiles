@@ -1,6 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
+let
+  withSSL = x: {
+    forceSSL = true;
+    useACMEHost = "wildcard.yori.cc";
+  } // x;
+in
 
 { config, pkgs, lib, inputs, ... }: {
   imports = [
@@ -16,17 +22,24 @@
   system.stateVersion = "19.03";
 
   services.yorick = {
+    cert."wildcard.yori.cc".enable = true;
     public = {
       enable = true;
       vhost = "pub.yori.cc";
+      nginx = withSSL {};
     };
     website = {
       enable = true;
       vhost = "yorickvanpelt.nl";
+      nginx = {
+        enableACME = true;
+        forceSSL = true;
+      };
     };
     git = {
       enable = true;
       vhost = "git.yori.cc";
+      nginx = withSSL {};
     };
     muflax-church = {
       enable = true;
@@ -35,6 +48,7 @@
     calibre-web = {
       enable = true;
       vhost = "calibre.yori.cc";
+      nginx = withSSL {};
     };
     vpn-host.enable = true;
   };
@@ -52,9 +66,7 @@
     enable = true;
     commonHttpConfig = "access_log off;";
     virtualHosts = {
-      "yori.cc" = {
-        enableACME = true;
-        forceSSL = true;
+      "yori.cc" = withSSL {
         globalRedirect = "yorickvanpelt.nl";
       };
       "yorickvanpelt.nl".locations."/p1".return =
@@ -62,15 +74,11 @@
       "pub.yori.cc".locations."/muflax/".extraConfig = ''
         rewrite ^/muflax/(.*)$ https://alt.muflax.church/$1 permanent;
       '';
-      "recepten.yori.cc" = {
-        enableACME = true;
-        forceSSL = true;
+      "recepten.yori.cc" = withSSL {
         locations."/".proxyPass = "http://127.0.0.1:8003";
       };
 
-      "actual.yori.cc" = {
-        enableACME = true;
-        forceSSL = true;
+      "actual.yori.cc" = withSSL {
         locations."/" = {
           proxyPass = "http://[::1]:8004";
           #proxyWebsockets = true;
@@ -107,4 +115,5 @@
       trustedProxies = ["::1"];
     };
   };
+  security.acme.certs."wildcard.yori.cc".extraDomainNames = [ "yori.cc" ];
 }

@@ -25,7 +25,7 @@ builtins.mapAttrs (x: y: {
   "pennyworth_borg_ssh.age" = [ pennyworth ];
   "frumar_borg_ssh.age" = [ frumar ];
   "frumar_borg_repo.age" = [ frumar ];
-  "transip-key.age" = [ frumar ];
+  "transip-key.age" = [ frumar pennyworth ];
   "yorick-mail-pass.age" = [ pennyworth ];
   "yorick-user-pass.age" = [ blackadder pennyworth frumar smithers jarvis kirei ];
   "root-user-pass.age" = [ blackadder pennyworth frumar smithers jarvis ];
