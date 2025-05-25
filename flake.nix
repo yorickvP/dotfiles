@@ -26,7 +26,8 @@
     ghostty.url = "github:ghostty-org/ghostty";
     ghostty.inputs.nixpkgs-stable.follows = "nixpkgs";
     ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs-unstable";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.follows = "nixpkgs";
+    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixos-hardware, agenix, flake-utils
