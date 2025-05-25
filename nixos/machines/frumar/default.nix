@@ -40,7 +40,7 @@
         '';
       };
       "grafana.yori.cc" = sslForward "http://127.0.0.1:3000" {};
-      "prometheus.yori.cc" = sslForward "http://127.0.0.1:9090" {
+      "prometheus.yori.cc" = sslForward "http://127.0.0.1:8428" {
         # only over VPN
         listen = [ { addr = "10.209.0.3"; port = 443; ssl = true; } ];
       };
@@ -124,18 +124,12 @@
   services.victoriametrics = {
     enable = true;
     retentionPeriod = "1y";
-  };
-  services.prometheus = {
-    enable = true;
-    extraFlags = [ "--web.enable-admin-api" ];
-    # victoriametrics
-    remoteWrite = [{ url = "http://127.0.0.1:8428/api/v1/write"; }];
-    scrapeConfigs = [{
+    prometheusConfig.scrape_configs = [{
       job_name = "node";
       static_configs = [{ targets = [ "localhost:9100" ]; }];
     }];
-    exporters.node.enable = true;
   };
+  services.prometheus.exporters.node.enable = true;
   services.yorick.paperless = {
     enable = true;
     openFirewall = true;
@@ -143,8 +137,8 @@
   };
   boot.zfs.requestEncryptionCredentials = [ "frumar-new/userdata" ];
   networking.firewall = {
-    # grafana and prometheus via pennyworth, victorialogs on 9428
-    interfaces.wg-y.allowedTCPPorts = [ 3000 9090 9428 ];
+    # grafana, victoriametrics, victorialogs
+    interfaces.wg-y.allowedTCPPorts = [ 3000 8428 9428 ];
     # mqtt, nats
     allowedTCPPorts = [ 1883 4222 ];
     # mqtt
