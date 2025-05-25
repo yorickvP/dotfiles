@@ -13,7 +13,6 @@ in {
     ../modules/play-nijmegen-calendar.nix
     ../modules/selfsigned.nix
     ../modules/tor-hidden-service.nix
-    ../modules/victorialogs.nix
     ../modules/wg-restarter.nix
     ../services
   ];

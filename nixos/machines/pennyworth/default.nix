@@ -10,7 +10,6 @@
     ../../services/backup.nix
     ../../services/email.nix
     inputs.yobot.nixosModules.default
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/web-apps/actual.nix"
   ];
 
   services.borgbackup.jobs.backup.paths = [ "/home" "/root" "/var/lib" ];
