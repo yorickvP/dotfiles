@@ -1,14 +1,14 @@
 {
   description = "Yoricks dotfiles";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-mozilla.url = "github:mozilla/nixpkgs-mozilla";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-24.11";
+    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-25.05";
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-mailserver.inputs.nixpkgs-24_11.follows = "nixpkgs";
+    nixos-mailserver.inputs.nixpkgs-25_05.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     nix-index-database.url = "github:Mic92/nix-index-database";
