@@ -124,10 +124,24 @@
   services.victoriametrics = {
     enable = true;
     retentionPeriod = "1y";
-    prometheusConfig.scrape_configs = [{
-      job_name = "node";
-      static_configs = [{ targets = [ "localhost:9100" ]; }];
-    }];
+    prometheusConfig.scrape_configs = [
+      {
+        job_name = "node";
+        static_configs = [{ targets = [
+          "localhost:9100"
+          "pennyworth.vpn.yori.cc:9100"
+          "blackadder.vpn.yori.cc:9100"
+        ]; }];
+      }
+      {
+        job_name = "victoriametrics";
+        static_configs = [{ targets = [ "http://localhost:8428/metrics" ]; }];
+      }
+      {
+        job_name = "victorialogs";
+        static_configs = [{ targets = [ "http://localhost:9428/metrics" ]; }];
+      }
+    ];
   };
   services.yorick.paperless = {
     enable = true;
