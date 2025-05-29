@@ -5,55 +5,32 @@ in {
     enable = true;
     package = pkgs.emacs30-pgtk;
     extraConfig = ''
-      (setq copilot-node-executable "${pkgs.nodejs-slim_20}/bin/node")
       (setq lsp-nix-server-path "${pkgs.nil}/bin/nil")
     '';
     overrides = final: prev: {
-      # TODO: update
       copilot = final.melpaBuild rec {
           pname = "copilot";
-          version = "20231220";
-          commit = "d4fa14cea818e041b4a536c5052cf6d28c7223d7";
+          version = "20250506";
+          commit = "fe3f51b636dea1c9ac55a0d5dc5d7df02dcbaa48";
 
           src = pkgs.fetchFromGitHub {
-            owner = "zerolfx";
+            owner = "copilot-emacs";
             repo = "copilot.el";
             rev = commit;
-            hash = "sha256-Tzs0Dawqa+OD0RSsf66ORbH6MdBp7BMXX7z+5UuNwq4=";
+            hash = "sha256-reoIFMjx2Go/EPAxD+OQFxge/amqguZS+jteh0b9xgA";
           };
 
-          packageRequires = with final; [ dash editorconfig s ];
+          packageRequires = with final; [ editorconfig f ];
 
           recipe = pkgs.writeText "recipe" ''
             (copilot
-            :repo "zerolfx/copilot.el"
+            :repo "copilot-emacs/copilot.el"
             :fetcher github
             :files ("dist" "*.el"))
           '';
 
           meta.description = "Emacs plugin for GitHub Copilot";
         };
-      aidermacs = final.melpaBuild rec {
-        pname = "aidermacs";
-        version = "20250221";
-        commit = "e06f47cea7670d8ffff0a4b9968796a00bbeb56f";
-
-        src = pkgs.fetchFromGitHub {
-          owner = "MatthewZMD";
-          repo = pname;
-          rev = commit;
-          hash = "sha256-cmY7OaNgp+fEwgVpuslFENv2A02OaPnDzr7kNmVLT8o=";
-        };
-        postPatch = "rm aidermacs-helm.el";
-        packageRequires = with final; [ transient vterm ];
-
-        recipe = pkgs.writeText "recipe" ''
-          (aidermacs
-          :repo "MatthewZMD/aidermacs"
-          :fetcher github
-          :files ("*.el"))
-        '';
-      };
     };
     extraPackages = p:
       (with p; [
