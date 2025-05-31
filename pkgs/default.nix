@@ -55,10 +55,10 @@
   # };
   r8-cog = self.stdenvNoCC.mkDerivation rec {
     pname = "cog";
-    version = "0.12.0";
+    version = "0.15.1";
     src = self.fetchurl {
       url = "https://github.com/replicate/cog/releases/download/v${version}/cog_linux_x86_64";
-      hash = "sha256-Hi+eIlqIK8oGtf4fxR9H0y8qqsAzQ6Lq5HF/Mb0mD4M=";
+      hash = "sha256-OUhiMVsFpL2fTK8QFYvIdCzlL6Q5zppTVUWeryJArwM";
     };
     dontUnpack = true;
     installPhase = ''
