@@ -4,3 +4,5 @@ result
 /emacs/emacs.el
 .direnv
 /pkgs/marvin-tracker/node_modules
+__pycache__
+*.egg-info
