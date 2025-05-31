@@ -1,8 +1,14 @@
-{ lib, pkgs, options, config, ... }:
+{
+  lib,
+  pkgs,
+  options,
+  config,
+  ...
+}:
 {
 
-  imports = [./accounts-email.nix];
-  disabledModules = ["accounts/email.nix"];
+  imports = [ ./accounts-email.nix ];
+  disabledModules = [ "accounts/email.nix" ];
   config = {
     programs.neomutt = {
       enable = true;
@@ -18,16 +24,28 @@
         implicit_autoview = "no";
       };
       binds = [
-        { map = [ "index" ]; key = "G"; action = "imap-fetch-mail"; }
-        { map = [ "pager" ]; key = "<up>"; action = "previous-line"; }
-        { map = [ "pager" ]; key = "<down>"; action = "next-line"; }
+        {
+          map = [ "index" ];
+          key = "G";
+          action = "imap-fetch-mail";
+        }
+        {
+          map = [ "pager" ];
+          key = "<up>";
+          action = "previous-line";
+        }
+        {
+          map = [ "pager" ];
+          key = "<down>";
+          action = "next-line";
+        }
       ];
-      
+
       extraConfig = "source ${./mutt-colors}";
     };
     xdg.configFile."neomutt/neomuttrc".text = lib.mkBefore ''
-        set imap_user = "yorick@yori.cc"
-        set imap_pass = "`pass sysadmin/yori.ccMail | head -n1`"
+      set imap_user = "yorick@yori.cc"
+      set imap_pass = "`pass sysadmin/yori.ccMail | head -n1`"
     '';
     accounts.email.accounts = {
       yori-cc = rec {
@@ -40,7 +58,12 @@
         smtp.host = "pennyworth.yori.cc";
         gpg.key = "6EFD1053ADB6ABF50DF64792A36E70F9DC014A15";
         neomutt.enable = true;
-        neomutt.extraMailboxes = [ "Archive" "Sent" "Spam" "Trash" ];
+        neomutt.extraMailboxes = [
+          "Archive"
+          "Sent"
+          "Spam"
+          "Trash"
+        ];
         neomutt.extraConfig = ''
           set pgp_sign_as = "${gpg.key}"
         '';
@@ -53,4 +76,3 @@
     };
   };
 }
-

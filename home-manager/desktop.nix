@@ -1,4 +1,9 @@
-{ lib, pkgs, options, ... }:
+{
+  lib,
+  pkgs,
+  options,
+  ...
+}:
 let
   bin = pkgs.callPackage ../bin { };
   bg = {
@@ -7,9 +12,26 @@ let
     x11carbon = "/home/yorick/wp/lawn_forest_mountains_144578_3840x2400.jpg fill";
   };
   headphones = "80:99:E7:E4:01:78";
-in {
+in
+{
   systemd.user.services.waybar.Service.Environment = [
-    "PATH=${lib.makeBinPath (with pkgs; [ pavucontrol xdg-utils bin.y-cal-widget playerctl bluez gnugrep bash systemd chromium sway ])}"
+    "PATH=${
+      lib.makeBinPath (
+        with pkgs;
+        [
+          pavucontrol
+          xdg-utils
+          bin.y-cal-widget
+          playerctl
+          bluez
+          gnugrep
+          bash
+          systemd
+          chromium
+          sway
+        ]
+      )
+    }"
   ];
   programs.waybar = {
     enable = true;
@@ -39,54 +61,56 @@ in {
       window.border = 2;
       floating.modifier = "Mod4";
       focus.newWindow = "urgent";
-      keybindings = with pkgs;
-        (builtins.head (builtins.head
-          options.wayland.windowManager.sway.config.type.getSubModules).imports).options.keybindings.default
-        // (let
-          exec = pkg: cmd: "exec --no-startup-id ${pkg}/bin/${cmd}";
-          mod = "Mod4";
-        in {
-          "${mod}+Shift+c" = "kill";
-          "${mod}+j" = "focus left";
-          "${mod}+k" = "focus right";
-          "${mod}+d" = "layout toggle split";
-          "${mod}+i" =
-            "exec --no-startup-id bash /home/yorick/dotfiles/bin/invert.sh";
-          #"${mod}+ctrl+l" = "exec --no-startup-id loginctl lock-session";
-          "${mod}+ctrl+l" =
-            "exec --no-startup-id \"playerctl -a pause; (bluetoothctl disconnect ${headphones} &) && sleep 1s && pkill -USR1 swayidle\"";
-          "--locked ${mod}+ctrl+u" = "output * dpms on";
-          "${mod}+Return" = "exec bash /home/yorick/dotfiles/bin/new-ghostty.sh";
-          "${mod}+Escape" = "workspace back_and_forth";
-          "${mod}+0" = "workspace 10";
-          "${mod}+Shift+0" = "move container to workspace 10";
-          "${mod}+Shift+Left" = "move left";
-          "${mod}+Shift+Right" = "move right";
-          "${mod}+Shift+Up" = "move up";
-          "${mod}+Shift+Down" = "move down";
-          "${mod}+Ctrl+Right" = "move workspace to output right";
-          "${mod}+Ctrl+Left" = "move workspace to output left";
-          "${mod}+Ctrl+Up" = "move workspace to output up";
-          "${mod}+Ctrl+Down" = "move workspace to output down";
+      keybindings =
+        with pkgs;
+        (builtins.head (builtins.head options.wayland.windowManager.sway.config.type.getSubModules).imports)
+        .options.keybindings.default
+        // (
+          let
+            exec = pkg: cmd: "exec --no-startup-id ${pkg}/bin/${cmd}";
+            mod = "Mod4";
+          in
+          {
+            "${mod}+Shift+c" = "kill";
+            "${mod}+j" = "focus left";
+            "${mod}+k" = "focus right";
+            "${mod}+d" = "layout toggle split";
+            "${mod}+i" = "exec --no-startup-id bash /home/yorick/dotfiles/bin/invert.sh";
+            #"${mod}+ctrl+l" = "exec --no-startup-id loginctl lock-session";
+            "${mod}+ctrl+l" =
+              "exec --no-startup-id \"playerctl -a pause; (bluetoothctl disconnect ${headphones} &) && sleep 1s && pkill -USR1 swayidle\"";
+            "--locked ${mod}+ctrl+u" = "output * dpms on";
+            "${mod}+Return" = "exec bash /home/yorick/dotfiles/bin/new-ghostty.sh";
+            "${mod}+Escape" = "workspace back_and_forth";
+            "${mod}+0" = "workspace 10";
+            "${mod}+Shift+0" = "move container to workspace 10";
+            "${mod}+Shift+Left" = "move left";
+            "${mod}+Shift+Right" = "move right";
+            "${mod}+Shift+Up" = "move up";
+            "${mod}+Shift+Down" = "move down";
+            "${mod}+Ctrl+Right" = "move workspace to output right";
+            "${mod}+Ctrl+Left" = "move workspace to output left";
+            "${mod}+Ctrl+Up" = "move workspace to output up";
+            "${mod}+Ctrl+Down" = "move workspace to output down";
 
-          "XF86MonBrightnessUp" = exec light "light -T 1.1";
-          "XF86MonBrightnessDown" = exec light "light -T 0.9";
-          "ctrl+XF86MonBrightnessUp" = exec light "light -A 1";
-          "ctrl+XF86MonBrightnessDown" = exec light "light -U 1";
-          "XF86AudioLowerVolume" = exec alsa-utils "amixer set Master 1%-";
-          "XF86AudioRaiseVolume" = exec alsa-utils "amixer set Master 1%+";
-          "XF86AudioMute" = exec alsa-utils "amixer set Master toggle";
-          "XF86AudioPause" = "exec playerctl pause";
-          "XF86AudioPlay" = "exec playerctl play";
-          "${mod}+Shift+s" = exec bin.screenshot_public "screenshot_public";
-          "${mod}+Ctrl+Shift+s" = exec pkgs.sway-contrib.grimshot "grimshot --notify copy anything";
-          "Print" = exec bin.screenshot_public "screenshot_public";
-          "${mod}+Shift+t" =
-            "exec --no-startup-id /home/yorick/dotfiles/bin/toggle_solarized.sh";
-          "${mod}+p" = "exec /home/yorick/dotfiles/bin/ala-fzf-pass.sh";
-          #"${mod}+p" = exec rofi-pass "rofi-pass";
-          "${mod}+e" = exec pkgs.wldash "wldash start-or-kill";
-        });
+            "XF86MonBrightnessUp" = exec light "light -T 1.1";
+            "XF86MonBrightnessDown" = exec light "light -T 0.9";
+            "ctrl+XF86MonBrightnessUp" = exec light "light -A 1";
+            "ctrl+XF86MonBrightnessDown" = exec light "light -U 1";
+            "XF86AudioLowerVolume" = exec alsa-utils "amixer set Master 1%-";
+            "XF86AudioRaiseVolume" = exec alsa-utils "amixer set Master 1%+";
+            "XF86AudioMute" = exec alsa-utils "amixer set Master toggle";
+            "XF86AudioPause" = "exec playerctl pause";
+            "XF86AudioPlay" = "exec playerctl play";
+            "${mod}+Shift+s" = exec bin.screenshot_public "screenshot_public";
+            "${mod}+Ctrl+Shift+s" = exec pkgs.sway-contrib.grimshot "grimshot --notify copy anything";
+            "Print" = exec bin.screenshot_public "screenshot_public";
+            "${mod}+Shift+t" = "exec --no-startup-id /home/yorick/dotfiles/bin/toggle_solarized.sh";
+            "${mod}+p" = "exec /home/yorick/dotfiles/bin/ala-fzf-pass.sh";
+            #"${mod}+p" = exec rofi-pass "rofi-pass";
+            "${mod}+e" = exec pkgs.wldash "wldash start-or-kill";
+          }
+        );
       workspaceAutoBackAndForth = true;
 
       # xps9360
@@ -157,8 +181,7 @@ in {
       startup = [
         { command = "mako"; }
         {
-          command = ''
-            swayidle timeout 300 'swaymsg "output * dpms off"; swaylock' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock' '';
+          command = ''swayidle timeout 300 'swaymsg "output * dpms off"; swaylock' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock' '';
         }
       ];
     };
@@ -185,26 +208,38 @@ in {
     XDG_CURRENT_DESKTOP = "sway";
     NIXOS_OZONE_WL = "1";
   };
-  systemd.user.services.wayland-push-to-talk-fix = let
-    kbd = "/dev/input/by-id/usb-Kinesis_Advantage2_Keyboard_314159265359-if01-event-kbd";
-  in {
-    Unit.ConditionPathExists = kbd;
-    Install.WantedBy = [ "graphical-session.target" ];
-    Unit = {
-      PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
+  systemd.user.services.wayland-push-to-talk-fix =
+    let
+      kbd = "/dev/input/by-id/usb-Kinesis_Advantage2_Keyboard_314159265359-if01-event-kbd";
+    in
+    {
+      Unit.ConditionPathExists = kbd;
+      Install.WantedBy = [ "graphical-session.target" ];
+      Unit = {
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.wayland-push-to-talk-fix}/bin/wayland-push-to-talk-fix ${kbd} -k KEY_LEFTALT -n Alt_L";
+        Restart = "on-failure";
+      };
     };
-    Service = {
-      ExecStart = "${pkgs.wayland-push-to-talk-fix}/bin/wayland-push-to-talk-fix ${kbd} -k KEY_LEFTALT -n Alt_L";
-      Restart = "on-failure";
-    };
-  };
   # todo: use home-manager unit
   systemd.user.services.gmi = {
     Unit.ConditionPathExists = "/home/yorick/mail/account.gmail/.gmailieer.json";
     Service = {
       Environment = [
-        "PATH=${lib.makeBinPath (with pkgs; [ bash lieer notmuch afew ])}"
+        "PATH=${
+          lib.makeBinPath (
+            with pkgs;
+            [
+              bash
+              lieer
+              notmuch
+              afew
+            ]
+          )
+        }"
       ];
       Type = "oneshot";
       ExecStart = "/usr/bin/env bash -c 'gmi pull && notmuch new'";
@@ -216,7 +251,7 @@ in {
       OnCalendar = "hourly";
       RandomizedDelaySec = "5min";
     };
-    Install.WantedBy = ["timers.target"];
+    Install.WantedBy = [ "timers.target" ];
   };
 
   # systemd.user.services.gebaard = {
@@ -239,9 +274,9 @@ in {
     indicator = true;
   };
   programs.obs-studio = rec {
-      enable = true;
-      plugins = [ (pkgs.obs-studio-plugins.wlrobs.override { obs-studio = package; }) ];
-      package = pkgs.obs-studio.override { browserSupport = false; };
+    enable = true;
+    plugins = [ (pkgs.obs-studio-plugins.wlrobs.override { obs-studio = package; }) ];
+    package = pkgs.obs-studio.override { browserSupport = false; };
   };
   # systemd.user.services.kdeconnect-indicator.Unit.After = [ "waybar.service" ];
   home.packages = with pkgs; [

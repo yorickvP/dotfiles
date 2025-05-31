@@ -1,17 +1,25 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 let
   cfg = config.services.yorick.git;
   inherit (cfg) vhost;
-in {
+in
+{
   options.services.yorick.git = with lib; {
     enable = mkEnableOption "git";
     vhost = mkOption { type = types.str; };
     nginx = mkOption {
-      type = types.submodule (recursiveUpdate (import
-        (modulesPath + "/services/web-servers/nginx/vhost-options.nix") {
+      type = types.submodule (
+        recursiveUpdate (import (modulesPath + "/services/web-servers/nginx/vhost-options.nix") {
           inherit config lib;
-        }) { });
+        }) { }
+      );
       default = { };
       description = ''
         With this option, you can customize the nginx virtualHost settings.
@@ -26,7 +34,7 @@ in {
       useDefaultShell = true;
       isSystemUser = true;
     };
-    users.groups.git = {};
+    users.groups.git = { };
     services.forgejo = {
       enable = true;
       user = "git";
@@ -59,8 +67,7 @@ in {
       cfg.nginx
       {
         locations."/" = {
-          proxyPass =
-            "http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}";
+          proxyPass = "http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}";
           extraConfig = ''
             proxy_buffering off;
           '';
@@ -68,13 +75,15 @@ in {
       }
     ];
 
-    services.borgbackup.jobs.backup.exclude = let
-      sd = config.services.forgejo.stateDir;
-    in [
-      "${sd}/data/tmp"
-      "${sd}/tmp"
-      "${sd}/data/repo-archive"
-      "${sd}/log"
-    ];
+    services.borgbackup.jobs.backup.exclude =
+      let
+        sd = config.services.forgejo.stateDir;
+      in
+      [
+        "${sd}/data/tmp"
+        "${sd}/tmp"
+        "${sd}/data/repo-archive"
+        "${sd}/log"
+      ];
   };
 }

@@ -1,4 +1,11 @@
-{ lib, fetchFromGitHub, rustPlatform, govee2mqtt, pkg-config, openssl }:
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  govee2mqtt,
+  pkg-config,
+  openssl,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "govee2mqtt";

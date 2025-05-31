@@ -1,8 +1,15 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 let
   cfg = config.services.yorick.cert."wildcard.yori.cc";
-in {
+in
+{
   options.services.yorick.cert."wildcard.yori.cc" = with lib; {
     enable = mkEnableOption "wildcard.yori.cc cert";
   };

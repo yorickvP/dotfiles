@@ -1,6 +1,13 @@
-{ config, lib, pkgs, ... }:
-let cfg = config.services.yorick.paperless;
-in {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.services.yorick.paperless;
+in
+{
   options.services.yorick.paperless = with lib; {
     enable = mkEnableOption "yorick paperless";
     openFirewall = mkEnableOption "open firewall for scanner";
@@ -24,8 +31,7 @@ in {
     users.users.ads1600w = {
       home = "/var/ads1600w";
       group = "ads1600w";
-      initialHashedPassword =
-        "$6$q7E6hnTHHt9v.$OHZjuWISanANGwfhznWwfDlHAqbXBjqcr/q0lGe9ff2r.X9xCSoLP4giME5J9WoEUNuWssMLGBPMfXowBjXg70";
+      initialHashedPassword = "$6$q7E6hnTHHt9v.$OHZjuWISanANGwfhznWwfDlHAqbXBjqcr/q0lGe9ff2r.X9xCSoLP4giME5J9WoEUNuWssMLGBPMfXowBjXg70";
       isSystemUser = true;
       shell = "${pkgs.shadow}/bin/nologin";
       createHome = true;

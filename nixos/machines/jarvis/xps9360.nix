@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.dell-xps-13-9360
@@ -10,7 +16,11 @@
   boot.extraModprobeConfig = ''
     options i8k ignore_dmi=1
   '';
-  fileSystems."/".options = [ "defaults" "relatime" "discard" ];
+  fileSystems."/".options = [
+    "defaults"
+    "relatime"
+    "discard"
+  ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 

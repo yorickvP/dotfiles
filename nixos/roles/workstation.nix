@@ -1,17 +1,33 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   services.fwupd.enable = true;
   programs.fish.enable = true;
   users.users.yorick = {
-    extraGroups = [ "input" "wireshark" "dialout" "video" "libvirtd" ];
+    extraGroups = [
+      "input"
+      "wireshark"
+      "dialout"
+      "video"
+      "libvirtd"
+    ];
     shell = pkgs.fish;
   };
   services.printing = {
     enable = true;
-    drivers = with pkgs; [ gutenprint cups-dymo ];
+    drivers = with pkgs; [
+      gutenprint
+      cups-dymo
+    ];
   };
   environment.systemPackages = with pkgs; [
-    ghostscript yubikey-manager glib
+    ghostscript
+    yubikey-manager
+    glib
     solaar
   ];
   environment.sessionVariables.XDG_DATA_DIRS = with pkgs; [
@@ -87,9 +103,21 @@
   };
   # spotify, castnow
   networking.firewall = {
-    allowedTCPPorts = [ 55025 57621 5353 ];
-    allowedTCPPortRanges = [ { from = 4100; to = 4105; } ];
-    allowedUDPPorts = [ 55025 57621 ];
+    allowedTCPPorts = [
+      55025
+      57621
+      5353
+    ];
+    allowedTCPPortRanges = [
+      {
+        from = 4100;
+        to = 4105;
+      }
+    ];
+    allowedUDPPorts = [
+      55025
+      57621
+    ];
   };
 
   programs = {
@@ -101,7 +129,14 @@
       enable = true;
       extraSessionCommands = ''
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${
-          lib.makeLibraryPath (with pkgs; [ libxkbcommon libglvnd wayland ])
+          lib.makeLibraryPath (
+            with pkgs;
+            [
+              libxkbcommon
+              libglvnd
+              wayland
+            ]
+          )
         }
       '';
     };
@@ -116,8 +151,8 @@
   services.tailscale.enable = true;
   # https://github.com/tailscale/tailscale/issues/10430
   systemd.services.tailscaled = {
-    wantedBy = lib.mkForce [];
-    serviceConfig.Environment = ["TS_DEBUG_DISABLE_PORTLIST=true"];
+    wantedBy = lib.mkForce [ ];
+    serviceConfig.Environment = [ "TS_DEBUG_DISABLE_PORTLIST=true" ];
   };
   programs.criu.enable = true;
   hardware.logitech.wireless = {
@@ -134,7 +169,8 @@
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
-      zlib libusb1
+      zlib
+      libusb1
     ];
   };
   services.envfs.enable = true;

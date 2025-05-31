@@ -1,4 +1,5 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   services.nginx.virtualHosts."dk-stage.yori.cc" = {
     forceSSL = true;
     enableACME = true;

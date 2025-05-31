@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 let
   rspamd-dqs = pkgs.fetchFromGitHub {
     owner = "spamhaus";
@@ -20,12 +26,18 @@ in
   mailserver = rec {
     enable = true;
     fqdn = "pennyworth.yori.cc";
-    domains = [ "yori.cc" "yorickvanpelt.nl" ];
+    domains = [
+      "yori.cc"
+      "yorickvanpelt.nl"
+    ];
     loginAccounts = {
       "yorick@yori.cc" = {
         hashedPasswordFile = config.age.secrets.yorick-mail-pass.path;
         catchAll = domains;
-        aliases = [ "@yori.cc" "@yorickvanpelt.nl" ];
+        aliases = [
+          "@yori.cc"
+          "@yorickvanpelt.nl"
+        ];
       };
       "frumar@yori.cc" = {
         hashedPasswordFile = config.age.secrets.frumar-mail-pass-hash.path;

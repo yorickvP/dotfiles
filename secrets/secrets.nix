@@ -7,43 +7,71 @@ let
   jarvis = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKd8oRn7T+NnzDbTLaWyiUGIRZ21n42zdozkuUoHp8IX";
   kirei = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPE2ctlrLLIR78hJ5/TQi6K6/+GckHAdjUwVfAnTuNIL";
 in
-builtins.mapAttrs (x: y: {
-  publicKeys = [ yorick ] ++ y;
-}) {
-  "wg.blackadder.age" = [ blackadder ];
-  "wg.frumar.age" = [ frumar ];
-  "wg.jarvis.age" = [ jarvis ];
-  "wg.pennyworth.age" = [ pennyworth ];
-  "wg.smithers.age" = [ smithers ];
-  "wg.kirei.age" = [ kirei ];
-  "wg.mullvad-nl4.age" = [ frumar ];
-  "grafana.env.age" = [ frumar ];
-  "http.muflax.age" = [ pennyworth ];
-  "nix-netrc.age" = [ blackadder jarvis ];
-  "nix-netrc-yorick.age" = [ blackadder pennyworth frumar smithers jarvis kirei ];
-  "pennyworth_borg_repo.age" = [ pennyworth ];
-  "pennyworth_borg_ssh.age" = [ pennyworth ];
-  "frumar_borg_ssh.age" = [ frumar ];
-  "frumar_borg_repo.age" = [ frumar ];
-  "transip-key.age" = [ frumar pennyworth ];
-  "yorick-mail-pass.age" = [ pennyworth ];
-  "yorick-user-pass.age" = [ blackadder pennyworth frumar smithers jarvis kirei ];
-  "root-user-pass.age" = [ blackadder pennyworth frumar smithers jarvis ];
-  "kirei-root-user-pass.age" = [ kirei ];
-  "frumar-mail-pass-hash.age" = [ pennyworth ];
-  "frumar-mail-pass.age" = [ frumar ];
-  "kirei-mail-pass-hash.age" = [ pennyworth ];
-  "kirei-mail-pass.age" = [ kirei ];
-  "zigbee2mqtt.env.age" = [ frumar ];
-  "marvin-tracker.env.age" = [ frumar ];
-  "oauth2-proxy.age" = [ frumar ];
-  "attic.env.age" = [ frumar ];
-  "yobot.toml.age" = [ pennyworth ];
-  "wg.dk.blackadder.age" = [ blackadder ];
-  "wg.dk.smithers.age" = [ smithers ];
-  "wg.dk.archbox.conf.age" = [ blackadder ];
-  "govee2mqtt.env.age" = [ frumar ];
-  "frumar-disk-encryption.age" = [ frumar ];
-  "transmission-rpc.age" = [ frumar ];
-  "rspamd-env.age" = [ pennyworth ];
-}
+builtins.mapAttrs
+  (x: y: {
+    publicKeys = [ yorick ] ++ y;
+  })
+  {
+    "wg.blackadder.age" = [ blackadder ];
+    "wg.frumar.age" = [ frumar ];
+    "wg.jarvis.age" = [ jarvis ];
+    "wg.pennyworth.age" = [ pennyworth ];
+    "wg.smithers.age" = [ smithers ];
+    "wg.kirei.age" = [ kirei ];
+    "wg.mullvad-nl4.age" = [ frumar ];
+    "grafana.env.age" = [ frumar ];
+    "http.muflax.age" = [ pennyworth ];
+    "nix-netrc.age" = [
+      blackadder
+      jarvis
+    ];
+    "nix-netrc-yorick.age" = [
+      blackadder
+      pennyworth
+      frumar
+      smithers
+      jarvis
+      kirei
+    ];
+    "pennyworth_borg_repo.age" = [ pennyworth ];
+    "pennyworth_borg_ssh.age" = [ pennyworth ];
+    "frumar_borg_ssh.age" = [ frumar ];
+    "frumar_borg_repo.age" = [ frumar ];
+    "transip-key.age" = [
+      frumar
+      pennyworth
+    ];
+    "yorick-mail-pass.age" = [ pennyworth ];
+    "yorick-user-pass.age" = [
+      blackadder
+      pennyworth
+      frumar
+      smithers
+      jarvis
+      kirei
+    ];
+    "root-user-pass.age" = [
+      blackadder
+      pennyworth
+      frumar
+      smithers
+      jarvis
+    ];
+    "kirei-root-user-pass.age" = [ kirei ];
+    "frumar-mail-pass-hash.age" = [ pennyworth ];
+    "frumar-mail-pass.age" = [ frumar ];
+    "kirei-mail-pass-hash.age" = [ pennyworth ];
+    "kirei-mail-pass.age" = [ kirei ];
+    "zigbee2mqtt.env.age" = [ frumar ];
+    "marvin-tracker.env.age" = [ frumar ];
+    "oauth2-proxy.age" = [ frumar ];
+    "attic.env.age" = [ frumar ];
+    "yobot.toml.age" = [ pennyworth ];
+    "wg.dk.blackadder.age" = [ blackadder ];
+    "wg.dk.smithers.age" = [ smithers ];
+    "wg.dk.archbox.conf.age" = [ blackadder ];
+    "govee2mqtt.env.age" = [ frumar ];
+    "frumar-disk-encryption.age" = [ frumar ];
+    "transmission-rpc.age" = [ frumar ];
+    "rspamd-env.age" = [ pennyworth ];
+  }

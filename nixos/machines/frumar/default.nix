@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   imports = [
     ./fractal.nix
     ../../roles/server.nix
@@ -10,106 +16,133 @@
     ../../services/backup.nix
   ];
 
-  services.borgbackup.jobs.backup.paths = [ "/var/lib/hass" "/var/lib/paperless" "/var/lib/redis-paperless" "/var/lib/zigbee2mqtt" ];
+  services.borgbackup.jobs.backup.paths = [
+    "/var/lib/hass"
+    "/var/lib/paperless"
+    "/var/lib/redis-paperless"
+    "/var/lib/zigbee2mqtt"
+  ];
   system.stateVersion = "15.09";
   networking.hostId = "0702dbe9";
-  nixpkgs.overlays = [ (self: super: {
-    openjdk8-bootstrap = super.openjdk8-bootstrap.override {
-      gtkSupport = false;
-    };
-  }) ];
+  nixpkgs.overlays = [
+    (self: super: {
+      openjdk8-bootstrap = super.openjdk8-bootstrap.override {
+        gtkSupport = false;
+      };
+    })
+  ];
 
   security.y-selfsigned.enable = true;
 
-  services.nginx = let
-    sslForward = proxyPass: extra: lib.mkMerge [ {
-      onlySSL = true;
-      useACMEHost = "wildcard.yori.cc";
-      locations."/" = {
-        inherit proxyPass;
-        proxyWebsockets = true;
-      };
-    } extra ];
-  in {
-    enable = true;
-    virtualHosts = {
-      "unifi.yori.cc" = sslForward "https://[::1]:8443" {
-        locations."/".extraConfig = ''
-          proxy_ssl_verify off;
-          proxy_ssl_session_reuse on;
-        '';
-      };
-      "grafana.yori.cc" = sslForward "http://127.0.0.1:3000" {};
-      "prometheus.yori.cc" = sslForward "http://127.0.0.1:8428" {
-        # only over VPN
-        listen = [ { addr = "10.209.0.3"; port = 443; ssl = true; } ];
-      };
-      "plex.yori.cc" = sslForward "http://127.0.0.1:32400" {
-        extraConfig = ''
-          gzip on;
-          gzip_vary on;
-          gzip_min_length 1000;
-	        gzip_proxied any;
-	        gzip_types text/plain text/css text/xml application/xml text/javascript application/x-javascript image/svg+xml;
-          proxy_http_version 1.1;
-          proxy_buffering off;
-        '';
-      };
-      "fooocus.yori.cc" = sslForward "http://192.168.2.135:7860" {}; 
-      "priv.yori.cc" = let
-        oauth2Block = ''
-          # pass information via X-User and X-Email headers to backend,
-          # requires running with --set-xauthrequest flag
-          proxy_set_header X-User  $user;
-          proxy_set_header X-Email $email;
-  
-          # if you enabled --cookie-refresh, this is needed for it to work with auth_request
-          add_header Set-Cookie $auth_cookie;
-        '';
-        proxyOauth2 = proxyPass: {
-          inherit proxyPass;
-          extraConfig = oauth2Block;
-        };
-      in {
-        onlySSL = true;
-        useACMEHost = "wildcard.yori.cc";
-        locations."/".root = pkgs.writeTextDir "index.html" ''
-          <!DOCTYPE HTML>
-          <ul>
-          <li><a href="/paperless/">paperless</a>
-          <li><a href="/sonarr/">sonarr</a>
-          <li><a href="/radarr/">radarr</a>
-          <li><a href="/transmission/">transmission</a>
-          <li><a href="/victorialogs/select/vmui">victorialogs</a>
-          <li><a href="/oauth2/sign_out?rd=/">sign out</a>
-          </ul>
-        '';
-        locations."/sonarr" = proxyOauth2 "http://127.0.0.1:8989";
-        locations."/radarr" = proxyOauth2 "http://127.0.0.1:7878";
-        locations."/marvin-tracker/" = {
-          proxyPass = "http://[::1]:${toString config.services.yorick.marvin-tracker.port}/";
-          extraConfig = "auth_request off;";
-          # handles auth using arg
-        };
-        locations."/paperless/" = proxyOauth2 "http://127.0.0.1:${toString config.services.paperless.port}/";
-        locations."/media/" = {
-          root = "/var/mediashare";
-          extraConfig = "auth_request off;";
-        };
-        locations."/transmission/" = proxyOauth2 "http://unix:/torrent/sockets/transmission.sock";
-        locations."/transmission/rpc" = lib.mkMerge [
-          (proxyOauth2 "http://unix:/torrent/sockets/transmission.sock")
-          { extraConfig = "auth_request off;"; }
+  services.nginx =
+    let
+      sslForward =
+        proxyPass: extra:
+        lib.mkMerge [
+          {
+            onlySSL = true;
+            useACMEHost = "wildcard.yori.cc";
+            locations."/" = {
+              inherit proxyPass;
+              proxyWebsockets = true;
+            };
+          }
+          extra
         ];
-        locations."/victorialogs/" = proxyOauth2 "http://127.0.0.1:9428/";
-      };
-      "frumar.yori.cc" = {
-        enableACME = lib.mkForce false;
-        inherit (config.security.y-selfsigned) sslCertificate sslCertificateKey;
+    in
+    {
+      enable = true;
+      virtualHosts = {
+        "unifi.yori.cc" = sslForward "https://[::1]:8443" {
+          locations."/".extraConfig = ''
+            proxy_ssl_verify off;
+            proxy_ssl_session_reuse on;
+          '';
+        };
+        "grafana.yori.cc" = sslForward "http://127.0.0.1:3000" { };
+        "prometheus.yori.cc" = sslForward "http://127.0.0.1:8428" {
+          # only over VPN
+          listen = [
+            {
+              addr = "10.209.0.3";
+              port = 443;
+              ssl = true;
+            }
+          ];
+        };
+        "plex.yori.cc" = sslForward "http://127.0.0.1:32400" {
+          extraConfig = ''
+                      gzip on;
+                      gzip_vary on;
+                      gzip_min_length 1000;
+            	        gzip_proxied any;
+            	        gzip_types text/plain text/css text/xml application/xml text/javascript application/x-javascript image/svg+xml;
+                      proxy_http_version 1.1;
+                      proxy_buffering off;
+          '';
+        };
+        "fooocus.yori.cc" = sslForward "http://192.168.2.135:7860" { };
+        "priv.yori.cc" =
+          let
+            oauth2Block = ''
+              # pass information via X-User and X-Email headers to backend,
+              # requires running with --set-xauthrequest flag
+              proxy_set_header X-User  $user;
+              proxy_set_header X-Email $email;
+
+              # if you enabled --cookie-refresh, this is needed for it to work with auth_request
+              add_header Set-Cookie $auth_cookie;
+            '';
+            proxyOauth2 = proxyPass: {
+              inherit proxyPass;
+              extraConfig = oauth2Block;
+            };
+          in
+          {
+            onlySSL = true;
+            useACMEHost = "wildcard.yori.cc";
+            locations."/".root = pkgs.writeTextDir "index.html" ''
+              <!DOCTYPE HTML>
+              <ul>
+              <li><a href="/paperless/">paperless</a>
+              <li><a href="/sonarr/">sonarr</a>
+              <li><a href="/radarr/">radarr</a>
+              <li><a href="/transmission/">transmission</a>
+              <li><a href="/victorialogs/select/vmui">victorialogs</a>
+              <li><a href="/oauth2/sign_out?rd=/">sign out</a>
+              </ul>
+            '';
+            locations."/sonarr" = proxyOauth2 "http://127.0.0.1:8989";
+            locations."/radarr" = proxyOauth2 "http://127.0.0.1:7878";
+            locations."/marvin-tracker/" = {
+              proxyPass = "http://[::1]:${toString config.services.yorick.marvin-tracker.port}/";
+              extraConfig = "auth_request off;";
+              # handles auth using arg
+            };
+            locations."/paperless/" =
+              proxyOauth2 "http://127.0.0.1:${toString config.services.paperless.port}/";
+            locations."/media/" = {
+              root = "/var/mediashare";
+              extraConfig = "auth_request off;";
+            };
+            locations."/transmission/" = proxyOauth2 "http://unix:/torrent/sockets/transmission.sock";
+            locations."/transmission/rpc" = lib.mkMerge [
+              (proxyOauth2 "http://unix:/torrent/sockets/transmission.sock")
+              { extraConfig = "auth_request off;"; }
+            ];
+            locations."/victorialogs/" = proxyOauth2 "http://127.0.0.1:9428/";
+          };
+        "frumar.yori.cc" = {
+          enableACME = lib.mkForce false;
+          inherit (config.security.y-selfsigned) sslCertificate sslCertificateKey;
+        };
       };
     };
-  };
-  systemd.services.nginx.serviceConfig.BindReadOnlyPaths = [ "/data/plexmedia/ca" "/var/mediashare" "/torrent/sockets" ];
+  systemd.services.nginx.serviceConfig.BindReadOnlyPaths = [
+    "/data/plexmedia/ca"
+    "/var/mediashare"
+    "/torrent/sockets"
+  ];
   boot.supportedFilesystems = [ "zfs" ];
   services.iperf3 = {
     enable = true;
@@ -127,19 +160,23 @@
     prometheusConfig.scrape_configs = [
       {
         job_name = "node";
-        static_configs = [{ targets = [
-          "localhost:9100"
-          "pennyworth.vpn.yori.cc:9100"
-          "blackadder.vpn.yori.cc:9100"
-        ]; }];
+        static_configs = [
+          {
+            targets = [
+              "localhost:9100"
+              "pennyworth.vpn.yori.cc:9100"
+              "blackadder.vpn.yori.cc:9100"
+            ];
+          }
+        ];
       }
       {
         job_name = "victoriametrics";
-        static_configs = [{ targets = [ "http://localhost:8428/metrics" ]; }];
+        static_configs = [ { targets = [ "http://localhost:8428/metrics" ]; } ];
       }
       {
         job_name = "victorialogs";
-        static_configs = [{ targets = [ "http://localhost:9428/metrics" ]; }];
+        static_configs = [ { targets = [ "http://localhost:9428/metrics" ]; } ];
       }
     ];
   };
@@ -151,9 +188,16 @@
   boot.zfs.requestEncryptionCredentials = [ "frumar-new/userdata" ];
   networking.firewall = {
     # grafana, victoriametrics, victorialogs
-    interfaces.wg-y.allowedTCPPorts = [ 3000 8428 9428 ];
+    interfaces.wg-y.allowedTCPPorts = [
+      3000
+      8428
+      9428
+    ];
     # mqtt, nats
-    allowedTCPPorts = [ 1883 4222 ];
+    allowedTCPPorts = [
+      1883
+      4222
+    ];
     # mqtt
     allowedUDPPorts = [ 1883 ];
   };
@@ -238,10 +282,10 @@
     keyFile = config.age.secrets.oauth2-proxy.path;
     setXauthrequest = true;
     nginx.virtualHosts."priv.yori.cc" = {
-      allowed_emails = ["yorickvanpelt@gmail.com"];
+      allowed_emails = [ "yorickvanpelt@gmail.com" ];
     };
     nginx.domain = "priv.yori.cc";
-    extraConfig.whitelist-domain = ["priv.yori.cc"];
+    extraConfig.whitelist-domain = [ "priv.yori.cc" ];
   };
   services.nats = {
     enable = true;
@@ -250,10 +294,12 @@
       mqtt.port = 1883;
       system_account = "SYS";
       accounts = {
-        SYS.users = [ {
-          user = "admin";
-          password = "$2y$10$TWoKGC7/VKQRnIK163akm.0JRdhSA00lMMVn8fa1tPyKBgbED0BL2";
-        } ];
+        SYS.users = [
+          {
+            user = "admin";
+            password = "$2y$10$TWoKGC7/VKQRnIK163akm.0JRdhSA00lMMVn8fa1tPyKBgbED0BL2";
+          }
+        ];
         default = {
           jetstream = "enabled";
           users = [

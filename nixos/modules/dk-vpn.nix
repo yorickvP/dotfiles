@@ -1,7 +1,13 @@
-{ config, name, lib, ... }:
+{
+  config,
+  name,
+  lib,
+  ...
+}:
 let
   cfg = config.yorick.dk-vpn;
-in {
+in
+{
   options.yorick.dk-vpn = with lib; {
     enable = mkEnableOption "dk vpn";
     ip = mkOption {
@@ -15,12 +21,14 @@ in {
     networking.wireguard.interfaces.wg-dk = {
       privateKeyFile = config.age.secrets.wg-dk.path;
       ips = [ "${cfg.ip}/32" ];
-      peers = [{
-        publicKey = "teCEYc4KWT6rGchNOp6sIFO0jmkhwTjv6reOzGscAm8=";
-        endpoint = "dk-1.datakami.nl:51820";
-        allowedIPs = [ "10.100.0.0/24" ];
-        persistentKeepalive = 25;
-      }];
+      peers = [
+        {
+          publicKey = "teCEYc4KWT6rGchNOp6sIFO0jmkhwTjv6reOzGscAm8=";
+          endpoint = "dk-1.datakami.nl:51820";
+          allowedIPs = [ "10.100.0.0/24" ];
+          persistentKeepalive = 25;
+        }
+      ];
     };
   };
 }

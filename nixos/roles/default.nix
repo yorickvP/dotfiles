@@ -1,8 +1,16 @@
-{ config, pkgs, lib, name, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  name,
+  inputs,
+  ...
+}:
 let
   machine = name;
   vpn = import ../vpn.nix;
-in {
+in
+{
   imports = [
     inputs.agenix.nixosModules.default
     inputs.fooocus.nixosModules.default
@@ -29,8 +37,7 @@ in {
   time.timeZone = "Europe/Amsterdam";
   users.mutableUsers = false;
   users.users.root = {
-    openssh.authorizedKeys.keys =
-      config.users.users.yorick.openssh.authorizedKeys.keys;
+    openssh.authorizedKeys.keys = config.users.users.yorick.openssh.authorizedKeys.keys;
     # root password is useful from console, ssh has password logins disabled
     hashedPasswordFile = config.age.secrets.root-user-pass.path; # TODO: generate own
 
@@ -63,59 +70,65 @@ in {
     settings.KbdInteractiveAuthentication = false;
   };
 
-  environment.systemPackages = with pkgs; [
-    rlwrap
+  environment.systemPackages =
+    with pkgs;
+    [
+      rlwrap
 
-    #vim
+      #vim
 
-    # system stuff
-    ethtool
-    inetutils
-    pciutils
-    usbutils
-    # iotop
-    powertop
-    htop
-    psmisc
-    lsof
-    smartmontools
-    hdparm
-    lm_sensors
-    ncdu
-    attic-client
-    nvme-cli
+      # system stuff
+      ethtool
+      inetutils
+      pciutils
+      usbutils
+      # iotop
+      powertop
+      htop
+      psmisc
+      lsof
+      smartmontools
+      hdparm
+      lm_sensors
+      ncdu
+      attic-client
+      nvme-cli
 
-    # utils
-    file
-    which
-    reptyr
-    tmux
-    shadow
+      # utils
+      file
+      which
+      reptyr
+      tmux
+      shadow
 
-    # archiving
-    xdelta
-    libarchive
-    atool
+      # archiving
+      xdelta
+      libarchive
+      atool
 
-    # network
-    nmap
-    mtr
-    bind
-    socat
-    libressl.nc
-    lftp
-    wget
-    rsync
-    arp-scan
+      # network
+      nmap
+      mtr
+      bind
+      socat
+      libressl.nc
+      lftp
+      wget
+      rsync
+      arp-scan
 
-    #gitMinimal
-  ] ++ (with pkgs.pkgsBuildBuild; (map (x: x.terminfo) [
-    alacritty
-    st
-    foot
-    ghostty
-    tmux
-  ]));
+      #gitMinimal
+    ]
+    ++ (
+      with pkgs.pkgsBuildBuild;
+      (map (x: x.terminfo) [
+        alacritty
+        st
+        foot
+        ghostty
+        tmux
+      ])
+    );
   nix.gc.automatic = true;
 
   services.avahi = {
@@ -127,12 +140,14 @@ in {
     privateKeyFile = config.age.secrets.wg.path;
     ips = [ vpn.ips.${machine} ];
     listenPort = 31790;
-    peers = [{
-      publicKey = vpn.keys.pennyworth;
-      endpoint = "pennyworth.yori.cc:31790";
-      allowedIPs = [ "10.209.0.0/24" ];
-      persistentKeepalive = 30;
-    }];
+    peers = [
+      {
+        publicKey = vpn.keys.pennyworth;
+        endpoint = "pennyworth.yori.cc:31790";
+        allowedIPs = [ "10.209.0.0/24" ];
+        persistentKeepalive = 30;
+      }
+    ];
     postSetup = "ip link set dev wg-y mtu 1371";
   };
   services.wg-restarter = {

@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 let
   cfg = config.services.wg-restarter;
 in
@@ -40,14 +45,19 @@ in
       wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
-        ExecStart = "${cfg.package}/bin/wg-restarter " +
-          "-gateway ${cfg.gateway} " +
-          "-service ${cfg.service} " +
-          "-interval ${toString cfg.interval}";
+        ExecStart =
+          "${cfg.package}/bin/wg-restarter "
+          + "-gateway ${cfg.gateway} "
+          + "-service ${cfg.service} "
+          + "-interval ${toString cfg.interval}";
         Restart = "on-failure";
         RestartSec = "30s";
       };
-      path = [ cfg.package pkgs.fping pkgs.systemd ];
+      path = [
+        cfg.package
+        pkgs.fping
+        pkgs.systemd
+      ];
     };
 
   };

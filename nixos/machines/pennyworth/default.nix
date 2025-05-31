@@ -2,13 +2,23 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 let
-  withSSL = x: {
-    forceSSL = true;
-    useACMEHost = "wildcard.yori.cc";
-  } // x;
+  withSSL =
+    x:
+    {
+      forceSSL = true;
+      useACMEHost = "wildcard.yori.cc";
+    }
+    // x;
 in
 
-{ config, pkgs, lib, inputs, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+{
   imports = [
     ./hetznercloud.nix
     ../../roles/server.nix
@@ -18,7 +28,11 @@ in
     inputs.yobot.nixosModules.default
   ];
 
-  services.borgbackup.jobs.backup.paths = [ "/home" "/root" "/var/lib" ];
+  services.borgbackup.jobs.backup.paths = [
+    "/home"
+    "/root"
+    "/var/lib"
+  ];
   system.stateVersion = "19.03";
 
   services.yorick = {
@@ -26,7 +40,7 @@ in
     public = {
       enable = true;
       vhost = "pub.yori.cc";
-      nginx = withSSL {};
+      nginx = withSSL { };
     };
     website = {
       enable = true;
@@ -39,7 +53,7 @@ in
     git = {
       enable = true;
       vhost = "git.yori.cc";
-      nginx = withSSL {};
+      nginx = withSSL { };
     };
     muflax-church = {
       enable = true;
@@ -48,7 +62,7 @@ in
     calibre-web = {
       enable = true;
       vhost = "calibre.yori.cc";
-      nginx = withSSL {};
+      nginx = withSSL { };
     };
     vpn-host.enable = true;
   };
@@ -56,7 +70,9 @@ in
   age.secrets.muflax.file = ../../../secrets/http.muflax.age;
   services.muflax-blog = {
     enable = true;
-    web-server = { port = 9001; };
+    web-server = {
+      port = 9001;
+    };
     hidden-service = {
       hostname = "muflax65ngodyewp.onion";
       private_key = config.age.secrets.muflax.path;
@@ -69,8 +85,7 @@ in
       "yori.cc" = withSSL {
         globalRedirect = "yorickvanpelt.nl";
       };
-      "yorickvanpelt.nl".locations."/p1".return =
-        "301 https://git.yori.cc/yorick/meterkast";
+      "yorickvanpelt.nl".locations."/p1".return = "301 https://git.yori.cc/yorick/meterkast";
       "pub.yori.cc".locations."/muflax/".extraConfig = ''
         rewrite ^/muflax/(.*)$ https://alt.muflax.church/$1 permanent;
       '';
@@ -97,7 +112,11 @@ in
     chmod 0600 $_
   '';
 
-  users.users.yorick.packages = with pkgs; [ sshfs-fuse weechat ripgrep ];
+  users.users.yorick.packages = with pkgs; [
+    sshfs-fuse
+    weechat
+    ripgrep
+  ];
   networking.firewall.allowedTCPPorts = [ 60307 ]; # weechat relay
 
   age.secrets.yobot.file = ../../../secrets/yobot.toml.age;
@@ -112,7 +131,7 @@ in
       hostname = "::1";
       port = 8004;
       allowedLoginMethods = [ "password" ];
-      trustedProxies = ["::1"];
+      trustedProxies = [ "::1" ];
     };
   };
   security.acme.certs."wildcard.yori.cc".extraDomainNames = [ "yori.cc" ];

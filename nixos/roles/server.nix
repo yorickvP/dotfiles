@@ -5,8 +5,7 @@
   services.journald.upload.enable = true;
 
   # environment.noXlibs = true;
-  networking.firewall.logRefusedConnections =
-    false; # Silence logging of scanners and knockers
+  networking.firewall.logRefusedConnections = false; # Silence logging of scanners and knockers
 
   nix.settings.allowed-users = [ "@wheel" ];
   # TODO: upstream with noXlibs

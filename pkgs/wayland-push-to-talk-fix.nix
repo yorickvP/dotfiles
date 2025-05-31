@@ -1,4 +1,11 @@
-{ stdenv, libevdev, xdotool, xorg, pkg-config, fetchFromGitHub }:
+{
+  stdenv,
+  libevdev,
+  xdotool,
+  xorg,
+  pkg-config,
+  fetchFromGitHub,
+}:
 stdenv.mkDerivation {
   pname = "wayland-push-to-talk-fix";
   version = "0.1";
@@ -9,7 +16,12 @@ stdenv.mkDerivation {
     hash = "sha256-Wkt0MrCJH2IYvlewGUin49flM7bFlHpcqOkK7uks6Ho=";
   };
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ xorg.libX11 xorg.xorgproto xdotool libevdev ];
+  buildInputs = [
+    xorg.libX11
+    xorg.xorgproto
+    xdotool
+    libevdev
+  ];
   installPhase = ''
     mkdir -p $out/bin
     cp push-to-talk $out/bin/wayland-push-to-talk-fix

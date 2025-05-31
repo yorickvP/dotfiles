@@ -1,5 +1,12 @@
-{ config, lib, pkgs, ... }:
-let cfg = config.services.yorick.marvin-tracker; in
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.services.yorick.marvin-tracker;
+in
 {
   options.services.yorick.marvin-tracker = with lib; {
     enable = mkEnableOption "Marvin Tracker server";

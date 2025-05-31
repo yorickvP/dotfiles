@@ -1,16 +1,24 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 let
   cfg = config.services.yorick.calibre-web;
-in {
+in
+{
   options.services.yorick.calibre-web = with lib; {
     enable = mkEnableOption "calibre-web";
     vhost = mkOption { type = types.str; };
     nginx = mkOption {
-      type = types.submodule (recursiveUpdate (import
-        (modulesPath + "/services/web-servers/nginx/vhost-options.nix") {
+      type = types.submodule (
+        recursiveUpdate (import (modulesPath + "/services/web-servers/nginx/vhost-options.nix") {
           inherit config lib;
-        }) { });
+        }) { }
+      );
       default = { };
       description = ''
         With this option, you can customize the nginx virtualHost settings.

@@ -1,14 +1,26 @@
-{ lib, config, options, pkgs, ... }:
+{
+  lib,
+  config,
+  options,
+  pkgs,
+  ...
+}:
 let
-  thefuck-alias = shell:
+  thefuck-alias =
+    shell:
     pkgs.runCommand "thefuck-alias" {
       TF_SHELL = shell;
       HOME = "/build";
     } "${pkgs.thefuck}/bin/thefuck -a > $out";
   headphones = "80:99:E7:E4:01:78";
   emacsPackages = pkgs.emacsPackagesFor config.programs.emacs.package;
-in {
-  imports = [ ./desktop.nix ./emacs.nix ./email.nix ];
+in
+{
+  imports = [
+    ./desktop.nix
+    ./emacs.nix
+    ./email.nix
+  ];
   programs = {
     nix-index.enable = true;
     # todo: .aws/config default region
@@ -46,8 +58,7 @@ in {
         "/.aider.*"
       ];
       aliases = {
-        lg =
-          "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+        lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
         st = "status";
         remotes = "remote -v";
         branches = "branch -a";
@@ -56,8 +67,7 @@ in {
         unstage = "reset -q HEAD --";
         discard = "checkout --";
         uncommit = "reset --mixed HEAD~";
-        graph =
-          "log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order    ";
+        graph = "log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order    ";
         dad = "!curl https://icanhazdadjoke.com/ && git add";
       };
     };
@@ -77,7 +87,9 @@ in {
           hostname = "karpenoktem.nl";
           port = 33933;
         };
-        "karpenoktem.nl" = { user = "root"; };
+        "karpenoktem.nl" = {
+          user = "root";
+        };
         sankhara = {
           user = "infra";
           port = 33931;
@@ -114,28 +126,34 @@ in {
         bw-personal = "BITWARDENCLI_APPDATA_DIR=~/.config/Bitwarden\\ CLI\\ Personal bw";
         bw-work = "BITWARDENCLI_APPDATA_DIR=~/.config/Bitwarden\\ CLI\\ Work bw";
       };
-      interactiveShellInit = let
-        inherit (emacsPackages) vterm;
-        vtermPath = "${vterm}/share/emacs/site-lisp/elpa/${vterm.pname}-${vterm.version}/etc/emacs-vterm.fish";
-      in ''
-        set fish_greeting
-        source ${thefuck-alias "fish"}
-        source ~/dotfiles/nr.fish
-        source ${vtermPath}
-        function tmp --description 'cd to ~/tmp/YYYY-MM-DD, creating it if needed'
-          set dated_tmp $HOME"/tmp/"(date +%Y-%m-%d)
-          mkdir -p $dated_tmp
-          cd $dated_tmp
-        end
+      interactiveShellInit =
+        let
+          inherit (emacsPackages) vterm;
+          vtermPath = "${vterm}/share/emacs/site-lisp/elpa/${vterm.pname}-${vterm.version}/etc/emacs-vterm.fish";
+        in
+        ''
+          set fish_greeting
+          source ${thefuck-alias "fish"}
+          source ~/dotfiles/nr.fish
+          source ${vtermPath}
+          function tmp --description 'cd to ~/tmp/YYYY-MM-DD, creating it if needed'
+            set dated_tmp $HOME"/tmp/"(date +%Y-%m-%d)
+            mkdir -p $dated_tmp
+            cd $dated_tmp
+          end
 
-      '';
+        '';
       plugins = [
         { inherit (pkgs.fishPlugins.tide) name src; }
       ];
     };
     bash = {
       enable = true;
-      historyControl = [ "erasedups" "ignoredups" "ignorespace" ];
+      historyControl = [
+        "erasedups"
+        "ignoredups"
+        "ignorespace"
+      ];
       shellAliases = {
         nr = ''nix repl "/home/yorick/dotfiles/repl.nix"'';
         nsp = "nix-shell -p";
@@ -169,170 +187,173 @@ in {
     enableExtraSocket = true;
   };
   services.playerctld.enable = true;
-  home.packages = (with pkgs; [
-    ## utils
-    afew # mail
-    fd
-    gcr.out
-    git-absorb
-    github-cli
-    lieer
-    htop
-    kdePackages.kcachegrind
-    lm_sensors
-    notmuch
-    watchman
-    nix-output-monitor
-    appimage-run
-    ripgrep
-    zip
+  home.packages = (
+    with pkgs;
+    [
+      ## utils
+      afew # mail
+      fd
+      gcr.out
+      git-absorb
+      github-cli
+      lieer
+      htop
+      kdePackages.kcachegrind
+      lm_sensors
+      notmuch
+      watchman
+      nix-output-monitor
+      appimage-run
+      ripgrep
+      zip
 
-    ## misc
-    moreutils
-    atop
-    awscli
-    borgbackup
-    bup
-    # catdoc
-    trurl
-    expect
-    fzf
-    fx
-    gitAndTools.git-annex
-    glxinfo
-    gnupg1
-    imagemagick
-    iodine
-    jo
-    jless
-    jq
-    lnav
-    magic-wormhole
-    man-pages
-    mosh
-    neofetch
-    openssl
-    pass
-    pv
-    screen
-    sshfs-fuse
-    sshuttle
-    thefuck
-    wakelan
-    tty-clock
+      ## misc
+      moreutils
+      atop
+      awscli
+      borgbackup
+      bup
+      # catdoc
+      trurl
+      expect
+      fzf
+      fx
+      gitAndTools.git-annex
+      glxinfo
+      gnupg1
+      imagemagick
+      iodine
+      jo
+      jless
+      jq
+      lnav
+      magic-wormhole
+      man-pages
+      mosh
+      neofetch
+      openssl
+      pass
+      pv
+      screen
+      sshfs-fuse
+      sshuttle
+      thefuck
+      wakelan
+      tty-clock
 
-    ## media
-    aria2
-    castnow
-    nodePackages.peerflix
-    streamlink
-    yt-dlp
-    ffmpeg
-    transmission-remote-gtk
+      ## media
+      aria2
+      castnow
+      nodePackages.peerflix
+      streamlink
+      yt-dlp
+      ffmpeg
+      transmission-remote-gtk
 
-    ## code
-    cloc
-    gcc
-    gdb
-    git-crypt
-    git-fire
-    gnumake
-    hub
-    python3
-    silver-searcher
-    sqlite-interactive
-    noulith
+      ## code
+      cloc
+      gcc
+      gdb
+      git-crypt
+      git-fire
+      gnumake
+      hub
+      python3
+      silver-searcher
+      sqlite-interactive
+      noulith
 
-    ## nix
-    nix-tree
-    niv
-    nixfmt-rfc-style
-    patchelf
-    nix-prefetch-git
-    nix-du
-    nix-top
-    nix-diff
-    cachix
-    cached-nix-shell
+      ## nix
+      nix-tree
+      niv
+      nixfmt-rfc-style
+      patchelf
+      nix-prefetch-git
+      nix-du
+      nix-top
+      nix-diff
+      cachix
+      cached-nix-shell
 
-    ## js
-    nodejs
-    electron
+      ## js
+      nodejs
+      electron
 
-    ## pdf
-    ocamlPackages.cpdf
-    zathura
-    pandoc
-    poppler_utils
+      ## pdf
+      ocamlPackages.cpdf
+      zathura
+      pandoc
+      poppler_utils
 
-    ## misc
-    asciinema
-    cargo
-    eza
-    linuxPackages.perf
-    ltrace
-    lz4json
-    pssh
-    smartmontools
-    unzip
-    vim
-    xdg-utils
-    countfftabs
-    spacer
-    #wlrctl
-    asciiquarium-transparent
-    wakeonlan
+      ## misc
+      asciinema
+      cargo
+      eza
+      linuxPackages.perf
+      ltrace
+      lz4json
+      pssh
+      smartmontools
+      unzip
+      vim
+      xdg-utils
+      countfftabs
+      spacer
+      #wlrctl
+      asciiquarium-transparent
+      wakeonlan
 
-    ## coins
-    electrum
-    ledger-live-desktop
+      ## coins
+      electrum
+      ledger-live-desktop
 
-    ## apps
-    alacritty
-    calibre
-    chromium
-    discord
-    wayland-push-to-talk-fix
-    fanficfare
-    feh
-    gimp
-    gopass
-    hledger
-    spotify
-    tdesktop
-    signal-desktop
-    virt-manager
-    wireshark
-    inkscape
-    bitwarden-cli
-    # notion-desktop
-    #yubioath-flutter
-    gnucash
+      ## apps
+      alacritty
+      calibre
+      chromium
+      discord
+      wayland-push-to-talk-fix
+      fanficfare
+      feh
+      gimp
+      gopass
+      hledger
+      spotify
+      tdesktop
+      signal-desktop
+      virt-manager
+      wireshark
+      inkscape
+      bitwarden-cli
+      # notion-desktop
+      #yubioath-flutter
+      gnucash
 
-    ## games
-    # (prismlauncher.override { jdks = [ jdk21 ] })
-    steam
-    # minecraft
-    # nottetris2
-    # openttd
-    # wine
-    # winetricks
-    kdePackages.kmines
-    gamescope
+      ## games
+      # (prismlauncher.override { jdks = [ jdk21 ] })
+      steam
+      # minecraft
+      # nottetris2
+      # openttd
+      # wine
+      # winetricks
+      kdePackages.kmines
+      gamescope
 
-    # work
-    r8-cog
-    mutagen
-    # zoom-us
-    google-cloud-sdk
-    kubectl
-    oathToolkit
-    mitmproxy
+      # work
+      r8-cog
+      mutagen
+      # zoom-us
+      google-cloud-sdk
+      kubectl
+      oathToolkit
+      mitmproxy
 
-    # admin
-    nsc
-    natscli
-  ]);
+      # admin
+      nsc
+      natscli
+    ]
+  );
 
   home.file.".gnupg/gpg.conf".text = ''
     no-greeting

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   vpnCfg = config.services.yorick.torrent-vpn;
 in
@@ -9,7 +14,7 @@ in
     group = "torrent";
     home = "/torrent";
   };
-  users.groups.torrent = {};
+  users.groups.torrent = { };
   systemd.tmpfiles.rules = [
     "d /torrent 771 torrent torrent"
   ];
@@ -73,7 +78,10 @@ in
   age.secrets.transmission-rpc.file = ../../../secrets/transmission-rpc.age;
   systemd.services.transmission = {
     serviceConfig = {
-      BindReadOnlyPaths = ["/etc/netns/torrent/resolv.conf:/etc/resolv.conf:norbind" "/data/plexmedia/ca"];
+      BindReadOnlyPaths = [
+        "/etc/netns/torrent/resolv.conf:/etc/resolv.conf:norbind"
+        "/data/plexmedia/ca"
+      ];
       NetworkNamespacePath = "/run/netns/torrent";
       BindPaths = [ "/torrent/sockets" ];
       StateDirectoryMode = "751";

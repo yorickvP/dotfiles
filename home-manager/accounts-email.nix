@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -67,7 +72,11 @@ let
       };
 
       showSignature = mkOption {
-        type = types.enum [ "append" "attach" "none" ];
+        type = types.enum [
+          "append"
+          "attach"
+          "none"
+        ];
         default = "none";
         description = "Method to communicate the signature.";
       };
@@ -198,281 +207,296 @@ let
     };
   };
 
-  maildirModule = types.submodule ({ config, ... }: {
-    options = {
-      path = mkOption {
-        type = types.str;
-        description = ''
-          Path to maildir directory where mail for this account is
-          stored. This is relative to the base maildir path.
-        '';
+  maildirModule = types.submodule (
+    { config, ... }:
+    {
+      options = {
+        path = mkOption {
+          type = types.str;
+          description = ''
+            Path to maildir directory where mail for this account is
+            stored. This is relative to the base maildir path.
+          '';
+        };
+
+        absPath = mkOption {
+          type = types.str;
+          default = "${cfg.maildirBasePath}/${config.path}";
+          description = ''
+            A convenience option whose value is the absolute path of
+            this maildir.
+          '';
+        };
       };
+    }
+  );
 
-      absPath = mkOption {
-        type = types.str;
-        default = "${cfg.maildirBasePath}/${config.path}";
-        description = ''
-          A convenience option whose value is the absolute path of
-          this maildir.
-        '';
-      };
-    };
-  });
+  mailAccountOpts =
+    { name, config, ... }:
+    {
+      options = {
+        name = mkOption {
+          type = types.str;
+          readOnly = true;
+          description = ''
+            Unique identifier of the account. This is set to the
+            attribute name of the account configuration.
+          '';
+        };
 
-  mailAccountOpts = { name, config, ... }: {
-    options = {
-      name = mkOption {
-        type = types.str;
-        readOnly = true;
-        description = ''
-          Unique identifier of the account. This is set to the
-          attribute name of the account configuration.
-        '';
-      };
+        primary = mkOption {
+          type = types.bool;
+          default = false;
+          description = ''
+            Whether this is the primary account. Only one account may be
+            set as primary.
+          '';
+        };
 
-      primary = mkOption {
-        type = types.bool;
-        default = false;
-        description = ''
-          Whether this is the primary account. Only one account may be
-          set as primary.
-        '';
-      };
+        flavor = mkOption {
+          type = types.enum [
+            "plain"
+            "gmail.com"
+            "runbox.com"
+            "fastmail.com"
+            "yandex.com"
+            "outlook.office365.com"
+          ];
+          default = "plain";
+          description = ''
+            Some email providers have peculiar behavior that require
+            special treatment. This option is therefore intended to
+            indicate the nature of the provider.
+            </para><para>
+            When this indicates a specific provider then, for example,
+            the IMAP, SMTP, and JMAP server configuration may be set
+            automatically.
+          '';
+        };
 
-      flavor = mkOption {
-        type = types.enum [
-          "plain"
-          "gmail.com"
-          "runbox.com"
-          "fastmail.com"
-          "yandex.com"
-          "outlook.office365.com"
-        ];
-        default = "plain";
-        description = ''
-          Some email providers have peculiar behavior that require
-          special treatment. This option is therefore intended to
-          indicate the nature of the provider.
-          </para><para>
-          When this indicates a specific provider then, for example,
-          the IMAP, SMTP, and JMAP server configuration may be set
-          automatically.
-        '';
-      };
+        address = mkOption {
+          type = types.strMatching ".*@.*";
+          example = "jane.doe@example.org";
+          description = "The email address of this account.";
+        };
 
-      address = mkOption {
-        type = types.strMatching ".*@.*";
-        example = "jane.doe@example.org";
-        description = "The email address of this account.";
-      };
+        aliases = mkOption {
+          type = types.listOf (types.strMatching ".*@.*");
+          default = [ ];
+          example = [
+            "webmaster@example.org"
+            "admin@example.org"
+          ];
+          description = "Alternative email addresses of this account.";
+        };
 
-      aliases = mkOption {
-        type = types.listOf (types.strMatching ".*@.*");
-        default = [ ];
-        example = [ "webmaster@example.org" "admin@example.org" ];
-        description = "Alternative email addresses of this account.";
-      };
+        realName = mkOption {
+          type = types.str;
+          example = "Jane Doe";
+          description = "Name displayed when sending mails.";
+        };
 
-      realName = mkOption {
-        type = types.str;
-        example = "Jane Doe";
-        description = "Name displayed when sending mails.";
-      };
+        userName = mkOption {
+          type = types.nullOr types.str;
+          default = null;
+          description = ''
+            The server username of this account. This will be used as
+            the SMTP, IMAP, and JMAP user name.
+          '';
+        };
 
-      userName = mkOption {
-        type = types.nullOr types.str;
-        default = null;
-        description = ''
-          The server username of this account. This will be used as
-          the SMTP, IMAP, and JMAP user name.
-        '';
-      };
+        passwordCommand = mkOption {
+          type = types.nullOr (types.either types.str (types.listOf types.str));
+          default = null;
+          apply = p: if isString p then splitString " " p else p;
+          example = "secret-tool lookup email me@example.org";
+          description = ''
+            A command, which when run writes the account password on
+            standard output.
+          '';
+        };
 
-      passwordCommand = mkOption {
-        type = types.nullOr (types.either types.str (types.listOf types.str));
-        default = null;
-        apply = p: if isString p then splitString " " p else p;
-        example = "secret-tool lookup email me@example.org";
-        description = ''
-          A command, which when run writes the account password on
-          standard output.
-        '';
-      };
+        folders = mkOption {
+          type = types.submodule {
+            options = {
+              inbox = mkOption {
+                type = types.str;
+                default = "Inbox";
+                description = ''
+                  Relative path of the inbox mail.
+                '';
+              };
 
-      folders = mkOption {
-        type = types.submodule {
-          options = {
-            inbox = mkOption {
-              type = types.str;
-              default = "Inbox";
-              description = ''
-                Relative path of the inbox mail.
-              '';
-            };
+              sent = mkOption {
+                type = types.nullOr types.str;
+                default = "Sent";
+                description = ''
+                  Relative path of the sent mail folder.
+                '';
+              };
 
-            sent = mkOption {
-              type = types.nullOr types.str;
-              default = "Sent";
-              description = ''
-                Relative path of the sent mail folder.
-              '';
-            };
+              drafts = mkOption {
+                type = types.nullOr types.str;
+                default = "Drafts";
+                description = ''
+                  Relative path of the drafts mail folder.
+                '';
+              };
 
-            drafts = mkOption {
-              type = types.nullOr types.str;
-              default = "Drafts";
-              description = ''
-                Relative path of the drafts mail folder.
-              '';
-            };
-
-            trash = mkOption {
-              type = types.str;
-              default = "Trash";
-              description = ''
-                Relative path of the deleted mail folder.
-              '';
+              trash = mkOption {
+                type = types.str;
+                default = "Trash";
+                description = ''
+                  Relative path of the deleted mail folder.
+                '';
+              };
             };
           };
+          default = { };
+          description = ''
+            Standard email folders.
+          '';
         };
-        default = { };
-        description = ''
-          Standard email folders.
-        '';
+
+        imap = mkOption {
+          type = types.nullOr imapModule;
+          default = null;
+          description = ''
+            The IMAP configuration to use for this account.
+          '';
+        };
+
+        jmap = mkOption {
+          type = types.nullOr jmapModule;
+          default = null;
+          description = ''
+            The JMAP configuration to use for this account.
+          '';
+        };
+
+        signature = mkOption {
+          type = signatureModule;
+          default = { };
+          description = ''
+            Signature configuration.
+          '';
+        };
+
+        gpg = mkOption {
+          type = types.nullOr gpgModule;
+          default = null;
+          description = ''
+            GPG configuration.
+          '';
+        };
+
+        smtp = mkOption {
+          type = types.nullOr smtpModule;
+          default = null;
+          description = ''
+            The SMTP configuration to use for this account.
+          '';
+        };
+
+        maildir = mkOption {
+          type = types.nullOr maildirModule;
+          defaultText = {
+            path = "\${name}";
+          };
+          description = ''
+            Maildir configuration for this account.
+          '';
+        };
       };
 
-      imap = mkOption {
-        type = types.nullOr imapModule;
-        default = null;
-        description = ''
-          The IMAP configuration to use for this account.
-        '';
-      };
+      config = mkMerge [
+        {
+          name = name;
+          maildir = mkOptionDefault { path = "${name}"; };
+        }
 
-      jmap = mkOption {
-        type = types.nullOr jmapModule;
-        default = null;
-        description = ''
-          The JMAP configuration to use for this account.
-        '';
-      };
+        (mkIf (config.flavor == "yandex.com") {
+          userName = mkDefault config.address;
 
-      signature = mkOption {
-        type = signatureModule;
-        default = { };
-        description = ''
-          Signature configuration.
-        '';
-      };
+          imap = {
+            host = "imap.yandex.com";
+            port = 993;
+            tls.enable = true;
+          };
 
-      gpg = mkOption {
-        type = types.nullOr gpgModule;
-        default = null;
-        description = ''
-          GPG configuration.
-        '';
-      };
+          smtp = {
+            host = "smtp.yandex.com";
+            port = 465;
+            tls.enable = true;
+          };
+        })
 
-      smtp = mkOption {
-        type = types.nullOr smtpModule;
-        default = null;
-        description = ''
-          The SMTP configuration to use for this account.
-        '';
-      };
+        (mkIf (config.flavor == "outlook.office365.com") {
+          userName = mkDefault config.address;
 
-      maildir = mkOption {
-        type = types.nullOr maildirModule;
-        defaultText = { path = "\${name}"; };
-        description = ''
-          Maildir configuration for this account.
-        '';
-      };
+          imap = {
+            host = "outlook.office365.com";
+            port = 993;
+            tls.enable = true;
+          };
+
+          smtp = {
+            host = "smtp.office365.com";
+            port = 587;
+            tls = {
+              enable = true;
+              useStartTls = true;
+            };
+          };
+        })
+
+        (mkIf (config.flavor == "fastmail.com") {
+          userName = mkDefault config.address;
+
+          imap = {
+            host = "imap.fastmail.com";
+            port = 993;
+          };
+
+          smtp = {
+            host = "smtp.fastmail.com";
+            port = if config.smtp.tls.useStartTls then 587 else 465;
+          };
+
+          jmap = {
+            host = "fastmail.com";
+            sessionUrl = "https://jmap.fastmail.com/.well-known/jmap";
+          };
+        })
+
+        (mkIf (config.flavor == "gmail.com") {
+          userName = mkDefault config.address;
+
+          imap = {
+            host = "imap.gmail.com";
+            port = 993;
+          };
+
+          smtp = {
+            host = "smtp.gmail.com";
+            port = if config.smtp.tls.useStartTls then 587 else 465;
+          };
+        })
+
+        (mkIf (config.flavor == "runbox.com") {
+          imap = {
+            host = "mail.runbox.com";
+          };
+
+          smtp = {
+            host = "mail.runbox.com";
+          };
+        })
+      ];
     };
 
-    config = mkMerge [
-      {
-        name = name;
-        maildir = mkOptionDefault { path = "${name}"; };
-      }
-
-      (mkIf (config.flavor == "yandex.com") {
-        userName = mkDefault config.address;
-
-        imap = {
-          host = "imap.yandex.com";
-          port = 993;
-          tls.enable = true;
-        };
-
-        smtp = {
-          host = "smtp.yandex.com";
-          port = 465;
-          tls.enable = true;
-        };
-      })
-
-      (mkIf (config.flavor == "outlook.office365.com") {
-        userName = mkDefault config.address;
-
-        imap = {
-          host = "outlook.office365.com";
-          port = 993;
-          tls.enable = true;
-        };
-
-        smtp = {
-          host = "smtp.office365.com";
-          port = 587;
-          tls = {
-            enable = true;
-            useStartTls = true;
-          };
-        };
-      })
-
-      (mkIf (config.flavor == "fastmail.com") {
-        userName = mkDefault config.address;
-
-        imap = {
-          host = "imap.fastmail.com";
-          port = 993;
-        };
-
-        smtp = {
-          host = "smtp.fastmail.com";
-          port = if config.smtp.tls.useStartTls then 587 else 465;
-        };
-
-        jmap = {
-          host = "fastmail.com";
-          sessionUrl = "https://jmap.fastmail.com/.well-known/jmap";
-        };
-      })
-
-      (mkIf (config.flavor == "gmail.com") {
-        userName = mkDefault config.address;
-
-        imap = {
-          host = "imap.gmail.com";
-          port = 993;
-        };
-
-        smtp = {
-          host = "smtp.gmail.com";
-          port = if config.smtp.tls.useStartTls then 587 else 465;
-        };
-      })
-
-      (mkIf (config.flavor == "runbox.com") {
-        imap = { host = "mail.runbox.com"; };
-
-        smtp = { host = "mail.runbox.com"; };
-      })
-    ];
-  };
-
-in {
+in
+{
   options.accounts.email = {
     certificatesFile = mkOption {
       type = types.nullOr types.path;
@@ -488,8 +512,7 @@ in {
       type = types.str;
       default = "${config.home.homeDirectory}/Maildir";
       defaultText = "$HOME/Maildir";
-      apply = p:
-        if hasPrefix "/" p then p else "${config.home.homeDirectory}/${p}";
+      apply = p: if hasPrefix "/" p then p else "${config.home.homeDirectory}/${p}";
       description = ''
         The base directory for account maildir directories. May be a
         relative path, in which case it is relative the home
@@ -506,15 +529,18 @@ in {
 
   config = mkIf (cfg.accounts != { }) {
     assertions = [
-      (let
-        primaries =
-          catAttrs "name" (filter (a: a.primary) (attrValues cfg.accounts));
-      in {
-        assertion = length primaries == 1;
-        message = "Must have exactly one primary mail account but found "
-          + toString (length primaries) + optionalString (length primaries > 1)
-          (", namely " + concatStringsSep ", " primaries);
-      })
+      (
+        let
+          primaries = catAttrs "name" (filter (a: a.primary) (attrValues cfg.accounts));
+        in
+        {
+          assertion = length primaries == 1;
+          message =
+            "Must have exactly one primary mail account but found "
+            + toString (length primaries)
+            + optionalString (length primaries > 1) (", namely " + concatStringsSep ", " primaries);
+        }
+      )
     ];
   };
 }

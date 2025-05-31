@@ -1,7 +1,9 @@
-{ name, config, ... }: {
+{ name, config, ... }:
+{
   age.secrets.backup_repo.file = ../../secrets/${name}_borg_repo.age;
   age.secrets.backup_ssh.file = ../../secrets/${name}_borg_ssh.age;
-  programs.ssh.knownHosts."zh3213.rsync.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJtclizeBy1Uo3D86HpgD3LONGVH0CJ0NT+YfZlldAJd";
+  programs.ssh.knownHosts."zh3213.rsync.net".publicKey =
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJtclizeBy1Uo3D86HpgD3LONGVH0CJ0NT+YfZlldAJd";
   services.borgbackup.jobs.backup = {
     encryption = {
       # Keep the encryption key in the repo itself

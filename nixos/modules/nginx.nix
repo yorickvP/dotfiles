@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   config = lib.mkIf config.services.nginx.enable {
@@ -18,7 +23,10 @@
         proxy_set_header X-Middleware-Subrequest "";
       '';
     };
-    networking.firewall.allowedTCPPorts = [ 80 443 ];
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+    ];
     system.activationScripts.nginxdhparams = ''
       if ! [[ -e /etc/nginx/dhparam.pem ]]; then
         mkdir -p /etc/nginx/

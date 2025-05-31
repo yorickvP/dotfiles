@@ -1,9 +1,27 @@
-{ stdenv, lib, p7zip, fetchurl, electron_26, makeWrapper, buildYarnPackage, python3
-, nodejs, makeDesktopItem, copyDesktopItems, jq, runCommand, gzip, xz }:
+{
+  stdenv,
+  lib,
+  p7zip,
+  fetchurl,
+  electron_26,
+  makeWrapper,
+  buildYarnPackage,
+  python3,
+  nodejs,
+  makeDesktopItem,
+  copyDesktopItems,
+  jq,
+  runCommand,
+  gzip,
+  xz,
+}:
 
 let
   env = buildYarnPackage {
-    src = lib.sourceByRegex ./. [ "^package\.json$" "^yarn\.lock$" ];
+    src = lib.sourceByRegex ./. [
+      "^package\.json$"
+      "^yarn\.lock$"
+    ];
     postBuild = "yarn install --production --ignore-scripts --prefer-offline";
   };
   # version should match the version in the electron package
@@ -12,7 +30,8 @@ let
     hash = "sha256-AdP6+GiuEne2GMdevHLGciFsubGR9Gczr2QK3W0xO/s=";
   };
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "notion-desktop";
   version = "2.2.0";
 
@@ -21,7 +40,14 @@ in stdenv.mkDerivation rec {
     hash = "sha256-bRFW3Dh/Nqh46/F35ANA8wQNQ4T7Kf5Lx9+IpNoBjtE=";
   };
 
-  nativeBuildInputs = [ p7zip makeWrapper python3 nodejs copyDesktopItems jq ];
+  nativeBuildInputs = [
+    p7zip
+    makeWrapper
+    python3
+    nodejs
+    copyDesktopItems
+    jq
+  ];
   npm_config_tarball = electron_26.headers;
 
   unpackPhase = ''

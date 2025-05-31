@@ -1,8 +1,16 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 let
   cfg = config.services.yorick.website;
-in with lib; {
+in
+with lib;
+{
   options.services.yorick = {
     website = {
       enable = mkEnableOption "yoricc website";
@@ -12,10 +20,11 @@ in with lib; {
         default = pkgs.yori-cc;
       };
       nginx = mkOption {
-        type = types.submodule (recursiveUpdate (import
-          (modulesPath + "/services/web-servers/nginx/vhost-options.nix") {
+        type = types.submodule (
+          recursiveUpdate (import (modulesPath + "/services/web-servers/nginx/vhost-options.nix") {
             inherit config lib;
-          }) { });
+          }) { }
+        );
         default = { };
         description = ''
           With this option, you can customize the nginx virtualHost settings.
@@ -27,7 +36,8 @@ in with lib; {
       default = [ ];
     };
   };
-  config.services.nginx.virtualHosts = with cfg;
+  config.services.nginx.virtualHosts =
+    with cfg;
     mkIf enable {
       ${vhost} = lib.mkMerge [
         cfg.nginx

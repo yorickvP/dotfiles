@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -6,9 +11,14 @@ let
   cfg = config.services.play-nijmegen-calendar;
   localesWithDutch = pkgs.glibcLocales.override {
     allLocales = false;
-    locales = [ "C.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8" ];
+    locales = [
+      "C.UTF-8/UTF-8"
+      "en_US.UTF-8/UTF-8"
+      "nl_NL.UTF-8/UTF-8"
+    ];
   };
-in {
+in
+{
   options.services.play-nijmegen-calendar = {
     enable = mkEnableOption "Play Nijmegen Calendar generator";
 

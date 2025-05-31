@@ -1,6 +1,14 @@
-{ lib, config, options, pkgs, ... }: let
+{
+  lib,
+  config,
+  options,
+  pkgs,
+  ...
+}:
+let
   epkgs = pkgs.emacsPackagesFor pkgs.emacs-unstable-pgtk;
-in {
+in
+{
   programs.emacs = {
     enable = true;
     package = pkgs.emacs30-pgtk;
@@ -9,30 +17,34 @@ in {
     '';
     overrides = final: prev: {
       copilot = final.melpaBuild rec {
-          pname = "copilot";
-          version = "20250506";
-          commit = "fe3f51b636dea1c9ac55a0d5dc5d7df02dcbaa48";
+        pname = "copilot";
+        version = "20250506";
+        commit = "fe3f51b636dea1c9ac55a0d5dc5d7df02dcbaa48";
 
-          src = pkgs.fetchFromGitHub {
-            owner = "copilot-emacs";
-            repo = "copilot.el";
-            rev = commit;
-            hash = "sha256-reoIFMjx2Go/EPAxD+OQFxge/amqguZS+jteh0b9xgA";
-          };
-
-          packageRequires = with final; [ editorconfig f ];
-
-          recipe = pkgs.writeText "recipe" ''
-            (copilot
-            :repo "copilot-emacs/copilot.el"
-            :fetcher github
-            :files ("dist" "*.el"))
-          '';
-
-          meta.description = "Emacs plugin for GitHub Copilot";
+        src = pkgs.fetchFromGitHub {
+          owner = "copilot-emacs";
+          repo = "copilot.el";
+          rev = commit;
+          hash = "sha256-reoIFMjx2Go/EPAxD+OQFxge/amqguZS+jteh0b9xgA";
         };
+
+        packageRequires = with final; [
+          editorconfig
+          f
+        ];
+
+        recipe = pkgs.writeText "recipe" ''
+          (copilot
+          :repo "copilot-emacs/copilot.el"
+          :fetcher github
+          :files ("dist" "*.el"))
+        '';
+
+        meta.description = "Emacs plugin for GitHub Copilot";
+      };
     };
-    extraPackages = p:
+    extraPackages =
+      p:
       (with p; [
         # evil-magit
         all-the-icons
@@ -122,11 +134,10 @@ in {
         aidermacs
       ]);
   };
-  
 
   fonts.fontconfig.enable = true;
   home.packages = [
-    (pkgs.runCommand "all-the-icons-fonts" {} ''
+    (pkgs.runCommand "all-the-icons-fonts" { } ''
       mkdir -p $out/share/fonts/truetype
       cp ${epkgs.melpaPackages.all-the-icons.src}/fonts/*.ttf $_
     '')

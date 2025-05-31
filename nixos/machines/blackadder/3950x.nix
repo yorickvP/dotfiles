@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 {
   imports = [
     ./3950x-hardware-config.nix
@@ -10,7 +16,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
-  boot.kernelModules = [ "nct6775" "i2c-dev" "i2c-piix4" ];
+  boot.kernelModules = [
+    "nct6775"
+    "i2c-dev"
+    "i2c-piix4"
+  ];
   networking.hostId = "c7736638";
   services.zfs.autoScrub.enable = true;
   services.zfs.trim.enable = true;
@@ -22,8 +32,14 @@
   #   matchConfig.OriginalName = "*";
   #   linkConfig.NamePolicy = "mac kernel database onboard slot path";
   # };
-  environment.systemPackages = [ pkgs.openrgb pkgs.egl-wayland ];
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  environment.systemPackages = [
+    pkgs.openrgb
+    pkgs.egl-wayland
+  ];
+  services.xserver.videoDrivers = [
+    "modesetting"
+    "nvidia"
+  ];
   hardware.nvidia.open = false; # TODO(2511): see if prime works
   hardware.nvidia.powerManagement.finegrained = true;
   hardware.nvidia.prime.offload.enable = true;
@@ -38,6 +54,6 @@
 
   # prevent desk usb hub from suspending
   services.udev.extraRules = ''
-     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="2109", ATTR{idProduct}=="2811", TEST=="power/control", ATTR{power/control}="on"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="2109", ATTR{idProduct}=="2811", TEST=="power/control", ATTR{power/control}="on"
   '';
 }

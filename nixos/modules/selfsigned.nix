@@ -1,6 +1,13 @@
-{ pkgs, config, lib, ...}: let
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
   cfg = config.security.y-selfsigned;
-in {
+in
+{
   options.security.y-selfsigned = with lib; {
     enable = mkEnableOption "Enable generating a self-signed certificate";
     directory = mkOption {

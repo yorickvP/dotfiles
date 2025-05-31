@@ -1,4 +1,8 @@
-{ lib, buildPythonPackage, fetchPypi }:
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+}:
 
 buildPythonPackage rec {
   pname = "libscrc";
@@ -9,7 +13,7 @@ buildPythonPackage rec {
     hash = "sha256-17pr8jz96ztynQrTeV9sb5fY6kFVJS48qfFHWHArp8g=";
   };
 
-  propagatedBuildInputs = [];
+  propagatedBuildInputs = [ ];
 
   pythonImportsCheck = [ "libscrc" ];
 

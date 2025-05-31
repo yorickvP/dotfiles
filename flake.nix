@@ -23,21 +23,34 @@
     nixpkgs-unstable.follows = "nixpkgs";
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
-  outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
-                   , nixos-hardware, agenix, flake-utils
-                   , nix-index-database, nix-npm-buildpackage
-                   , yobot, ghostty
-                   , self
-    , ... }:
-    (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
-      let pkgs = self.legacyPackages.${system};
-      in {
+  outputs =
+    inputs@{
+      nixpkgs,
+      home-manager,
+      nixpkgs-mozilla,
+      emacs-overlay,
+      nixos-hardware,
+      agenix,
+      flake-utils,
+      nix-index-database,
+      nix-npm-buildpackage,
+      yobot,
+      ghostty,
+      self,
+      ...
+    }:
+    (flake-utils.lib.eachSystem [ "x86_64-linux" ] (
+      system:
+      let
+        pkgs = self.legacyPackages.${system};
+      in
+      {
         legacyPackages = import nixpkgs {
           config = {
             allowUnfree = true;
             # chromium.vaapiSupport = true;
             android_sdk.accept_license = true;
-            permittedInsecurePackages = [];
+            permittedInsecurePackages = [ ];
           };
           inherit system;
           overlays = [ self.overlays.default ];
@@ -45,13 +58,18 @@
 
         packages = {
           yorick-home = self.homeConfigurations.${system}.activationPackage;
-          default = pkgs.linkFarm "yori-nix" ([{
-            name = "yorick-home";
-            path = self.packages.${system}.yorick-home;
-          }] ++ (map (n: {
-            name = n.toplevel.name;
-            path = n.toplevel;
-          }) (builtins.attrValues self.nixosConfigurations)));
+          default = pkgs.linkFarm "yori-nix" (
+            [
+              {
+                name = "yorick-home";
+                path = self.packages.${system}.yorick-home;
+              }
+            ]
+            ++ (map (n: {
+              name = n.toplevel.name;
+              path = n.toplevel;
+            }) (builtins.attrValues self.nixosConfigurations))
+          );
         };
 
         homeConfigurations = home-manager.lib.homeManagerConfiguration {
@@ -75,26 +93,28 @@
           ];
         };
 
-      })) // {
-        overlays.default = nixpkgs.lib.composeManyExtensions [
-          nixpkgs-mozilla.overlay
-          emacs-overlay.overlay
-          agenix.overlays.default
-          (import ./fixups.nix)
-          (import ./pkgs)
-          (import ./pkgs/mdr.nix)
-          (final: prev: {
-            flake-inputs = inputs;
-            nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
-            fooocus = inputs.fooocus.packages.${final.system}.default;
-            ghostty = inputs.ghostty.packages.${final.system}.ghostty.overrideAttrs (o: {
-              patches = (o.patches or []) ++ [
-                ./pkgs/ghostty-delimiter.patch
-              ];
-            });
-          })
-          (import ./nixos/overlay.nix)
-        ];
-        nixosConfigurations = self.legacyPackages.x86_64-linux.yorick.machine;
-      };
+      }
+    ))
+    // {
+      overlays.default = nixpkgs.lib.composeManyExtensions [
+        nixpkgs-mozilla.overlay
+        emacs-overlay.overlay
+        agenix.overlays.default
+        (import ./fixups.nix)
+        (import ./pkgs)
+        (import ./pkgs/mdr.nix)
+        (final: prev: {
+          flake-inputs = inputs;
+          nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
+          fooocus = inputs.fooocus.packages.${final.system}.default;
+          ghostty = inputs.ghostty.packages.${final.system}.ghostty.overrideAttrs (o: {
+            patches = (o.patches or [ ]) ++ [
+              ./pkgs/ghostty-delimiter.patch
+            ];
+          });
+        })
+        (import ./nixos/overlay.nix)
+      ];
+      nixosConfigurations = self.legacyPackages.x86_64-linux.yorick.machine;
+    };
 }

@@ -1,4 +1,10 @@
-{ dream2nix, config, lib, ... }: {
+{
+  dream2nix,
+  config,
+  lib,
+  ...
+}:
+{
   imports = [ dream2nix.modules.dream2nix.pip ];
 
   name = "Fooocus";
@@ -31,13 +37,18 @@
   };
   buildPythonPackage.format = "other";
 
-  deps = { nixpkgs, ... }: {
-    inherit (nixpkgs) fetchFromGitHub which;
-    inherit (nixpkgs.cudaPackages_12_1) cudatoolkit cudnn;
-  };
+  deps =
+    { nixpkgs, ... }:
+    {
+      inherit (nixpkgs) fetchFromGitHub which;
+      inherit (nixpkgs.cudaPackages_12_1) cudatoolkit cudnn;
+    };
   pip = {
     drvs = {
-      torch.env.appendRunpaths = [ "/run/opengl-driver/lib" "$ORIGIN" ];
+      torch.env.appendRunpaths = [
+        "/run/opengl-driver/lib"
+        "$ORIGIN"
+      ];
       # libnvToolsExt.so
       torch.mkDerivation.buildInputs = [ config.deps.cudatoolkit ];
       # libcudart.so.12
@@ -72,7 +83,8 @@
       "triton"
       "setuptools"
       "httpx==0.24.1"
-      "--extra-index-url" "https://download.pytorch.org/whl/cu121"
+      "--extra-index-url"
+      "https://download.pytorch.org/whl/cu121"
     ];
   };
 }

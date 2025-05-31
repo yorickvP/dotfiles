@@ -1,5 +1,12 @@
-{ config, lib, pkgs, ... }:
-let cfg = config.services.fooocus; in
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.services.fooocus;
+in
 {
   options.services.fooocus = with lib; {
     enable = mkEnableOption "Fooocus";
@@ -91,51 +98,53 @@ let cfg = config.services.fooocus; in
         "path_outputs" = "${cfg.path.outputs}";
       };
     };
-      
+
   };
-  config = let
-    configFile = pkgs.writeText "config.json" (builtins.toJSON cfg.config);
-  in lib.mkIf cfg.enable {
-    systemd.services.fooocus = {
-      description = "Fooocus server";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      environment.config_path = "${configFile}";
-      environment.config_example_path = "/var/lib/fooocus/config_modification_tutorial.txt";
-      serviceConfig = {
-        Type = "simple";
-        # it wants to write for no good reason
-        # todo: remove these symlinks
-        ExecStartPre = pkgs.writeShellScript "pre-start" ''
-          cp ${configFile} /var/lib/fooocus/config.txt
-          chmod +w /var/lib/fooocus/config.txt
-          mkdir /tmp/fooocus
-          ln -sfn ${cfg.package}/javascript /var/lib/fooocus/javascript
-          ln -sfn ${cfg.package}/css /var/lib/fooocus/css
-        '';
-        ExecStart = "${cfg.package}/bin/fooocus --port ${toString cfg.port} --disable-in-browser --multi-user --listen ${cfg.listen} --always-high-vram";
-        Restart = "always";
-        RestartSec = "10";
-        User = "fooocus";
-        Group = "fooocus";
-        PrivateTmp = true;
-        ProtectSystem = "full";
-        ProtectHome = true;
-        NoNewPrivileges = true;
-        WorkingDirectory = "/var/lib/fooocus";
-        ReadWritePaths = [
-          "/var/lib/fooocus"
-          "/var/models/Fooocus"
-          "/var/sd/outputs/sdxl"
-        ];
+  config =
+    let
+      configFile = pkgs.writeText "config.json" (builtins.toJSON cfg.config);
+    in
+    lib.mkIf cfg.enable {
+      systemd.services.fooocus = {
+        description = "Fooocus server";
+        after = [ "network.target" ];
+        wantedBy = [ "multi-user.target" ];
+        environment.config_path = "${configFile}";
+        environment.config_example_path = "/var/lib/fooocus/config_modification_tutorial.txt";
+        serviceConfig = {
+          Type = "simple";
+          # it wants to write for no good reason
+          # todo: remove these symlinks
+          ExecStartPre = pkgs.writeShellScript "pre-start" ''
+            cp ${configFile} /var/lib/fooocus/config.txt
+            chmod +w /var/lib/fooocus/config.txt
+            mkdir /tmp/fooocus
+            ln -sfn ${cfg.package}/javascript /var/lib/fooocus/javascript
+            ln -sfn ${cfg.package}/css /var/lib/fooocus/css
+          '';
+          ExecStart = "${cfg.package}/bin/fooocus --port ${toString cfg.port} --disable-in-browser --multi-user --listen ${cfg.listen} --always-high-vram";
+          Restart = "always";
+          RestartSec = "10";
+          User = "fooocus";
+          Group = "fooocus";
+          PrivateTmp = true;
+          ProtectSystem = "full";
+          ProtectHome = true;
+          NoNewPrivileges = true;
+          WorkingDirectory = "/var/lib/fooocus";
+          ReadWritePaths = [
+            "/var/lib/fooocus"
+            "/var/models/Fooocus"
+            "/var/sd/outputs/sdxl"
+          ];
+        };
       };
+      users.users.fooocus = {
+        isSystemUser = true;
+        createHome = true;
+        group = "fooocus";
+        home = "/var/lib/fooocus";
+      };
+      users.groups.fooocus = { };
     };
-    users.users.fooocus = {
-      isSystemUser = true;
-      createHome = true;
-      group = "fooocus";
-      home = "/var/lib/fooocus";
-    };
-    users.groups.fooocus = {};
-  };
 }

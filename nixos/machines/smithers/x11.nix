@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1
@@ -32,7 +38,11 @@
     initrd.verbose = false;
     plymouth.enable = true;
     consoleLogLevel = 0;
-    kernelParams = [ "quiet" "udev.log_level=3" "i915.fastboot=1" ];
+    kernelParams = [
+      "quiet"
+      "udev.log_level=3"
+      "i915.fastboot=1"
+    ];
   };
   boot.loader.timeout = 0;
 

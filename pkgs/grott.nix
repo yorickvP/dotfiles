@@ -1,6 +1,14 @@
-{ stdenv, python3, fetchFromGitHub, makeWrapper }:
+{
+  stdenv,
+  python3,
+  fetchFromGitHub,
+  makeWrapper,
+}:
 let
-  python = python3.withPackages (p: [ p.paho-mqtt p.libscrc ]);
+  python = python3.withPackages (p: [
+    p.paho-mqtt
+    p.libscrc
+  ]);
 in
 stdenv.mkDerivation (o: {
   pname = "grott";

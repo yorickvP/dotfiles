@@ -1,8 +1,17 @@
 let
   sshkeys = import ../../sshkeys.nix;
 in
-{ config, pkgs, lib, ... }: {
-  imports = [ ./3950x.nix ../../roles/workstation.nix ];
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
+  imports = [
+    ./3950x.nix
+    ../../roles/workstation.nix
+  ];
 
   system.stateVersion = "19.09";
 
@@ -75,10 +84,12 @@ in
   services.postgresql = {
     enable = lib.mkForce true;
     ensureDatabases = [ "vierkantle" ];
-    ensureUsers = [ {
-      name = "vierkantle";
-      ensureDBOwnership = true;
-    } ];
+    ensureUsers = [
+      {
+        name = "vierkantle";
+        ensureDBOwnership = true;
+      }
+    ];
   };
   age.secrets."wg.dk.archbox.conf" = {
     file = ../../../secrets/wg.dk.archbox.conf.age;

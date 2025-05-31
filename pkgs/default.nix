@@ -2,18 +2,18 @@
 
   yori-cc = super.callPackage ./yori-cc.nix { };
 
-  ftb = super.callPackage ./ftb.nix {};
+  ftb = super.callPackage ./ftb.nix { };
 
-  yscripts = super.callPackage ../bin {};
+  yscripts = super.callPackage ../bin { };
   factorio = super.factorio.override {
     releaseType = "alpha";
     username = "yorickvp";
     token = (import ../nixos/secrets.nix).factorio_token;
   };
   playerctl = super.playerctl.overrideAttrs (o: {
-    patches = (o.patches or []) ++ [ ./playerctl-solid-emoji.diff ];
+    patches = (o.patches or [ ]) ++ [ ./playerctl-solid-emoji.diff ];
   });
-  countfftabs = super.callPackage ./countfftabs {};
+  countfftabs = super.callPackage ./countfftabs { };
   lz4json = super.stdenv.mkDerivation (o: {
     pname = "lz4json";
     version = "20191229";
@@ -31,19 +31,19 @@
       runHook postInstall
     '';
   });
-  wayland-push-to-talk-fix = self.callPackage ./wayland-push-to-talk-fix.nix {};
+  wayland-push-to-talk-fix = self.callPackage ./wayland-push-to-talk-fix.nix { };
   inherit (self.nix-npm-buildpackage) buildYarnPackage;
-  marvin-tracker = self.callPackage ./marvin-tracker {};
-  grott = self.callPackage ./grott.nix {};
+  marvin-tracker = self.callPackage ./marvin-tracker { };
+  grott = self.callPackage ./grott.nix { };
   python3 = super.python3.override {
     packageOverrides = pyself: pysuper: {
-      libscrc = pyself.callPackage ./libscrc.nix {};
+      libscrc = pyself.callPackage ./libscrc.nix { };
     };
   };
-  xwaylandvideobridge = self.libsForQt5.callPackage ./xwaylandvideobridge.nix {};
+  xwaylandvideobridge = self.libsForQt5.callPackage ./xwaylandvideobridge.nix { };
   wl-clipboard = super.wl-clipboard.overrideAttrs (o: {
     # todo: upstream
-    patches = (o.patches or []) ++ [
+    patches = (o.patches or [ ]) ++ [
       (self.fetchpatch {
         url = "https://puck.moe/up/zapap-suhih.patch";
         hash = "sha256-YiFDeBN1k2+lxVnWnU5sMpIJ7/zsVPEm5OZf0nHhzJA=";
@@ -79,38 +79,46 @@
       repo = pname;
       hash = "sha256-Ye/Htcp9lrRo80ix4QQ+lDZSmpDSA6t1MCcWL6yTvGg=";
     };
-    buildFeatures = [ "cli" "request" "crypto" ];
-
+    buildFeatures = [
+      "cli"
+      "request"
+      "crypto"
+    ];
 
     cargoHash = "sha256-9mGswL1QberwXpO0qj7NbyY5zozWj88dwCCY6kQ92uU";
     nativeBuildInputs = [ self.pkg-config ];
     buildInputs = [ self.openssl.dev ];
   };
   govee2mqtt = super.callPackage ./govee2mqtt.nix { inherit (super) govee2mqtt; };
-  play-nijmegen-calendar = super.callPackage ./play-nijmegen-calendar/default.nix {};
-  proquint = super.callPackage ({ python3 }: python3.pkgs.buildPythonPackage rec {
-    pname = "proquint";
-    version = "0.2.1";
+  play-nijmegen-calendar = super.callPackage ./play-nijmegen-calendar/default.nix { };
+  proquint = super.callPackage (
+    { python3 }:
+    python3.pkgs.buildPythonPackage rec {
+      pname = "proquint";
+      version = "0.2.1";
 
-    src = python3.pkgs.fetchPypi {
-      inherit pname version;
-      sha256 = "0dda5h3lc4mv5sch1cvdjk4hvcng6nzabbpby2f7vvbf5x61mmij";
-    };
-    checkInputs = with python3.pkgs; [ nose hypothesis ];
-    pythonImportsCheck = [ "proquint" ];
+      src = python3.pkgs.fetchPypi {
+        inherit pname version;
+        sha256 = "0dda5h3lc4mv5sch1cvdjk4hvcng6nzabbpby2f7vvbf5x61mmij";
+      };
+      checkInputs = with python3.pkgs; [
+        nose
+        hypothesis
+      ];
+      pythonImportsCheck = [ "proquint" ];
 
-    meta = {
-      description =
-        "Proquints: Identifiers that are Readable, Spellable, and Pronounceable";
-      homepage = "https://pypi.org/project/proquint/";
-    };
-  }) {};
+      meta = {
+        description = "Proquints: Identifiers that are Readable, Spellable, and Pronounceable";
+        homepage = "https://pypi.org/project/proquint/";
+      };
+    }
+  ) { };
   wg-restarter = self.buildGoModule {
     name = "wg-restarter";
     src = ./wg-restarter;
     vendorHash = null;
   };
-  claude-desktop = super.callPackage ./claude-desktop.nix {};
+  claude-desktop = super.callPackage ./claude-desktop.nix { };
   transmission_405 = super.transmission_4.overrideAttrs {
     version = "4.0.5";
     src = self.fetchFromGitHub {

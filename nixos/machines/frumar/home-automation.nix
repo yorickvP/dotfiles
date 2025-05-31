@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   services.nginx.virtualHosts."home-assistant.yori.cc" = {
     onlySSL = true;
     useACMEHost = "wildcard.yori.cc";
@@ -51,19 +57,26 @@
       "androidtv_remote"
       "esphome"
       "met"
-      "unifi" "yeelight" "plex" "frontend"
+      "unifi"
+      "yeelight"
+      "plex"
+      "frontend"
       "tado"
-      "automation" "device_automation"
+      "automation"
+      "device_automation"
       "homewizard"
-      "github" "backup"
+      "github"
+      "backup"
       "mqtt"
       "brother"
       "utility_meter"
       "spotify"
-      "yamaha_musiccast" "cast"
+      "yamaha_musiccast"
+      "cast"
       "ipp"
       "homekit_controller"
-      "tuya" "ffmpeg"
+      "tuya"
+      "ffmpeg"
       "govee_light_local"
       "sonos"
       #"unifiprotect"
@@ -75,10 +88,10 @@
       # sleep_as_android
     ];
     config = {
-      mobile_app = {};
-      default_config = {};
-      system_log = {};
-      
+      mobile_app = { };
+      default_config = { };
+      system_log = { };
+
       frontend.themes = "!include_dir_merge_named themes";
       frontend.extra_module_url = "/local/card-mod.js";
       automation = "!include automations.yaml";

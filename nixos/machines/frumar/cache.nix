@@ -1,4 +1,11 @@
-{ config, pkgs, lib, inputs, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+{
   age.secrets.attic.file = ../../../secrets/attic.env.age;
 
   services.nginx.virtualHosts."cache.yori.cc" = {
@@ -44,14 +51,16 @@
     createHome = false;
     group = config.services.atticd.group;
   };
-  users.groups.${config.services.atticd.group} = {};
+  users.groups.${config.services.atticd.group} = { };
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_15;
     ensureDatabases = [ "atticd" ];
-    ensureUsers = [ {
-      name = "atticd";
-      ensureDBOwnership = true;
-    } ];
+    ensureUsers = [
+      {
+        name = "atticd";
+        ensureDBOwnership = true;
+      }
+    ];
   };
 }
