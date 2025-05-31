@@ -41,7 +41,6 @@
     };
   };
   xwaylandvideobridge = self.libsForQt5.callPackage ./xwaylandvideobridge.nix {};
-  timesync = self.flake-inputs.timesync.packages.${self.system}.default;
   wl-clipboard = super.wl-clipboard.overrideAttrs (o: {
     # todo: upstream
     patches = (o.patches or []) ++ [

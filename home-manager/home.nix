@@ -321,7 +321,6 @@ in {
     gamescope
 
     # work
-    timesync
     r8-cog
     mutagen
     # zoom-us

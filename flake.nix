@@ -16,10 +16,6 @@
     nix-npm-buildpackage.url = "github:serokell/nix-npm-buildpackage";
     nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
-    timesync = {
-      url = "github:datakami/timesync";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     fooocus.url = "path:./pkgs/fooocus";
     dream2nix.url = "github:nix-community/dream2nix";
     dream2nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -31,7 +27,7 @@
   };
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixos-hardware, agenix, flake-utils
-                   , nix-index-database, nix-npm-buildpackage, timesync
+                   , nix-index-database, nix-npm-buildpackage
                    , dream2nix, yobot, ghostty
                    , self
     , ... }:

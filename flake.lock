@@ -436,27 +436,6 @@
         "type": "github"
       }
     },
-    "nix-npm-buildpackage_2": {
-      "inputs": {
-        "nixpkgs": [
-          "timesync",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1677562139,
-        "narHash": "sha256-J39FdMjECbWGSXVHmEdyGBD2aRYGhg9bWEPf1/ZR47k=",
-        "owner": "serokell",
-        "repo": "nix-npm-buildpackage",
-        "rev": "d45296118cae672982f192451dd3e19fa6c2d068",
-        "type": "github"
-      },
-      "original": {
-        "owner": "serokell",
-        "repo": "nix-npm-buildpackage",
-        "type": "github"
-      }
-    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1747900541,
@@ -716,7 +695,6 @@
         "nixpkgs-unstable": [
           "nixpkgs"
         ],
-        "timesync": "timesync",
         "yobot": "yobot"
       }
     },
@@ -845,27 +823,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "timesync": {
-      "inputs": {
-        "nix-npm-buildpackage": "nix-npm-buildpackage_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1697615173,
-        "narHash": "sha256-izhFlZg8RZwawl7ZEf6tBMDQx1Q7g0VjNrERWv1AXBg=",
-        "owner": "datakami",
-        "repo": "timesync",
-        "rev": "f7ecf950742a20dc18d11a87d5c87e5f19d3ab90",
-        "type": "github"
-      },
-      "original": {
-        "owner": "datakami",
-        "repo": "timesync",
         "type": "github"
       }
     },
