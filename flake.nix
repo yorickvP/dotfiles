@@ -77,20 +77,10 @@
 
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            y-deployer
             pkgs.agenix
           ];
         };
-        devShells.deployer = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            yarn
-            nodePackages.typescript-language-server
-          ];
-        };
 
-        apps.default = flake-utils.lib.mkApp {
-          drv = pkgs.y-deployer;
-        };
       })) // {
         overlays.default = nixpkgs.lib.composeManyExtensions [
           nixpkgs-mozilla.overlay
