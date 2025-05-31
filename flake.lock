@@ -63,31 +63,9 @@
     },
     "dream2nix": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs",
         "purescript-overlay": "purescript-overlay",
         "pyproject-nix": "pyproject-nix"
-      },
-      "locked": {
-        "lastModified": 1747658429,
-        "narHash": "sha256-qZWuEdxmPx818qR61t3mMozJOvZSmTRUDPU4L3JeGgE=",
-        "owner": "nix-community",
-        "repo": "dream2nix",
-        "rev": "6fd6d9188f32efd1e1656b3c3e63a67f9df7b636",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "dream2nix",
-        "type": "github"
-      }
-    },
-    "dream2nix_2": {
-      "inputs": {
-        "nixpkgs": "nixpkgs",
-        "purescript-overlay": "purescript-overlay_2",
-        "pyproject-nix": "pyproject-nix_2"
       },
       "locked": {
         "lastModified": 1710167744,
@@ -103,11 +81,11 @@
         "type": "github"
       }
     },
-    "dream2nix_3": {
+    "dream2nix_2": {
       "inputs": {
         "nixpkgs": "nixpkgs_3",
-        "purescript-overlay": "purescript-overlay_3",
-        "pyproject-nix": "pyproject-nix_3"
+        "purescript-overlay": "purescript-overlay_2",
+        "pyproject-nix": "pyproject-nix_2"
       },
       "locked": {
         "lastModified": 1747658429,
@@ -146,22 +124,6 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1696426674,
-        "narHash": "sha256-kvjfFW7WAETZlt09AgDn1MrtKzP7t90Vf7vypd3OL1U=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "0f9255e01c2351cc7d116c072cb317785dd33b33",
-        "type": "github"
-      },
-      "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "type": "github"
-      }
-    },
-    "flake-compat_2": {
-      "flake": false,
-      "locked": {
         "lastModified": 1733328505,
         "narHash": "sha256-NeCCThCEP3eCl2l/+27kNNK7QrwZB1IJCrXfrbv5oqU=",
         "owner": "edolstra",
@@ -175,7 +137,7 @@
         "type": "github"
       }
     },
-    "flake-compat_3": {
+    "flake-compat_2": {
       "flake": false,
       "locked": {
         "lastModified": 1747046372,
@@ -191,7 +153,7 @@
         "type": "github"
       }
     },
-    "flake-compat_4": {
+    "flake-compat_3": {
       "flake": false,
       "locked": {
         "lastModified": 1696426674,
@@ -261,7 +223,7 @@
     },
     "fooocus": {
       "inputs": {
-        "dream2nix": "dream2nix_2",
+        "dream2nix": "dream2nix",
         "nixpkgs": [
           "fooocus",
           "dream2nix",
@@ -281,7 +243,7 @@
     },
     "ghostty": {
       "inputs": {
-        "flake-compat": "flake-compat_2",
+        "flake-compat": "flake-compat",
         "flake-utils": "flake-utils_2",
         "nixpkgs-stable": [
           "nixpkgs"
@@ -453,7 +415,7 @@
     "nixos-mailserver": {
       "inputs": {
         "blobs": "blobs",
-        "flake-compat": "flake-compat_3",
+        "flake-compat": "flake-compat_2",
         "git-hooks": "git-hooks",
         "nixpkgs": [
           "nixpkgs"
@@ -558,35 +520,12 @@
     },
     "purescript-overlay": {
       "inputs": {
-        "flake-compat": "flake-compat",
-        "nixpkgs": [
-          "dream2nix",
-          "nixpkgs"
-        ],
-        "slimlock": "slimlock"
-      },
-      "locked": {
-        "lastModified": 1728546539,
-        "narHash": "sha256-Sws7w0tlnjD+Bjck1nv29NjC5DbL6nH5auL9Ex9Iz2A=",
-        "owner": "thomashoneyman",
-        "repo": "purescript-overlay",
-        "rev": "4ad4c15d07bd899d7346b331f377606631eb0ee4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "thomashoneyman",
-        "repo": "purescript-overlay",
-        "type": "github"
-      }
-    },
-    "purescript-overlay_2": {
-      "inputs": {
         "nixpkgs": [
           "fooocus",
           "dream2nix",
           "nixpkgs"
         ],
-        "slimlock": "slimlock_2"
+        "slimlock": "slimlock"
       },
       "locked": {
         "lastModified": 1696022621,
@@ -602,15 +541,15 @@
         "type": "github"
       }
     },
-    "purescript-overlay_3": {
+    "purescript-overlay_2": {
       "inputs": {
-        "flake-compat": "flake-compat_4",
+        "flake-compat": "flake-compat_3",
         "nixpkgs": [
           "yobot",
           "dream2nix",
           "nixpkgs"
         ],
-        "slimlock": "slimlock_3"
+        "slimlock": "slimlock_2"
       },
       "locked": {
         "lastModified": 1728546539,
@@ -660,27 +599,9 @@
         "type": "github"
       }
     },
-    "pyproject-nix_3": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1702448246,
-        "narHash": "sha256-hFg5s/hoJFv7tDpiGvEvXP0UfFvFEDgTdyHIjDVHu1I=",
-        "owner": "davhau",
-        "repo": "pyproject.nix",
-        "rev": "5a06a2697b228c04dd2f35659b4b659ca74f7aeb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "davhau",
-        "ref": "dream2nix",
-        "repo": "pyproject.nix",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "dream2nix": "dream2nix",
         "emacs-overlay": "emacs-overlay",
         "flake-utils": "flake-utils",
         "fooocus": "fooocus",
@@ -699,28 +620,6 @@
       }
     },
     "slimlock": {
-      "inputs": {
-        "nixpkgs": [
-          "dream2nix",
-          "purescript-overlay",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1688756706,
-        "narHash": "sha256-xzkkMv3neJJJ89zo3o2ojp7nFeaZc2G0fYwNXNJRFlo=",
-        "owner": "thomashoneyman",
-        "repo": "slimlock",
-        "rev": "cf72723f59e2340d24881fd7bf61cb113b4c407c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "thomashoneyman",
-        "repo": "slimlock",
-        "type": "github"
-      }
-    },
-    "slimlock_2": {
       "inputs": {
         "nixpkgs": [
           "fooocus",
@@ -743,7 +642,7 @@
         "type": "github"
       }
     },
-    "slimlock_3": {
+    "slimlock_2": {
       "inputs": {
         "nixpkgs": [
           "yobot",
@@ -828,7 +727,7 @@
     },
     "yobot": {
       "inputs": {
-        "dream2nix": "dream2nix_3",
+        "dream2nix": "dream2nix_2",
         "flake-utils": "flake-utils_3",
         "nixpkgs": [
           "yobot",

@@ -17,8 +17,6 @@
     nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
     fooocus.url = "path:./pkgs/fooocus";
-    dream2nix.url = "github:nix-community/dream2nix";
-    dream2nix.inputs.nixpkgs.follows = "nixpkgs";
     ghostty.url = "github:ghostty-org/ghostty";
     ghostty.inputs.nixpkgs-stable.follows = "nixpkgs";
     ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs-unstable";
@@ -28,7 +26,7 @@
   outputs = inputs@{ nixpkgs, home-manager, nixpkgs-mozilla, emacs-overlay
                    , nixos-hardware, agenix, flake-utils
                    , nix-index-database, nix-npm-buildpackage
-                   , dream2nix, yobot, ghostty
+                   , yobot, ghostty
                    , self
     , ... }:
     (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
