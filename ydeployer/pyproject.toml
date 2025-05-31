@@ -1,5 +1,5 @@
 [project]
-name = "deployer2"
+name = "ydeployer"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -10,12 +10,23 @@ dependencies = [
 ]
 
 [project.scripts]
-ydeployer2 = "ydeployer.cli:main"
+ydeployer = "ydeployer.cli:main"
 
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
-# [tool.ruff.lint]
-# extend-select = ["ALL"]
-# ignore = [ "ANN", "D", "T201", "EM101" ]
+[tool.ruff.lint]
+extend-select = ["ALL"]
+ignore = [
+  "ANN",
+  "D",
+  "T201",
+  "EM101",
+  "TRY003",
+  "PLR2004",
+  "RET505",
+  "COM812",
+  "TD003",
+  "TD002",
+]

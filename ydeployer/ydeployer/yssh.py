@@ -1,7 +1,7 @@
 import asyncio
 import subprocess
-from subprocess import CalledProcessError
 import sys
+from subprocess import CalledProcessError
 from typing import BinaryIO, overload
 
 
@@ -34,7 +34,7 @@ class SSH:
 
     def interactive(self):
         print(f"$ ssh {self.host}")
-        subprocess.run(["ssh", self.host])
+        subprocess.run(["ssh", self.host], check=False) # noqa: S603, S607
 
     @overload
     async def exec(self, cmd: str, encoding: None) -> bytes: ...
@@ -104,12 +104,12 @@ class SSH:
             self.child = None
 
     @overload
-    async def __call__(self, cmd, encoding: str) -> str: ...
+    async def __call__(self, cmd: str, encoding: str = ...) -> str: ...
     @overload
-    async def __call__(self, cmd, encoding: None) -> bytes:
+    async def __call__(self, cmd: str, encoding: None = ...) -> bytes:
         pass
 
-    async def __call__(self, cmd, encoding: str | None = None) -> str | bytes:
+    async def __call__(self, cmd: str, encoding: str | None = None) -> str | bytes:
         return await self.exec(cmd, encoding)
 
 

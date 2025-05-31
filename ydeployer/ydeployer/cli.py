@@ -1,20 +1,21 @@
+import socket
 from asyncio import gather
 from pathlib import Path
-import socket
 from subprocess import CalledProcessError
+
 import fire
 
-from .yssh import SSH, ssh
 from .ynix import Expression
 from .yrun import run
+from .yssh import SSH, ssh
 
 
 async def ping(hostname: str) -> bool:
     try:
         await run("ping", "-Anqc3", hostname, stdout=None)
-        return True
     except CalledProcessError:
         return False
+    return True
 
 
 Home = Expression(".#yorick-home")
@@ -103,8 +104,7 @@ class MachineInterface:
         if not self.machine.is_local:
             with await self.machine.ssh() as ssh:
                 await path.copy(ssh)
-        # machine.toplevel.build().copy(machine.ssh)
-        # with machine.ssh: machine.toplevel.activate("boot")
+        # TODO: machine.activate("boot")
         with await self.machine.ssh("root") as ssh:
             await ssh(f"nix-env -p /nix/var/nix/profiles/system --set {path.path}")
             await ssh(f"{path.path}/bin/switch-to-configuration boot")
@@ -124,6 +124,11 @@ class MachineInterface:
                 return
             await ssh(f"nix-env -p /nix/var/nix/profiles/system --set {path.path}")
             await ssh(f"{path.path}/bin/switch-to-configuration switch")
+
+    def __call__(self, hostname=None):
+        if hostname:
+            self.machine.hostname = hostname
+        return self
 
 
 class MachineInterfaceHome(MachineInterface):

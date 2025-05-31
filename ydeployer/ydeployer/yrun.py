@@ -1,5 +1,5 @@
 import asyncio
-from subprocess import CalledProcessError, PIPE, DEVNULL
+from subprocess import DEVNULL, PIPE, CalledProcessError
 from typing import overload
 
 

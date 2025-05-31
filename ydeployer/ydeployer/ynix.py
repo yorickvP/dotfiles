@@ -1,17 +1,20 @@
 import asyncio
-import os
-from collections import defaultdict
 import functools
-from pydantic import BaseModel, TypeAdapter
-from typing import Any, Callable, Concatenate, Coroutine, Literal, TypeAlias
+import os
 import tempfile
+from collections import defaultdict
+from collections.abc import Callable, Coroutine
+from typing import Any, Concatenate, Literal
 
-from .yssh import SSH
+from pydantic import BaseModel, TypeAdapter
+
 from .yrun import run
+from .yssh import SSH
 
-DrvPath: TypeAlias = str
-OutPath: TypeAlias = str
-NixPath: TypeAlias = DrvPath | OutPath
+type DrvPath = str
+type OutPath = str
+type NixPath = DrvPath | OutPath
+# ruff: noqa: N815
 
 
 class OutputType(BaseModel):
@@ -33,7 +36,7 @@ class ShownDerivation(BaseModel):
     system: Literal["x86_64-linux"]
 
 
-ShowDerivationOutput: TypeAlias = dict[DrvPath, ShownDerivation]
+type ShowDerivationOutput = dict[DrvPath, ShownDerivation]
 
 
 class BuildOutput(BaseModel):
@@ -48,16 +51,16 @@ class Expression:
         self.expr = expr
 
     async def derive(self) -> "Derivation":
-        drvs = await nixDerive(self.expr)
-        drvPath = drvs.drvPath
-        drv = await nixShowDerivation(drvPath)
-        return Derivation(drvPath, drv[drvPath])
+        drvs = await nix_derive(self.expr)
+        drv_path = drvs.drvPath
+        drv = await nix_show_derivation(drv_path)
+        return Derivation(drv_path, drv[drv_path])
 
     async def build(self) -> dict[str, "BuiltOutput"]:
-        outputs = await nixBuild(self.expr)
-        drvMetaJson = await nixShowDerivation(outputs.drvPath)
-        [drvPath, drvMeta] = list(drvMetaJson.items())[0]
-        drv = Derivation(drvPath, drvMeta)
+        outputs = await nix_build(self.expr)
+        drv_meta_json = await nix_show_derivation(outputs.drvPath)
+        [drv_path, drv_meta] = next(iter(drv_meta_json.items()))
+        drv = Derivation(drv_path, drv_meta)
         return {k: BuiltOutput(v, drv) for k, v in outputs.outputs.items()}
 
 
@@ -73,7 +76,7 @@ class Derivation:
         return repr(self)
 
     async def build(self) -> dict[str, "BuiltOutput"]:
-        outputs = await nixBuild(self.path + "^*")
+        outputs = await nix_build(self.path + "^*")
         return {k: BuiltOutput(v, self) for k, v in outputs.outputs.items()}
 
 
@@ -83,7 +86,7 @@ class BuiltOutput:
         self.drv = drv
 
     async def copy(self, target: SSH):
-        await nixCopy(self.path, target)
+        await nix_copy(self.path, target)
 
     def __repr__(self):
         return str(self)
@@ -119,9 +122,9 @@ def dedupe[X, Y, **P](
 temp_dirs = []
 
 
-# todo keep going
+# TODO: keep_going
 @dedupe
-async def nixBuild(attr: list[str]) -> list[BuildOutput]:
+async def nix_build(attr: list[str]) -> list[BuildOutput]:
     tdir = tempfile.TemporaryDirectory()
     temp_dirs.append(tdir)
     stdout = await run("nom", "build", "--json", "-o", f"{tdir.name}/result", *attr)
@@ -129,18 +132,18 @@ async def nixBuild(attr: list[str]) -> list[BuildOutput]:
 
 
 @dedupe
-async def nixDerive(attr: list[str]) -> list[BuildOutput]:
+async def nix_derive(attr: list[str]) -> list[BuildOutput]:
     stdout = await run("nom", "build", "--json", "--dry-run", *attr)
     return TypeAdapter(list[BuildOutput]).validate_json(stdout)
 
 
-async def nixShowDerivation(path: NixPath) -> ShowDerivationOutput:
+async def nix_show_derivation(path: NixPath) -> ShowDerivationOutput:
     stdout = await run("nix", "derivation", "show", path + "^*")
     return TypeAdapter(ShowDerivationOutput).validate_json(stdout)
 
 
 @dedupe
-async def nixCopy(attrs: list[str], target: SSH) -> list[None]:
+async def nix_copy(attrs: list[str], target: SSH) -> list[None]:
     os.environ["NIX_SSHOPTS"] = "-o compression=no"
     await run("nix", "copy", *attrs, "-s", "--to", f"ssh://{target.host}", stdout=None)
     return [None] * len(attrs)
