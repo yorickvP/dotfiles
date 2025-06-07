@@ -203,10 +203,17 @@ in
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QT_QPA_PLATFORM = "wayland";
     _JAVA_AWT_WM_NONREPARENTING = "1";
-    XCURSOR_THEME = "Adwaita";
-    XCURSOR_PATH = "${pkgs.adwaita-icon-theme}/share/icons";
     XDG_CURRENT_DESKTOP = "sway";
     NIXOS_OZONE_WL = "1";
+  };
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
+    enable = true;
+    gtk.enable = true;
+    dotIcons.enable = true;
+    sway.enable = true;
+    size = 24;
   };
   systemd.user.services.wayland-push-to-talk-fix =
     let
@@ -337,6 +344,7 @@ in
     keybind = alt+nine=unbind
     keybind = alt+zero=unbind
     keybind = ctrl+backspace=text:\x1B\x7F
+    keybind = shift+enter=text:\x1b\r
   '';
 
 }
