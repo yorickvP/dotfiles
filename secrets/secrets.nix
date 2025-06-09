@@ -37,10 +37,6 @@ builtins.mapAttrs
     "pennyworth_borg_ssh.age" = [ pennyworth ];
     "frumar_borg_ssh.age" = [ frumar ];
     "frumar_borg_repo.age" = [ frumar ];
-    "transip-key.age" = [
-      frumar
-      pennyworth
-    ];
     "yorick-mail-pass.age" = [ pennyworth ];
     "yorick-user-pass.age" = [
       blackadder
@@ -74,4 +70,8 @@ builtins.mapAttrs
     "frumar-disk-encryption.age" = [ frumar ];
     "transmission-rpc.age" = [ frumar ];
     "rspamd-env.age" = [ pennyworth ];
+    "acme.age" = [
+      frumar
+      pennyworth
+    ];
   }

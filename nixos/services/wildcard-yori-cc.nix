@@ -14,21 +14,15 @@ in
     enable = mkEnableOption "wildcard.yori.cc cert";
   };
   config = lib.mkIf cfg.enable {
-    age.secrets.acme-transip-key = {
-      file = ../../secrets/transip-key.age;
-      mode = "770";
-      group = "acme";
-    };
+    age.secrets.acme.file = ../../secrets/acme.age;
     security.acme.certs."wildcard.yori.cc" = {
       domain = "*.yori.cc";
-      dnsProvider = "transip";
+      dnsProvider = "cloudflare";
       reloadServices = [ "nginx.service" ];
     };
     users.users.nginx.extraGroups = [ "acme" ];
 
-    systemd.services."acme-wildcard.yori.cc".environment = {
-      TRANSIP_ACCOUNT_NAME = "yorickvp";
-      TRANSIP_PRIVATE_KEY_PATH = config.age.secrets.acme-transip-key.path;
-    };
+    systemd.services."acme-wildcard.yori.cc".serviceConfig.EnvironmentFile =
+      config.age.secrets.acme.path;
   };
 }
