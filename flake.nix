@@ -19,13 +19,13 @@
     fooocus.url = "path:./pkgs/fooocus";
     ghostty.url = "github:ghostty-org/ghostty";
     ghostty.inputs.nixpkgs-stable.follows = "nixpkgs";
-    ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs-unstable";
-    nixpkgs-unstable.follows = "nixpkgs";
-    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
   outputs =
     inputs@{
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       nixpkgs-mozilla,
       emacs-overlay,
@@ -104,7 +104,12 @@
         (import ./pkgs)
         (import ./pkgs/mdr.nix)
         (final: prev: {
+          pkgs-unstable = import nixpkgs-unstable {
+            config.allowUnfree = true;
+            inherit (final) system;
+          };
           flake-inputs = inputs;
+          inherit (final.pkgs-unstable) claude-code;
           nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
           fooocus = inputs.fooocus.packages.${final.system}.default;
           ghostty = inputs.ghostty.packages.${final.system}.ghostty.overrideAttrs (o: {

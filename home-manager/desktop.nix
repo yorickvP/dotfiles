@@ -320,6 +320,7 @@ in
     easyeffects
     # bitwarden-desktop
     soco-cli
+    claude-code
   ];
   xdg.configFile."alacritty/alacritty.toml" = {
     source = ../alacritty/alacritty.toml;
