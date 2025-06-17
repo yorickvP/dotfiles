@@ -81,26 +81,6 @@
         "type": "github"
       }
     },
-    "dream2nix_2": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_3",
-        "purescript-overlay": "purescript-overlay_2",
-        "pyproject-nix": "pyproject-nix_2"
-      },
-      "locked": {
-        "lastModified": 1747658429,
-        "narHash": "sha256-qZWuEdxmPx818qR61t3mMozJOvZSmTRUDPU4L3JeGgE=",
-        "owner": "nix-community",
-        "repo": "dream2nix",
-        "rev": "6fd6d9188f32efd1e1656b3c3e63a67f9df7b636",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "dream2nix",
-        "type": "github"
-      }
-    },
     "emacs-overlay": {
       "inputs": {
         "nixpkgs": [
@@ -153,22 +133,6 @@
         "type": "github"
       }
     },
-    "flake-compat_3": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1696426674,
-        "narHash": "sha256-kvjfFW7WAETZlt09AgDn1MrtKzP7t90Vf7vypd3OL1U=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "0f9255e01c2351cc7d116c072cb317785dd33b33",
-        "type": "github"
-      },
-      "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "type": "github"
-      }
-    },
     "flake-utils": {
       "inputs": {
         "systems": "systems_2"
@@ -202,23 +166,6 @@
         "owner": "numtide",
         "repo": "flake-utils",
         "type": "github"
-      }
-    },
-    "flake-utils_3": {
-      "inputs": {
-        "systems": "systems_4"
-      },
-      "locked": {
-        "lastModified": 1731533236,
-        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "id": "flake-utils",
-        "type": "indirect"
       }
     },
     "fooocus": {
@@ -520,18 +467,17 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1729850857,
-        "narHash": "sha256-WvLXzNNnnw+qpFOmgaM3JUlNEH+T4s22b5i2oyyCpXE=",
+        "lastModified": 1749794982,
+        "narHash": "sha256-Kh9K4taXbVuaLC0IL+9HcfvxsSUx8dPB5s5weJcc9pc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "41dea55321e5a999b17033296ac05fe8a8b5a257",
+        "rev": "ee930f9755f58096ac6e8ca94a1887e0534e2d81",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "id": "nixpkgs",
+        "ref": "nixos-unstable",
+        "type": "indirect"
       }
     },
     "purescript-overlay": {
@@ -557,27 +503,32 @@
         "type": "github"
       }
     },
-    "purescript-overlay_2": {
+    "pyproject-build-systems": {
       "inputs": {
-        "flake-compat": "flake-compat_3",
         "nixpkgs": [
           "yobot",
-          "dream2nix",
           "nixpkgs"
         ],
-        "slimlock": "slimlock_2"
+        "pyproject-nix": [
+          "yobot",
+          "pyproject-nix"
+        ],
+        "uv2nix": [
+          "yobot",
+          "uv2nix"
+        ]
       },
       "locked": {
-        "lastModified": 1728546539,
-        "narHash": "sha256-Sws7w0tlnjD+Bjck1nv29NjC5DbL6nH5auL9Ex9Iz2A=",
-        "owner": "thomashoneyman",
-        "repo": "purescript-overlay",
-        "rev": "4ad4c15d07bd899d7346b331f377606631eb0ee4",
+        "lastModified": 1749519371,
+        "narHash": "sha256-UJONN7mA2stweZCoRcry2aa1XTTBL0AfUOY84Lmqhos=",
+        "owner": "pyproject-nix",
+        "repo": "build-system-pkgs",
+        "rev": "7c06967eca687f3482624250428cc12f43c92523",
         "type": "github"
       },
       "original": {
-        "owner": "thomashoneyman",
-        "repo": "purescript-overlay",
+        "owner": "pyproject-nix",
+        "repo": "build-system-pkgs",
         "type": "github"
       }
     },
@@ -599,18 +550,22 @@
       }
     },
     "pyproject-nix_2": {
-      "flake": false,
+      "inputs": {
+        "nixpkgs": [
+          "yobot",
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1702448246,
-        "narHash": "sha256-hFg5s/hoJFv7tDpiGvEvXP0UfFvFEDgTdyHIjDVHu1I=",
-        "owner": "davhau",
+        "lastModified": 1746540146,
+        "narHash": "sha256-QxdHGNpbicIrw5t6U3x+ZxeY/7IEJ6lYbvsjXmcxFIM=",
+        "owner": "pyproject-nix",
         "repo": "pyproject.nix",
-        "rev": "5a06a2697b228c04dd2f35659b4b659ca74f7aeb",
+        "rev": "e09c10c24ebb955125fda449939bfba664c467fd",
         "type": "github"
       },
       "original": {
-        "owner": "davhau",
-        "ref": "dream2nix",
+        "owner": "pyproject-nix",
         "repo": "pyproject.nix",
         "type": "github"
       }
@@ -648,29 +603,6 @@
         "owner": "thomashoneyman",
         "repo": "slimlock",
         "rev": "b5c6cdcaf636ebbebd0a1f32520929394493f1a6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "thomashoneyman",
-        "repo": "slimlock",
-        "type": "github"
-      }
-    },
-    "slimlock_2": {
-      "inputs": {
-        "nixpkgs": [
-          "yobot",
-          "dream2nix",
-          "purescript-overlay",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1688756706,
-        "narHash": "sha256-xzkkMv3neJJJ89zo3o2ojp7nFeaZc2G0fYwNXNJRFlo=",
-        "owner": "thomashoneyman",
-        "repo": "slimlock",
-        "rev": "cf72723f59e2340d24881fd7bf61cb113b4c407c",
         "type": "github"
       },
       "original": {
@@ -724,37 +656,44 @@
         "type": "github"
       }
     },
-    "systems_4": {
+    "uv2nix": {
+      "inputs": {
+        "nixpkgs": [
+          "yobot",
+          "nixpkgs"
+        ],
+        "pyproject-nix": [
+          "yobot",
+          "pyproject-nix"
+        ]
+      },
       "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "lastModified": 1749778965,
+        "narHash": "sha256-MDq5YPXq3VO7aGrIIz9IMexJcdRiLCcDK4Bk3Kev7Sw=",
+        "owner": "pyproject-nix",
+        "repo": "uv2nix",
+        "rev": "22ddf88e3a06551b769f0a585601d89180c69a38",
         "type": "github"
       },
       "original": {
-        "owner": "nix-systems",
-        "repo": "default",
+        "owner": "pyproject-nix",
+        "repo": "uv2nix",
         "type": "github"
       }
     },
     "yobot": {
       "inputs": {
-        "dream2nix": "dream2nix_2",
-        "flake-utils": "flake-utils_3",
-        "nixpkgs": [
-          "yobot",
-          "dream2nix",
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs_3",
+        "pyproject-build-systems": "pyproject-build-systems",
+        "pyproject-nix": "pyproject-nix_2",
+        "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1738423386,
-        "narHash": "sha256-vIQnuRF/DeZ+SytNl5EhJ3Q+Vm6uMLu2puifBcvkfQY=",
+        "lastModified": 1750143789,
+        "narHash": "sha256-A3aXGnIqMb2hg6vDKVX7uGPfLH+SEGx3KLfUJeZ7Apo=",
         "ref": "refs/heads/main",
-        "rev": "fb7b46f3016dfb729de59a43863d819d35b98b71",
-        "revCount": 28,
+        "rev": "48f53dd08f70bd46413af4ad1d881a4329f08468",
+        "revCount": 32,
         "type": "git",
         "url": "https://git.yori.cc/yorick/yobot.git"
       },
