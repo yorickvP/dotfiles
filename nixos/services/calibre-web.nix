@@ -28,6 +28,9 @@ in
   config = lib.mkIf cfg.enable {
     services.calibre-web = {
       enable = true;
+      package = pkgs.calibre-web.overridePythonAttrs (o: {
+        dependencies = o.dependencies ++ o.optional-dependencies.kobo;
+      });
       options = {
         enableBookUploading = true;
         #enableBookConversion = true;
