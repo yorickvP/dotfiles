@@ -312,7 +312,7 @@ in
     waypipe
     wl-clipboard
     wldash
-    # zoom-us
+    zoom-us
     bin.y-cal-widget
     obsidian
     thunderbird
