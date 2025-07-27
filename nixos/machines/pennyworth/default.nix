@@ -22,7 +22,6 @@ in
   imports = [
     ./hetznercloud.nix
     ../../roles/server.nix
-    ../../roles/datakami.nix
     ../../services/backup.nix
     ../../services/email.nix
     inputs.yobot.nixosModules.default
