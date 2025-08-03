@@ -18,8 +18,7 @@
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
     fooocus.url = "path:./pkgs/fooocus";
     ghostty.url = "github:ghostty-org/ghostty";
-    ghostty.inputs.nixpkgs-stable.follows = "nixpkgs";
-    ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
+    ghostty.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
   outputs =
@@ -76,7 +75,7 @@
           inherit pkgs;
           modules = [
             ./home-manager/home.nix
-            nix-index-database.hmModules.nix-index
+            nix-index-database.homeModules.nix-index
             {
               home = {
                 username = "yorick";
