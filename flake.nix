@@ -17,7 +17,9 @@
     nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
     fooocus.url = "path:./pkgs/fooocus";
-    ghostty.url = "github:ghostty-org/ghostty";
+    ghostty.url = "github:ghostty-org/ghostty/26a42fac0ec8f612a3ddce60bab9842c79a2756a";
+    ghostty.inputs.nixpkgs-stable.follows = "nixpkgs";
+    ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
     ghostty.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
