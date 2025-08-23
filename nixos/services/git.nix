@@ -67,13 +67,17 @@ in
       cfg.nginx
       {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}";
+          proxyPass = "http://unix:/run/anubis/anubis-gitea.sock";
           extraConfig = ''
             proxy_buffering off;
           '';
         };
       }
     ];
+    services.anubis.instances.gitea.settings = {
+      TARGET = "http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}";
+    };
+    users.users.nginx.extraGroups = [ "anubis" ];
 
     services.borgbackup.jobs.backup.exclude =
       let
