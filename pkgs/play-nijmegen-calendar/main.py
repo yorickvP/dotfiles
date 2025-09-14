@@ -62,7 +62,7 @@ for event_div in event_divs:
     description = description_elem.text.strip() if description_elem else "No description available"
 
     # Extract date string
-    date_elem = event_div.find('div', class_='text-green text-sm md:font-bold')
+    date_elem = event_div.find('div', class_='text-primary text-sm md:font-bold')
     if not date_elem:
         print(f"Skipping event '{title}', date element not found.", file=sys.stderr)
         continue
@@ -79,7 +79,7 @@ for event_div in event_divs:
 
     # Extract and store categories/tags if available - needed for recurring events too
     tags = []
-    tag_elems = event_div.find_all('span', class_='bg-yellow-light rounded-sm md:rounded-full text-xs md:font-bold text-green py-0.5 px-1.5 md:px-2.5 md:py-1 whitespace-nowrap')
+    tag_elems = event_div.find_all('span', class_='bg-secondary-light rounded-sm md:rounded-full text-xs md:font-bold text-primary py-0.5 px-1.5 md:px-2.5 md:py-1 whitespace-nowrap')
     if tag_elems:
         for tag_elem in tag_elems:
             tags.append(tag_elem.text.strip())
