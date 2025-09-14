@@ -64,7 +64,7 @@ in
       incomplete-dir = "/torrent/incomplete";
       incomplete-dir-enabled = true;
       message-level = 3;
-      peer-port = 56557;
+      peer-port = 55632;
       port-forwarding-enabled = false;
       rename-partial-files = false;
       rpc-authentication-required = true;
