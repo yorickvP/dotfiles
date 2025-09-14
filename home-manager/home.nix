@@ -346,6 +346,7 @@ in
       # zoom-us
       google-cloud-sdk
       kubectl
+      stern
       oathToolkit
       mitmproxy
 
