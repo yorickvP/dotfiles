@@ -210,7 +210,7 @@ in
       ## misc
       moreutils
       atop
-      awscli
+      awscli2
       borgbackup
       bup
       # catdoc
