@@ -333,7 +333,7 @@ in
     gtk-single-instance = true
     window-decoration = false
     adjust-cursor-thickness = 3
-    minimum-contrast = 1.7
+    minimum-contrast = 1.5
     keybind = alt+one=unbind
     keybind = alt+two=unbind
     keybind = alt+three=unbind
