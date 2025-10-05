@@ -68,6 +68,7 @@ in
     enable = true;
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
+    settings.AcceptEnv = "COLORTERM TERM_PROGRAM TERM_PROGRAM_VERSION";
   };
 
   environment.systemPackages =

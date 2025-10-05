@@ -78,6 +78,9 @@ in
       serverAliveInterval = 120;
       controlMaster = "auto";
       matchBlocks = {
+        "*" = {
+          sendEnv = [ "COLORTERM" "TERM_PROGRAM" "TERM_PROGRAM_VERSION" ];
+        };
         "pub.yori.cc" = {
           user = "public";
           identityFile = "~/.ssh/id_rsa_pub";
