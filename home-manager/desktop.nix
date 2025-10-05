@@ -231,6 +231,20 @@ in
         Restart = "on-failure";
       };
     };
+  systemd.user.services.notify-codes = {
+    Install.WantedBy = [ "graphical-session.target" ];
+    Unit = {
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.notify-codes}/bin/notify-codes";
+      Restart = "on-failure";
+      Environment = [
+        "PATH=${lib.makeBinPath (with pkgs; [ wl-clipboard libnotify ])}"
+      ];
+    };
+  };
   # todo: use home-manager unit
   systemd.user.services.gmi = {
     Unit.ConditionPathExists = "/home/yorick/mail/account.gmail/.gmailieer.json";
