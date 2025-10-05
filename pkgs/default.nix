@@ -118,6 +118,7 @@
     src = ./wg-restarter;
     vendorHash = null;
   };
+  notify-codes = super.callPackage ./notify-codes { };
   claude-desktop = super.callPackage ./claude-desktop.nix { };
   transmission_405 = super.transmission_4.overrideAttrs {
     version = "4.0.5";
