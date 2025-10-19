@@ -114,6 +114,27 @@
         mode = "storage";
         dashboards = "!include dashboards.yaml";
       };
+      template = [
+        {
+          trigger = [
+            {
+              trigger = "event";
+              event_type = "bubble_card_update_modules";
+            }
+          ];
+          sensor = [
+            {
+              name = "Bubble Card Modules";
+              state = "saved";
+              icon = "mdi:puzzle";
+              attributes = {
+                modules = "{{ trigger.event.data.modules }}";
+                last_updated = "{{ trigger.event.data.last_updated }}";
+              };
+            }
+          ];
+        }
+      ];
     };
   };
 }

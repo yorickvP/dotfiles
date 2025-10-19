@@ -68,7 +68,8 @@ in
     enable = true;
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
-    settings.AcceptEnv = "COLORTERM TERM_PROGRAM TERM_PROGRAM_VERSION";
+    # todo: overridden from forgejo
+    settings.AcceptEnv = lib.mkForce "GIT_PROTOCOL COLORTERM TERM_PROGRAM TERM_PROGRAM_VERSION";
   };
 
   environment.systemPackages =
@@ -161,10 +162,28 @@ in
   security.acme.acceptTerms = true;
 
   nix.settings.trusted-users = [ "@wheel" ];
-  services.prometheus.exporters.node = {
-    enable = true;
-    enabledCollectors = [ "systemd" ];
-    disabledCollectors = [ "rapl" ];
+  services.prometheus.exporters = {
+    node = {
+      enable = true;
+      enabledCollectors = [ "systemd" ];
+      disabledCollectors = [ "rapl" ];
+    };
+    # zfs.enable = config.boot.zfs.enabled;
+    # wireguard.enable = true;
+    # unpoller
+    # smartctl.enable = true;
+    # rasdaemon.enable = true; # todo: only frumar
+    # postgres
+    # nvidia-gpu
+    # nginx
+    # nats
+    # mail
+    # ipmi
+    # exportarr
+    # dovecot & postfix
+    # dmarc
+    # transmission
+
   };
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 9100 ];
   # go away, teams!
