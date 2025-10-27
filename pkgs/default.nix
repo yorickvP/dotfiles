@@ -120,6 +120,7 @@
   };
   notify-codes = super.callPackage ./notify-codes { };
   claude-desktop = super.callPackage ./claude-desktop.nix { };
+  y-connect-idle = super.callPackage ./y-connect-idle { };
   transmission_405 = super.transmission_4.overrideAttrs {
     version = "4.0.5";
     src = self.fetchFromGitHub {

@@ -245,6 +245,24 @@ in
       ];
     };
   };
+  systemd.user.services.y-connect-idle = {
+    Install.WantedBy = [ "graphical-session.target" ];
+    Unit = {
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.y-connect-idle}/bin/y-connect-idle";
+      Restart = "on-failure";
+      RestartMaxDelaySec="10m";
+      RestartSteps = 8;
+      Environment = [
+        "MQTT_BROKER=frumar.vpn.yori.cc"
+        "MQTT_USER=iot"
+        "MQTT_PASSWORD=asdf"
+      ];
+    };
+  };
   # todo: use home-manager unit
   systemd.user.services.gmi = {
     Unit.ConditionPathExists = "/home/yorick/mail/account.gmail/.gmailieer.json";
