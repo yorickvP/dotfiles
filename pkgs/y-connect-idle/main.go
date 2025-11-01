@@ -49,7 +49,7 @@ func loadConfig() Config {
 		MQTTPassword: getEnv("MQTT_PASSWORD", ""),
 		MQTTClientID: getEnv("MQTT_CLIENT_ID", "connect-idle"),
 		DeviceName:   getEnv("DEVICE_NAME", getHostname()),
-		EntityID:     getEnv("ENTITY_ID", "idle_hint"),
+		EntityID:     getEnv("ENTITY_ID", "active"),
 	}
 	return config
 }
@@ -83,6 +83,16 @@ func connectMQTT(config Config) (mqtt.Client, error) {
 	opts.SetAutoReconnect(true)
 	opts.SetConnectRetry(true)
 
+	// Set up connection state handlers
+	opts.SetConnectionLostHandler(func(client mqtt.Client, err error) {
+		log.Printf("MQTT connection lost: %v", err)
+	})
+
+	opts.SetOnConnectHandler(func(client mqtt.Client) {
+		log.Println("MQTT connected/reconnected")
+		publishAvailability(client, config, true)
+	})
+
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		return nil, token.Error()
@@ -106,7 +116,7 @@ func getConfigTopic(config Config) string {
 
 func publishDiscovery(client mqtt.Client, config Config) error {
 	discoveryConfig := HADiscoveryConfig{
-		Name:              fmt.Sprintf("%s Idle", config.DeviceName),
+		Name:              fmt.Sprintf("%s Active", config.DeviceName),
 		StateTopic:        getStateTopic(config),
 		UniqueID:          fmt.Sprintf("%s_%s", config.DeviceName, config.EntityID),
 		PayloadOn:         "ON",
@@ -116,7 +126,7 @@ func publishDiscovery(client mqtt.Client, config Config) error {
 			Identifiers:  []string{config.DeviceName},
 			Name:         config.DeviceName,
 			Manufacturer: "connect-idle",
-			Model:        "Logind Idle Monitor",
+			Model:        "Logind Seat Monitor",
 		},
 	}
 
@@ -145,9 +155,10 @@ func publishAvailability(client mqtt.Client, config Config, available bool) {
 	client.Publish(topic, 1, true, status)
 }
 
-func publishIdleState(client mqtt.Client, config Config, idle bool) {
+func publishActiveState(client mqtt.Client, config Config, idle bool) {
+	// Invert: when idle is false (not idle), we're active (ON)
 	state := "OFF"
-	if idle {
+	if !idle {
 		state = "ON"
 	}
 	topic := getStateTopic(config)
@@ -156,14 +167,14 @@ func publishIdleState(client mqtt.Client, config Config, idle bool) {
 	if token.Error() != nil {
 		log.Printf("Error publishing state: %v", token.Error())
 	} else {
-		log.Printf("Published idle state: %s", state)
+		log.Printf("Published active state: %s (idle=%v)", state, idle)
 	}
 }
 
 func getIdleHint(conn *dbus.Conn) (bool, error) {
-	obj := conn.Object("org.freedesktop.login1", "/org/freedesktop/login1")
+	obj := conn.Object("org.freedesktop.login1", "/org/freedesktop/login1/seat/seat0")
 	var idleHint bool
-	err := obj.Call("org.freedesktop.DBus.Properties.Get", 0, "org.freedesktop.login1.Manager", "IdleHint").Store(&idleHint)
+	err := obj.Call("org.freedesktop.DBus.Properties.Get", 0, "org.freedesktop.login1.Seat", "IdleHint").Store(&idleHint)
 	if err != nil {
 		return false, err
 	}
@@ -171,9 +182,9 @@ func getIdleHint(conn *dbus.Conn) (bool, error) {
 }
 
 func monitorIdleHint(conn *dbus.Conn, mqttClient mqtt.Client, config Config) {
-	// Subscribe to PropertyChanged signals
+	// Subscribe to PropertyChanged signals for seat0
 	call := conn.BusObject().Call("org.freedesktop.DBus.AddMatch", 0,
-		"type='signal',interface='org.freedesktop.DBus.Properties',member='PropertiesChanged',path='/org/freedesktop/login1'")
+		"type='signal',interface='org.freedesktop.DBus.Properties',member='PropertiesChanged',path='/org/freedesktop/login1/seat/seat0'")
 	if call.Err != nil {
 		log.Fatalf("Failed to add D-Bus match: %v", call.Err)
 	}
@@ -186,8 +197,8 @@ func monitorIdleHint(conn *dbus.Conn, mqttClient mqtt.Client, config Config) {
 	if err != nil {
 		log.Printf("Error getting initial idle hint: %v", err)
 	} else {
-		log.Printf("Initial idle state: %v", idleHint)
-		publishIdleState(mqttClient, config, idleHint)
+		log.Printf("Initial seat idle hint: %v (active: %v)", idleHint, !idleHint)
+		publishActiveState(mqttClient, config, idleHint)
 	}
 
 	// Poll periodically as a backup (logind signals can be unreliable)
@@ -205,8 +216,8 @@ func monitorIdleHint(conn *dbus.Conn, mqttClient mqtt.Client, config Config) {
 					if idleVariant, exists := changes["IdleHint"]; exists {
 						if idle, ok := idleVariant.Value().(bool); ok {
 							if idle != lastIdleHint {
-								log.Printf("Idle hint changed: %v", idle)
-								publishIdleState(mqttClient, config, idle)
+								log.Printf("Seat idle hint changed: %v (active: %v)", idle, !idle)
+								publishActiveState(mqttClient, config, idle)
 								lastIdleHint = idle
 							}
 						}
@@ -221,8 +232,8 @@ func monitorIdleHint(conn *dbus.Conn, mqttClient mqtt.Client, config Config) {
 				continue
 			}
 			if currentIdle != lastIdleHint {
-				log.Printf("Idle hint changed (polled): %v", currentIdle)
-				publishIdleState(mqttClient, config, currentIdle)
+				log.Printf("Seat idle hint changed (polled): %v (active: %v)", currentIdle, !currentIdle)
+				publishActiveState(mqttClient, config, currentIdle)
 				lastIdleHint = currentIdle
 			}
 		}
@@ -230,7 +241,7 @@ func monitorIdleHint(conn *dbus.Conn, mqttClient mqtt.Client, config Config) {
 }
 
 func main() {
-	log.Println("Starting connect-idle - Logind Idle Hint to Home Assistant bridge")
+	log.Println("Starting connect-idle - Logind Seat Active Monitor to Home Assistant bridge")
 
 	config := loadConfig()
 
@@ -249,9 +260,6 @@ func main() {
 		log.Fatalf("Failed to connect to MQTT: %v", err)
 	}
 	defer mqttClient.Disconnect(250)
-
-	// Publish availability
-	publishAvailability(mqttClient, config, true)
 
 	// Publish Home Assistant discovery
 	if err := publishDiscovery(mqttClient, config); err != nil {
