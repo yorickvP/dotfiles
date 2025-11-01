@@ -20,6 +20,7 @@ in
     ../modules/nginx.nix
     ../modules/play-nijmegen-calendar.nix
     ../modules/selfsigned.nix
+    ../modules/vlagent.nix
     ../modules/tor-hidden-service.nix
     ../modules/wg-restarter.nix
     ../services
@@ -168,8 +169,8 @@ in
       enabledCollectors = [ "systemd" ];
       disabledCollectors = [ "rapl" ];
     };
-    # zfs.enable = config.boot.zfs.enabled;
-    # wireguard.enable = true;
+    zfs.enable = config.boot.zfs.enabled;
+    wireguard.enable = true;
     # unpoller
     # smartctl.enable = true;
     # rasdaemon.enable = true; # todo: only frumar
@@ -200,9 +201,48 @@ in
   fonts.fontconfig.subpixel.rgba = "rgb";
   # enabled by fish, slow
   documentation.man.generateCaches = false;
+  services.journald.upload.enable = true;
   services.journald.upload.settings.Upload = {
-    URL = "http://frumar.vpn.yori.cc:9428/insert/journald";
+    URL = "http://localhost:9429/insert/journald";
     NetworkTimeoutSec = "5min";
+  };
+  services.vlagent = {
+    enable = true;
+    remoteWrite = {
+      url = "http://frumar.vpn.yori.cc:9428/internal/insert";
+      maxDiskUsagePerUrl = "500MB";
+    };
+    extraArgs = [
+      "-remoteWrite.showURL"
+      "-journald.streamFields=_HOSTNAME,_SYSTEMD_SLICE,_SYSTEMD_UNIT,SYSLOG_IDENTIFIER"
+    ];
+  };
+  services.vmagent = {
+    enable = true;
+    remoteWrite.url = "http://frumar.vpn.yori.cc:8428/api/v1/write";
+    extraArgs = [
+      "-remoteWrite.showURL"
+      "-remoteWrite.maxDiskUsagePerURL=500MB"
+    ];
+    prometheusConfig = {
+      global.external_labels.instance = name;
+      scrape_configs = let
+        simpleJob = job_name: target: service: { inherit job_name; static_configs = if service.enable then [ { targets = [ target ]; } ] else []; };
+        exporterJob = job_name: let
+          service = config.services.prometheus.exporters.${job_name};
+          target = "localhost:${toString service.port}";
+        in
+          simpleJob job_name target service;
+      in with config.services; [
+        (simpleJob "vmagent" "localhost:8429" vmagent)
+        (simpleJob "victoriametrics" "localhost:8428" victoriametrics)
+        (simpleJob "victorialogs" "localhost:9428" victorialogs)
+        (simpleJob "vlagent" "localhost:9429" vlagent)
+        (exporterJob "node")
+        (exporterJob "zfs")
+        (exporterJob "wireguard")
+      ];
+    };
   };
   programs.msmtp.accounts.default = {
     auth = true;
