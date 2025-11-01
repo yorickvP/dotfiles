@@ -175,4 +175,6 @@
     ];
   };
   services.envfs.enable = true;
+  # screen control
+  hardware.i2c.enable = true;
 }

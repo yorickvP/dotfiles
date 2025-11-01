@@ -353,6 +353,7 @@ in
     # bitwarden-desktop
     soco-cli
     claude-code
+    ddcutil
   ];
   xdg.configFile."alacritty/alacritty.toml" = {
     source = ../alacritty/alacritty.toml;
