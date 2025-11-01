@@ -79,6 +79,7 @@
       "ffmpeg"
       "govee_light_local"
       "sonos"
+      "wled"
       #"unifiprotect"
     ];
     customComponents = with pkgs.home-assistant-custom-components; [
