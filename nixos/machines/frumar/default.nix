@@ -16,12 +16,21 @@
     ../../services/backup.nix
   ];
 
-  services.borgbackup.jobs.backup.paths = [
-    "/var/lib/hass"
-    "/var/lib/paperless"
-    "/var/lib/redis-paperless"
-    "/var/lib/zigbee2mqtt"
-  ];
+  services.borgbackup.jobs.backup = {
+    preHook = ''
+      /run/current-system/sw/bin/zfs destroy ssdpool/root/var@borgbackup || true
+      /run/current-system/sw/bin/zfs snapshot ssdpool/root/var@borgbackup
+    '';
+    postCreate = ''
+      /run/current-system/sw/bin/zfs destroy ssdpool/root/var@borgbackup
+    '';
+    paths = [
+      "/var/.zfs/snapshot/borgbackup/lib/hass"
+      "/var/.zfs/snapshot/borgbackup/lib/paperless"
+      "/var/.zfs/snapshot/borgbackup/lib/redis-paperless"
+      "/var/.zfs/snapshot/borgbackup/lib/zigbee2mqtt"
+    ];
+  };
   system.stateVersion = "15.09";
   networking.hostId = "0702dbe9";
   nixpkgs.overlays = [
