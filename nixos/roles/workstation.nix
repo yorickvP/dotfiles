@@ -171,6 +171,7 @@
     libraries = with pkgs; [
       zlib
       libusb1
+      libxcrypt-legacy
     ];
   };
   services.envfs.enable = true;
