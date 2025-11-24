@@ -50,7 +50,13 @@ in
         init.defaultBranch = "main";
         rebase.autoSquash = true;
         branch.sort = "-committerdate";
+        # TODO(25.11) programs.mergiraf
+        merge.mergiraf = {
+          name = "mergiraf";
+          driver = "${pkgs.mergiraf}/bin/mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L";
+        };
       };
+      attributes = [ "* merge=mergiraf" ];
       ignores = [
         "/.envrc"
         "/.cache"
@@ -70,6 +76,7 @@ in
         uncommit = "reset --mixed HEAD~";
         graph = "log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order    ";
         dad = "!curl https://icanhazdadjoke.com/ && git add";
+        ff = "merge --ff-only";
       };
     };
 
@@ -230,6 +237,7 @@ in
       jo
       jless
       jq
+      yq
       lnav
       magic-wormhole
       man-pages
@@ -244,6 +252,7 @@ in
       thefuck
       wakelan
       tty-clock
+      up
 
       ## media
       aria2
@@ -336,6 +345,7 @@ in
       ## games
       # (prismlauncher.override { jdks = [ jdk21 ] })
       steam
+      steam-run
       # minecraft
       # nottetris2
       # openttd
@@ -353,6 +363,9 @@ in
       stern
       oathToolkit
       mitmproxy
+      magic-wormhole
+      mergiraf
+      difftastic
 
       # admin
       nsc
