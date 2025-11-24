@@ -6,6 +6,7 @@
     blackadder = "10.209.0.6";
     smithers = "10.209.0.8";
     kirei = "10.209.0.9";
+    butterscotch = "10.209.0.10";
   };
   keys = {
     # for i in wg.*.key; do echo $(echo $i | cut -d. -f2) = \"$(wg pubkey < $i)\"\;; done
@@ -15,5 +16,6 @@
     pennyworth = "XoeUMsiSOWBFEFuAu+S4iQd3MzkyGhIj9dtxzZ0I500=";
     smithers = "CXsx26Xi+mBeuB6U8hdeuOBC3o4gTnBc6biez/BCqzM=";
     kirei = "g/l1OzW8aN4NYgpEeS5PyrdyjtaNoKzyiMBGpQS0+Wc=";
+    butterscotch = "Yg6wiBfCHbwfWOKsmPnoIMa9g46nXtwOibsmQ31Se14";
   };
 }

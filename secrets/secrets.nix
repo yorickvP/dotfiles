@@ -6,6 +6,7 @@ let
   smithers = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWdp+DQk3P1JioWlwyEHE0Htri9tz5OMwJf9d8xnAgE";
   jarvis = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKd8oRn7T+NnzDbTLaWyiUGIRZ21n42zdozkuUoHp8IX";
   kirei = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPE2ctlrLLIR78hJ5/TQi6K6/+GckHAdjUwVfAnTuNIL";
+  butterscotch = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK6UwASNXJiKdPYBhhM7vM6SIhM4uj0waG7KinW2CGhY";
 in
 builtins.mapAttrs
   (x: y: {
@@ -18,6 +19,7 @@ builtins.mapAttrs
     "wg.pennyworth.age" = [ pennyworth ];
     "wg.smithers.age" = [ smithers ];
     "wg.kirei.age" = [ kirei ];
+    "wg.butterscotch.age" = [ butterscotch ];
     "wg.mullvad-nl4.age" = [ frumar ];
     "grafana.env.age" = [ frumar ];
     "http.muflax.age" = [ pennyworth ];
@@ -32,6 +34,7 @@ builtins.mapAttrs
       smithers
       jarvis
       kirei
+      butterscotch
     ];
     "pennyworth_borg_repo.age" = [ pennyworth ];
     "pennyworth_borg_ssh.age" = [ pennyworth ];
@@ -45,6 +48,7 @@ builtins.mapAttrs
       smithers
       jarvis
       kirei
+      butterscotch
     ];
     "root-user-pass.age" = [
       blackadder
@@ -52,6 +56,7 @@ builtins.mapAttrs
       frumar
       smithers
       jarvis
+      butterscotch
     ];
     "kirei-root-user-pass.age" = [ kirei ];
     "frumar-mail-pass-hash.age" = [ pennyworth ];
@@ -65,6 +70,7 @@ builtins.mapAttrs
     "yobot.toml.age" = [ pennyworth ];
     "wg.dk.blackadder.age" = [ blackadder ];
     "wg.dk.smithers.age" = [ smithers ];
+    "wg.dk.butterscotch.age" = [ butterscotch ];
     "wg.dk.archbox.conf.age" = [ blackadder ];
     "govee2mqtt.env.age" = [ frumar ];
     "frumar-disk-encryption.age" = [ frumar ];

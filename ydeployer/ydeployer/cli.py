@@ -64,6 +64,7 @@ machines = {
     "jarvis": Machine(name="jarvis", has_home=True),
     "smithers": Machine(name="smithers", has_home=True),
     "kirei": Machine(name="kirei", has_home=True),
+    "butterscotch": Machine(name="butterscotch", has_home=True),
 }
 
 

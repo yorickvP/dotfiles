@@ -6,6 +6,7 @@ let
     "frumar"
     "smithers"
     "kirei"
+    "butterscotch"
   ];
 in
 pkgs: super: {
