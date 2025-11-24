@@ -7,7 +7,7 @@
 }:
 {
   imports = [
-    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
     ./x11-hardware-config.nix
   ];
 
@@ -30,9 +30,13 @@
   services.zfs.trim.enable = true;
   hardware.bluetooth.enable = true;
   services.fprintd.enable = true;
+  hardware.intelgpu = {
+    driver = "i915";
+    vaapiDriver = "intel-media-driver";
+    computeRuntime = "legacy";
+  };
 
   boot = {
-    initrd.availableKernelModules = [ "i915" ];
     # flickerfree
     initrd.systemd.enable = true;
     initrd.verbose = false;
@@ -41,7 +45,7 @@
     kernelParams = [
       "quiet"
       "udev.log_level=3"
-      "i915.fastboot=1"
+      "i915.enable_guc=3"
     ];
   };
   boot.loader.timeout = 0;

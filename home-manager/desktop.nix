@@ -181,8 +181,9 @@ in
       startup = [
         { command = "mako"; }
         {
-          command = ''swayidle timeout 300 'swaymsg "output * dpms off"; swaylock' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock' '';
+          command = ''swayidle -w timeout 300 'swaymsg "output * dpms off"; swaylock -f' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f' lock 'swaylock -f' unlock 'pkill -USR1 swaylock' idlehint 300'';
         }
+        # todo: kanshi
       ];
     };
     systemd.enable = true;
