@@ -266,4 +266,10 @@ in
       sendRaw = true;
     };
   };
+  hardware.enableRedistributableFirmware = true;
+
+  services.zfs = {
+    autoScrub.enable = true;
+    trim.enable = true;
+  };
 }

@@ -46,7 +46,6 @@
     iwd.enable = true;
   };
   hardware.bluetooth.enable = true;
-  hardware.enableRedistributableFirmware = true;
 
   hardware.firmware = [ pkgs.wireless-regdb ];
   # gotta go faster

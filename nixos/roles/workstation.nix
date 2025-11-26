@@ -36,7 +36,6 @@
     # emacs?
   ];
   nix.gc.automatic = lib.mkOverride 30 false;
-  virtualisation.libvirtd.enable = true;
   # fix glasgow, fomu, backlight
   services.udev.extraRules = ''
     SUBSYSTEM=="usb", ATTRS{idVendor}=="20b7", ATTRS{idProduct}=="9db1", TAG+="uaccess"
@@ -177,4 +176,5 @@
   services.envfs.enable = true;
   # screen control
   hardware.i2c.enable = true;
+  hardware.bluetooth.enable = true;
 }

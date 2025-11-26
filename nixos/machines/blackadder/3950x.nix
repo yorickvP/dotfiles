@@ -11,20 +11,14 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd
   ];
 
-  hardware.enableRedistributableFirmware = true;
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.supportedFilesystems = [ "zfs" ];
   boot.kernelModules = [
     "nct6775"
     "i2c-dev"
     "i2c-piix4"
   ];
   networking.hostId = "c7736638";
-  services.zfs.autoScrub.enable = true;
-  services.zfs.trim.enable = true;
-  hardware.bluetooth.enable = true;
 
   networking.useDHCP = false;
   networking.interfaces.enp10s0.useDHCP = true;

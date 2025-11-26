@@ -97,4 +97,5 @@ in
   # allow gpg agent forwarding
   services.openssh.settings.StreamLocalBindUnlink = true;
   virtualisation.waydroid.enable = true;
+  virtualisation.libvirtd.enable = true;
 }

@@ -11,24 +11,18 @@
     ./x11-hardware-config.nix
   ];
 
-  hardware.enableRedistributableFirmware = true;
   services.thermald.enable = true;
   services.thermald.ignoreCpuidCheck = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.zfs.requestEncryptionCredentials = true;
 
-  boot.supportedFilesystems = [ "zfs" ];
   networking.wireless = {
     enable = false;
     iwd.enable = true;
   };
   networking.hostId = "54a8968e";
 
-  services.zfs.autoScrub.enable = true;
-  services.zfs.trim.enable = true;
-  hardware.bluetooth.enable = true;
   services.fprintd.enable = true;
   hardware.intelgpu = {
     driver = "i915";
