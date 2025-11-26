@@ -29,6 +29,7 @@
     yubikey-manager
     glib
     solaar
+    v4l-utils
   ];
   environment.sessionVariables.XDG_DATA_DIRS = with pkgs; [
     "${gnome-themes-extra}/share"

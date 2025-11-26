@@ -99,6 +99,7 @@ in
       ncdu
       attic-client
       nvme-cli
+      btop
 
       # utils
       file
@@ -134,7 +135,8 @@ in
         ghostty
         tmux
       ])
-    );
+    )
+    ++ lib.optional (builtins.elem "kvm-amd" config.boot.kernelModules) pkgs.amdgpu_top;
   nix.gc.automatic = true;
 
   services.avahi = {
