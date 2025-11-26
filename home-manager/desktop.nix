@@ -369,5 +369,13 @@ in
     keybind = shift+enter=text:\x1b\r
     window-inherit-working-directory = false
   '';
-
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [ "writer.desktop" ];
+      "x-scheme-handler/http"  = [ "firefox.desktop" ];
+      "x-scheme-handler/https" = [ "firefox.desktop" ];
+    };
+  };
 }
