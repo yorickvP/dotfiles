@@ -10,6 +10,7 @@ let
     xps9360 = "/home/yorick/wp/thorns__4k__by_kasperja-daqi5g7.jpg fill";
     desktop = "/home/yorick/wp/leonid5-high.webp fill";
     x11carbon = "/home/yorick/wp/lawn_forest_mountains_144578_3840x2400.jpg fill";
+    office = "/home/yorick/wp/fbm5e22acf8e1.png fill";
   };
   headphones = "80:99:E7:E4:01:78";
 in
@@ -141,6 +142,19 @@ in
         position = "2560 0";
         bg = bg.desktop;
         max_render_time = "4";
+      };
+      # office monitors
+      output."Dell Inc. DELL U2725QE G98Y934" = {
+        mode = "3840x2160@60.000Hz";
+        scale = "1.5";
+        position = "2560 0";
+        bg = bg.office;
+      };
+      output."Dell Inc. DELL U2725QE FB8Y934" = {
+        mode = "3840x2160@120.000Hz";
+        scale = "1.5";
+        position = "0 0";
+        bg = bg.office;
       };
 
       # x11 carbon
