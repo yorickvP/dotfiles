@@ -140,7 +140,7 @@ class MachineInterfaceHome(MachineInterface):
                 await new_path.copy(ssh)
                 await ssh(f"{new_path.path}/activate")
         else:
-            await run(f"{new_path.path}/activate", stdout=None)
+            await run(f"{new_path.path}/activate")
 
 
 interfaces = {
