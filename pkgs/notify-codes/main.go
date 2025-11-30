@@ -12,8 +12,9 @@ import (
 )
 
 var authCodePatterns = []*regexp.Regexp{
+	regexp.MustCompile(`\b(\d{3}-\d{3})\b`),
 	regexp.MustCompile(`\b(\d{6})\b`),
-	regexp.MustCompile(`\b(\d{4,8})\b`),
+	regexp.MustCompile(`\b(\d{5,8})\b`),
 	regexp.MustCompile(`(?i)code[:\s]+([A-Z0-9]{4,8})`),
 	regexp.MustCompile(`(?i)verification[:\s]+([A-Z0-9]{4,8})`),
 }
@@ -87,19 +88,22 @@ func monitorNotifications() error {
 		fullText := summary + " " + body
 		if code := extractAuthCode(fullText); code != "" {
 			log.Printf("Found authentication code: %s", code)
-			
-			if code == lastCode && time.Since(lastCodeTime) < 10*time.Second {
+
+			// Strip dashes from codes like xxx-xxx
+			codeToClip := strings.ReplaceAll(code, "-", "")
+
+			if codeToClip == lastCode && time.Since(lastCodeTime) < 10*time.Second {
 				log.Printf("DEBUG: Skipping duplicate code (copied %v ago)", time.Since(lastCodeTime))
 				continue
 			}
-			
-			cmd := exec.Command("wl-copy", code)
+
+			cmd := exec.Command("wl-copy", codeToClip)
 			if err := cmd.Run(); err != nil {
 				log.Printf("Failed to copy to clipboard: %v", err)
 			} else {
 				log.Println("Code copied to clipboard!")
-				exec.Command("notify-send", "Auth Code Copied", fmt.Sprintf("Copied: %s", code)).Run()
-				lastCode = code
+				exec.Command("notify-send", "Auth Code Copied", fmt.Sprintf("Copied: %s", codeToClip)).Run()
+				lastCode = codeToClip
 				lastCodeTime = time.Now()
 			}
 		}
