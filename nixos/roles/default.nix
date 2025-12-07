@@ -11,6 +11,8 @@ let
   vpn = import ../vpn.nix;
 in
 {
+  # todo: fix maxDiskUsagePerUrl -> maxDiskUsagePerURL
+  disabledModules = [ "services/monitoring/vlagent.nix" ];
   imports = [
     inputs.agenix.nixosModules.default
     inputs.fooocus.nixosModules.default
@@ -60,6 +62,7 @@ in
   #nix.buildCores = config.nix.maxJobs;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
+    extra-deprecated-features = url-literals
   '';
 
   # Networking

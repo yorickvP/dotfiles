@@ -90,13 +90,13 @@
       corefonts # Micrsoft free fonts
       inconsolata # monospaced
       source-code-pro
-      ubuntu_font_family # Ubuntu fonts
+      ubuntu-classic
       source-han-sans
       nerd-fonts.dejavu-sans-mono
       nerd-fonts.noto
       nerd-fonts.symbols-only
       iosevka
-      emojione
+      joypixels
       font-awesome
     ];
   };

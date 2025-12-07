@@ -67,7 +67,7 @@ in
       cfg.nginx
       {
         locations."/" = {
-          proxyPass = "http://unix:/run/anubis/anubis-gitea.sock";
+          proxyPass = "http://unix:${config.services.anubis.instances.gitea.settings.BIND}";
           extraConfig = ''
             proxy_buffering off;
           '';
@@ -76,6 +76,8 @@ in
     ];
     services.anubis.instances.gitea.settings = {
       TARGET = "http://127.0.0.1:${toString config.services.forgejo.settings.server.HTTP_PORT}";
+      BIND = "/run/anubis/anubis-gitea/anubis.sock";
+      METRICS_BIND = "/run/anubis/anubis-gitea/anubis-metrics.sock";
     };
     users.users.nginx.extraGroups = [ "anubis" ];
 
