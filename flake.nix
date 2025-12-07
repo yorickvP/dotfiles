@@ -1,14 +1,13 @@
 {
   description = "Yoricks dotfiles";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-mozilla.url = "github:mozilla/nixpkgs-mozilla";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-25.05";
+    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-25.11";
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-mailserver.inputs.nixpkgs-25_05.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     nix-index-database.url = "github:Mic92/nix-index-database";
@@ -20,7 +19,6 @@
     ghostty.url = "github:ghostty-org/ghostty/26a42fac0ec8f612a3ddce60bab9842c79a2756a";
     ghostty.inputs.nixpkgs-stable.follows = "nixpkgs";
     ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
-    ghostty.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     call-flake.url = "github:divnix/call-flake";
   };
@@ -29,11 +27,10 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
-      nixpkgs-mozilla,
+      # nixpkgs-mozilla,
       emacs-overlay,
       nixos-hardware,
       agenix,
-      flake-utils,
       nix-index-database,
       nix-npm-buildpackage,
       yobot,
@@ -43,31 +40,29 @@
     }:
     let
       fooocus = inputs.call-flake ./pkgs/fooocus;
+      forAllSystems = nixpkgs.lib.genAttrs ["x86_64-linux"];
+      forAllSystemPkgs = f: forAllSystems (system: f self.legacyPackages.${system});
     in
-    (flake-utils.lib.eachSystem [ "x86_64-linux" ] (
-      system:
-      let
-        pkgs = self.legacyPackages.${system};
-      in
       {
-        legacyPackages = import nixpkgs {
+        legacyPackages = forAllSystems (system: import nixpkgs {
           config = {
             allowUnfree = true;
             # chromium.vaapiSupport = true;
             android_sdk.accept_license = true;
             permittedInsecurePackages = [ ];
+            joypixels.acceptLicense = true;
           };
           inherit system;
           overlays = [ self.overlays.default ];
-        };
+        });
 
-        packages = {
-          yorick-home = self.homeConfigurations.${system}.activationPackage;
+        packages = forAllSystemPkgs (pkgs: {
+          yorick-home = self.homeConfigurations.${pkgs.stdenv.system}.activationPackage;
           default = pkgs.linkFarm "yori-nix" (
             [
               {
                 name = "yorick-home";
-                path = self.packages.${system}.yorick-home;
+                path = self.packages.${pkgs.stdenv.system}.yorick-home;
               }
             ]
             ++ (map (n: {
@@ -75,9 +70,9 @@
               path = n.toplevel;
             }) (builtins.attrValues self.nixosConfigurations))
           );
-        };
+        });
 
-        homeConfigurations = home-manager.lib.homeManagerConfiguration {
+        homeConfigurations = forAllSystemPkgs (pkgs: home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
             ./home-manager/home.nix
@@ -90,19 +85,17 @@
               };
             }
           ];
-        };
+        });
 
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            pkgs.agenix
-          ];
-        };
-
-      }
-    ))
-    // {
+        devShells = forAllSystemPkgs (pkgs: {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              pkgs.agenix
+            ];
+          };
+        });
       overlays.default = nixpkgs.lib.composeManyExtensions [
-        nixpkgs-mozilla.overlay
+        # nixpkgs-mozilla.overlay
         emacs-overlay.overlay
         agenix.overlays.default
         (import ./fixups.nix)
@@ -111,12 +104,12 @@
         (final: prev: {
           pkgs-unstable = import nixpkgs-unstable {
             config.allowUnfree = true;
-            inherit (final) system;
+            inherit (final.stdenv) system;
           };
           flake-inputs = inputs // { inherit fooocus; };
           inherit (final.pkgs-unstable) claude-code;
-          nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.system}";
-          fooocus = fooocus.packages.${final.system}.default;
+          nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.stdenv.system}";
+          fooocus = fooocus.packages.${final.stdenv.system}.default;
           ghostty = inputs.ghostty.packages.${final.system}.ghostty.overrideAttrs (o: {
             patches = (o.patches or [ ]) ++ [
               ./pkgs/ghostty-delimiter.patch

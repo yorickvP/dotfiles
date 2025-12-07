@@ -113,7 +113,7 @@ in
         hide-mode-line
         llm
         gptel
-        magit-gptcommit
+        # magit-gptcommit
         # consult-web
         diff-hl
         highlight-indent-guides

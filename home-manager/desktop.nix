@@ -47,7 +47,7 @@ in
       "mode=do-not-disturb".invisible = 1;
     };
   };
-  services.gpg-agent.pinentry.package = pkgs.pinentry.gnome3;
+  services.gpg-agent.pinentry.package = pkgs.pinentry-gnome3;
   wayland.windowManager.sway = {
     enable = true;
     checkConfig = false; # looks for wallpapers
@@ -294,21 +294,6 @@ in
     Install.WantedBy = [ "timers.target" ];
   };
 
-  # systemd.user.services.gebaard = {
-  #   Unit = {
-  #     Description = "gebaard";
-  #     After = [ "graphical-session-pre.target" ];
-  #     PartOf = [ "graphical-session.target" ];
-  #   };
-
-  #   Install = { WantedBy = [ "graphical-session.target" ]; };
-
-  #   Service = {
-  #     ExecStart = ''
-  #       ${pkgs.gebaar-libinput}/bin/gebaard
-  #     '';
-  #   };
-  # };
   services.kdeconnect = {
     enable = true;
     indicator = true;
@@ -352,9 +337,10 @@ in
     #xwaylandvideobridge
     easyeffects
     # bitwarden-desktop
-    soco-cli
+    soco-cli # sonos speakers
     claude-code
     ddcutil
+    bluetui
   ];
   xdg.configFile."alacritty/alacritty.toml" = {
     source = ../alacritty/alacritty.toml;
@@ -364,6 +350,7 @@ in
     font-size = 12
     background-opacity = 0.95
     theme = dark:catppuccin-mocha,light:catppuccin-latte
+    # theme = dark:Catppuccin Mocha,light:Catppuccin Latte
     gtk-single-instance = true
     window-decoration = false
     adjust-cursor-thickness = 3
@@ -380,6 +367,7 @@ in
     keybind = alt+zero=unbind
     keybind = ctrl+backspace=text:\x1B\x7F
     keybind = shift+enter=text:\x1b\r
+    window-inherit-working-directory = false
   '';
 
 }

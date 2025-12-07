@@ -1,22 +1,22 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-with lib;
+{ config, lib, ... }:
 
 let
+  inherit (lib)
+    mkDefault
+    mkIf
+    mkOption
+    types
+    ;
 
   cfg = config.accounts.email;
+  enabledAccounts = lib.filterAttrs (n: v: v.enable) cfg.accounts;
 
   gpgModule = types.submodule {
     options = {
       key = mkOption {
         type = types.str;
         description = ''
-          The key to use as listed in <command>gpg --list-keys</command>.
+          The key to use as listed in {command}`gpg --list-keys`.
         '';
       };
 
@@ -54,7 +54,7 @@ let
         default = ''
           --
         '';
-        example = literalExpression ''
+        example = lib.literalExpression ''
           ~*~*~*~*~*~*~*~*~*~*~*~
         '';
         description = ''
@@ -65,7 +65,7 @@ let
       command = mkOption {
         type = with types; nullOr path;
         default = null;
-        example = literalExpression ''
+        example = lib.literalExpression ''
           pkgs.writeScript "signature" "echo This is my signature"
         '';
         description = "A command that generates a signature.";
@@ -108,11 +108,33 @@ let
         description = ''
           Path to file containing certificate authorities that should
           be used to validate the connection authenticity. If
-          <literal>null</literal> then the system default is used.
+          `null` then the system default is used.
           Note, if set then the system default may still be accepted.
         '';
       };
     };
+  };
+
+  authenticationOption = mkOption {
+    type = types.nullOr (
+      types.either types.str (
+        types.enum [
+          "anonymous"
+          "apop"
+          "clear"
+          "cram_md5"
+          "digest_md5"
+          "gssapi"
+          "login"
+          "ntlm"
+          "plain"
+          "xoauth2"
+        ]
+      )
+    );
+    default = null;
+    example = "plain";
+    description = "The authentication mechanism.";
   };
 
   imapModule = types.submodule {
@@ -131,9 +153,11 @@ let
         example = 993;
         description = ''
           The port on which the IMAP server listens. If
-          <literal>null</literal> then the default port is used.
+          `null` then the default port is used.
         '';
       };
+
+      authentication = authenticationOption;
 
       tls = mkOption {
         type = tlsModule;
@@ -153,10 +177,9 @@ let
         example = "jmap.example.org";
         description = ''
           Hostname of JMAP server.
-          </para><para>
-          If both this option and <xref
-          linkend="opt-accounts.email.accounts._name_.jmap.sessionUrl"/> are specified,
-          <code>host</code> is preferred by applications when establishing a
+
+          If both this option and [](#opt-accounts.email.accounts._name_.jmap.sessionUrl) are specified,
+          `host` is preferred by applications when establishing a
           session.
         '';
       };
@@ -167,10 +190,9 @@ let
         example = "https://jmap.example.org:443/.well-known/jmap";
         description = ''
           URL for the JMAP Session resource.
-          </para><para>
-          If both this option and <xref
-          linkend="opt-accounts.email.accounts._name_.jmap.host"/> are specified,
-          <code>host</code> is preferred by applications when establishing a
+
+          If both this option and [](#opt-accounts.email.accounts._name_.jmap.host) are specified,
+          `host` is preferred by applications when establishing a
           session.
         '';
       };
@@ -193,9 +215,11 @@ let
         example = 465;
         description = ''
           The port on which the SMTP server listens. If
-          <literal>null</literal> then the default port is used.
+          `null` then the default port is used.
         '';
       };
+
+      authentication = authenticationOption;
 
       tls = mkOption {
         type = tlsModule;
@@ -221,6 +245,8 @@ let
 
         absPath = mkOption {
           type = types.str;
+          #readOnly = true;
+          #internal = true;
           default = "${cfg.maildirBasePath}/${config.path}";
           description = ''
             A convenience option whose value is the absolute path of
@@ -230,6 +256,81 @@ let
       };
     }
   );
+
+  aliasSubmodule =
+    { accountConfig, ... }:
+    {
+      options = {
+        name = mkOption {
+          type = types.nullOr types.str;
+          default = null;
+          description = ''
+            Friendly name for this alias.
+          '';
+        };
+
+        realName = mkOption {
+          type = types.str;
+          example = "John Doe";
+          description = "Name displayed when sending mails.";
+        };
+
+        userName = mkOption {
+          type = types.nullOr types.str;
+          default = accountConfig.userName;
+          defaultText = lib.literalExpression ''
+            # Inherits account configuration
+            accountConfig.userName
+          '';
+          description = ''
+            The server username of this alias. This will be used as
+            the SMTP, IMAP, and JMAP user name.
+          '';
+        };
+
+        address = mkOption {
+          type = types.strMatching ".*@.*";
+          example = "john.doe@example.org";
+          description = "The email address of this identity.";
+        };
+
+        signature = mkOption {
+          type = types.nullOr signatureModule;
+          default = accountConfig.signature;
+          defaultText = lib.literalExpression ''
+            # Inherits account configuration
+            accountConfig.signature
+          '';
+          description = ''
+            Signature configuration.
+          '';
+        };
+
+        gpg = mkOption {
+          type = types.nullOr gpgModule;
+          default = accountConfig.gpg;
+          defaultText = lib.literalExpression ''
+            # Inherits account configuration
+            accountConfig.gpg
+          '';
+          description = ''
+            GPG configuration.
+          '';
+        };
+
+        smtp = mkOption {
+          type = types.nullOr smtpModule;
+          default = accountConfig.smtp;
+          defaultText = lib.literalExpression ''
+            # Inherits account configuration
+            accountConfig.smtp
+          '';
+          description = ''
+            The SMTP configuration to use for this alias.
+          '';
+        };
+      };
+    };
 
   mailAccountOpts =
     { name, config, ... }:
@@ -253,21 +354,33 @@ let
           '';
         };
 
+        enable = mkOption {
+          type = types.bool;
+          default = true;
+          description = ''
+            Whether this account is enabled.  Potentially useful to allow
+            setting email configuration globally then enabling or disabling on
+            specific systems.
+          '';
+        };
+
         flavor = mkOption {
           type = types.enum [
-            "plain"
-            "gmail.com"
-            "runbox.com"
+            "davmail"
             "fastmail.com"
-            "yandex.com"
+            "gmail.com"
+            "migadu.com"
             "outlook.office365.com"
+            "plain"
+            "runbox.com"
+            "yandex.com"
           ];
           default = "plain";
           description = ''
             Some email providers have peculiar behavior that require
             special treatment. This option is therefore intended to
             indicate the nature of the provider.
-            </para><para>
+
             When this indicates a specific provider then, for example,
             the IMAP, SMTP, and JMAP server configuration may be set
             automatically.
@@ -281,13 +394,22 @@ let
         };
 
         aliases = mkOption {
-          type = types.listOf (types.strMatching ".*@.*");
+          description = "Alternative identities of this account.";
           default = [ ];
           example = [
             "webmaster@example.org"
             "admin@example.org"
           ];
-          description = "Alternative email addresses of this account.";
+          type = types.listOf (
+            types.oneOf [
+              (types.strMatching ".*@.*")
+              (types.submoduleWith {
+                modules = [ aliasSubmodule ];
+                specialArgs.accountConfig = config;
+                shorthandOnlyDefinesConfig = true;
+              })
+            ]
+          );
         };
 
         realName = mkOption {
@@ -308,7 +430,7 @@ let
         passwordCommand = mkOption {
           type = types.nullOr (types.either types.str (types.listOf types.str));
           default = null;
-          apply = p: if isString p then splitString " " p else p;
+          apply = p: if lib.isString p then lib.splitString " " p else p;
           example = "secret-tool lookup email me@example.org";
           description = ''
             A command, which when run writes the account password on
@@ -409,10 +531,10 @@ let
         };
       };
 
-      config = mkMerge [
+      config = lib.mkMerge [
         {
           name = name;
-          maildir = mkOptionDefault { path = "${name}"; };
+          maildir = lib.mkOptionDefault { path = "${name}"; };
         }
 
         (mkIf (config.flavor == "yandex.com") {
@@ -469,6 +591,20 @@ let
           };
         })
 
+        (mkIf (config.flavor == "migadu.com") {
+          userName = mkDefault config.address;
+
+          imap = {
+            host = "imap.migadu.com";
+            port = 993;
+          };
+
+          smtp = {
+            host = "smtp.migadu.com";
+            port = 465;
+          };
+        })
+
         (mkIf (config.flavor == "gmail.com") {
           userName = mkDefault config.address;
 
@@ -486,10 +622,26 @@ let
         (mkIf (config.flavor == "runbox.com") {
           imap = {
             host = "mail.runbox.com";
+            port = 993;
           };
 
           smtp = {
             host = "mail.runbox.com";
+            port = if config.smtp.tls.useStartTls then 587 else 465;
+          };
+        })
+
+        (mkIf (config.flavor == "davmail") {
+          imap = {
+            host = "localhost";
+            port = 1143;
+            authentication = "login";
+          };
+          smtp = {
+            host = "localhost";
+            port = 1025;
+            tls.enable = false;
+            authentication = "plain";
           };
         })
       ];
@@ -511,12 +663,13 @@ in
     maildirBasePath = mkOption {
       type = types.str;
       default = "${config.home.homeDirectory}/Maildir";
-      defaultText = "$HOME/Maildir";
-      apply = p: if hasPrefix "/" p then p else "${config.home.homeDirectory}/${p}";
+      defaultText = "Maildir";
+      apply = p: if lib.hasPrefix "/" p then p else "${config.home.homeDirectory}/${p}";
       description = ''
         The base directory for account maildir directories. May be a
-        relative path, in which case it is relative the home
-        directory.
+        relative path (e.g. the user setting this value as "MyMaildir"),
+        in which case it is relative the home directory (e.g. resulting
+        in "~/MyMaildir").
       '';
     };
 
@@ -527,18 +680,18 @@ in
     };
   };
 
-  config = mkIf (cfg.accounts != { }) {
+  config = mkIf (enabledAccounts != { }) {
     assertions = [
       (
         let
-          primaries = catAttrs "name" (filter (a: a.primary) (attrValues cfg.accounts));
+          primaries = lib.catAttrs "name" (lib.filter (a: a.primary) (lib.attrValues enabledAccounts));
         in
         {
-          assertion = length primaries == 1;
+          assertion = lib.length primaries == 1;
           message =
             "Must have exactly one primary mail account but found "
-            + toString (length primaries)
-            + optionalString (length primaries > 1) (", namely " + concatStringsSep ", " primaries);
+            + toString (lib.length primaries)
+            + lib.optionalString (lib.length primaries > 1) (", namely " + lib.concatStringsSep ", " primaries);
         }
       )
     ];

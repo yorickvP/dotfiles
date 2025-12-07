@@ -6,12 +6,11 @@
   ...
 }:
 let
-  thefuck-alias =
+  pay-respects-alias =
     shell:
-    pkgs.runCommand "thefuck-alias" {
-      TF_SHELL = shell;
+    pkgs.runCommand "pay-respects-alias" {
       HOME = "/build";
-    } "${pkgs.thefuck}/bin/thefuck -a > $out";
+    } "${pkgs.pay-respects}/bin/pay-respects ${shell} --alias > $out";
   headphones = "80:99:E7:E4:01:78";
   emacsPackages = pkgs.emacsPackagesFor config.programs.emacs.package;
 in
@@ -27,36 +26,31 @@ in
     gh = {
       enable = true;
       settings.aliases.co = "pr checkout";
+      settings.aliases.clone = "repo clone";
       settings.git_protocol = "ssh";
     };
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
     home-manager.enable = true;
+    mergiraf.enable = true;
     git = {
       #lfs.enable = true;
       enable = true;
-      userName = "Yorick van Pelt";
-      userEmail = "yorick@yorickvanpelt.nl";
       signing.key = "A36E70F9DC014A15";
       signing.signByDefault = true;
-      extraConfig = {
+      settings = {
+        user.name = "Yorick van Pelt";
+        user.email = "yorick@yorickvanpelt.nl";
         merge.conflictStyle = "diff3";
         help.autocorrect = 5;
         push.default = "simple";
         push.autoSetupRemote = true;
         pull.ff = "only";
-        hub.protocol = "ssh";
         github.user = "yorickvP";
         init.defaultBranch = "main";
         rebase.autoSquash = true;
         branch.sort = "-committerdate";
-        # TODO(25.11) programs.mergiraf
-        merge.mergiraf = {
-          name = "mergiraf";
-          driver = "${pkgs.mergiraf}/bin/mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L";
-        };
       };
-      attributes = [ "* merge=mergiraf" ];
       ignores = [
         "/.envrc"
         "/.cache"
@@ -64,7 +58,7 @@ in
         "/.aider.*"
         "/.claude"
       ];
-      aliases = {
+      settings.alias = {
         lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
         st = "status";
         remotes = "remote -v";
@@ -82,12 +76,20 @@ in
 
     ssh = {
       enable = true;
-      compression = true;
-      serverAliveInterval = 120;
-      controlMaster = "auto";
+      enableDefaultConfig = false;
       matchBlocks = {
         "*" = {
+          controlMaster = "auto";
+          serverAliveInterval = 120;
           sendEnv = [ "COLORTERM" "TERM_PROGRAM" "TERM_PROGRAM_VERSION" ];
+          compression = true;
+          forwardAgent = false;
+          addKeysToAgent = "no";
+          serverAliveCountMax = 3;
+          hashKnownHosts = false;
+          userKnownHostsFile = "~/.ssh/known_hosts";
+          controlPath = "~/.ssh/master-%r@%n:%p";
+          controlPersist = "no";
         };
         "pub.yori.cc" = {
           user = "public";
@@ -107,14 +109,9 @@ in
           hostname = "sankhara.karpenoktem.nl";
         };
         blackadder.hostname = "10.209.0.6";
-        frumar.hostname = "frumar.local";
+        frumar.hostname = "frumar.home.yori.cc";
         pennyworth.hostname = "pennyworth.yori.cc";
         smithers.hostname = "10.209.0.8";
-        replicate.hostname = "216.153.63.208";
-        # "192.168.178.*" = {
-        # only if wired
-        #   extraOptions.Compression = "no";
-        # };
       };
       extraConfig = ''
         Match host "192.168.*.*" exec "ip route get %h | grep -v -q via"
@@ -144,9 +141,11 @@ in
         in
         ''
           set fish_greeting
-          source ${thefuck-alias "fish"}
+          source ${pay-respects-alias "fish"}
           source ~/dotfiles/nr.fish
-          source ${vtermPath}
+          if test -n "$INSIDE_EMACS"
+            source ${vtermPath}
+          end
           function tmp --description 'cd to ~/tmp/YYYY-MM-DD, creating it if needed'
             set dated_tmp $HOME"/tmp/"(date +%Y-%m-%d)
             mkdir -p $dated_tmp
@@ -170,7 +169,7 @@ in
         nsp = "nix-shell -p";
       };
       initExtra = ''
-        source ${thefuck-alias "bash"}
+        source ${pay-respects-alias "bash"}
         if [ "$IN_CACHED_NIX_SHELL" ]; then
           eval "$shellHook"
           unset shellHook
@@ -229,8 +228,8 @@ in
       expect
       fzf
       fx
-      gitAndTools.git-annex
-      glxinfo
+      git-annex
+      mesa-demos
       gnupg1
       imagemagick
       iodine
@@ -249,7 +248,7 @@ in
       screen
       sshfs-fuse
       sshuttle
-      thefuck
+      pay-respects
       wakelan
       tty-clock
       up
@@ -257,7 +256,6 @@ in
       ## media
       aria2
       castnow
-      nodePackages.peerflix
       streamlink
       yt-dlp
       ffmpeg
@@ -270,7 +268,6 @@ in
       git-crypt
       git-fire
       gnumake
-      hub
       python3
       silver-searcher
       sqlite-interactive
@@ -296,13 +293,13 @@ in
       ocamlPackages.cpdf
       zathura
       pandoc
-      poppler_utils
+      poppler-utils
 
       ## misc
       asciinema
       cargo
       eza
-      linuxPackages.perf
+      perf
       ltrace
       lz4json
       pssh
@@ -332,7 +329,7 @@ in
       gopass
       hledger
       spotify
-      tdesktop
+      telegram-desktop
       signal-desktop
       virt-manager
       wireshark
@@ -361,10 +358,9 @@ in
       google-cloud-sdk
       kubectl
       stern
-      oathToolkit
+      oath-toolkit
       mitmproxy
       magic-wormhole
-      mergiraf
       difftastic
 
       # admin
