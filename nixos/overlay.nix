@@ -1,28 +1,18 @@
 let
-  names = [
-    "pennyworth"
-    "jarvis"
-    "blackadder"
-    "frumar"
-    "smithers"
-    "kirei"
-    "butterscotch"
-  ];
+  names = builtins.attrNames (builtins.readDir ./machines);
 in
 pkgs: super: {
   yorick = (super.yorick or { }) // rec {
     nixos =
       configuration: extraArgs:
       let
-        c = import (pkgs.path + "/nixos/lib/eval-config.nix") {
-          inherit (pkgs.stdenv.hostPlatform) system;
+        c = pkgs.flake-inputs.nixpkgs.lib.nixosSystem {
           specialArgs.inputs = pkgs.flake-inputs;
           modules = [
             (
               { lib, ... }:
               {
                 config.nixpkgs.pkgs = lib.mkDefault pkgs;
-                config.nixpkgs.flake.source = pkgs.flake-inputs.nixpkgs;
                 config._module.args = extraArgs;
               }
             )

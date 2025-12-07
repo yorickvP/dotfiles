@@ -25,8 +25,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "kirei"; # Define your hostname.
-
   age.secrets.msmtp-mail-pass.file = ../../../secrets/kirei-mail-pass.age;
 
   services.zfs.autoScrub = {
