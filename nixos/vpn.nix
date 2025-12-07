@@ -16,6 +16,6 @@
     pennyworth = "XoeUMsiSOWBFEFuAu+S4iQd3MzkyGhIj9dtxzZ0I500=";
     smithers = "CXsx26Xi+mBeuB6U8hdeuOBC3o4gTnBc6biez/BCqzM=";
     kirei = "g/l1OzW8aN4NYgpEeS5PyrdyjtaNoKzyiMBGpQS0+Wc=";
-    butterscotch = "Yg6wiBfCHbwfWOKsmPnoIMa9g46nXtwOibsmQ31Se14";
+    butterscotch = "Yg6wiBfCHbwfWOKsmPnoIMa9g46nXtwOibsmQ31Se14=";
   };
 }

@@ -26,6 +26,7 @@ in
   mailserver = rec {
     enable = true;
     fqdn = "pennyworth.yori.cc";
+    stateVersion = 3;
     domains = [
       "yori.cc"
       "yorickvanpelt.nl"
