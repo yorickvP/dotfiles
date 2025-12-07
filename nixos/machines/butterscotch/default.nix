@@ -24,6 +24,18 @@
   networking.hostId = "d05ee74c";
 
   system.stateVersion = "25.05";
-  boot.kernelPackages = pkgs.linuxPackages_6_16;
+  boot.kernelPackages = pkgs.linuxPackages_6_17;
+  # temp
+  nixpkgs.overlays = [(self: super: {
+    linux-firmware = super.linux-firmware.overrideAttrs (rec {
+      version = "20251111";
+      src = self.fetchFromGitLab {
+        owner = "kernel-firmware";
+        repo = "linux-firmware";
+        tag = version;
+        hash = "sha256-YGcG2MxZ1kjfcCAl6GmNnRb0YI+tqeFzJG0ejnicXqY=";
+      };
+    });
+  })];
 
 }
