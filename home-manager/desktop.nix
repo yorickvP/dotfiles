@@ -392,4 +392,7 @@ in
       "x-scheme-handler/https" = [ "firefox.desktop" ];
     };
   };
+  xdg.configFile."uv/uv.toml".source = (pkgs.formats.toml {}).generate "uv-config" {
+    "link-mode" = "clone";
+  };
 }
