@@ -38,4 +38,19 @@
     });
   })];
 
+  services.znapzend = {
+    enable = true;
+    zetup = {
+      "rpool/home" = {
+        plan = "1d=>1h,1m=>1w";
+      };
+      "rpool/nixos/var" = {
+        plan = "1d=>1h,1m=>1w";
+      };
+    };
+  };
+  boot.kernelParams = [
+    #"ttm.pages_limit=25165824" "ttm.page_pool_size=25165824" # 96GiB
+    "ttm.pages_limit=29360128" "ttm.page_pool_size=29360128" # 112GiB
+  ];
 }

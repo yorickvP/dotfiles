@@ -27,6 +27,11 @@
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
+  fileSystems."/var/models" =
+    {
+      device = "rpool/models";
+      fsType = "zfs";
+    };
 
   swapDevices =
     [ { device = "/dev/disk/by-uuid/63aa06bb-dde9-4805-a1ee-41bc54126601"; }
