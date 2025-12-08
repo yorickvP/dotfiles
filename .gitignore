@@ -6,3 +6,4 @@ result
 /pkgs/marvin-tracker/node_modules
 __pycache__
 *.egg-info
+/ydeployer/build
