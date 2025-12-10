@@ -151,7 +151,7 @@ in
             mkdir -p $dated_tmp
             cd $dated_tmp
           end
-
+          bind alt-backspace backward-kill-word
         '';
       plugins = [
         { inherit (pkgs.fishPlugins.tide) name src; }
