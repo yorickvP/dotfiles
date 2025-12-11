@@ -110,6 +110,8 @@ in
             "${mod}+p" = "exec /home/yorick/dotfiles/bin/ala-fzf-pass.sh";
             #"${mod}+p" = exec rofi-pass "rofi-pass";
             "${mod}+e" = exec pkgs.wldash "wldash start-or-kill";
+            "${mod}+F1" = "exec --no-startup-id ddcutil -b 17 setvcp 10 - 5 --sleep-multiplier 0.0001";
+            "${mod}+F2" = "exec --no-startup-id ddcutil -b 17 setvcp 10 + 5 --sleep-multiplier 0.0001";
           }
         );
       workspaceAutoBackAndForth = true;
@@ -120,6 +122,7 @@ in
         natural_scroll = "enabled";
         tap = "enabled";
         dwt = "enabled";
+        drag_lock = "disabled";
       };
       output."Sharp Corporation 0x144A Unknown".bg = bg.xps9360;
 
@@ -164,6 +167,7 @@ in
         natural_scroll = "enabled";
         tap = "enabled";
         dwt = "enabled";
+        drag_lock = "disabled";
       };
 
       # generic
