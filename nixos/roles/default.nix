@@ -33,7 +33,7 @@ in
     nix-netrc-yorick.file = ../../secrets/nix-netrc-yorick.age;
   };
 
-  nix.package = pkgs.lix;
+  nix.package = pkgs.lixPackageSets.latest.lix;
 
   networking.domain = "yori.cc";
   networking.hostName = machine;
