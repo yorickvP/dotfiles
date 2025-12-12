@@ -46,6 +46,7 @@
       RestartMaxDelaySec = 60;
     };
   };
+  services.matter-server.enable = true;
   networking.firewall.allowedUDPPorts = [ 4002 ]; # govee2mqtt
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 8081 ];
   services.home-assistant = {
@@ -79,6 +80,7 @@
       "ffmpeg"
       "govee_light_local"
       "sonos"
+      "matter"
       "wled"
       #"unifiprotect"
     ];
