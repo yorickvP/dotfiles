@@ -250,11 +250,20 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
   (savehist-mode))
 (use-package consult
   :bind (("C-x b" . consult-buffer)
-         ("C-s" . consult-line)))
+         ("C-c r" . consult-ripgrep)
+         ("C-s" . consult-line))
+  :config
+    (setq xref-show-xrefs-function #'consult-xref
+      xref-show-definitions-function #'consult-xref)
+  )
+(defun lsp-find-type-definition-other-window ()
+  (interactive)
+  (lsp-find-type-definition :display-action 'window))
 (use-package embark
   :bind (("C-," . embark-act))
   :config
   (keymap-set embark-identifier-map "t" #'lsp-find-type-definition)
+  (keymap-set embark-identifier-map "C-x 4 t" #'lsp-find-type-definition-other-window)
   (keymap-set embark-identifier-map "R" #'lsp-rename)
   (keymap-set embark-identifier-map "A" #'lsp-execute-code-action)
   (keymap-set embark-identifier-map "h" #'lsp-describe-thing-at-point)
@@ -302,11 +311,6 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 #+END_SRC
 
 #+RESULTS:
-** ggtags
-#+BEGIN_SRC emacs-lisp
-(use-package ggtags
-:bind ("M-." . ggtags-find-tag-dwim))
-#+END_SRC
 ** intuitive window resize
 #+BEGIN_SRC emacs-lisp
 ;; intuitive window resizing
@@ -364,6 +368,19 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
 #+BEGIN_SRC emacs-lisp
 (xterm-mouse-mode 1)
 (define-key local-function-key-map "\033[73;5~" [(control return)])
+#+END_SRC
+** window management
+#+BEGIN_SRC emacs-lisp
+(use-package ace-window
+  :init
+  (setq aw-dispatch-always t
+        aw-keys '(?h ?i ?k ?, ?. ?/ ?l ?y)
+        aw-scope 'frame
+        )
+  :bind (("M-o" . ace-window))
+  :config
+  (ace-window-display-mode 1)
+  )
 #+END_SRC
 ** treemacs
 #+BEGIN_SRC emacs-lisp
@@ -652,24 +669,6 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
     (goto-char (point-min))
     (alist-get key (json-read)))))
 #+END_SRC
-** magit-gptcommit
-#+BEGIN_SRC emacs-lisp
-
-(use-package magit-gptcommit
-  :demand t
-  :after magit
-  :init
-  (require 'llm-claude)
-  :custom
-  (magit-gptcommit-llm-provider
-   (make-llm-claude
-    :key (+y-get-llm-keys 'claude)
-    :chat-model "claude-3-5-sonnet-20240620"))
-  (llm-warn-on-nonfree nil)
-  :config
-  (magit-gptcommit-status-buffer-setup))
-
-#+END_SRC
 ** gptel
 #+BEGIN_SRC emacs-lisp
 
@@ -678,7 +677,7 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
   :config
   (setq
    gptel-api-key (lambda () (+y-get-llm-keys 'openai))
-   gptel-model "claude-3-5-sonnet-20240620"
+   gptel-model 'claude-opus-4-5
    gptel-backend (gptel-make-anthropic "Claude"
                    :stream t
                    :key (lambda () (+y-get-llm-keys 'claude))))
@@ -796,6 +795,17 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
 (use-package rust-mode
   :commands (rust-mode)
   :mode (("\\.rs\\'" . rust-mode)))
+#+END_SRC
+** misc ts modes
+#+BEGIN_SRC emacs-lisp
+(use-package tsx-ts-mode
+  :mode "\\.tsx\\'")
+(use-package typescript-ts-mode
+  :mode "\\.ts\\'")
+(use-package go-ts-mode
+  :mode "\\.go\\'")
+(use-package toml-ts-mode
+  :mode (rx (or ".toml" "uv.lock") eos))
 #+END_SRC
 ** terraform-mode
 #+BEGIN_SRC emacs-lisp
