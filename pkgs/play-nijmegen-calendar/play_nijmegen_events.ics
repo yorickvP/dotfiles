@@ -1,0 +1,103 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Play Nijmegen Events//hipsy.nl//
+X-WR-CALNAME:Play Nijmegen Events
+X-WR-TIMEZONE:Europe/Amsterdam
+BEGIN:VEVENT
+SUMMARY:PLAY Nijmegen - Buiten Spelen 3
+DTSTART;TZID=Europe/Amsterdam:20250821T183000
+DTEND;TZID=Europe/Amsterdam:20250821T223000
+DTSTAMP:20250820T093717Z
+UID:133929-play-nijmegen-buiten-spelen-3@hipsy.nl
+CATEGORIES:Gatherings,Verbinding,Jongeren
+DESCRIPTION:★ Samen eten en de zomer vieren op het waalstrand ★\n\nOok
+  deze zomer houden we weer een zomerstop wat betreft d...\n\nMore info: ht
+ tps://hipsy.nl/event/133929-play-nijmegen-buiten-spelen-3
+URL:https://hipsy.nl/event/133929-play-nijmegen-buiten-spelen-3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:PLAY Nijmegen - Meerhandsmassage
+DTSTART;TZID=Europe/Amsterdam:20250904T191500
+DTEND;TZID=Europe/Amsterdam:20250904T220000
+DTSTAMP:20250820T093717Z
+UID:134072-play-nijmegen-meerhandsmassage@hipsy.nl
+CATEGORIES:Massage,Ontspanning,Overige Workshops
+DESCRIPTION:De zomer loopt ten einde\, drukke dagen staan mogelijk weer in
+  het vooruitzicht. Onze eerste workshop na de zom...\n\nMore info: https:/
+ /hipsy.nl/event/134072-play-nijmegen-meerhandsmassage
+URL:https://hipsy.nl/event/134072-play-nijmegen-meerhandsmassage
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:PLAY Nijmegen - Rauwpower!
+DTSTART;TZID=Europe/Amsterdam:20250908T191500
+DTEND;TZID=Europe/Amsterdam:20250908T220000
+DTSTAMP:20250820T093717Z
+UID:139432-play-nijmegen-rauwpower@hipsy.nl
+CATEGORIES:Lichaamswerk,Schaduwwerk,Therapie
+DESCRIPTION:Het is tijd om te gaan staan in je eigen kracht!\n\nIn deze wo
+ rkshop nemen Bouke en Aranka je mee in een belicha...\n\nMore info: https:
+ //hipsy.nl/event/139432-play-nijmegen-rauwpower
+URL:https://hipsy.nl/event/139432-play-nijmegen-rauwpower
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:PLAY Nijmegen - Cacaoceremonie 'Omarm de herfst'
+DTSTART;TZID=Europe/Amsterdam:20250918T191500
+DTEND;TZID=Europe/Amsterdam:20250918T220000
+DTSTAMP:20250820T093717Z
+UID:140831-play-nijmegen-cacaoceremonie-omarm-de-herfst@hipsy.nl
+CATEGORIES:Cacao ceremonie,Mantra zingen,Overige Workshops
+DESCRIPTION:Op 21 september is de herfstequinox. Op deze dag is het net zo
+  lang licht als donker\, wat betekent dat we van...\n\nMore info: https://
+ hipsy.nl/event/140831-play-nijmegen-cacaoceremonie-omarm-de-herfst
+URL:https://hipsy.nl/event/140831-play-nijmegen-cacaoceremonie-omarm-de-he
+ rfst
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Het Leukste Play festival!
+DTSTART;TZID=Europe/Amsterdam:20250926T180000
+DTEND;TZID=Europe/Amsterdam:20250928T170000
+DTSTAMP:20250820T093717Z
+UID:88024-het-leukste-play-festival@hipsy.nl
+CATEGORIES:Festivals,Speelsheid,Overige Workshops
+DESCRIPTION:Het Leukste Play Festival - najaarseditie\n\nYes\, weer een we
+ ekend lang Play Festival! Heerlijk samenkomen en ve...\n\nMore info: https
+ ://hipsy.nl/event/88024-het-leukste-play-festival
+URL:https://hipsy.nl/event/88024-het-leukste-play-festival
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Play Feest - Het Sprookjesbal
+DTSTART;TZID=Europe/Amsterdam:20251004T193000
+DTEND;TZID=Europe/Amsterdam:20251004T233000
+DTSTAMP:20250820T093717Z
+UID:119895-play-feest-het-sprookjesbal@hipsy.nl
+CATEGORIES:Live muziek,Vrije Dans,Overige Workshops
+DESCRIPTION:Het Play Sprookjesbal \n\nJullie zijn uitgenodigd voor het gro
+ te Play- Sprookjesbal! Bridgerton & Game of Throne...\n\nMore info: https:
+ //hipsy.nl/event/119895-play-feest-het-sprookjesbal
+URL:https://hipsy.nl/event/119895-play-feest-het-sprookjesbal
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:PLAY Nijmegen - Acroyoga
+DTSTART;TZID=Europe/Amsterdam:20251016T191500
+DTEND;TZID=Europe/Amsterdam:20251016T220000
+DTSTAMP:20250820T093717Z
+UID:141075-play-nijmegen-acroyoga@hipsy.nl
+CATEGORIES:Acro Yoga,Verbinding,Speelsheid
+DESCRIPTION:Weet je nog dat je misschien met je ouders vliegtuigje speelde
+  vroeger? Vliegen\, dragen\, samenwerken en vertro...\n\nMore info: https
+ ://hipsy.nl/event/141075-play-nijmegen-acroyoga
+URL:https://hipsy.nl/event/141075-play-nijmegen-acroyoga
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:PLAY Nijmegen - Blinddoekenfestijn
+DTSTART;TZID=Europe/Amsterdam:20251030T191500
+DTEND;TZID=Europe/Amsterdam:20251030T220000
+DTSTAMP:20250820T093717Z
+UID:139840-play-nijmegen-blinddoekenfestijn@hipsy.nl
+CATEGORIES:Verbinding,Speelsheid,Overige Workshops
+DESCRIPTION:★ Geblinddoekt in contact ★\n\nSpelen\, ontdekken\, nieuwe
+  dingen doen en 'niet weten'... zodra je een blinddoek o...\n\nMore info: 
+ https://hipsy.nl/event/139840-play-nijmegen-blinddoekenfestijn
+URL:https://hipsy.nl/event/139840-play-nijmegen-blinddoekenfestijn
+END:VEVENT
+END:VCALENDAR

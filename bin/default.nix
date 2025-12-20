@@ -25,7 +25,7 @@ lib.mapAttrs (k: f: f k) {
   backup = compileShell ./backup.sh (
     with pkgs;
     [
-      utillinux
+      util-linux
       duplicity
     ]
   );

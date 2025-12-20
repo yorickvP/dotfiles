@@ -98,24 +98,20 @@
         # nixpkgs-mozilla.overlay
         emacs-overlay.overlay
         agenix.overlays.default
-        (import ./fixups.nix)
-        (import ./pkgs)
-        (import ./pkgs/mdr.nix)
         (final: prev: {
           pkgs-unstable = import nixpkgs-unstable {
             config.allowUnfree = true;
             inherit (final.stdenv) system;
           };
           flake-inputs = inputs // { inherit fooocus; };
-          inherit (final.pkgs-unstable) claude-code;
+          inherit (final.pkgs-unstable) claude-code govee2mqtt;
           nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.stdenv.system}";
           fooocus = fooocus.packages.${final.stdenv.system}.default;
-          ghostty = inputs.ghostty.packages.${final.system}.ghostty.overrideAttrs (o: {
-            patches = (o.patches or [ ]) ++ [
-              ./pkgs/ghostty-delimiter.patch
-            ];
-          });
+          ghostty = inputs.ghostty.packages.${final.stdenv.system}.ghostty;
         })
+        (import ./fixups.nix)
+        (import ./pkgs)
+        (import ./pkgs/mdr.nix)
         (import ./nixos/overlay.nix)
       ];
       nixosConfigurations = self.legacyPackages.x86_64-linux.yorick.machine;
