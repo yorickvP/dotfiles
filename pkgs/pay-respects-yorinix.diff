@@ -1,0 +1,22 @@
+diff --git a/core/src/system.rs b/core/src/system.rs
+index 39d5b3a..32dbdbc 100644
+--- a/core/src/system.rs
++++ b/core/src/system.rs
+@@ -237,7 +237,7 @@ pub fn install_string(data: &mut Data, package_manager: &str, package: &str) ->
+ 		}
+ 		"nix" => {
+ 			if method == &InstallMethod::Shell {
+-				return format!("nix-shell -p {}", package,);
++				return format!(":u yori-nix#{}", package,);
+ 			}
+ 			format!("nix profile install nixpkgs#{}", package)
+ 		}
+@@ -288,7 +288,7 @@ pub fn shell_package(data: &Data, package_manager: &str, install: &str) -> Strin
+ 
+ 	match package_manager {
+ 		"guix" => format!("{} -- {}", install, command),
+-		"nix" => format!(r#"{} --command "{};return""#, install, command),
++		"nix" => format!(r#"{}; {}"#, install, command),
+ 		_ => unreachable!("Only `nix` and `guix` are supported for shell installation"),
+ 	}
+ }

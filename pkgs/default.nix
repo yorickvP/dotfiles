@@ -13,6 +13,9 @@
   playerctl = super.playerctl.overrideAttrs (o: {
     patches = (o.patches or [ ]) ++ [ ./playerctl-solid-emoji.diff ];
   });
+  pay-respects = super.pay-respects.overrideAttrs (o: {
+    patches = (o.patches or [ ]) ++ [ ./pay-respects-yorinix.diff ];
+  });
   countfftabs = super.callPackage ./countfftabs { };
   lz4json = super.stdenv.mkDerivation (o: {
     pname = "lz4json";
