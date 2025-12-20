@@ -272,6 +272,15 @@ from https://vickychijwani.me/nuggets-from-my-emacs-part-i/
   (push 'embark--ignore-target
         (alist-get 'lsp-execute-code-action embark-target-injection-hooks))
   )
+(defun y/browse-llm-identifier (identifier)
+  "Browse LLM identifier at langfuse."
+  (let* ((name (if (string-match "_llm_\\(.+\\)" identifier)
+                   (match-string 1 identifier)
+                 identifier)))
+    (browse-url (format "%s/project/cm5wnegon0001y4p2ii7bti2b/prompts/%s" (getenv "LANGFUSE_HOST") name))))
+
+(with-eval-after-load 'embark
+  (define-key embark-identifier-map (kbd "b") #'y/browse-llm-identifier))
 
 (use-package embark-consult
   :ensure t
