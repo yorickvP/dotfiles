@@ -117,6 +117,7 @@
         mode = "storage";
         dashboards = "!include dashboards.yaml";
       };
+      media_player = "!include media_player.yaml";
       template = [
         {
           trigger = [
