@@ -81,7 +81,11 @@ in
         "*" = {
           controlMaster = "auto";
           serverAliveInterval = 120;
-          sendEnv = [ "COLORTERM" "TERM_PROGRAM" "TERM_PROGRAM_VERSION" ];
+          sendEnv = [
+            "COLORTERM"
+            "TERM_PROGRAM"
+            "TERM_PROGRAM_VERSION"
+          ];
           compression = true;
           forwardAgent = false;
           addKeysToAgent = "no";

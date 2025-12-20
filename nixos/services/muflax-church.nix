@@ -55,7 +55,8 @@ in
       "blog.${vhost}" = m "${muflax-church}/blog";
       "gospel.${vhost}" = m "${muflax-church}/gospel";
       "alt.${vhost}" = m "/home/public/public/muflax";
-    } // (lib.mapAttrs m addrs);
+    }
+    // (lib.mapAttrs m addrs);
     security.acme.certs.${vhost}.extraDomainNames = [
       "daily.${vhost}"
       "blog.${vhost}"

@@ -16,7 +16,8 @@ pkgs: super: {
                 config._module.args = extraArgs;
               }
             )
-          ] ++ (if builtins.isList configuration then configuration else [ configuration ]);
+          ]
+          ++ (if builtins.isList configuration then configuration else [ configuration ]);
         };
       in
       c.config.system.build // c;

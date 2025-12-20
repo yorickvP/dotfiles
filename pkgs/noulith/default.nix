@@ -1,4 +1,9 @@
-{ rustPlatform, fetchFromGitHub, pkg-config, openssl }:
+{
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  openssl,
+}:
 rustPlatform.buildRustPackage rec {
   pname = "noulith";
   version = "20231228";

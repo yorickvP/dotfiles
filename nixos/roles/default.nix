@@ -231,22 +231,30 @@ in
     ];
     prometheusConfig = {
       global.external_labels.instance = name;
-      scrape_configs = let
-        simpleJob = job_name: target: service: { inherit job_name; static_configs = if service.enable then [ { targets = [ target ]; } ] else []; };
-        exporterJob = job_name: let
-          service = config.services.prometheus.exporters.${job_name};
-          target = "localhost:${toString service.port}";
+      scrape_configs =
+        let
+          simpleJob = job_name: target: service: {
+            inherit job_name;
+            static_configs = if service.enable then [ { targets = [ target ]; } ] else [ ];
+          };
+          exporterJob =
+            job_name:
+            let
+              service = config.services.prometheus.exporters.${job_name};
+              target = "localhost:${toString service.port}";
+            in
+            simpleJob job_name target service;
         in
-          simpleJob job_name target service;
-      in with config.services; [
-        (simpleJob "vmagent" "localhost:8429" vmagent)
-        (simpleJob "victoriametrics" "localhost:8428" victoriametrics)
-        (simpleJob "victorialogs" "localhost:9428" victorialogs)
-        (simpleJob "vlagent" "localhost:9429" vlagent)
-        (exporterJob "node")
-        (exporterJob "zfs")
-        (exporterJob "wireguard")
-      ];
+        with config.services;
+        [
+          (simpleJob "vmagent" "localhost:8429" vmagent)
+          (simpleJob "victoriametrics" "localhost:8428" victoriametrics)
+          (simpleJob "victorialogs" "localhost:9428" victorialogs)
+          (simpleJob "vlagent" "localhost:9429" vlagent)
+          (exporterJob "node")
+          (exporterJob "zfs")
+          (exporterJob "wireguard")
+        ];
     };
   };
   programs.msmtp.accounts.default = {

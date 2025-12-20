@@ -43,33 +43,32 @@ with lib;
   config = mkIf cfg.enable {
     services.nginx = {
       enable = true;
-      appendHttpConfig =
-        ''
-          server {
-            index index.html;
-            port_in_redirect off;
-            listen 127.0.0.1:${toString cfg.web-server.port};
-            server_name ${cfg.hidden-service.hostname};
-            root ${blog}/muflax;
-          }
-        ''
-        + concatStringsSep "\n" (
-          map
-            (site: ''
-              server {
-                index index.html;
-                port_in_redirect off;
-                listen 127.0.0.1:${toString cfg.web-server.port};
-                server_name ${site}.${cfg.hidden-service.hostname};
-                root ${blog}/${site};
-              }
-            '')
-            [
-              "daily"
-              "gospel"
-              "blog"
-            ]
-        );
+      appendHttpConfig = ''
+        server {
+          index index.html;
+          port_in_redirect off;
+          listen 127.0.0.1:${toString cfg.web-server.port};
+          server_name ${cfg.hidden-service.hostname};
+          root ${blog}/muflax;
+        }
+      ''
+      + concatStringsSep "\n" (
+        map
+          (site: ''
+            server {
+              index index.html;
+              port_in_redirect off;
+              listen 127.0.0.1:${toString cfg.web-server.port};
+              server_name ${site}.${cfg.hidden-service.hostname};
+              root ${blog}/${site};
+            }
+          '')
+          [
+            "daily"
+            "gospel"
+            "blog"
+          ]
+      );
     };
     services.tor.enable = true;
     services.tor.relay.onionServices.muflax-blog.map = [

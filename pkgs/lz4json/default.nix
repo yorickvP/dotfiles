@@ -1,4 +1,9 @@
-{ stdenv, fetchFromGitHub, lz4, pkg-config }:
+{
+  stdenv,
+  fetchFromGitHub,
+  lz4,
+  pkg-config,
+}:
 stdenv.mkDerivation (o: {
   pname = "lz4json";
   version = "20191229";

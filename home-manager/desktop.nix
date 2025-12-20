@@ -260,7 +260,15 @@ in
       ExecStart = "${pkgs.notify-codes}/bin/notify-codes";
       Restart = "on-failure";
       Environment = [
-        "PATH=${lib.makeBinPath (with pkgs; [ wl-clipboard libnotify ])}"
+        "PATH=${
+          lib.makeBinPath (
+            with pkgs;
+            [
+              wl-clipboard
+              libnotify
+            ]
+          )
+        }"
       ];
     };
   };
@@ -273,7 +281,7 @@ in
     Service = {
       ExecStart = "${pkgs.y-connect-idle}/bin/y-connect-idle";
       Restart = "on-failure";
-      RestartMaxDelaySec="10m";
+      RestartMaxDelaySec = "10m";
       RestartSteps = 8;
       Environment = [
         "MQTT_BROKER=frumar.vpn.yori.cc"
@@ -392,11 +400,11 @@ in
     defaultApplications = {
       "application/pdf" = [ "org.pwmt.zathura.desktop" ];
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [ "writer.desktop" ];
-      "x-scheme-handler/http"  = [ "firefox.desktop" ];
+      "x-scheme-handler/http" = [ "firefox.desktop" ];
       "x-scheme-handler/https" = [ "firefox.desktop" ];
     };
   };
-  xdg.configFile."uv/uv.toml".source = (pkgs.formats.toml {}).generate "uv-config" {
+  xdg.configFile."uv/uv.toml".source = (pkgs.formats.toml { }).generate "uv-config" {
     "link-mode" = "clone";
   };
 }

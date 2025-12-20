@@ -40,11 +40,13 @@
     }:
     let
       fooocus = inputs.call-flake ./pkgs/fooocus;
-      forAllSystems = nixpkgs.lib.genAttrs ["x86_64-linux"];
+      forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" ];
       forAllSystemPkgs = f: forAllSystems (system: f self.legacyPackages.${system});
     in
-      {
-        legacyPackages = forAllSystems (system: import nixpkgs {
+    {
+      legacyPackages = forAllSystems (
+        system:
+        import nixpkgs {
           config = {
             allowUnfree = true;
             # chromium.vaapiSupport = true;
@@ -54,25 +56,28 @@
           };
           inherit system;
           overlays = [ self.overlays.default ];
-        });
+        }
+      );
 
-        packages = forAllSystemPkgs (pkgs: {
-          yorick-home = self.homeConfigurations.${pkgs.stdenv.system}.activationPackage;
-          default = pkgs.linkFarm "yori-nix" (
-            [
-              {
-                name = "yorick-home";
-                path = self.packages.${pkgs.stdenv.system}.yorick-home;
-              }
-            ]
-            ++ (map (n: {
-              name = n.toplevel.name;
-              path = n.toplevel;
-            }) (builtins.attrValues self.nixosConfigurations))
-          );
-        });
+      packages = forAllSystemPkgs (pkgs: {
+        yorick-home = self.homeConfigurations.${pkgs.stdenv.system}.activationPackage;
+        default = pkgs.linkFarm "yori-nix" (
+          [
+            {
+              name = "yorick-home";
+              path = self.packages.${pkgs.stdenv.system}.yorick-home;
+            }
+          ]
+          ++ (map (n: {
+            name = n.toplevel.name;
+            path = n.toplevel;
+          }) (builtins.attrValues self.nixosConfigurations))
+        );
+      });
 
-        homeConfigurations = forAllSystemPkgs (pkgs: home-manager.lib.homeManagerConfiguration {
+      homeConfigurations = forAllSystemPkgs (
+        pkgs:
+        home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
             ./home-manager/home.nix
@@ -85,15 +90,16 @@
               };
             }
           ];
-        });
+        }
+      );
 
-        devShells = forAllSystemPkgs (pkgs: {
-          default = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              pkgs.agenix
-            ];
-          };
-        });
+      devShells = forAllSystemPkgs (pkgs: {
+        default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            pkgs.agenix
+          ];
+        };
+      });
       overlays.default = nixpkgs.lib.composeManyExtensions [
         # nixpkgs-mozilla.overlay
         emacs-overlay.overlay
@@ -103,7 +109,9 @@
             config.allowUnfree = true;
             inherit (final.stdenv) system;
           };
-          flake-inputs = inputs // { inherit fooocus; };
+          flake-inputs = inputs // {
+            inherit fooocus;
+          };
           inherit (final.pkgs-unstable) claude-code govee2mqtt;
           nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.stdenv.system}";
           fooocus = fooocus.packages.${final.stdenv.system}.default;

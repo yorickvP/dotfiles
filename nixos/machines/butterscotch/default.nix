@@ -26,17 +26,19 @@
   system.stateVersion = "25.05";
   boot.kernelPackages = pkgs.linuxPackages_6_17;
   # temp
-  nixpkgs.overlays = [(self: super: {
-    linux-firmware = super.linux-firmware.overrideAttrs (rec {
-      version = "20251111";
-      src = self.fetchFromGitLab {
-        owner = "kernel-firmware";
-        repo = "linux-firmware";
-        tag = version;
-        hash = "sha256-YGcG2MxZ1kjfcCAl6GmNnRb0YI+tqeFzJG0ejnicXqY=";
-      };
-    });
-  })];
+  nixpkgs.overlays = [
+    (self: super: {
+      linux-firmware = super.linux-firmware.overrideAttrs (rec {
+        version = "20251111";
+        src = self.fetchFromGitLab {
+          owner = "kernel-firmware";
+          repo = "linux-firmware";
+          tag = version;
+          hash = "sha256-YGcG2MxZ1kjfcCAl6GmNnRb0YI+tqeFzJG0ejnicXqY=";
+        };
+      });
+    })
+  ];
 
   services.znapzend = {
     enable = true;
@@ -51,6 +53,7 @@
   };
   boot.kernelParams = [
     #"ttm.pages_limit=25165824" "ttm.page_pool_size=25165824" # 96GiB
-    "ttm.pages_limit=29360128" "ttm.page_pool_size=29360128" # 112GiB
+    "ttm.pages_limit=29360128"
+    "ttm.page_pool_size=29360128" # 112GiB
   ];
 }
