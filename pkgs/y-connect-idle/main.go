@@ -162,7 +162,7 @@ func publishActiveState(client mqtt.Client, config Config, idle bool) {
 		state = "ON"
 	}
 	topic := getStateTopic(config)
-	token := client.Publish(topic, 1, false, state)
+	token := client.Publish(topic, 1, true, state)
 	token.Wait()
 	if token.Error() != nil {
 		log.Printf("Error publishing state: %v", token.Error())
