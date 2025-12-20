@@ -61,16 +61,6 @@ in
 
   nix.optimise.automatic = true;
 
-  # headphone control
-  systemd.services.mdrd = {
-    serviceConfig = {
-      Type = "dbus";
-      ExecStart = "${pkgs.mdrd}/bin/mdrd";
-      BusName = "org.mdr";
-    };
-    wantedBy = [ "graphical-session.target" ];
-  };
-  services.dbus.packages = [ pkgs.mdrd ];
   # fooocus
   services.fooocus = {
     enable = true;

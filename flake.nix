@@ -111,7 +111,6 @@
         })
         (import ./fixups.nix)
         (import ./pkgs)
-        (import ./pkgs/mdr.nix)
         (import ./nixos/overlay.nix)
       ];
       nixosConfigurations = self.legacyPackages.x86_64-linux.yorick.machine;
