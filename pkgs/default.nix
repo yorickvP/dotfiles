@@ -33,7 +33,7 @@ in
   wl-clipboard = addPatch super.wl-clipboard (self.fetchpatch {
     url = "https://puck.moe/up/zapap-suhih.patch";
     hash = "sha256-YiFDeBN1k2+lxVnWnU5sMpIJ7/zsVPEm5OZf0nHhzJA=";
-  })
+  });
   # notion-desktop = self.callPackage ./notion-desktop {
   #   electron_26 = self.electron_28;
   # };
