@@ -1,42 +1,34 @@
 {
   lib,
   python3,
-  fetchFromGitHub,
+  callPackage,
+  callPackages,
+  flake-inputs,
 }:
 
-python3.pkgs.buildPythonPackage rec {
-  pname = "play-nijmegen-calendar";
-  version = "0.1.0";
+let
+  inherit (flake-inputs) uv2nix pyproject-nix pyproject-build-systems;
 
-  src = ./.;
+  workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = ./.; };
 
-  format = "pyproject";
-
-  buildInputs = with python3.pkgs; [
-    setuptools
-    setuptools-scm
-  ];
-  propagatedBuildInputs = with python3.pkgs; [
-    beautifulsoup4
-    icalendar
-    pytz
-    requests
-  ];
-
-  # If your script is named something other than main.py, adjust this
-  postInstall = ''
-    mkdir -p $out/bin
-    cp $src/main.py $out/bin/play-nijmegen-calendar
-    chmod +x $out/bin/play-nijmegen-calendar
-  '';
-
-  # Disable tests if you don't have any
-  doCheck = false;
-
-  meta = with lib; {
-    description = "Generate iCal file for Play Nijmegen events";
-    # homepage = "https://github.com/your-github-username/play-nijmegen-calendar";
-    license = licenses.mit; # Adjust as needed
-    maintainers = with maintainers; [ yorickvp ];
+  overlay = workspace.mkPyprojectOverlay {
+    sourcePreference = "wheel";
   };
+
+  pythonSet =
+    (callPackage pyproject-nix.build.packages {
+      python = python3;
+    }).overrideScope
+      (
+        lib.composeManyExtensions [
+          pyproject-build-systems.overlays.wheel
+          overlay
+        ]
+      );
+  inherit (callPackages pyproject-nix.build.util { }) mkApplication;
+
+in
+mkApplication {
+  venv = pythonSet.mkVirtualEnv "play-nijmegen-calendar-env" workspace.deps.default;
+  package = pythonSet.play-nijmegen-calendar;
 }

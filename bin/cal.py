@@ -1,5 +1,12 @@
-#!/usr/bin/env nix-shell
-#!nix-shell -p python3 -p gcalcli -p python3.pkgs.i3ipc -i python3
+#!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#   "gcalcli",
+#   "i3ipc",
+#   "python-dateutil",
+# ]
+# ///
 #bin.y-cal-widget
 from gcalcli.gcal import GoogleCalendarInterface, PRINTER
 from datetime import datetime, timedelta

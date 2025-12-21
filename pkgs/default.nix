@@ -41,5 +41,38 @@ in
     # notion-desktop = self.callPackage ./notion-desktop {
     #   electron_26 = self.electron_28;
     # };
+    lib = super.lib.extend (
+      lfinal: lprev: {
+        loadUvScript =
+          script:
+          let
+            inherit (self) flake-inputs;
+
+            scriptObj = flake-inputs.uv2nix.lib.scripts.loadScript {
+              inherit script;
+            };
+
+            baseSet = self.callPackage flake-inputs.pyproject-nix.build.packages {
+              python = self.python3;
+            };
+
+            pythonSet = baseSet.overrideScope (
+              super.lib.composeManyExtensions [
+                flake-inputs.pyproject-build-systems.overlays.wheel
+                (scriptObj.mkOverlay {
+                  sourcePreference = "wheel";
+                })
+              ]
+            );
+          in
+          self.writeScriptBin scriptObj.name (
+            scriptObj.renderScript {
+              venv = scriptObj.mkVirtualEnv {
+                inherit pythonSet;
+              };
+            }
+          );
+      }
+    );
   }
 )

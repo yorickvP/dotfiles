@@ -1,5 +1,10 @@
-#!/usr/bin/env nix-shell
-#!nix-shell -i python3 -p python3 python3.pkgs.requests -I nixpkgs=channel:nixos-22.05
+#!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#   "requests",
+# ]
+# ///
 import json, os, sys, hashlib
 from pathlib import Path
 import shutil

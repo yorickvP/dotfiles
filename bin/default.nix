@@ -37,12 +37,7 @@ lib.mapAttrs (k: f: f k) {
       rsync
     ]
   );
-  # impure
-  y-cal-widget = makeWrap ./cal.py "${
-    python3.withPackages (p: [
-      (p.toPythonModule gcalcli)
-      p.i3ipc
-    ])
-  }/bin/python";
-  absorb = makeWrap ./absorb.py "${python3.withPackages (p: [ p.requests ])}/bin/python";
+  # Using uv2nix with PEP-723 inline metadata
+  y-cal-widget = _: lib.loadUvScript ./cal.py;
+  absorb = _: lib.loadUvScript ./absorb.py;
 }

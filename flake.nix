@@ -21,6 +21,22 @@
     ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     call-flake.url = "github:divnix/call-flake";
+
+    pyproject-nix = {
+      url = "github:pyproject-nix/pyproject.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    uv2nix = {
+      url = "github:pyproject-nix/uv2nix";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    pyproject-build-systems = {
+      url = "github:pyproject-nix/build-system-pkgs";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      inputs.uv2nix.follows = "uv2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     inputs@{
@@ -35,12 +51,16 @@
       nix-npm-buildpackage,
       yobot,
       ghostty,
+      uv2nix,
+      pyproject-nix,
+      pyproject-build-systems,
       self,
       ...
     }:
     let
+      inherit (nixpkgs) lib;
       fooocus = inputs.call-flake ./pkgs/fooocus;
-      forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" ];
+      forAllSystems = lib.genAttrs [ "x86_64-linux" ];
       forAllSystemPkgs = f: forAllSystems (system: f self.legacyPackages.${system});
     in
     {
