@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DATASET="rpool/root/home"
+REMOTE="root@frumar.home.yori.cc"
+REMOTE_DATASET="frumar-new/backup/$(hostname)"
+
+# Get snapshots sorted by creation time (oldest first)
+readarray -t SNAPSHOTS < <(zfs list -t snapshot -o name -s creation -H "$DATASET")
+
+if [[ ${#SNAPSHOTS[@]} -lt 1 ]]; then
+    echo "Error: No existing snapshots found for $DATASET" >&2
+    exit 1
+fi
+
+# Get the most recent snapshot (last in sorted list)
+PREV_SNAPSHOT="${SNAPSHOTS[-1]}"
+PREV_SNAPSHOT_NAME="${PREV_SNAPSHOT#*@}"
+
+# Create new snapshot with today's date
+TODAY=$(date +%Y-%m-%d)
+NEW_SNAPSHOT="$DATASET@$TODAY"
+
+if zfs list -t snapshot "$NEW_SNAPSHOT" &>/dev/null; then
+    echo "Snapshot $NEW_SNAPSHOT already exists"
+else
+    echo "Creating snapshot: $NEW_SNAPSHOT"
+    sudo zfs snapshot "$NEW_SNAPSHOT"
+fi
+
+# Drop the oldest snapshot if we have more than one
+if [[ ${#SNAPSHOTS[@]} -ge 2 ]]; then
+    OLDEST_SNAPSHOT="${SNAPSHOTS[0]}"
+    echo "Destroying oldest snapshot: $OLDEST_SNAPSHOT"
+    sudo zfs destroy "$OLDEST_SNAPSHOT"
+fi
+
+# Send incremental backup to remote
+echo "Sending incremental backup from @$PREV_SNAPSHOT_NAME to @$TODAY"
+sudo zfs send -RI "$PREV_SNAPSHOT" -v -w "$NEW_SNAPSHOT" | \
+    ssh -o compression=no "$REMOTE" zfs recv "$REMOTE_DATASET"
+
+# Create bookmark of new snapshot for future incremental sends
+BOOKMARK="$DATASET#$TODAY"
+if zfs list -t bookmark "$BOOKMARK" &>/dev/null; then
+    echo "Bookmark $BOOKMARK already exists"
+else
+    echo "Creating bookmark: $BOOKMARK"
+    sudo zfs bookmark "$NEW_SNAPSHOT" "$BOOKMARK"
+fi
+
+echo "Backup complete"
