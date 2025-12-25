@@ -35,6 +35,7 @@
   services.smartd = {
     enable = true;
     notifications.mail.enable = true;
+    defaults.autodetected = "-n standby"; # don't spin up drives
   };
   services.zfs.zed = {
     enableMail = true;
