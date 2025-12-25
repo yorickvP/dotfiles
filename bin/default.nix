@@ -9,10 +9,14 @@ let
     stdenv.mkDerivation {
       inherit name src;
       buildInputs = buildInputs ++ [ makeWrapper ];
+      nativeBuildInputs = [ shellcheck-minimal ];
       unpackPhase = "true";
+      buildPhase = ''
+        shellcheck $src
+      '';
       installPhase = ''
         mkdir -p $out/bin && cp $src $out/bin/${name}
-              wrapProgram $out/bin/${name} --suffix PATH : ${lib.makeSearchPath "bin" buildInputs}
+        wrapProgram $out/bin/${name} --suffix PATH : ${lib.makeSearchPath "bin" buildInputs}
       '';
     };
   makeWrap =
@@ -40,4 +44,5 @@ lib.mapAttrs (k: f: f k) {
   # Using uv2nix with PEP-723 inline metadata
   y-cal-widget = _: lib.loadUvScript ./cal.py;
   absorb = _: lib.loadUvScript ./absorb.py;
+  backup-laptop = compileShell ./backup-laptop [ ];
 }
