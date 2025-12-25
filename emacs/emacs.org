@@ -813,6 +813,8 @@ from [[https://www.emacswiki.org/emacs/BackupDirectory][emacs wiki]]
   :mode "\\.ts\\'")
 (use-package go-ts-mode
   :mode "\\.go\\'")
+(use-package yaml-ts-mode
+  :mode "\\.yaml\\'")
 (use-package toml-ts-mode
   :mode (rx (or ".toml" "uv.lock") eos))
 #+END_SRC
