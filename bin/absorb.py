@@ -37,13 +37,8 @@ if not dest.is_dir():
 sid = sections[sys.argv[1]]
 
 def hashfile(path: Path) -> str:
-    hash = hashlib.sha256()
-    buf = bytearray(128 * 1024) # 128kb
-    mv = memoryview(buf)
     with path.open('rb') as f:
-        while n := f.readinto(mv):
-            hash.update(mv[:n])
-    return hash.hexdigest()
+        return hashlib.file_digest(f, 'sha256').hexdigest()
 
 def symlink_force(name: Path, target: Path) -> None:
     try:
