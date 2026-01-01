@@ -47,7 +47,7 @@ func loadConfig() Config {
 		MQTTPort:     getEnv("MQTT_PORT", "1883"),
 		MQTTUser:     getEnv("MQTT_USER", ""),
 		MQTTPassword: getEnv("MQTT_PASSWORD", ""),
-		MQTTClientID: getEnv("MQTT_CLIENT_ID", "connect-idle"),
+		MQTTClientID: getEnv("MQTT_CLIENT_ID", fmt.Sprintf("connect-idle-%s", getHostname())),
 		DeviceName:   getEnv("DEVICE_NAME", getHostname()),
 		EntityID:     getEnv("ENTITY_ID", "active"),
 	}
