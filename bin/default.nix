@@ -42,7 +42,7 @@ lib.mapAttrs (k: f: f k) {
     ]
   );
   # Using uv2nix with PEP-723 inline metadata
-  y-cal-widget = _: lib.loadUvScript ./cal.py;
+  y-cal-widget = _: lib.loadUvScript ./y-cal-widget.py;
   absorb = _: lib.loadUvScript ./absorb.py;
   backup-laptop = compileShell ./backup-laptop [ ];
 }
