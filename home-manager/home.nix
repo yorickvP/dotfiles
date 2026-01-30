@@ -71,6 +71,7 @@ in
         graph = "log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order    ";
         dad = "!curl https://icanhazdadjoke.com/ && git add";
         ff = "merge --ff-only";
+        force-pull = "!git fetch && git reset --hard @{u}";
       };
     };
 
