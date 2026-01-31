@@ -198,10 +198,23 @@
       server.http_addr = "0.0.0.0";
       server.domain = "grafana.yori.cc";
       server.root_url = "https://grafana.yori.cc/";
+      auth.oauth_allow_insecure_email_lookup = true;
       "auth.basic".enabled = false;
       "auth.google" = {
         enabled = true;
         allow_sign_up = false;
+      };
+      "auth.generic_oauth" = {
+        enabled = true;
+        name = "Pocket ID";
+        icon = "https://pocket-id.yori.cc/api/application-images/logo";
+        auth_url = "https://pocket-id.yori.cc/authorize";
+        token_url = "https://pocket-id.yori.cc/api/oidc/token";
+        allow_sign_up = true;
+        use_pkce = true;
+        # email_attribute_name = "email:primary";
+        scopes = ["openid" "email" "profile"];
+        auth_style = "AutoDetect";
       };
       auth.disable_login_form = true;
     };
@@ -277,6 +290,9 @@
     };
     nginx.domain = "priv.yori.cc";
     extraConfig.whitelist-domain = [ "priv.yori.cc" ];
+    provider = "oidc";
+    scope = "openai email profile groups";
+    oidcIssuerUrl = "https://pocket-id.yori.cc";
   };
   services.nats = {
     enable = true;

@@ -88,6 +88,9 @@ in
       "pub.yori.cc".locations."/muflax/".extraConfig = ''
         rewrite ^/muflax/(.*)$ https://alt.muflax.church/$1 permanent;
       '';
+      "pocket-id.yori.cc" = withSSL {
+        locations."/".proxyPass = "http://[::1]:1411";
+      };
       "recepten.yori.cc" = withSSL {
         locations."/".proxyPass = "http://127.0.0.1:8003";
       };
@@ -118,6 +121,11 @@ in
   ];
   networking.firewall.allowedTCPPorts = [ 60307 ]; # weechat relay
 
+  services.pocket-id = {
+    enable = true;
+    settings.APP_URL = "https://pocket-id.yori.cc";
+    settings.TRUST_PROXY = true;
+  };
   age.secrets.yobot.file = ../../../secrets/yobot.toml.age;
   services.yobot = {
     enable = true;
