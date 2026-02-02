@@ -91,6 +91,16 @@
           '';
         };
         "fooocus.yori.cc" = sslForward "http://192.168.2.135:7860" { };
+        "immich.yori.cc" = sslForward "http://[::1]:2283" {
+          extraConfig = ''
+            client_max_body_size 50000M;
+            proxy_request_buffering off;
+            client_body_buffer_size 1024k;
+            proxy_read_timeout 600s;
+            proxy_send_timeout 600s;
+            send_timeout 600s;
+          '';
+        };
         "priv.yori.cc" =
           let
             oauth2Block = ''
@@ -354,4 +364,5 @@
       "-retention.maxDiskSpaceUsageBytes=10GiB"
     ];
   };
+  services.immich.enable = true;
 }
