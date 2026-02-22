@@ -5,12 +5,14 @@ in
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 {
   imports = [
     ./3950x.nix
     ../../roles/workstation.nix
+    ./microvm.nix
   ];
 
   system.stateVersion = "19.09";

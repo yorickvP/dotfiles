@@ -17,8 +17,14 @@
     # fooocus.url = "path:./pkgs/fooocus";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     call-flake.url = "github:divnix/call-flake";
-    llm-agents.url = "github:numtide/llm-agents.nix";
-    llm-agents.inputs.nixpkgs.follows = "nixpkgs";
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    microvm = {
+      url = "github:microvm-nix/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     pyproject-nix = {
       url = "github:pyproject-nix/pyproject.nix";
@@ -48,6 +54,7 @@
       nix-npm-buildpackage,
       yobot,
       uv2nix,
+      microvm,
       pyproject-nix,
       pyproject-build-systems,
       self,
