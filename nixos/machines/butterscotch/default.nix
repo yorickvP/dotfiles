@@ -24,7 +24,8 @@
   networking.hostId = "d05ee74c";
 
   system.stateVersion = "25.05";
-  boot.kernelPackages = pkgs.linuxPackages_6_17;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
+  boot.zfs.package = pkgs.zfs_2_4;
   # temp
   nixpkgs.overlays = [
     (self: super: {

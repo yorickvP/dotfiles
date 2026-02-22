@@ -4,7 +4,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-mozilla.url = "github:mozilla/nixpkgs-mozilla";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-25.11";
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
@@ -16,11 +15,10 @@
     nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
     # fooocus.url = "path:./pkgs/fooocus";
-    ghostty.url = "github:ghostty-org/ghostty/26a42fac0ec8f612a3ddce60bab9842c79a2756a";
-    ghostty.inputs.nixpkgs-stable.follows = "nixpkgs";
-    ghostty.inputs.nixpkgs-unstable.follows = "nixpkgs";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     call-flake.url = "github:divnix/call-flake";
+    llm-agents.url = "github:numtide/llm-agents.nix";
+    llm-agents.inputs.nixpkgs.follows = "nixpkgs";
 
     pyproject-nix = {
       url = "github:pyproject-nix/pyproject.nix";
@@ -43,7 +41,6 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
-      # nixpkgs-mozilla,
       emacs-overlay,
       nixos-hardware,
       agenix,
@@ -120,9 +117,9 @@
         };
       });
       overlays.default = nixpkgs.lib.composeManyExtensions [
-        # nixpkgs-mozilla.overlay
         emacs-overlay.overlay
         agenix.overlays.default
+        inputs.llm-agents.overlays.default
         (final: prev: {
           pkgs-unstable = import nixpkgs-unstable {
             config.allowUnfree = true;
@@ -131,7 +128,8 @@
           flake-inputs = inputs // {
             inherit fooocus;
           };
-          inherit (final.pkgs-unstable) claude-code govee2mqtt;
+          inherit (final.pkgs-unstable) govee2mqtt;
+          inherit (final.llm-agents) claude-code;
           nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.stdenv.system}";
           fooocus = fooocus.packages.${final.stdenv.system}.default;
         })
