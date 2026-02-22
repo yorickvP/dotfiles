@@ -50,7 +50,6 @@
       nix-index-database,
       nix-npm-buildpackage,
       yobot,
-      ghostty,
       uv2nix,
       pyproject-nix,
       pyproject-build-systems,
@@ -135,7 +134,6 @@
           inherit (final.pkgs-unstable) claude-code govee2mqtt;
           nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.stdenv.system}";
           fooocus = fooocus.packages.${final.stdenv.system}.default;
-          ghostty = inputs.ghostty.packages.${final.stdenv.system}.ghostty;
         })
         (import ./fixups.nix)
         (import ./pkgs)

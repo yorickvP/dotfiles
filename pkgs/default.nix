@@ -1,9 +1,10 @@
 let
-  addPatch =
-    pkg: patch:
+  addPatches =
+    pkg: patches:
     pkg.overrideAttrs (o: {
-      patches = (o.patches or [ ]) ++ [ patch ];
+      patches = (o.patches or [ ]) ++ patches;
     });
+  addPatch = pkg: patch: addPatches pkg [ patch ];
   dir = builtins.readDir ./.;
 
   subdirs = builtins.filter (
@@ -22,7 +23,10 @@ in
   // {
     playerctl = addPatch super.playerctl ./playerctl-solid-emoji.diff;
     pay-respects = addPatch super.pay-respects ./pay-respects-yorinix.diff;
-    ghostty = addPatch super.ghostty ./ghostty-delimiter.patch;
+    ghostty = addPatches super.ghostty [
+      ./ghostty-delimiter.patch
+      ./ghostty-revert-7185.patch
+    ];
 
     # used for marvin tracker
     inherit (self.nix-npm-buildpackage) buildYarnPackage;
