@@ -19,10 +19,8 @@ in
       domain = "*.yori.cc";
       dnsProvider = "cloudflare";
       reloadServices = [ "nginx.service" ];
+      environmentFile = config.age.secrets.acme.path;
     };
     users.users.nginx.extraGroups = [ "acme" ];
-
-    systemd.services."acme-wildcard.yori.cc".serviceConfig.EnvironmentFile =
-      config.age.secrets.acme.path;
   };
 }
