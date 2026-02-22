@@ -32,7 +32,7 @@ in
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
     home-manager.enable = true;
-    mergiraf.enable = true;
+    # mergiraf.enable = true;
     git = {
       #lfs.enable = true;
       enable = true;
