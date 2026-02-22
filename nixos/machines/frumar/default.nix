@@ -223,7 +223,11 @@
         allow_sign_up = true;
         use_pkce = true;
         # email_attribute_name = "email:primary";
-        scopes = ["openid" "email" "profile"];
+        scopes = [
+          "openid"
+          "email"
+          "profile"
+        ];
         auth_style = "AutoDetect";
       };
       auth.disable_login_form = true;

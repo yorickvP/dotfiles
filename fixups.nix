@@ -4,6 +4,8 @@
     electron_38 = pkgs.electron_39;
   };
   electron_38 = super.electron_38.overrideAttrs (o: {
-    meta = o.meta // { broken = true; };
+    meta = o.meta // {
+      broken = true;
+    };
   });
 })
