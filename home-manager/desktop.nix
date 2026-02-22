@@ -376,8 +376,7 @@ in
     font-family = "DejaVuSansM Nerd Font"
     font-size = 12
     background-opacity = 0.95
-    theme = dark:catppuccin-mocha,light:catppuccin-latte
-    # theme = dark:Catppuccin Mocha,light:Catppuccin Latte
+    theme = dark:Catppuccin Mocha,light:Catppuccin Latte
     gtk-single-instance = true
     window-decoration = false
     adjust-cursor-thickness = 3
