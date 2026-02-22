@@ -364,6 +364,7 @@ in
     easyeffects
     # bitwarden-desktop
     soco-cli # sonos speakers
+    bubblewrap
     claude-code
     ddcutil
     bluetui
