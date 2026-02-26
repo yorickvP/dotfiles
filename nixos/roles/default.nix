@@ -14,6 +14,7 @@ in
   # todo: fix maxDiskUsagePerUrl -> maxDiskUsagePerURL
   disabledModules = [ "services/monitoring/vlagent.nix" ];
   imports = [
+    ./base.nix
     inputs.agenix.nixosModules.default
     inputs.fooocus.nixosModules.default
     ../modules/dk-vpn.nix
@@ -33,109 +34,28 @@ in
     nix-netrc-yorick.file = ../../secrets/nix-netrc-yorick.age;
   };
 
-  nix.package = pkgs.lixPackageSets.latest.lix;
-
-  networking.domain = "yori.cc";
   networking.hostName = machine;
-  time.timeZone = "Europe/Amsterdam";
-  users.mutableUsers = false;
   users.users.root = {
-    openssh.authorizedKeys.keys = config.users.users.yorick.openssh.authorizedKeys.keys;
     # root password is useful from console, ssh has password logins disabled
     hashedPasswordFile = config.age.secrets.root-user-pass.path; # TODO: generate own
-
   };
-  services.timesyncd.enable = true;
   users.users.yorick = {
-    isNormalUser = true;
-    uid = 1000;
-    extraGroups = [ "wheel" ];
-    group = "users";
-    openssh.authorizedKeys.keys = with (import ../sshkeys.nix); yorick;
     hashedPasswordFile = config.age.secrets.yorick-user-pass.path;
-    createHome = true;
   };
-
-  # Nix
-  # nixpkgs.config.allowUnfree = true;
-
-  #nix.buildCores = config.nix.maxJobs;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-    extra-deprecated-features = url-literals
-  '';
 
   # Networking
   networking.enableIPv6 = true;
 
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    # todo: overridden from forgejo
-    settings.AcceptEnv = lib.mkForce "GIT_PROTOCOL COLORTERM TERM_PROGRAM TERM_PROGRAM_VERSION";
-  };
-
   environment.systemPackages =
     with pkgs;
     [
-      rlwrap
-
-      #vim
-
-      # system stuff
-      ethtool
-      inetutils
       pciutils
       usbutils
-      # iotop
-      powertop
-      htop
-      psmisc
-      lsof
       smartmontools
       hdparm
       lm_sensors
-      ncdu
-      attic-client
       nvme-cli
-      btop
-
-      # utils
-      file
-      which
-      reptyr
-      tmux
-      shadow
-
-      # archiving
-      xdelta
-      libarchive
-      atool
-
-      # network
-      nmap
-      mtr
-      bind
-      socat
-      libressl.nc
-      lftp
-      wget
-      rsync
-      arp-scan
-
-      #gitMinimal
     ]
-    ++ (
-      with pkgs.pkgsBuildBuild;
-      (map (x: x.terminfo) [
-        alacritty
-        st
-        foot
-        ghostty
-        tmux
-      ])
-    )
     ++ lib.optional (builtins.elem "kvm-amd" config.boot.kernelModules) pkgs.amdgpu_top;
   nix.gc.automatic = true;
 
@@ -167,7 +87,6 @@ in
   security.acme.defaults.email = "acme@yori.cc";
   security.acme.acceptTerms = true;
 
-  nix.settings.trusted-users = [ "@wheel" ];
   services.prometheus.exporters = {
     node = {
       enable = true;
@@ -204,8 +123,6 @@ in
   };
 
   fonts.fontconfig.subpixel.rgba = "rgb";
-  # enabled by fish, slow
-  documentation.man.generateCaches = false;
   services.journald.upload.enable = true;
   services.journald.upload.settings.Upload = {
     URL = "http://localhost:9429/insert/journald";
