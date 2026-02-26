@@ -23,15 +23,15 @@
     internalInterfaces = [ "microbridge" ];
   };
   networking.extraHosts = "192.168.81.2 microvm";
-  # networking.interfaces.vm-a1 = {
-  #   virtual = true;
-  #   virtualType = "tap";
-  # };
+  #systemd.services."microvm@".serviceConfig.StandardOutput = "null";
   microvm.vms.microvm = {
     autostart = false;
     config = (
       { config, pkgs, ... }:
       {
+        imports = [
+          ../../roles/base.nix
+        ];
         microvm = {
           binScripts.tap-up = lib.mkAfter ''
             ${lib.getExe' pkgs.iproute2 "ip"} link set dev vm-a1 master microbridge
@@ -39,11 +39,11 @@
           vcpu = 16;
           mem = 8192;
           hotpluggedMem = 8192;
-          hotplugMem = 65536;
+          hotplugMem = 32768;
           hypervisor = "cloud-hypervisor";
           optimize.enable = true;
           writableStoreOverlay = "/nix/.rw-store";
-          vsock.cid = 4;
+          # vsock.cid = 4;
           interfaces = [
             {
               type = "tap";
@@ -116,92 +116,17 @@
         };
         system.stateVersion = "25.11";
 
-        nix.package = pkgs.lixPackageSets.latest.lix;
         security.sudo = {
           enable = true;
           wheelNeedsPassword = false;
         };
 
-        networking.domain = "yori.cc";
-        time.timeZone = "Europe/Amsterdam";
-        users.mutableUsers = false;
-        users.users.root = {
-          openssh.authorizedKeys.keys = config.users.users.yorick.openssh.authorizedKeys.keys;
-          password = "";
-
-        };
-        services.timesyncd.enable = true;
-        users.users.yorick = {
-          isNormalUser = true;
-          uid = 1000;
-          extraGroups = [ "wheel" ];
-          group = "users";
-          openssh.authorizedKeys.keys = with (import ../../sshkeys.nix); yorick;
-          password = "";
-          createHome = true;
-        };
-
-        # Nix
-        # nixpkgs.config.allowUnfree = true;
-
-        #nix.buildCores = config.nix.maxJobs;
-        nix.extraOptions = ''
-          experimental-features = nix-command flakes
-          extra-deprecated-features = url-literals
-        '';
-
-        services.openssh = {
-          enable = true;
-          settings.PasswordAuthentication = false;
-          settings.KbdInteractiveAuthentication = false;
-          # todo: overridden from forgejo
-          settings.AcceptEnv = lib.mkForce "GIT_PROTOCOL COLORTERM TERM_PROGRAM TERM_PROGRAM_VERSION";
-        };
+        users.users.root.password = "";
+        users.users.yorick.password = "";
 
         environment.systemPackages =
           with pkgs;
           [
-            rlwrap
-
-            #vim
-
-            # system stuff
-            ethtool
-            inetutils
-            # iotop
-            powertop
-            htop
-            psmisc
-            lsof
-            ncdu
-            attic-client
-            btop
-
-            # utils
-            file
-            which
-            reptyr
-            tmux
-            shadow
-
-            # archiving
-            xdelta
-            libarchive
-            atool
-
-            # network
-            nmap
-            mtr
-            bind
-            socat
-            libressl.nc
-            lftp
-            wget
-            rsync
-            arp-scan
-
-            #gitMinimal
-
             cargo
             expect
             fd
@@ -243,22 +168,7 @@
             uv
             yq
             zip
-          ]
-          ++ (
-            with pkgs.pkgsBuildBuild;
-            (map (x: x.terminfo) [
-              alacritty
-              st
-              foot
-              ghostty
-              tmux
-            ])
-          );
-
-        nix.settings.trusted-users = [ "@wheel" ];
-
-        # enabled by fish, slow
-        documentation.man.generateCaches = false;
+          ];
       }
     );
   };
