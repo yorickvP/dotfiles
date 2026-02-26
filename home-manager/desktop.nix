@@ -366,6 +366,7 @@ in
     soco-cli # sonos speakers
     bubblewrap
     claude-code
+    llm-agents.ccusage
     ddcutil
     bluetui
   ];
