@@ -1,3 +1,6 @@
+let
+  sshkeys = import ../../sshkeys.nix;
+in
 {
   pkgs,
   lib,
@@ -57,4 +60,16 @@
     "ttm.pages_limit=29360128"
     "ttm.page_pool_size=29360128" # 112GiB
   ];
+
+  users.users = {
+    judith = {
+      isNormalUser = true;
+      openssh.authorizedKeys.keys = sshkeys.judith;
+      packages = with pkgs; [ uv git cmake gnumake gcc screen vim ];
+      # packages = with pkgs; [
+      #   git cmake gnumake gcc python3 python3.pkgs.pip screen vim
+      # ];
+      extraGroups = [ "video" ];
+    };
+  };
 }
