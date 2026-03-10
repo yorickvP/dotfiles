@@ -35,6 +35,10 @@
       inputs.pyproject-nix.follows = "pyproject-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    google-workspace-cli = {
+      url = "github:googleworkspace/cli/v0.9.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     pyproject-build-systems = {
       url = "github:pyproject-nix/build-system-pkgs";
       inputs.pyproject-nix.follows = "pyproject-nix";
@@ -139,6 +143,7 @@
           inherit (final.llm-agents) claude-code;
           nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.stdenv.system}";
           fooocus = fooocus.packages.${final.stdenv.system}.default;
+          gws = inputs.google-workspace-cli.packages.${final.stdenv.system}.default;
         })
         (import ./fixups.nix)
         (import ./pkgs)

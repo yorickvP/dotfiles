@@ -363,6 +363,7 @@ in
       mutagen
       # zoom-us
       google-cloud-sdk
+      gws
       kubectl
       stern
       oath-toolkit
