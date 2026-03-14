@@ -31,6 +31,14 @@ fi
 # Drop the oldest snapshot if we have more than one
 if [[ ${#SNAPSHOTS[@]} -ge 2 ]]; then
     OLDEST_SNAPSHOT="${SNAPSHOTS[0]}"
+    OLDEST_SNAPSHOT_NAME="${OLDEST_SNAPSHOT#*@}"
+    OLDEST_BOOKMARK="$DATASET#$OLDEST_SNAPSHOT_NAME"
+    if zfs list -t bookmark "$OLDEST_BOOKMARK" &>/dev/null; then
+        echo "Bookmark $OLDEST_BOOKMARK already exists"
+    else
+        echo "Creating bookmark before destroy: $OLDEST_BOOKMARK"
+        sudo zfs bookmark "$OLDEST_SNAPSHOT" "$OLDEST_BOOKMARK"
+    fi
     echo "Destroying oldest snapshot: $OLDEST_SNAPSHOT"
     sudo zfs destroy "$OLDEST_SNAPSHOT"
 fi
