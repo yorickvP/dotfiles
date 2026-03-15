@@ -48,7 +48,7 @@ in
         Type = "simple";
         DynamicUser = true;
         Restart = "on-failure";
-        ExecStart = "${cfg.package}/index.js";
+        ExecStart = "${cfg.package}/bin/marvin-tracker";
         EnvironmentFile = cfg.secretFile;
       };
       environment = {
