@@ -3,7 +3,6 @@ result
 /mutt/.mutt/hcache-lock
 /emacs/emacs.el
 .direnv
-/pkgs/marvin-tracker/node_modules
 __pycache__
 *.egg-info
 /ydeployer/build
