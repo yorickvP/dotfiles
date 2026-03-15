@@ -14,9 +14,7 @@
     nix-npm-buildpackage.url = "github:serokell/nix-npm-buildpackage";
     nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
-    # fooocus.url = "path:./pkgs/fooocus";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    call-flake.url = "github:divnix/call-flake";
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,7 +64,6 @@
     }:
     let
       inherit (nixpkgs) lib;
-      fooocus = inputs.call-flake ./pkgs/fooocus;
       forAllSystems = lib.genAttrs [ "x86_64-linux" ];
       forAllSystemPkgs = f: forAllSystems (system: f self.legacyPackages.${system});
     in
@@ -86,6 +83,7 @@
         }
       );
 
+      hydraJobs = lib.mapAttrs (n: v: v.toplevel) self.nixosConfigurations;
       packages = forAllSystemPkgs (pkgs: {
         yorick-home = self.homeConfigurations.${pkgs.stdenv.system}.activationPackage;
         default = pkgs.linkFarm "yori-nix" (
@@ -136,13 +134,10 @@
             config.allowUnfree = true;
             inherit (final.stdenv) system;
           };
-          flake-inputs = inputs // {
-            inherit fooocus;
-          };
+          flake-inputs = inputs;
           inherit (final.pkgs-unstable) govee2mqtt;
           inherit (final.llm-agents) claude-code;
           nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.stdenv.system}";
-          fooocus = fooocus.packages.${final.stdenv.system}.default;
           gws = inputs.google-workspace-cli.packages.${final.stdenv.system}.default;
         })
         (import ./fixups.nix)

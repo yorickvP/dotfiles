@@ -16,7 +16,6 @@ in
   imports = [
     ./base.nix
     inputs.agenix.nixosModules.default
-    inputs.fooocus.nixosModules.default
     ../modules/dk-vpn.nix
     ../modules/marvin-tracker.nix
     ../modules/muflax-blog.nix

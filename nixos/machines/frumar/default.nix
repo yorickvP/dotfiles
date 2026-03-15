@@ -90,7 +90,6 @@
                       proxy_buffering off;
           '';
         };
-        "fooocus.yori.cc" = sslForward "http://192.168.2.135:7860" { };
         "immich.yori.cc" = sslForward "http://[::1]:2283" {
           extraConfig = ''
             client_max_body_size 50000M;
