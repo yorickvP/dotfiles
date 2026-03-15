@@ -75,13 +75,22 @@ in
   };
   services.postgresql = {
     enable = lib.mkForce true;
-    ensureDatabases = [ "vierkantle" ];
+    package = pkgs.postgresql_16;
+    extensions = ps: [ ps.pgvector ];
+    ensureDatabases = [ "hackerdeck" ];
     ensureUsers = [
       {
-        name = "vierkantle";
+        name = "hackerdeck";
         ensureDBOwnership = true;
       }
     ];
+    # ensureDatabases = [ "vierkantle" ];
+    # ensureUsers = [
+    #   {
+    #     name = "vierkantle";
+    #     ensureDBOwnership = true;
+    #   }
+    # ];
   };
   age.secrets."wg.dk.archbox.conf" = {
     file = ../../../secrets/wg.dk.archbox.conf.age;
