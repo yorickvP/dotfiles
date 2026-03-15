@@ -41,6 +41,9 @@
       inputs.uv2nix.follows = "uv2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    muflax-blog = {
+      url = "github:fmap/muflax65ngodyewp.onion";
+    };
   };
   outputs =
     inputs@{

@@ -66,15 +66,15 @@ in
     vpn-host.enable = true;
   };
 
-  age.secrets.muflax.file = ../../../secrets/http.muflax.age;
+  age.secrets.muflax-onion.file = ../../../secrets/http.muflax.age;
   services.muflax-blog = {
     enable = true;
     web-server = {
       port = 9001;
     };
     hidden-service = {
-      hostname = "muflax65ngodyewp.onion";
-      private_key = config.age.secrets.muflax.path;
+      hostname = "muflax6fxlxakq7ndvty76t5zrf6hku5auo252norpombhmkbexpvjyd.onion";
+      secretKeyFile = config.age.secrets.muflax-onion.path;
     };
   };
   services.nginx = {

@@ -23,7 +23,6 @@ in
     ../modules/play-nijmegen-calendar.nix
     ../modules/selfsigned.nix
     ../modules/vlagent.nix
-    ../modules/tor-hidden-service.nix
     ../modules/wg-restarter.nix
     ../services
   ];

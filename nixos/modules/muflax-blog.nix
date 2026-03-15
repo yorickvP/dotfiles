@@ -2,23 +2,15 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }:
 
 let
   cfg = config.services.muflax-blog;
-  muflax-source = builtins.fetchGit {
-    rev = "e5ce7ae4296c6605a7e886c153d569fc38318096";
-    ref = "HEAD";
-    url = "https://github.com/fmap/muflax65ngodyewp.onion.git";
-  };
-  nixpkgs = import (builtins.fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs-channels/archive/78e9665b48ff45d3e29f45b3ebeb6fc6c6e19922.tar.gz";
-    sha256 = "09f50jaijvry9lrnx891qmcf92yb8qs64n1cvy0db2yjrmxsxyw8";
-  }) { system = pkgs.stdenv.system; };
-  blog = lib.overrideDerivation (nixpkgs.callPackage "${muflax-source}/maintenance" { }) (default: {
+  blog = inputs.muflax-blog.packages.${pkgs.stdenv.system}.default.overrideAttrs (old: {
     buildPhase =
-      default.buildPhase
+      old.buildPhase
       + "\n"
       + ''
         grep -lr '[^@]muflax.com' out | xargs -r sed -i 's/\([^@]\)muflax.com/\1${cfg.hidden-service.hostname}/g'
@@ -37,12 +29,13 @@ with lib;
     };
     hidden-service = {
       hostname = mkOption { type = types.str; };
-      private_key = mkOption { type = types.str; };
+      secretKeyFile = mkOption { type = types.path; };
     };
   };
   config = mkIf cfg.enable {
     services.nginx = {
       enable = true;
+      serverNamesHashBucketSize = 128;
       appendHttpConfig = ''
         server {
           index index.html;
@@ -71,12 +64,14 @@ with lib;
       );
     };
     services.tor.enable = true;
-    services.tor.relay.onionServices.muflax-blog.map = [
-      {
-        port = 80;
-        target.port = cfg.web-server.port;
-      }
-    ];
-    services.tor.service-keys.muflax-blog = cfg.hidden-service.private_key;
+    services.tor.relay.onionServices.muflax = {
+      map = [
+        {
+          port = 80;
+          target.port = cfg.web-server.port;
+        }
+      ];
+      secretKey = cfg.hidden-service.secretKeyFile;
+    };
   };
 }
