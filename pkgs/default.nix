@@ -28,8 +28,6 @@ in
       ./ghostty-revert-7185.patch
     ];
 
-    # used for marvin tracker
-    inherit (self.nix-npm-buildpackage) buildYarnPackage;
     python3 = super.python3.override {
       packageOverrides = pyself: pysuper: {
         libscrc = pyself.callPackage ./libscrc.nix { };
@@ -42,9 +40,6 @@ in
         hash = "sha256-YiFDeBN1k2+lxVnWnU5sMpIJ7/zsVPEm5OZf0nHhzJA=";
       }
     );
-    # notion-desktop = self.callPackage ./notion-desktop {
-    #   electron_26 = self.electron_28;
-    # };
     lib = super.lib.extend (
       lfinal: lprev: {
         loadUvScript =

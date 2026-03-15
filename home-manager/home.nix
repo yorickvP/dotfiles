@@ -342,7 +342,6 @@ in
       wireshark
       inkscape
       bitwarden-cli
-      # notion-desktop
       #yubioath-flutter
       gnucash
 

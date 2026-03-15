@@ -11,8 +11,6 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    nix-npm-buildpackage.url = "github:serokell/nix-npm-buildpackage";
-    nix-npm-buildpackage.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     llm-agents = {
@@ -53,7 +51,6 @@
       nixos-hardware,
       agenix,
       nix-index-database,
-      nix-npm-buildpackage,
       yobot,
       uv2nix,
       microvm,
@@ -137,7 +134,6 @@
           flake-inputs = inputs;
           inherit (final.pkgs-unstable) govee2mqtt;
           inherit (final.llm-agents) claude-code;
-          nix-npm-buildpackage = nix-npm-buildpackage.legacyPackages."${final.stdenv.system}";
           gws = inputs.google-workspace-cli.packages.${final.stdenv.system}.default;
         })
         (import ./fixups.nix)
