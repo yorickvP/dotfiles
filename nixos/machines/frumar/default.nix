@@ -13,6 +13,7 @@
     ./media.nix
     ./home-automation.nix
     ./cache.nix
+    ./gitea-actions-runner.nix
     ../../services/backup.nix
   ];
 

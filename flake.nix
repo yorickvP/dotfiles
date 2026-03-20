@@ -44,6 +44,10 @@
     muflax-blog = {
       url = "github:fmap/muflax65ngodyewp.onion";
     };
+    nix-fast-build = {
+      url = "github:Mic92/nix-fast-build";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     inputs@{
@@ -83,8 +87,11 @@
         }
       );
 
-      hydraJobs = lib.mapAttrs (n: v: v.toplevel) self.nixosConfigurations;
+      hydraJobs = lib.mapAttrs (n: v: v.toplevel) self.nixosConfigurations // {
+        inherit (self.packages.x86_64-linux) yorick-home nix-fast-build;
+      };
       packages = forAllSystemPkgs (pkgs: {
+        nix-fast-build = inputs.nix-fast-build.packages.${pkgs.stdenv.system}.default;
         yorick-home = self.homeConfigurations.${pkgs.stdenv.system}.activationPackage;
         default = pkgs.linkFarm "yori-nix" (
           [

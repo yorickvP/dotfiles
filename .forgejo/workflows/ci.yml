@@ -1,0 +1,9 @@
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: nix
+    steps:
+      - uses: actions/checkout@v4
+      - run: nix run .#attic-client -- login yorick https://cache.yori.cc  "${{ secrets.ATTIC_TOKEN }}"
+      - run: nix run .#nix-fast-build -- --skip-cached --no-nom --flake ".#hydraJobs" --attic-cache yorick
