@@ -36,6 +36,9 @@ in
 lib.mkMerge [
   {
     nix.settings.allowed-users = ["nixuser"];
+    nix.gc.options = let target = 200; in  # keep at least 200GiB free
+      "--max-freed \"$((${toString target} * 1024**3 - $(df --output=avail -B1 /nix/store | tail -1)))\"";
+
     # everything here has no dependencies on the store
     systemd.services.gitea-runner-nix-image = {
       wantedBy = [ "multi-user.target" ];
