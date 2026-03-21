@@ -89,6 +89,7 @@
 
       hydraJobs = lib.mapAttrs (n: v: v.toplevel) self.nixosConfigurations // {
         inherit (self.packages.x86_64-linux) yorick-home nix-fast-build;
+        ci-shell = self.devShells.x86_64-linux.ci;
       };
       packages = forAllSystemPkgs (pkgs: {
         nix-fast-build = inputs.nix-fast-build.packages.${pkgs.stdenv.system}.default;
@@ -129,6 +130,14 @@
         default = pkgs.mkShell {
           buildInputs = with pkgs; [
             pkgs.agenix
+          ];
+        };
+        ci = pkgs.mkShell {
+          name = "ci";
+          buildInputs = [
+            self.packages.${pkgs.stdenv.system}.nix-fast-build
+            pkgs.attic-client
+            pkgs.mosquitto
           ];
         };
       });
