@@ -355,6 +355,13 @@
               permissions.publish.allow = [ "yorick.git.>" ];
               permissions.subscribe.deny = [ ">" ];
             }
+            {
+              user = "ci-puller";
+              password = "$2y$10$PufvT5B./pOZo3IhsQmadeZSP/xmIXDY5oB7RHzX7I2i20dxGFQOW";
+              allowed_connection_types = [ "MQTT" ];
+              permissions.subscribe.allow = [ "yorick.git.>" "$MQTT.sub.>" ];
+              permissions.publish.deny = [ ">" ];
+            }
           ];
         };
       };

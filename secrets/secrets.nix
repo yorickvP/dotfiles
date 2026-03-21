@@ -80,4 +80,13 @@ builtins.mapAttrs
       frumar
       pennyworth
     ];
+    "ci-puller-mqtt.env.age" = [
+      blackadder
+      pennyworth
+      frumar
+      smithers
+      jarvis
+      kirei
+      butterscotch
+    ];
   }

@@ -21,6 +21,7 @@ in
     ../modules/muflax-blog.nix
     ../modules/nginx.nix
     ../modules/play-nijmegen-calendar.nix
+    ../modules/nix-ci-puller.nix
     ../modules/selfsigned.nix
     ../modules/vlagent.nix
     ../modules/wg-restarter.nix
@@ -199,5 +200,12 @@ in
   services.zfs = {
     autoScrub.enable = true;
     trim.enable = true;
+  };
+  services.nix-ci-puller = {
+    enable = true;
+    topics = [
+      "yorick/git/dotfiles/main/${name}"
+    ];
+    allowedSSIDs = [ "hope clouds observation" ];
   };
 }
