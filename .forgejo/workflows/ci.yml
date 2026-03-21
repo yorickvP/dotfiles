@@ -15,13 +15,14 @@ jobs:
           path: |
             /tmp/.cache/nix
           key: ${{ runner.os }}-nix-cache
-      - run: nix develop .#ci --command attic login yorick https://cache.yori.cc "${{ secrets.ATTIC_TOKEN }}"
-      - run: nix develop .#ci --command nix-fast-build --skip-cached --no-nom --flake ".#hydraJobs" --attic-cache yorick
+      - run: nix develop .#ci --command sh -c 'echo "PATH=$PATH" >> "$GITHUB_ENV"'
+      - run: attic login yorick https://cache.yori.cc "${{ secrets.ATTIC_TOKEN }}"
+      - run: nix-fast-build --skip-cached --no-nom --flake ".#hydraJobs" --attic-cache yorick
       - run: |
           branch="${GITHUB_REF_NAME}"
           for link in result-*; do
             attr="${link#result-}"
             path=$(readlink "$link")
-            nix develop .#ci --command mosquitto_pub -r -h frumar.vpn.yori.cc -u ci -P "${{ secrets.MQTT_PASSWORD }}" \
+            mosquitto_pub -r -h frumar.vpn.yori.cc -u ci -P "${{ secrets.MQTT_PASSWORD }}" \
               -t "yorick/dotfiles/${branch}/${attr}" -m "$path"
           done
