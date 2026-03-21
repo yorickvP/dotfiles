@@ -13,7 +13,7 @@ jobs:
       - uses: actions/cache@v5
         with:
           path: |
-            ~/.cache/nix
+            /tmp/.cache/nix
           key: ${{ runner.os }}-nix-cache
       - run: nix develop .#ci --command attic login yorick https://cache.yori.cc "${{ secrets.ATTIC_TOKEN }}"
       - run: nix develop .#ci --command nix-fast-build --skip-cached --no-nom --flake ".#hydraJobs" --attic-cache yorick
