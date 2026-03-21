@@ -88,7 +88,7 @@
       );
 
       hydraJobs = lib.mapAttrs (n: v: v.toplevel) self.nixosConfigurations // {
-        inherit (self.packages.x86_64-linux) yorick-home nix-fast-build;
+        inherit (self.packages.x86_64-linux) yorick-home;
         ci-shell = self.devShells.x86_64-linux.ci;
       };
       packages = forAllSystemPkgs (pkgs: {
