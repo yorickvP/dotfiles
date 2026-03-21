@@ -319,6 +319,7 @@ in
       #wlrctl
       asciiquarium-transparent
       wakeonlan
+      mqtt-explorer
 
       ## coins
       electrum
