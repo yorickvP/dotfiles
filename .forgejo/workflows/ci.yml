@@ -24,5 +24,5 @@ jobs:
             attr="${link#result-}"
             path=$(readlink "$link")
             mosquitto_pub -r -h frumar.vpn.yori.cc -u ci -P "${{ secrets.MQTT_PASSWORD }}" \
-              -t "yorick/dotfiles/${branch}/${attr}" -m "$path"
+              -t "yorick/git/dotfiles/${branch}/${attr}" -m "$path"
           done

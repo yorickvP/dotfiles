@@ -352,6 +352,8 @@
               user = "ci";
               password = "$2y$10$BXT8HfMegVz33NMc7WeuOeXXOk6YGyG0IucnWl6gh5RCRTjL4a4xK";
               allowed_connection_types = [ "MQTT" ];
+              permissions.publish.allow = [ "yorick.git.>" ];
+              permissions.subscribe.deny = [ ">" ];
             }
           ];
         };
