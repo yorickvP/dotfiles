@@ -395,6 +395,7 @@ in
     keybind = ctrl+backspace=text:\x1B\x7F
     keybind = shift+enter=text:\x1b\r
     window-inherit-working-directory = false
+    selection-word-chars = ` \t'"│`|:;,()[]{}<>$⏎«»=`
   '';
   xdg.mimeApps = {
     enable = true;

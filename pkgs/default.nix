@@ -23,10 +23,7 @@ in
   // {
     playerctl = addPatch super.playerctl ./playerctl-solid-emoji.diff;
     pay-respects = addPatch super.pay-respects ./pay-respects-yorinix.diff;
-    ghostty = addPatches super.ghostty [
-      #./ghostty-delimiter.patch
-      ./ghostty-revert-7185.patch
-    ];
+    ghostty = addPatch super.ghostty ./ghostty-revert-7185.patch;
 
     python3 = super.python3.override {
       packageOverrides = pyself: pysuper: {
