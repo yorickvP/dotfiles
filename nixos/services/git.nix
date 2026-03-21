@@ -43,7 +43,7 @@ in
       database.createDatabase = false;
       #dump.enable = true; TODO: backups
       settings = {
-        DEFAULT.APP_SLOGAN = "";
+        DEFAULT.APP_NAME = "Forgejo";
         server = {
           ROOT_URL = "https://${cfg.vhost}/";
           HTTP_ADDR = "localhost";
