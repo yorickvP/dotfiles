@@ -307,6 +307,11 @@
     provider = "oidc";
     scope = "openai email profile groups";
     oidcIssuerUrl = "https://pocket-id.yori.cc";
+    extraConfig.code-challenge-method = "S256";
+  };
+  systemd.services.oauth2-proxy = {
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
   };
   services.nats = {
     enable = true;
