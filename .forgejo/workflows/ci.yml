@@ -4,6 +4,11 @@ jobs:
   build:
     runs-on: nix
     steps:
+      - run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan git.yori.cc >> ~/.ssh/known_hosts
       - uses: actions/checkout@v4
       - run: nix run .#attic-client -- login yorick https://cache.yori.cc  "${{ secrets.ATTIC_TOKEN }}"
       - run: nix run .#nix-fast-build -- --skip-cached --no-nom --flake ".#hydraJobs" --attic-cache yorick

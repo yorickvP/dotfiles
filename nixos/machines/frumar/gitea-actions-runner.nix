@@ -14,10 +14,11 @@ let
         pkgs.gnugrep
         pkgs.gawk
         pkgs.git
-        pkgs.nix
+        pkgs.lix
         pkgs.bash
         pkgs.jq
         pkgs.nodejs
+        pkgs.openssh
       ]
     }; do
       for bin in "$dir"/bin/*; do
@@ -33,6 +34,7 @@ let
 in
 lib.mkMerge [
   {
+    nix.settings.allowed-users = ["nixuser"];
     # everything here has no dependencies on the store
     systemd.services.gitea-runner-nix-image = {
       wantedBy = [ "multi-user.target" ];
