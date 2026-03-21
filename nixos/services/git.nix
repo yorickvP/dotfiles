@@ -43,6 +43,7 @@ in
       database.createDatabase = false;
       #dump.enable = true; TODO: backups
       settings = {
+        DEFAULT.APP_SLOGAN = "";
         server = {
           ROOT_URL = "https://${cfg.vhost}/";
           HTTP_ADDR = "localhost";

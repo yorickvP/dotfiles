@@ -20,6 +20,7 @@ let
         pkgs.nodejs
         pkgs.openssh
         pkgs.gnutar
+        pkgs.gzip
       ]
     }; do
       for bin in "$dir"/bin/*; do
