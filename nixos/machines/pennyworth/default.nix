@@ -25,6 +25,7 @@ in
     ../../services/backup.nix
     ../../services/email.nix
     inputs.yobot.nixosModules.default
+    inputs.hackerdeck.nixosModules.default
   ];
 
   services.borgbackup.jobs.backup.paths = [
@@ -126,6 +127,13 @@ in
     settings.APP_URL = "https://pocket-id.yori.cc";
     settings.TRUST_PROXY = true;
   };
+  age.secrets.hackerdeck-env.file = ../../../secrets/hackerdeck.env.age;
+  services.yorick.hackerdeck = {
+    enable = true;
+    vhost = "hackerdeck.yori.cc";
+    nginx = withSSL { };
+  };
+
   age.secrets.yobot.file = ../../../secrets/yobot.toml.age;
   services.yobot = {
     enable = true;
@@ -142,4 +150,5 @@ in
     };
   };
   security.acme.certs."wildcard.yori.cc".extraDomainNames = [ "yori.cc" ];
+  services.postgresql.package = pkgs.postgresql_16;
 }

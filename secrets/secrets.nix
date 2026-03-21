@@ -80,6 +80,7 @@ builtins.mapAttrs
       frumar
       pennyworth
     ];
+    "hackerdeck.env.age" = [ pennyworth ];
     "ci-puller-mqtt.env.age" = [
       blackadder
       pennyworth

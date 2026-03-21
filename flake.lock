@@ -286,6 +286,33 @@
         "type": "github"
       }
     },
+    "hackerdeck": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "pyproject-build-systems": [
+          "pyproject-build-systems"
+        ],
+        "pyproject-nix": "pyproject-nix",
+        "uv2nix": [
+          "uv2nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774112020,
+        "narHash": "sha256-4eQG70HD0ibSJTBEz5bp3AAoXO0o2TLE7ETCMj0spLU=",
+        "ref": "refs/heads/main",
+        "rev": "13eb6399698f0f0fb12bdc866372d5d5a97870bd",
+        "revCount": 28,
+        "type": "git",
+        "url": "https://git.yori.cc/yorick/hackerdeck"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.yori.cc/yorick/hackerdeck"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -624,6 +651,27 @@
     "pyproject-nix": {
       "inputs": {
         "nixpkgs": [
+          "hackerdeck",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1764134915,
+        "narHash": "sha256-xaKvtPx6YAnA3HQVp5LwyYG1MaN4LLehpQI8xEdBvBY=",
+        "owner": "pyproject-nix",
+        "repo": "pyproject.nix",
+        "rev": "2c8df1383b32e5443c921f61224b198a2282a657",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pyproject-nix",
+        "repo": "pyproject.nix",
+        "type": "github"
+      }
+    },
+    "pyproject-nix_2": {
+      "inputs": {
+        "nixpkgs": [
           "nixpkgs"
         ]
       },
@@ -641,7 +689,7 @@
         "type": "github"
       }
     },
-    "pyproject-nix_2": {
+    "pyproject-nix_3": {
       "inputs": {
         "nixpkgs": [
           "yobot",
@@ -667,6 +715,7 @@
         "agenix": "agenix",
         "emacs-overlay": "emacs-overlay",
         "google-workspace-cli": "google-workspace-cli",
+        "hackerdeck": "hackerdeck",
         "home-manager": "home-manager_2",
         "llm-agents": "llm-agents",
         "microvm": "microvm",
@@ -678,7 +727,7 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "pyproject-build-systems": "pyproject-build-systems",
-        "pyproject-nix": "pyproject-nix",
+        "pyproject-nix": "pyproject-nix_2",
         "uv2nix": "uv2nix",
         "yobot": "yobot"
       }
@@ -838,7 +887,7 @@
       "inputs": {
         "nixpkgs": "nixpkgs_3",
         "pyproject-build-systems": "pyproject-build-systems_2",
-        "pyproject-nix": "pyproject-nix_2",
+        "pyproject-nix": "pyproject-nix_3",
         "uv2nix": "uv2nix_2"
       },
       "locked": {

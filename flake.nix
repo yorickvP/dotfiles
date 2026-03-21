@@ -41,6 +41,12 @@
       inputs.uv2nix.follows = "uv2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hackerdeck = {
+      url = "git+https://git.yori.cc/yorick/hackerdeck";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.uv2nix.follows = "uv2nix";
+      inputs.pyproject-build-systems.follows = "pyproject-build-systems";
+    };
     muflax-blog = {
       url = "github:fmap/muflax65ngodyewp.onion";
     };
