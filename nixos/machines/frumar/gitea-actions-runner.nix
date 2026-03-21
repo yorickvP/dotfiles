@@ -19,6 +19,7 @@ let
         pkgs.jq
         pkgs.nodejs
         pkgs.openssh
+        pkgs.gnutar
       ]
     }; do
       for bin in "$dir"/bin/*; do
