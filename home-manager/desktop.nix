@@ -178,6 +178,8 @@ in
       input."1133:45087:MX_Anywhere_2".scroll_factor = "0.144";
       input."1133:45111:MX_Anywhere_3S".left_handed = "enabled";
       input."1133:45111:MX_Anywhere_3S".scroll_factor = "0.072";
+      input."1133:45111:Logitech_MX_Anywhere_3S".left_handed = "enabled";
+      input."1133:45111:Logitech_MX_Anywhere_3S".scroll_factor = "0.072";
       window.commands = [
         {
           criteria.app_id = "ala-fzf";
