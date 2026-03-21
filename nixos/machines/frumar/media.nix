@@ -46,14 +46,14 @@ in
   users.users.yorick.packages = with pkgs; [
     yscripts.absorb
     ffmpeg
-    pkgs.transmission_405
+    pkgs.transmission_4
   ];
   services.transmission = {
     enable = true;
     home = "/torrent";
     user = "torrent";
     group = "torrent";
-    package = pkgs.transmission_405;
+    package = pkgs.transmission_4;
     webHome = pkgs.flood-for-transmission;
     settings = {
       # https://github.com/transmission/transmission/blob/main/docs/Editing-Configuration-Files.md
