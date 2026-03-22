@@ -26,6 +26,7 @@ in
     inputs.yobot.nixosModules.default
     inputs.hackerdeck.nixosModules.default
     ../../services/hackerdeck.nix
+    ../../services/renovate.nix
   ];
 
   services.borgbackup.jobs.backup.paths = [

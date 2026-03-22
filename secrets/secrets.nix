@@ -81,6 +81,7 @@ builtins.mapAttrs
       pennyworth
     ];
     "hackerdeck.env.age" = [ pennyworth ];
+    "renovate-token.age" = [ pennyworth ];
     "ci-puller-mqtt.env.age" = [
       blackadder
       pennyworth
