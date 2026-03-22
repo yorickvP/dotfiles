@@ -11,6 +11,6 @@
     "enabled": false
   },
   "gomod": {
-    "enabled": true
+    "enabled": false
   }
 }
