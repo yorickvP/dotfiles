@@ -54,7 +54,7 @@ in
           DISABLE_REGISTRATION = true;
           REGISTER_EMAIL_CONFIRM = false;
           COOKIE_SECURE = true;
-          ENABLE_NOTIFY_MAIL = false;
+          ENABLE_NOTIFY_MAIL = true;
           REQUIRE_SIGNIN_VIEW = false;
         };
         mailer = {
