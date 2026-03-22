@@ -1,4 +1,4 @@
-{ stdenv, callPackage }:
+{ stdenv }:
 
 stdenv.mkDerivation {
   name = "yori-cc-1.5";

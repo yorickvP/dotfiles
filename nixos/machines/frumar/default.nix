@@ -35,7 +35,7 @@
   system.stateVersion = "15.09";
   networking.hostId = "0702dbe9";
   nixpkgs.overlays = [
-    (self: super: {
+    (_self: super: {
       openjdk8-bootstrap = super.openjdk8-bootstrap.override {
         gtkSupport = false;
       };

@@ -19,11 +19,6 @@ let
         wrapProgram $out/bin/${name} --suffix PATH : ${lib.makeSearchPath "bin" buildInputs}
       '';
     };
-  makeWrap =
-    cmd: executable: name:
-    pkgs.runCommand name { buildInputs = [ makeWrapper ]; } ''
-      makeWrapper ${executable} $out/bin/${name} --add-flags ${cmd}
-    '';
 in
 lib.mapAttrs (k: f: f k) {
   backup = compileShell ./backup.sh (

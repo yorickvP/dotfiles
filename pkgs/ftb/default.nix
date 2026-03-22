@@ -2,7 +2,6 @@
   stdenv,
   lib,
   fetchurl,
-  makeDesktopItem,
   jre,
   libX11,
   libXext,

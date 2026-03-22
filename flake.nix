@@ -13,6 +13,7 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixos-hardware = { };
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -61,14 +62,8 @@
       nixpkgs-unstable,
       home-manager,
       emacs-overlay,
-      nixos-hardware,
       agenix,
       nix-index-database,
-      yobot,
-      uv2nix,
-      microvm,
-      pyproject-nix,
-      pyproject-build-systems,
       self,
       ...
     }:
@@ -93,7 +88,7 @@
         }
       );
 
-      hydraJobs = lib.mapAttrs (n: v: v.toplevel) self.nixosConfigurations // {
+      hydraJobs = lib.mapAttrs (_n: v: v.toplevel) self.nixosConfigurations // {
         inherit (self.packages.x86_64-linux) yorick-home;
         ci-shell = self.devShells.x86_64-linux.ci;
       };
@@ -157,7 +152,7 @@
         emacs-overlay.overlay
         agenix.overlays.default
         inputs.llm-agents.overlays.default
-        (final: prev: {
+        (final: _prev: {
           pkgs-unstable = import nixpkgs-unstable {
             config.allowUnfree = true;
             inherit (final.stdenv) system;

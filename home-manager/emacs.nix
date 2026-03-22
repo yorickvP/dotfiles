@@ -1,7 +1,4 @@
 {
-  lib,
-  config,
-  options,
   pkgs,
   ...
 }:
@@ -15,7 +12,7 @@ in
     extraConfig = ''
       (setq lsp-nix-server-path "${pkgs.nil}/bin/nil")
     '';
-    overrides = final: prev: {
+    overrides = final: _prev: {
       copilot = final.melpaBuild rec {
         pname = "copilot";
         version = "20250506";

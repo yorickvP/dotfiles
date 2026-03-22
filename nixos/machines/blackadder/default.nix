@@ -2,10 +2,8 @@ let
   sshkeys = import ../../sshkeys.nix;
 in
 {
-  config,
   pkgs,
   lib,
-  inputs,
   ...
 }:
 {

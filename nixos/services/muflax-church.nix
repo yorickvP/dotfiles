@@ -23,7 +23,7 @@ let
     "gospel.${vhost}" = "${muflax-church}/gospel";
     "alt.${vhost}" = "/home/public/public/muflax";
   };
-  m = x: root: {
+  m = _x: root: {
     forceSSL = true;
     useACMEHost = vhost;
     inherit root;

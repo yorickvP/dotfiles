@@ -25,7 +25,7 @@ self: super:
   ghostty = addPatch super.ghostty ./ghostty-revert-7185.patch;
 
   python3 = super.python3.override {
-    packageOverrides = pyself: pysuper: {
+    packageOverrides = pyself: _pysuper: {
       libscrc = pyself.callPackage ./libscrc.nix { };
     };
   };
@@ -37,7 +37,7 @@ self: super:
     }
   );
   lib = super.lib.extend (
-    lfinal: lprev: {
+    _lfinal: _lprev: {
       loadUvScript =
         script:
         let

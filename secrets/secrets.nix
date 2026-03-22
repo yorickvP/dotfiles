@@ -9,7 +9,7 @@ let
   butterscotch = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK6UwASNXJiKdPYBhhM7vM6SIhM4uj0waG7KinW2CGhY";
 in
 builtins.mapAttrs
-  (x: y: {
+  (_x: y: {
     publicKeys = [ yorick ] ++ y;
   })
   {

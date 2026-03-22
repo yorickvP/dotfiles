@@ -3,7 +3,6 @@ let
 in
 {
   pkgs,
-  lib,
   inputs,
   ...
 }:

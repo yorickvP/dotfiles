@@ -17,7 +17,7 @@ let
     {
       autostart = false;
       config =
-        { config, pkgs, ... }:
+        { pkgs, ... }:
         {
           imports = [
             ../../roles/base.nix

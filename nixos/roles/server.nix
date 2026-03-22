@@ -9,7 +9,7 @@
   nix.settings.allowed-users = [ "@wheel" ];
   # TODO: upstream with noXlibs
   nixpkgs.overlays = [
-    (self: super: {
+    (_self: super: {
       libdecor = null;
       imagemagick = super.imagemagick.override {
         libheifSupport = false;
