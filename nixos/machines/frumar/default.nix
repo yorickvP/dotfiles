@@ -12,7 +12,7 @@
     ./paperless.nix
     ./media.nix
     ./home-automation.nix
-    ./cache.nix
+    ../../services/cache.nix
     ./gitea-actions-runner.nix
     ../../services/backup.nix
   ];
@@ -372,6 +372,17 @@
       };
     };
   };
+  age.secrets.attic.file = ../../../secrets/attic.env.age;
+  services.yorick.cache = {
+    enable = true;
+    vhost = "cache.yori.cc";
+    nginx = {
+      onlySSL = true;
+      useACMEHost = "wildcard.yori.cc";
+    };
+    secretFile = config.age.secrets.attic.path;
+  };
+  services.postgresql.package = pkgs.postgresql_15;
   services.yorick.marvin-tracker = {
     enable = true;
     secretFile = config.age.secrets.marvin-tracker.path;
