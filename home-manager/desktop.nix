@@ -220,7 +220,7 @@ in
     MOZ_ENABLE_WAYLAND = "1";
     EDITOR = "emacsclient";
     #GDK_BACKEND = "wayland";
-    TERMINAL = "alacritty";
+    TERMINAL = "ghostty";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QT_QPA_PLATFORM = "wayland";
     _JAVA_AWT_WM_NONREPARENTING = "1";
@@ -372,9 +372,6 @@ in
     ddcutil
     bluetui
   ];
-  xdg.configFile."alacritty/alacritty.toml" = {
-    source = ../alacritty/alacritty.toml;
-  };
   xdg.configFile."ghostty/config".text = ''
     font-family = "DejaVuSansM Nerd Font"
     font-size = 12

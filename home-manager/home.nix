@@ -322,7 +322,6 @@ in
     ledger-live-desktop
 
     ## apps
-    alacritty
     calibre
     chromium
     discord
