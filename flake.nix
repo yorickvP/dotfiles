@@ -136,7 +136,12 @@
         default = pkgs.mkShell {
           buildInputs = with pkgs; [
             pkgs.agenix
+            prek
+            statix
           ];
+          shellHook = ''
+            prek install
+          '';
         };
         ci = pkgs.mkShell {
           name = "ci";

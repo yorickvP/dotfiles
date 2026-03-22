@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: statix
+        name: statix
+        entry: statix check
+        language: system
+        files: '\.nix$'
+        pass_filenames: false
