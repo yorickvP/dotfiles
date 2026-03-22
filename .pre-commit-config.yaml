@@ -1,14 +1,19 @@
 repos:
   - repo: local
     hooks:
-      - id: treefmt
-        name: treefmt
-        entry: treefmt
+      - id: deadnix
+        name: deadnix
+        entry: deadnix --fail
         language: system
-        pass_filenames: false
+        files: '\.nix$'
       - id: statix
         name: statix
         entry: statix check
         language: system
         files: '\.nix$'
+        pass_filenames: false
+      - id: treefmt
+        name: treefmt
+        entry: treefmt
+        language: system
         pass_filenames: false
