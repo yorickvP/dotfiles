@@ -7,16 +7,14 @@
 }:
 
 let
-  muflax-church =
-    inputs.muflax-blog.packages.${pkgs.stdenv.system}.default.overrideAttrs
-      (old: {
-        buildPhase =
-          old.buildPhase
-          + "\n"
-          + ''
-            grep -lr '[^@]muflax.com' out | xargs -r sed -i 's/\([^@]\)muflax.com/\1muflax.church/g;s/http:\/\/\([^@]*\)muflax.church/https:\/\/\1muflax.church/g'
-          '';
-      });
+  muflax-church = inputs.muflax-blog.packages.${pkgs.stdenv.system}.default.overrideAttrs (old: {
+    buildPhase =
+      old.buildPhase
+      + "\n"
+      + ''
+        grep -lr '[^@]muflax.com' out | xargs -r sed -i 's/\([^@]\)muflax.com/\1muflax.church/g;s/http:\/\/\([^@]*\)muflax.church/https:\/\/\1muflax.church/g'
+      '';
+  });
   cfg = config.services.yorick.muflax-church;
   inherit (cfg) vhost;
   addrs = {

@@ -1,2 +1,1 @@
-{ lib }:
-lib.loadUvScript ./marvin-tracker.py
+{ lib }: lib.loadUvScript ./marvin-tracker.py

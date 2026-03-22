@@ -1,6 +1,11 @@
 repos:
   - repo: local
     hooks:
+      - id: treefmt
+        name: treefmt
+        entry: treefmt
+        language: system
+        pass_filenames: false
       - id: statix
         name: statix
         entry: statix check

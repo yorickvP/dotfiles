@@ -136,6 +136,7 @@
         default = pkgs.mkShell {
           buildInputs = with pkgs; [
             pkgs.agenix
+            nixfmt-tree
             prek
             statix
           ];

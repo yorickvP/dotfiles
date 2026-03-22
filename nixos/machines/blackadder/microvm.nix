@@ -113,8 +113,7 @@ let
 
           users.users.root.password = "";
           users.users.yorick.password = "";
-        }
-      ;
+        };
     };
 in
 {
@@ -147,51 +146,53 @@ in
     tapId = "vm-a1";
     mac = "02:00:00:00:00:01";
     ip = "192.168.81.2";
-    guestConfig = { pkgs, ... }: {
-      environment.systemPackages = with pkgs; [
-        cargo
-        expect
-        fd
-        fx
-        fzf
-        gcc
-        ghostty.terminfo
-        git
-        gnumake
-        google-cloud-sdk
-        htop
-        imagemagick
-        jless
-        jo
-        jq
-        kubectl
-        libarchive
-        llm-agents.ccusage
-        llm-agents.claude-code
-        lnav
-        magic-wormhole
-        mitmproxy
-        moreutils
-        mosh
-        nodejs
-        openssl
-        pkg-config
-        pv
-        python3
-        ripgrep
-        screen
-        spacer
-        sqlite-interactive
-        sshfs-fuse
-        stern
-        tmux
-        trurl
-        unzip
-        uv
-        yq
-        zip
-      ];
-    };
+    guestConfig =
+      { pkgs, ... }:
+      {
+        environment.systemPackages = with pkgs; [
+          cargo
+          expect
+          fd
+          fx
+          fzf
+          gcc
+          ghostty.terminfo
+          git
+          gnumake
+          google-cloud-sdk
+          htop
+          imagemagick
+          jless
+          jo
+          jq
+          kubectl
+          libarchive
+          llm-agents.ccusage
+          llm-agents.claude-code
+          lnav
+          magic-wormhole
+          mitmproxy
+          moreutils
+          mosh
+          nodejs
+          openssl
+          pkg-config
+          pv
+          python3
+          ripgrep
+          screen
+          spacer
+          sqlite-interactive
+          sshfs-fuse
+          stern
+          tmux
+          trurl
+          unzip
+          uv
+          yq
+          zip
+        ];
+      };
   };
 
   microvm.vms.microvm-round = mkMicrovm {
@@ -200,37 +201,39 @@ in
     mac = "02:00:00:00:00:02";
     ip = "192.168.81.3";
     varSize = 512;
-    guestConfig = { pkgs, ... }: {
-      services.postgresql = {
-        enable = true;
-        extensions = ps: [ ps.pgvector ];
-      };
+    guestConfig =
+      { pkgs, ... }:
+      {
+        services.postgresql = {
+          enable = true;
+          extensions = ps: [ ps.pgvector ];
+        };
 
-      services.redis.servers.default = {
-        enable = true;
-        bind = "0.0.0.0";
-      };
+        services.redis.servers.default = {
+          enable = true;
+          bind = "0.0.0.0";
+        };
 
-      environment.systemPackages = with pkgs; [
-        fd
-        fzf
-        gcc
-        ghostty.terminfo
-        git
-        gnumake
-        htop
-        jq
-        nodejs
-        openssl
-        pkg-config
-        pnpm
-        python3
-        ripgrep
-        tmux
-        unzip
-        uv
-      ];
-    };
+        environment.systemPackages = with pkgs; [
+          fd
+          fzf
+          gcc
+          ghostty.terminfo
+          git
+          gnumake
+          htop
+          jq
+          nodejs
+          openssl
+          pkg-config
+          pnpm
+          python3
+          ripgrep
+          tmux
+          unzip
+          uv
+        ];
+      };
   };
 
 }

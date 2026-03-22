@@ -204,178 +204,175 @@ in
     enableExtraSocket = true;
   };
   services.playerctld.enable = true;
-  home.packages =
-    with pkgs;
-    [
-      ## utils
-      afew # mail
-      fd
-      gcr.out
-      git-absorb
-      github-cli
-      lieer
-      htop
-      kdePackages.kcachegrind
-      lm_sensors
-      notmuch
-      watchman
-      nix-output-monitor
-      appimage-run
-      ripgrep
-      zip
+  home.packages = with pkgs; [
+    ## utils
+    afew # mail
+    fd
+    gcr.out
+    git-absorb
+    github-cli
+    lieer
+    htop
+    kdePackages.kcachegrind
+    lm_sensors
+    notmuch
+    watchman
+    nix-output-monitor
+    appimage-run
+    ripgrep
+    zip
 
-      ## misc
-      moreutils
-      atop
-      awscli2
-      borgbackup
-      bup
-      # catdoc
-      trurl
-      expect
-      fzf
-      fx
-      git-annex
-      mesa-demos
-      gnupg1
-      imagemagick
-      iodine
-      jo
-      jless
-      jq
-      yq
-      lnav
-      magic-wormhole
-      man-pages
-      mosh
-      neofetch
-      openssl
-      pass
-      pv
-      screen
-      sshfs-fuse
-      sshuttle
-      pay-respects
-      wakelan
-      tty-clock
-      up
+    ## misc
+    moreutils
+    atop
+    awscli2
+    borgbackup
+    bup
+    # catdoc
+    trurl
+    expect
+    fzf
+    fx
+    git-annex
+    mesa-demos
+    gnupg1
+    imagemagick
+    iodine
+    jo
+    jless
+    jq
+    yq
+    lnav
+    magic-wormhole
+    man-pages
+    mosh
+    neofetch
+    openssl
+    pass
+    pv
+    screen
+    sshfs-fuse
+    sshuttle
+    pay-respects
+    wakelan
+    tty-clock
+    up
 
-      ## media
-      aria2
-      castnow
-      streamlink
-      yt-dlp
-      ffmpeg
-      transmission-remote-gtk
+    ## media
+    aria2
+    castnow
+    streamlink
+    yt-dlp
+    ffmpeg
+    transmission-remote-gtk
 
-      ## code
-      cloc
-      gcc
-      gdb
-      git-crypt
-      git-fire
-      gnumake
-      python3
-      silver-searcher
-      sqlite-interactive
-      noulith
+    ## code
+    cloc
+    gcc
+    gdb
+    git-crypt
+    git-fire
+    gnumake
+    python3
+    silver-searcher
+    sqlite-interactive
+    noulith
 
-      ## nix
-      nix-tree
-      niv
-      nixfmt-rfc-style
-      patchelf
-      nix-prefetch-git
-      nix-du
-      nix-top
-      nix-diff
-      cachix
-      cached-nix-shell
+    ## nix
+    nix-tree
+    niv
+    nixfmt-rfc-style
+    patchelf
+    nix-prefetch-git
+    nix-du
+    nix-top
+    nix-diff
+    cachix
+    cached-nix-shell
 
-      ## js
-      nodejs
-      electron
+    ## js
+    nodejs
+    electron
 
-      ## pdf
-      ocamlPackages.cpdf
-      zathura
-      pandoc
-      poppler-utils
+    ## pdf
+    ocamlPackages.cpdf
+    zathura
+    pandoc
+    poppler-utils
 
-      ## misc
-      asciinema
-      cargo
-      eza
-      perf
-      ltrace
-      lz4json
-      pssh
-      smartmontools
-      unzip
-      vim
-      xdg-utils
-      countfftabs
-      spacer
-      #wlrctl
-      asciiquarium-transparent
-      wakeonlan
-      mqtt-explorer
+    ## misc
+    asciinema
+    cargo
+    eza
+    perf
+    ltrace
+    lz4json
+    pssh
+    smartmontools
+    unzip
+    vim
+    xdg-utils
+    countfftabs
+    spacer
+    #wlrctl
+    asciiquarium-transparent
+    wakeonlan
+    mqtt-explorer
 
-      ## coins
-      electrum
-      ledger-live-desktop
+    ## coins
+    electrum
+    ledger-live-desktop
 
-      ## apps
-      alacritty
-      calibre
-      chromium
-      discord
-      wayland-push-to-talk-fix
-      fanficfare
-      feh
-      gimp
-      gopass
-      hledger
-      spotify
-      telegram-desktop
-      signal-desktop
-      virt-manager
-      wireshark
-      inkscape
-      bitwarden-cli
-      #yubioath-flutter
-      gnucash
+    ## apps
+    alacritty
+    calibre
+    chromium
+    discord
+    wayland-push-to-talk-fix
+    fanficfare
+    feh
+    gimp
+    gopass
+    hledger
+    spotify
+    telegram-desktop
+    signal-desktop
+    virt-manager
+    wireshark
+    inkscape
+    bitwarden-cli
+    #yubioath-flutter
+    gnucash
 
-      ## games
-      # (prismlauncher.override { jdks = [ jdk21 ] })
-      steam
-      steam-run
-      # minecraft
-      # nottetris2
-      # openttd
-      # wine
-      # winetricks
-      kdePackages.kmines
-      gamescope
+    ## games
+    # (prismlauncher.override { jdks = [ jdk21 ] })
+    steam
+    steam-run
+    # minecraft
+    # nottetris2
+    # openttd
+    # wine
+    # winetricks
+    kdePackages.kmines
+    gamescope
 
-      # work
-      r8-cog
-      mutagen
-      # zoom-us
-      google-cloud-sdk
-      gws
-      kubectl
-      stern
-      oath-toolkit
-      mitmproxy
-      magic-wormhole
-      difftastic
+    # work
+    r8-cog
+    mutagen
+    # zoom-us
+    google-cloud-sdk
+    gws
+    kubectl
+    stern
+    oath-toolkit
+    mitmproxy
+    magic-wormhole
+    difftastic
 
-      # admin
-      nsc
-      natscli
-    ]
-  ;
+    # admin
+    nsc
+    natscli
+  ];
 
   home.file.".gnupg/gpg.conf".text = ''
     no-greeting

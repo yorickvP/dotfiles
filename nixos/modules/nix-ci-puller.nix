@@ -66,9 +66,12 @@ in
       wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
-        ExecStart = lib.concatStringsSep " " ([
-          "${cfg.package}/bin/y-nix-ci-puller"
-        ] ++ cfg.topics);
+        ExecStart = lib.concatStringsSep " " (
+          [
+            "${cfg.package}/bin/y-nix-ci-puller"
+          ]
+          ++ cfg.topics
+        );
         Restart = "on-failure";
         RestartSec = "30s";
         EnvironmentFile = cfg.mqttPasswordFile;
@@ -78,7 +81,8 @@ in
         MQTT_BROKER = cfg.mqttBroker;
         MQTT_USER = cfg.mqttUser;
         GCROOT_DIR = cfg.gcrootDir;
-      } // lib.optionalAttrs (cfg.allowedSSIDs != [ ]) {
+      }
+      // lib.optionalAttrs (cfg.allowedSSIDs != [ ]) {
         ALLOWED_SSIDS = lib.concatStringsSep "," cfg.allowedSSIDs;
       };
 

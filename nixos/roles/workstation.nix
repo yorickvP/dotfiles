@@ -178,5 +178,5 @@
   # screen control
   hardware.i2c.enable = true;
   hardware.bluetooth.enable = true;
-  services.nix-ci-puller.topics = ["yorick/git/dotfiles/main/yorick-home"];
+  services.nix-ci-puller.topics = [ "yorick/git/dotfiles/main/yorick-home" ];
 }
