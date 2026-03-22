@@ -57,10 +57,12 @@ in
           ENABLE_NOTIFY_MAIL = false;
           REQUIRE_SIGNIN_VIEW = false;
         };
-        picture.DISABLE_GRAVATAR = false;
         mailer = {
-          ENABLED = false;
-          AVATAR_UPLOAD_PATH = "${config.services.forgejo.stateDir}/data/avatars";
+          ENABLED = true;
+          PROTOCOL = "smtp";
+          SMTP_ADDR = "localhost";
+          SMTP_PORT = 25;
+          FROM = "forgejo@yori.cc";
         };
       };
     };
