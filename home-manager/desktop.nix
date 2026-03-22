@@ -107,7 +107,7 @@ in
             "${mod}+Ctrl+Shift+s" = exec pkgs.sway-contrib.grimshot "grimshot --notify copy anything";
             "Print" = exec bin.screenshot_public "screenshot_public";
             "${mod}+Shift+t" = "exec --no-startup-id /home/yorick/dotfiles/bin/toggle_solarized.sh";
-            "${mod}+p" = "exec /home/yorick/dotfiles/bin/ala-fzf-pass.sh";
+            "${mod}+p" = "exec /home/yorick/dotfiles/bin/ghostty-fzf-pass.sh";
             #"${mod}+p" = exec rofi-pass "rofi-pass";
             "${mod}+e" = exec pkgs.wldash "wldash start-or-kill";
             "${mod}+F1" = "exec --no-startup-id ddcutil -b 17 setvcp 10 - 5 --sleep-multiplier 0.0001";
@@ -182,7 +182,7 @@ in
       input."1133:45111:Logitech_MX_Anywhere_3S".scroll_factor = "0.072";
       window.commands = [
         {
-          criteria.app_id = "ala-fzf";
+          criteria.app_id = "ala.fzf";
           command = "floating enable";
         }
         {
