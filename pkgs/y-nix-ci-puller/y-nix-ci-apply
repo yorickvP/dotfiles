@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+GCROOT_DIR="${GCROOT_DIR:-/nix/var/nix/gcroots/ci-puller}"
+HOSTNAME="$(hostname)"
+REBOOT=false
+DRY_RUN=false
+ACTION=switch
+
+usage() {
+    echo "Usage: y-nix-ci-apply [--reboot] [--boot] [--dry-run]"
+    echo ""
+    echo "Apply CI-pulled NixOS system and home-manager configurations."
+    echo ""
+    echo "Options:"
+    echo "  --reboot    Reboot after switching if the kernel changed"
+    echo "  --boot      Use 'boot' instead of 'switch' (activates on next boot)"
+    echo "  --dry-run   Show what would be done without doing it"
+    exit 0
+}
+
+for arg in "$@"; do
+    case "$arg" in
+        --reboot) REBOOT=true ;;
+        --boot) ACTION=boot ;;
+        --dry-run) DRY_RUN=true ;;
+        --help|-h) usage ;;
+        *) echo "Unknown option: $arg" >&2; exit 1 ;;
+    esac
+done
+
+if [[ ! -d "$GCROOT_DIR" ]]; then
+    echo "No GC root directory found at $GCROOT_DIR"
+    exit 1
+fi
+
+applied_system=false
+kernel_changed=false
+
+for root in "$GCROOT_DIR"/*; do
+    [[ -L "$root" ]] || continue
+    attr="$(basename "$root")"
+    store_path="$(readlink "$root")"
+
+    if [[ -x "$store_path/bin/switch-to-configuration" ]]; then
+        # NixOS system configuration
+        if [[ "$attr" != "$HOSTNAME" ]]; then
+            echo "Skipping NixOS config '$attr' (not this host: $HOSTNAME)"
+            continue
+        fi
+
+        current="$(readlink /run/current-system)"
+        if [[ "$store_path" == "$current" ]]; then
+            echo "NixOS: already running $store_path"
+            continue
+        fi
+
+        echo "NixOS: $current -> $store_path"
+
+        # Check for kernel change
+        new_kernel="$(readlink "$store_path/kernel" 2>/dev/null || true)"
+        booted_kernel="$(readlink /run/booted-system/kernel 2>/dev/null || true)"
+        if [[ -n "$new_kernel" && -n "$booted_kernel" && "$new_kernel" != "$booted_kernel" ]]; then
+            echo "Kernel changed: $(basename "$(dirname "$booted_kernel")") -> $(basename "$(dirname "$new_kernel")")"
+            kernel_changed=true
+            action=boot
+        else
+            action="$ACTION"
+        fi
+
+        if $DRY_RUN; then
+            echo "(dry-run) Would run: sudo nix-env -p /nix/var/nix/profiles/system --set $store_path"
+            echo "(dry-run) Would run: sudo $store_path/bin/switch-to-configuration $action"
+        else
+            sudo nix-env -p /nix/var/nix/profiles/system --set "$store_path"
+            sudo "$store_path/bin/switch-to-configuration" "$action"
+        fi
+        applied_system=true
+
+    elif [[ -x "$store_path/activate" ]]; then
+        # Home-manager generation
+        current_gen="$(readlink "$HOME/.local/state/nix/profiles/home-manager" 2>/dev/null || true)"
+        if [[ "$store_path" == "$current_gen" ]]; then
+            echo "home-manager ($attr): already active"
+            continue
+        fi
+
+        echo "home-manager ($attr): activating $store_path"
+        if $DRY_RUN; then
+            echo "(dry-run) Would run: $store_path/activate"
+        else
+            "$store_path/activate"
+        fi
+    else
+        echo "Unknown store path type for '$attr': $store_path"
+    fi
+done
+
+if $kernel_changed && $applied_system; then
+    if $REBOOT; then
+        echo "Kernel changed, rebooting..."
+        if ! $DRY_RUN; then
+            systemctl reboot
+        else
+            echo "(dry-run) Would reboot"
+        fi
+    else
+        echo "Kernel changed. Reboot recommended (use --reboot to auto-reboot)."
+    fi
+fi
