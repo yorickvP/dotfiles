@@ -342,16 +342,23 @@
               user = "zigbee2mqtt";
               password = "$2a$11$CC5NVYiTUeoa4A4w94NFMORO/0jhMR60JWgPUgjct8c2vg29wwIGG";
               allowed_connection_types = [ "MQTT" ];
+              permissions.publish.allow = [ "homeassistant.>" "zigbee2mqtt.>" ];
+              # it subscribes to >
+              permissions.subscribe.allow = [ ">" "$MQTT.sub.>" ];
             }
             {
               user = "marvin-tracker";
               password = "$2a$11$V9G2gT52obCsDOBwibHfMudnibwP/s3NwUjwvtsnlHfkn5kJHOOEe";
               allowed_connection_types = [ "MQTT" ];
+              permissions.publish.allow = [ "yorick.marvin.tracking" ];
+              permissions.subscribe.allow = [ "yorick.marvin.tracking" "$MQTT.sub.>" ];
             }
             {
               user = "govee2mqtt";
               password = "$2y$10$7EOQkxOjWdHV.hCb.a92JOAU30Qgok0faew/1xU3SJhaXVuKbZ1bm";
               allowed_connection_types = [ "MQTT" ];
+              permissions.publish.allow = [ "homeassistant.>" "gv2mqtt.>" ];
+              permissions.subscribe.allow = [ "homeassistant.>" "gv2mqtt.>" "$MQTT.sub.>" ];
             }
             {
               user = "ci";
