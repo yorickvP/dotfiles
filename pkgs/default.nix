@@ -12,7 +12,6 @@ let
   ) (builtins.attrNames dir);
 in
 
-(
   self: super:
   (builtins.listToAttrs (
     map (name: {
@@ -71,4 +70,3 @@ in
       }
     );
   }
-)

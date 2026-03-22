@@ -16,7 +16,7 @@ let
     }:
     {
       autostart = false;
-      config = (
+      config =
         { config, pkgs, ... }:
         {
           imports = [
@@ -114,7 +114,7 @@ let
           users.users.root.password = "";
           users.users.yorick.password = "";
         }
-      );
+      ;
     };
 in
 {

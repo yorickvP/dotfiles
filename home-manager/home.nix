@@ -204,7 +204,7 @@ in
     enableExtraSocket = true;
   };
   services.playerctld.enable = true;
-  home.packages = (
+  home.packages =
     with pkgs;
     [
       ## utils
@@ -375,7 +375,7 @@ in
       nsc
       natscli
     ]
-  );
+  ;
 
   home.file.".gnupg/gpg.conf".text = ''
     no-greeting

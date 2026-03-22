@@ -108,7 +108,7 @@
             }
           ]
           ++ (map (n: {
-            name = n.toplevel.name;
+            inherit (n.toplevel) name;
             path = n.toplevel;
           }) (builtins.attrValues self.nixosConfigurations))
         );

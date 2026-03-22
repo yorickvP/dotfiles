@@ -71,7 +71,7 @@ in
     users.users.${config.services.atticd.user} = {
       isSystemUser = true;
       createHome = false;
-      group = config.services.atticd.group;
+      inherit (config.services.atticd) group;
     };
     users.groups.${config.services.atticd.group} = { };
     services.postgresql = {
