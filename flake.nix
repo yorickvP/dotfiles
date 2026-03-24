@@ -13,6 +13,10 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nix-amd-npu = {
+      url = "github:datakami/nix-amd-npu";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware = { };
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
@@ -153,6 +157,7 @@
         emacs-overlay.overlay
         agenix.overlays.default
         inputs.llm-agents.overlays.default
+        inputs.nix-amd-npu.overlays.default
         (final: _prev: {
           pkgs-unstable = import nixpkgs-unstable {
             config.allowUnfree = true;

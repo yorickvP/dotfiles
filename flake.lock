@@ -179,6 +179,24 @@
     },
     "flake-parts_2": {
       "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1767609335,
+        "narHash": "sha256-feveD98mQpptwrAEggBQKJTYbvwwglSbOv53uCfH9PY=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "250481aafeb741edfe23d29195671c19b36b6dca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_3": {
+      "inputs": {
         "nixpkgs-lib": [
           "nix-fast-build",
           "nixpkgs"
@@ -434,9 +452,30 @@
         "type": "github"
       }
     },
-    "nix-fast-build": {
+    "nix-amd-npu": {
       "inputs": {
         "flake-parts": "flake-parts_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774349329,
+        "narHash": "sha256-qyNLiSipQd0ZPrkzdsWh00KP9B5zJGHXgNKQ73TdCek=",
+        "owner": "datakami",
+        "repo": "nix-amd-npu",
+        "rev": "8508833335cecb4e651ffed70a596241fbe51ddd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "datakami",
+        "repo": "nix-amd-npu",
+        "type": "github"
+      }
+    },
+    "nix-fast-build": {
+      "inputs": {
+        "flake-parts": "flake-parts_3",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -527,6 +566,21 @@
         "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1765674936,
+        "narHash": "sha256-k00uTP4JNfmejrCLJOwdObYC9jHRrr/5M/a/8L2EIdo=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "2075416fcb47225d9b68ac469a5c4801a9c4dd85",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
         "type": "github"
       }
     },
@@ -720,6 +774,7 @@
         "llm-agents": "llm-agents",
         "microvm": "microvm",
         "muflax-blog": "muflax-blog",
+        "nix-amd-npu": "nix-amd-npu",
         "nix-fast-build": "nix-fast-build",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",

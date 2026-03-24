@@ -12,6 +12,7 @@ in
     ../../roles/workstation.nix
     ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
+    inputs.nix-amd-npu.nixosModules.default
   ];
 
   yorick.dk-vpn = {
@@ -65,4 +66,6 @@ in
       extraGroups = [ "video" ];
     };
   };
+  hardware.amd-npu.enable = true;
+  environment.systemPackages = [ pkgs.fastflowlm ];
 }
