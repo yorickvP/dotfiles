@@ -23,6 +23,7 @@
       endpoint = "https://git.yori.cc/";
       gitAuthor = "Renovate <renovate@yori.cc>";
       autodiscover = true;
+      binarySource = "global";
     };
   };
 }
