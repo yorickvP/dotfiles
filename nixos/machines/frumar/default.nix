@@ -174,7 +174,7 @@
   services.unifi = {
     enable = true;
     openFirewall = true;
-    unifiPackage = pkgs.unifi;
+    unifiPackage = pkgs.pkgs-unstable.unifi;
     mongodbPackage = pkgs.mongodb-7_0;
   };
   services.victoriametrics = {
