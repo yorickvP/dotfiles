@@ -45,6 +45,7 @@
   util-linux,
   xz,
   openssh,
+  proquint,
 }:
 let
   uid = "1000";
@@ -150,8 +151,11 @@ writeShellScriptBin "claude-box" ''
     set -- /bin/claude
   fi
 
+  MACHINE_NAME="claude-$(${proquint}/bin/proquint $(od -An -tu4 -N4 /dev/urandom | tr -d ' '))"
+
   exec sudo ${systemd}/bin/systemd-nspawn \
     -D ${rootfs} \
+    -M "$MACHINE_NAME" \
     --volatile=overlay \
     --bind-ro=/nix/store \
     --bind=/nix/var/nix/daemon-socket \
