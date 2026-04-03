@@ -10,9 +10,13 @@
     credentials = {
       RENOVATE_TOKEN = config.age.secrets.renovate-token.path;
     };
+    environment = {
+      UV_PYTHON_DOWNLOADS = "never";
+    };
     runtimePackages = with pkgs; [
       nix
       uv
+      python3
     ];
     settings = {
       platform = "forgejo";
