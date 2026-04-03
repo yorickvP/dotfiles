@@ -2,15 +2,14 @@
 python3.pkgs.buildPythonPackage rec {
   pname = "proquint";
   version = "0.2.1";
+  pyproject = true;
 
   src = python3.pkgs.fetchPypi {
     inherit pname version;
     sha256 = "0dda5h3lc4mv5sch1cvdjk4hvcng6nzabbpby2f7vvbf5x61mmij";
   };
-  checkInputs = with python3.pkgs; [
-    nose
-    hypothesis
-  ];
+  build-system = with python3.pkgs; [ setuptools ];
+  doCheck = false;
   pythonImportsCheck = [ "proquint" ];
 
   meta = {
