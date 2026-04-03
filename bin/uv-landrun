@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CMD="$(basename "$0")"
+SELF_DIR="$(cd "$(dirname "$0")" && pwd)"
+REAL_CMD="$(PATH="${PATH//"$SELF_DIR"/}" command -v "$CMD")"
+
+if [[ "${UV_LANDRUN_BYPASS:-}" == "1" ]]; then
+    exec "$REAL_CMD" "$@"
+fi
+
+EXTRA_ARGS=()
+
+if [[ "$CMD" == "uvx" ]]; then
+    EXTRA_ARGS+=(--rwx ~/.cache/pyright-python --rwx ~/.cache/prek)
+fi
+
+if [[ "${1:-}" == "run" ]]; then
+    EXTRA_ARGS+=(--rwx ~/.cache/pyright-python --rwx ~/.cache/prek)
+fi
+
+if [[ "${1:-}" == "tool" ]]; then
+    EXTRA_ARGS+=(--rwx ~/.local/share/uv/tools)
+fi
+
+for var in "${!UV_@}"; do
+    EXTRA_ARGS+=(--env "$var")
+done
+
+LANDRUN_ARGS=(
+    --rwx ~/.cache/uv/
+    --ro ~/.config/uv/
+    --rox ~/.local/share/uv/
+    --unrestricted-network
+    --rox ~/.local/bin/
+    --rox /nix
+    --rwx .
+    --rox /bin
+    --rox /usr
+    --ro /proc
+    --rox /dev/zero
+    --rox /dev/random
+    --rox /dev/urandom
+    --rox /etc/ssl
+    --rox /etc/resolv.conf
+    --rox /etc/zoneinfo
+    --rw /dev/null
+    --rw /dev/tty
+    --rox /etc/terminfo
+    --rox /dev/full
+    --env PATH
+    --env TERM
+    --env SHELL
+    --env COLORTERM
+    --env LANG
+    --env LC_ALL
+    --env TERMINFO
+    --env TERMINFO_DIRS
+    --env TZDIR
+    --env TERM_PROGRAM_VERSION
+    --env NIX_LD
+    --env NIX_LD_LIBRARY_PATH
+    "${EXTRA_ARGS[@]}"
+)
+
+# shellcheck disable=SC2086
+exec landrun "${LANDRUN_ARGS[@]}" ${UV_LANDRUN_EXTRA:-} "$REAL_CMD" "$@"

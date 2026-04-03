@@ -367,6 +367,7 @@ in
     # bitwarden-desktop
     soco-cli # sonos speakers
     bubblewrap
+    landrun
     claude-code
     llm-agents.ccusage
     ddcutil

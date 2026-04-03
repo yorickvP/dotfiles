@@ -40,4 +40,32 @@ lib.mapAttrs (k: f: f k) {
   y-cal-widget = _: lib.loadUvScript ./y-cal-widget.py;
   absorb = _: lib.loadUvScript ./absorb.py;
   backup-laptop = compileShell ./backup-laptop [ ];
+  uv-landrun =
+    _:
+    stdenv.mkDerivation {
+      name = "uv-landrun";
+      src = ./uv-landrun;
+      buildInputs = [
+        landrun
+        pkgs-unstable.uv
+      ];
+      nativeBuildInputs = [ shellcheck-minimal ];
+      unpackPhase = "true";
+      buildPhase = ''
+        shellcheck $src
+      '';
+      installPhase = ''
+        mkdir -p $out/bin
+        cp $src $out/bin/uv-landrun
+        chmod +x $out/bin/uv-landrun
+        sed -i '2i export PATH="${
+          lib.makeBinPath [
+            landrun
+            pkgs-unstable.uv
+          ]
+        }:$PATH"' $out/bin/uv-landrun
+        ln -s uv-landrun $out/bin/uv
+        ln -s uv-landrun $out/bin/uvx
+      '';
+    };
 }

@@ -370,6 +370,8 @@ in
     # admin
     nsc
     natscli
+
+    yscripts.uv-landrun
   ];
 
   home.file.".gnupg/gpg.conf".text = ''
