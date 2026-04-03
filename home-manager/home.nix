@@ -372,6 +372,7 @@ in
     natscli
 
     yscripts.uv-landrun
+    claude-box
   ];
 
   home.file.".gnupg/gpg.conf".text = ''
