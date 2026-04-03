@@ -2,6 +2,8 @@
 {
   age.secrets.renovate-token.file = ../../secrets/renovate-token.age;
 
+  nix.settings.allowed-users = [ "renovate" ];
+
   services.renovate = {
     enable = true;
     schedule = "daily";
