@@ -287,7 +287,6 @@ in
     nix-diff
     cachix
     cached-nix-shell
-    y-nix-ci-puller
 
     ## js
     nodejs

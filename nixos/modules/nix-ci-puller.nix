@@ -57,6 +57,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = [ cfg.package ];
+
     age.secrets.ci-puller-mqtt-env.file = ../../secrets/ci-puller-mqtt.env.age;
 
     systemd.services.nix-ci-puller = {
