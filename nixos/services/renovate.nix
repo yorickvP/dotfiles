@@ -12,6 +12,7 @@
     };
     runtimePackages = with pkgs; [
       nix
+      uv
     ];
     settings = {
       platform = "forgejo";
