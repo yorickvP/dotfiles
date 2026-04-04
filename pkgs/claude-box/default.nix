@@ -153,7 +153,12 @@ writeShellScriptBin "claude-box" ''
 
   MACHINE_NAME="claude-$(${proquint}/bin/proquint $(od -An -tu4 -N4 /dev/urandom | tr -d ' '))"
 
-  exec sudo ${systemd}/bin/systemd-nspawn \
+  # Start a dedicated ssh-agent and load the claude key
+  eval "$(${openssh}/bin/ssh-agent)"
+  trap '${openssh}/bin/ssh-agent -k' EXIT
+  ${openssh}/bin/ssh-add "$HOME/.ssh/id_ed25519_claude"
+
+  sudo ${systemd}/bin/systemd-nspawn \
     -D ${rootfs} \
     -M "$MACHINE_NAME" \
     --volatile=overlay \
@@ -163,8 +168,8 @@ writeShellScriptBin "claude-box" ''
     --bind="$PWD" \
     --chdir="$PWD" \
     --tmpfs=/home/claude:uid=${uid},gid=${gid},mode=0755 \
-    --tmpfs=/home/claude/.claude:uid=${uid},gid=${gid},mode=0755 \
     --bind="$HOME/.claude.json":/home/claude/.claude.json \
+    --bind="$HOME/.claudebox":/home/claude/.claude \
     --bind="$HOME/.claude/.credentials.json":/home/claude/.claude/.credentials.json \
     --bind="$SSH_AUTH_SOCK:/home/claude/.ssh/sock" \
     --bind-ro="$HOME/.ssh/known_hosts:/home/claude/.ssh/known_hosts" \
