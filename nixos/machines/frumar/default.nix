@@ -205,7 +205,6 @@
   services.grafana = {
     enable = true;
     settings = {
-      server.http_addr = "0.0.0.0";
       server.domain = "grafana.yori.cc";
       server.root_url = "https://grafana.yori.cc/";
       auth.oauth_allow_insecure_email_lookup = true;
