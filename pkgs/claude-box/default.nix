@@ -46,6 +46,8 @@
   xz,
   openssh,
   proquint,
+  forgejo-cli,
+  gh,
 }:
 let
   uid = "1000";
@@ -142,6 +144,8 @@ let
       ghostty.terminfo
       openssh
       less
+      forgejo-cli
+      gh
     ];
   };
   # todo: /var/empty?
@@ -173,6 +177,7 @@ writeShellScriptBin "claude-box" ''
     --bind="$HOME/.claude/.credentials.json":/home/claude/.claude/.credentials.json \
     --bind="$SSH_AUTH_SOCK:/home/claude/.ssh/sock" \
     --bind-ro="$HOME/.ssh/known_hosts:/home/claude/.ssh/known_hosts" \
+    --bind="$HOME/.claudebox/forgejo-keys.json:/home/claude/.local/share/forgejo-cli/keys.json" \
     --user=claude \
     --as-pid2 \
     --background= \

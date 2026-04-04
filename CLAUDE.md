@@ -1,14 +1,13 @@
 # Creating a PR
 
-You can create a PR using AGit:
-```
-git push origin HEAD:refs/for/main -o topic="topic_of_my_PR" -o title="Title of the PR" -o description="# The PR Description\nThis can be **any** markdown content.\n- [x] Ok"
-```
-Here is how the options work:
+You can create a PR by pushing to a branch and using `fj pr create --base main --head <branch> --body "..." [title]`.
 
-- `-o <topic|title|description>`: Options for the PR
-  - `topic`: The topic of this change. It will become the name of the branch holding the changes waiting for review.  This is REQUIRED to trigger a pull request.
-  - `title`: The PR title (optional but recommended), only used for topics not already having an associated PR.
-  - `description`: The PR description (optional but recommended), only used for topics not already having an associated PR.
-  - `force-push=true`: Specifies whether to force-update the target branch.
-    - Note: omitting the value and using just `-o force-push` will also work.
+# Repo layout
+
+This is a nix flake, so don't forget to `git add` new files.
+
+- nixos: contains the nixos modules and machine definitions.
+- pkgs:
+  - pkgs/*/default.nix is automatically callPackage'd by pkgs/default.nix and exported on the flake packages and in the overlay.
+  - patches are added manually in pkgs/default.nix.
+- bin: loose scripts, added manually in bin/default.nix
