@@ -144,10 +144,6 @@
             };
             locations."/paperless/" =
               proxyOauth2 "http://127.0.0.1:${toString config.services.paperless.port}/";
-            locations."/media/" = {
-              root = "/var/mediashare";
-              extraConfig = "auth_request off;";
-            };
             locations."/transmission/" = proxyOauth2 "http://unix:/torrent/sockets/transmission.sock";
             locations."/transmission/rpc" = lib.mkMerge [
               (proxyOauth2 "http://unix:/torrent/sockets/transmission.sock")
@@ -163,7 +159,6 @@
     };
   systemd.services.nginx.serviceConfig.BindReadOnlyPaths = [
     "/data/plexmedia/ca"
-    "/var/mediashare"
     "/torrent/sockets"
   ];
   boot.supportedFilesystems = [ "zfs" ];
