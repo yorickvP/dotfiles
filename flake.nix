@@ -165,7 +165,9 @@
             inherit (final.stdenv) system;
           };
           flake-inputs = inputs;
-          inherit (final.pkgs-unstable) govee2mqtt;
+          govee2mqtt = final.pkgs-unstable.govee2mqtt.overrideAttrs (old: {
+            patches = (old.patches or [ ]) ++ [ ./patches/govee2mqtt-bump-api-version.patch ];
+          });
           inherit (final.llm-agents) claude-code;
           gws = inputs.google-workspace-cli.packages.${final.stdenv.system}.default;
         })
