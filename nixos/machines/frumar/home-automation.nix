@@ -50,7 +50,6 @@
   networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 8081 ];
   services.home-assistant = {
     enable = true;
-    openFirewall = true;
     extraComponents = [
       "default_config"
       "androidtv"
