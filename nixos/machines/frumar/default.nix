@@ -304,7 +304,7 @@
     nginx.domain = "priv.yori.cc";
     extraConfig.whitelist-domain = [ "priv.yori.cc" ];
     provider = "oidc";
-    scope = "openai email profile groups";
+    scope = "openid email profile groups";
     oidcIssuerUrl = "https://pocket-id.yori.cc";
     extraConfig.code-challenge-method = "S256";
   };
