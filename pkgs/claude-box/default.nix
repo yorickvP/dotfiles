@@ -108,6 +108,11 @@ let
     ];
     pathsToLink = [ "/lib" ];
   };
+  entrypoint = writeShellScriptBin "claude-entrypoint" ''
+    mkdir -p /home/claude/.local/share/forgejo-cli
+    ln -sf /home/claude/.claude/forgejo-keys.json /home/claude/.local/share/forgejo-cli/keys.json
+    exec "$@"
+  '';
   rootfs = buildEnv {
     name = "claude-rootfs";
     paths = [
@@ -146,13 +151,16 @@ let
       less
       forgejo-cli
       gh
+      entrypoint
     ];
   };
   # todo: /var/empty?
 in
 writeShellScriptBin "claude-box" ''
   if [ $# -eq 0 ]; then
-    set -- /bin/claude
+    set -- /bin/claude-entrypoint /bin/claude
+  else
+    set -- /bin/claude-entrypoint "$@"
   fi
 
   MACHINE_NAME="claude-$(${proquint}/bin/proquint $(od -An -tu4 -N4 /dev/urandom | tr -d ' '))"
@@ -177,7 +185,6 @@ writeShellScriptBin "claude-box" ''
     --bind="$HOME/.claude/.credentials.json":/home/claude/.claude/.credentials.json \
     --bind="$SSH_AUTH_SOCK:/home/claude/.ssh/sock" \
     --bind-ro="$HOME/.ssh/known_hosts:/home/claude/.ssh/known_hosts" \
-    --bind="$HOME/.claudebox/forgejo-keys.json:/home/claude/.local/share/forgejo-cli/keys.json" \
     --user=claude \
     --as-pid2 \
     --background= \
