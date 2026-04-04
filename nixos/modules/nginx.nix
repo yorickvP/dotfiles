@@ -28,9 +28,16 @@
       443
     ];
     system.activationScripts.nginxdhparams = ''
+      bits=4096
+      regen=0
       if ! [[ -e /etc/nginx/dhparam.pem ]]; then
+        regen=1
+      elif ! ${pkgs.openssl}/bin/openssl dhparam -in /etc/nginx/dhparam.pem -text 2>/dev/null | head -1 | grep -q "$bits bit"; then
+        regen=1
+      fi
+      if [[ "$regen" -eq 1 ]]; then
         mkdir -p /etc/nginx/
-        ${pkgs.openssl}/bin/openssl dhparam -out /etc/nginx/dhparam.pem 4096
+        ${pkgs.openssl}/bin/openssl dhparam -out /etc/nginx/dhparam.pem "$bits"
         chown nginx:nginx /etc/nginx/dhparam.pem
       fi
     '';
