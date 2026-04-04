@@ -20,7 +20,7 @@
     {
       "matchManagers": ["pep723"],
       "postUpgradeTasks": {
-        "commands": ["uv lock --script {{{packageFile}}}"],
+        "commands": ["uv lock --script {{{packageFile}}} --exclude-newer=7d"],
         "fileFilters": ["bin/*.lock"]
       }
     }
