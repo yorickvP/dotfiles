@@ -12,5 +12,17 @@
   },
   "gomod": {
     "enabled": false
-  }
+  },
+  "pep723": {
+    "fileMatch": ["bin/.*\\.py$"]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["pep723"],
+      "postUpgradeTasks": {
+        "commands": ["uv lock --script {{{packageFile}}}"],
+        "fileFilters": ["bin/*.lock"]
+      }
+    }
+  ]
 }

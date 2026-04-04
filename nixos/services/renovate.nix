@@ -24,6 +24,7 @@
       gitAuthor = "Renovate <renovate@yori.cc>";
       autodiscover = true;
       binarySource = "global";
+      allowedPostUpgradeCommands = [ "^uv lock --script " ];
     };
   };
 }
