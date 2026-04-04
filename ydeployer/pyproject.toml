@@ -16,6 +16,9 @@ ydeployer = "ydeployer.cli:main"
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+[tool.uv]
+exclude-newer = "7d"
+
 [tool.ruff.lint]
 extend-select = ["ALL"]
 ignore = [
