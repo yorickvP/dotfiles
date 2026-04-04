@@ -54,6 +54,7 @@
     };
     muflax-blog = {
       url = "github:fmap/muflax65ngodyewp.onion";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-fast-build = {
       url = "github:Mic92/nix-fast-build";
