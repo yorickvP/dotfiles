@@ -305,7 +305,7 @@
       oidc-issuer-url = "https://pocket-id.yori.cc";
       login-url = "https://pocket-id.yori.cc/authorize";
       redeem-url = "https://pocket-id.yori.cc/api/oidc/token";
-      oidc-jwks-url = "https://pocket-id.yori.cc/api/oidc/jwks";
+      oidc-jwks-url = "https://pocket-id.yori.cc/.well-known/jwks.json";
       profile-url = "https://pocket-id.yori.cc/api/oidc/userinfo";
       skip-oidc-discovery = true;
     };
