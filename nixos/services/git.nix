@@ -2,12 +2,17 @@
   config,
   lib,
   modulesPath,
+  pkgs,
   ...
 }:
 
 let
   cfg = config.services.yorick.git;
   inherit (cfg) vhost;
+  inherit (config.services.forgejo) stateDir;
+  signingKeyDir = "${stateDir}/data";
+  signingKeyName = "ssh-signing-key";
+  signingKeyPub = ./forgejo-signing-key.pub;
 in
 {
   options.services.yorick.git = with lib; {
@@ -37,6 +42,8 @@ in
     services.forgejo = {
       enable = true;
       user = "git";
+      # TODO(26.05) check if this equals lts, if so, remove override
+      package = pkgs.forgejo;
       database.user = "root";
       database.name = "gogs";
       database.createDatabase = false;
@@ -63,8 +70,26 @@ in
           SMTP_PORT = 25;
           FROM = "forgejo@yori.cc";
         };
+        "repository.signing" = {
+          FORMAT = "ssh";
+          SIGNING_KEY = "${signingKeyDir}/${signingKeyName}.pub";
+          SIGNING_NAME = "Forgejo";
+          SIGNING_EMAIL = "forgejo@${cfg.vhost}";
+          INITIAL_COMMIT = "always";
+          CRUD_ACTIONS = "always";
+          WIKI = "always";
+          MERGES = "always";
+        };
       };
     };
+    age.secrets.forgejo-signing-key = {
+      file = ../../secrets/forgejo-signing-key.age;
+      owner = "git";
+    };
+    systemd.services.forgejo.preStart = lib.mkAfter ''
+      ln -sf ${signingKeyPub} ${signingKeyDir}/${signingKeyName}.pub
+      ln -sf ${config.age.secrets.forgejo-signing-key.path} ${signingKeyDir}/${signingKeyName}
+    '';
     services.nginx.virtualHosts.${vhost} = lib.mkMerge [
       cfg.nginx
       {
