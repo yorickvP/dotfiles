@@ -297,15 +297,18 @@
       allowed_emails = [ "yorickvanpelt@gmail.com" ];
     };
     nginx.domain = "priv.yori.cc";
-    extraConfig.whitelist-domain = [ "priv.yori.cc" ];
     provider = "oidc";
     scope = "openid email profile groups";
-    oidcIssuerUrl = "https://pocket-id.yori.cc";
-    extraConfig.code-challenge-method = "S256";
-  };
-  systemd.services.oauth2-proxy = {
-    wants = [ "network-online.target" ];
-    after = [ "network-online.target" ];
+    extraConfig = {
+      whitelist-domain = [ "priv.yori.cc" ];
+      code-challenge-method = "S256";
+      oidc-issuer-url = "https://pocket-id.yori.cc";
+      login-url = "https://pocket-id.yori.cc/authorize";
+      redeem-url = "https://pocket-id.yori.cc/api/oidc/token";
+      oidc-jwks-url = "https://pocket-id.yori.cc/api/oidc/jwks";
+      profile-url = "https://pocket-id.yori.cc/api/oidc/userinfo";
+      skip-oidc-discovery = true;
+    };
   };
   services.nats = {
     enable = true;
