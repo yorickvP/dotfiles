@@ -183,19 +183,17 @@
   };
   boot.zfs.requestEncryptionCredentials = [ "frumar-new/userdata" ];
   networking.firewall = {
-    # grafana, victoriametrics, victorialogs
     interfaces.wg-y.allowedTCPPorts = [
+      # grafana, victoriametrics, victorialogs
       3000
       8428
       9428
-    ];
-    # mqtt, nats
-    allowedTCPPorts = [
+      # mqtt
       1883
-      4222
     ];
-    # mqtt
-    allowedUDPPorts = [ 1883 ];
+    interfaces.wg-y.allowedUDPPorts = [ 1883 ];
+    interfaces.eno1.allowedTCPPorts = [ 1883 ];
+    interfaces.eno1.allowedUDPPorts = [ 1883 ];
   };
   services.grafana = {
     enable = true;
