@@ -72,17 +72,22 @@ let
     mkdir -p $out/lib64
     ln -s ${nix-ld}/libexec/nix-ld $out/lib64/ld-linux-x86-64.so.2
   '';
+  sshPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILu3Vx2WGdpNWXFzi3T8bPJDE2KGfoKXDFYmMJYKD8tY yorick@blackadder";
   gitConfig = writeTextDir "etc/gitconfig" (
     lib.generators.toGitINI {
+      commit.gpgsign = true;
       github.user = "yorickvP";
+      gpg.format = "ssh";
       init.defaultBranch = "main";
       pull.ff = "only";
       push.autoSetupRemote = true;
       push.default = "simple";
       rebase.autoSquash = true;
+      tag.gpgsign = true;
       user = {
         email = "yorick@yorickvanpelt.nl";
         name = "Yorick van Pelt";
+        signingkey = "key::${sshPubKey}";
       };
     }
   );
