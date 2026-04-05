@@ -39,6 +39,10 @@ in
       isSystemUser = true;
     };
     users.groups.git = { };
+    services.openssh.extraConfig = ''
+      Match User git
+        AuthorizedKeysFile %h/.ssh/authorized_keys /etc/ssh/authorized_keys.d/%u
+    '';
     services.forgejo = {
       enable = true;
       user = "git";

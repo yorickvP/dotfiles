@@ -31,6 +31,7 @@
 
   services.openssh = {
     enable = true;
+    authorizedKeysInHomedir = false;
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
     # todo: overridden from forgejo
