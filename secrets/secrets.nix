@@ -82,6 +82,7 @@ builtins.mapAttrs
     ];
     "hackerdeck.env.age" = [ pennyworth ];
     "renovate-token.age" = [ pennyworth ];
+    "forgejo-signing-key.age" = [ pennyworth ];
     "ci-puller-mqtt.env.age" = [
       blackadder
       pennyworth
