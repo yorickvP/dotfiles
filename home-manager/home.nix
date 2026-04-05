@@ -14,6 +14,7 @@ let
 in
 {
   imports = [
+    ./cert-agent.nix
     ./desktop.nix
     ./emacs.nix
     ./email.nix

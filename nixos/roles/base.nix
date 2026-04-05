@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   lib,
   ...
@@ -11,7 +10,7 @@
   time.timeZone = "Europe/Amsterdam";
   users.mutableUsers = false;
   users.users.root = {
-    openssh.authorizedKeys.keys = config.users.users.yorick.openssh.authorizedKeys.keys;
+    openssh.authorizedKeys.keys = with (import ../sshkeys.nix); yorick-root;
   };
   services.timesyncd.enable = true;
   users.users.yorick = {
