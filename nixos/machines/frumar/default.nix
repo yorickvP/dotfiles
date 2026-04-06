@@ -387,9 +387,12 @@
               allowed_connection_types = [ "MQTT" ];
               permissions.subscribe.allow = [
                 "yorick.git.>"
+                "yorick.ci-puller.status.>"
                 "$MQTT.sub.>"
               ];
-              permissions.publish.deny = [ ">" ];
+              permissions.publish.allow = [
+                "yorick.ci-puller.status.>"
+              ];
             }
           ];
         };
