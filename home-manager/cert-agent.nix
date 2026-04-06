@@ -12,7 +12,7 @@
     Service = {
       Environment = "SSH_AUTH_SOCK=%t/gnupg/S.gpg-agent.ssh";
       # ExecStart = "${pkgs.cert-agent}/bin/cert-agent %h/.ssh/certificates";
-      ExecStart = "${pkgs.cert-agent}/bin/cert-agent ${../../ssh-certificates}";
+      ExecStart = "${pkgs.cert-agent}/bin/cert-agent ${../ssh-certificates}";
     };
   };
   systemd.user.sockets.cert-agent = {
