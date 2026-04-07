@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+SECRETS_DIR="$REPO_DIR/secrets"
+HOST_KEYS_DIR="$REPO_DIR/host_keys"
+CA_KEY_GPG="$SECRETS_DIR/ca_host.gpg"
+KNOWN_HOSTS="$HOST_KEYS_DIR/known_hosts"
+
+WORKDIR=$(mktemp -d)
+trap 'rm -rf "$WORKDIR"' EXIT
+
+# Decrypt the CA key
+gpg --quiet --decrypt "$CA_KEY_GPG" > "$WORKDIR/ca_host"
+chmod 600 "$WORKDIR/ca_host"
+
+# Parse known_hosts: group hostnames by public key, derive short name from first entry
+declare -A KEY_PRINCIPALS  # base64 key -> comma-separated principals
+declare -A KEY_TYPE        # base64 key -> key type
+declare -A KEY_SHORTNAME   # base64 key -> short hostname (for filenames/identity)
+
+while IFS= read -r line; do
+    # Skip empty lines and comments
+    [[ -z "$line" || "$line" == \#* ]] && continue
+
+    hostnames_field=$(echo "$line" | awk '{print $1}')
+    keytype=$(echo "$line" | awk '{print $2}')
+    pubkey=$(echo "$line" | awk '{print $3}')
+
+    # Validate key type
+    if [[ "$keytype" != ssh-* && "$keytype" != ecdsa-* && "$keytype" != sk-* ]]; then
+        echo "WARNING: skipping malformed line: $line" >&2
+        continue
+    fi
+
+    # Extract principals (hostnames and IPs)
+    IFS=',' read -ra hosts <<< "$hostnames_field"
+    principals=$(IFS=,; echo "${hosts[*]}")
+
+    if [[ -n "${KEY_PRINCIPALS[$pubkey]+x}" ]]; then
+        KEY_PRINCIPALS[$pubkey]="${KEY_PRINCIPALS[$pubkey]},$principals"
+    else
+        KEY_PRINCIPALS[$pubkey]="$principals"
+        KEY_TYPE[$pubkey]="$keytype"
+        # Derive short name: first hostname, first component before '.'
+        KEY_SHORTNAME[$pubkey]=$(echo "${hosts[0]}" | cut -d. -f1)
+    fi
+done < "$KNOWN_HOSTS"
+
+# Determine new serial: check existing certs or start at 1
+OLD_SERIAL=0
+for pubkey in "${!KEY_SHORTNAME[@]}"; do
+    shortname="${KEY_SHORTNAME[$pubkey]}"
+    existing_cert="$HOST_KEYS_DIR/${shortname}-cert.pub"
+    if [ -f "$existing_cert" ]; then
+        s=$(ssh-keygen -L -f "$existing_cert" | grep -m1 'Serial:' | awk '{print $2}')
+        if [ "$s" -gt "$OLD_SERIAL" ]; then
+            OLD_SERIAL=$s
+        fi
+    fi
+done
+NEW_SERIAL=$((OLD_SERIAL + 1))
+echo "Old serial: $OLD_SERIAL, new serial: $NEW_SERIAL"
+echo ""
+
+# Sign each unique host key
+for pubkey in "${!KEY_SHORTNAME[@]}"; do
+    shortname="${KEY_SHORTNAME[$pubkey]}"
+    keytype="${KEY_TYPE[$pubkey]}"
+    principals="${KEY_PRINCIPALS[$pubkey]}"
+
+    echo "=== $shortname ==="
+    echo "  Principals: $principals"
+
+    # Write public key file
+    echo "$keytype $pubkey" > "$WORKDIR/${shortname}.pub"
+
+    # Show old cert if it exists
+    existing_cert="$HOST_KEYS_DIR/${shortname}-cert.pub"
+    if [ -f "$existing_cert" ]; then
+        OLD_FP=$(ssh-keygen -L -f "$existing_cert" | grep 'Public key:')
+        OLD_CA=$(ssh-keygen -L -f "$existing_cert" | grep 'Signing CA:')
+    fi
+
+    # Sign
+    ssh-keygen -s "$WORKDIR/ca_host" -I "$shortname" -n "$principals" -h -V +52w -z "$NEW_SERIAL" "$WORKDIR/${shortname}.pub"
+
+    new_cert="$WORKDIR/${shortname}-cert.pub"
+
+    # Verify fingerprints if we had an old cert
+    if [ -f "$existing_cert" ]; then
+        NEW_FP=$(ssh-keygen -L -f "$new_cert" | grep 'Public key:')
+        NEW_CA=$(ssh-keygen -L -f "$new_cert" | grep 'Signing CA:')
+
+        if [ "$OLD_FP" != "$NEW_FP" ]; then
+            echo "  WARNING: Public key fingerprint changed for $shortname!"
+            echo "    Old: $OLD_FP"
+            echo "    New: $NEW_FP"
+            exit 1
+        fi
+        echo "  OK: public key fingerprint matches"
+
+        if [ "$OLD_CA" != "$NEW_CA" ]; then
+            echo "  WARNING: Signing CA changed for $shortname!"
+            echo "    Old: $OLD_CA"
+            echo "    New: $NEW_CA"
+            exit 1
+        fi
+        echo "  OK: signing CA matches"
+    fi
+
+    # Install
+    cp "$new_cert" "$HOST_KEYS_DIR/${shortname}-cert.pub"
+    echo "  Written: host_keys/${shortname}-cert.pub"
+    echo ""
+done
+
+echo "Done. New certs at serial $NEW_SERIAL with +52w validity."

@@ -1,0 +1,14 @@
+pennyworth.yori.cc,git.yori.cc,pennyworth2.yori.cc,pub.yori.cc ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAgc/m2WkhnMRB1ohM5TmMGmdY3qja4iarqFBEPgZVTO
+frumar.home.yori.cc ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC3ljgcmFgfcZA2UP4Mah4lMVKTtXkDurwsj9gAzn8fA
+smithers.home.yori.cc ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWdp+DQk3P1JioWlwyEHE0Htri9tz5OMwJf9d8xnAgE
+jarvis.home.yori.cc ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKd8oRn7T+NnzDbTLaWyiUGIRZ21n42zdozkuUoHp8IX
+blackadder.home.yori.cc ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+7qAXkZdW706X2/+cqKOmvSHsRDueUfAVWcrFaL+64
+kirei.home.yori.cc ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPE2ctlrLLIR78hJ5/TQi6K6/+GckHAdjUwVfAnTuNIL
+
+pennyworth.vpn.yori.cc,10.209.0.1 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAgc/m2WkhnMRB1ohM5TmMGmdY3qja4iarqFBEPgZVTO
+jarvis.vpn.yori.cc,10.209.0.2 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKd8oRn7T+NnzDbTLaWyiUGIRZ21n42zdozkuUoHp8IX
+frumar.vpn.yori.cc,10.209.0.3 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC3ljgcmFgfcZA2UP4Mah4lMVKTtXkDurwsj9gAzn8fA
+blackadder.vpn.yori.cc,10.209.0.6,10.100.0.4 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+7qAXkZdW706X2/+cqKOmvSHsRDueUfAVWcrFaL+64
+smithers.vpn.yori.cc,10.209.0.8,10.100.0.6 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWdp+DQk3P1JioWlwyEHE0Htri9tz5OMwJf9d8xnAgE
+kirei.vpn.yori.cc,10.209.0.9 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPE2ctlrLLIR78hJ5/TQi6K6/+GckHAdjUwVfAnTuNIL
+butterscotch.vpn.yori.cc,10.209.0.10,10.100.0.7 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK6UwASNXJiKdPYBhhM7vM6SIhM4uj0waG7KinW2CGhY

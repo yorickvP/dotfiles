@@ -86,6 +86,20 @@ in
   security.acme.defaults.email = "acme@yori.cc";
   security.acme.acceptTerms = true;
 
+  services.openssh.extraConfig = lib.mkIf (builtins.pathExists ../../host_keys/${machine}-cert.pub) ''
+    HostCertificate ${../../host_keys/${machine}-cert.pub}
+  '';
+
+  programs.ssh.knownHosts."yorick-ca-host" = {
+    certAuthority = true;
+    publicKey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIBuVsdrB/TRj3KC7Kofh0REDNW6Xa9QO0AnjPejC1b6kAAAABHNzaDo= yorick-ca-host";
+    hostNames = [
+      "*.yori.cc"
+      "10.209.0.*"
+      "10.100.0.*"
+    ];
+  };
+
   services.prometheus.exporters = {
     node = {
       enable = true;
