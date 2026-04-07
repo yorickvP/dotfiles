@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+SECRETS_DIR="$REPO_DIR/secrets"
+CA_KEY_GPG="$SECRETS_DIR/ca_user.gpg"
+
+WORKDIR=$(mktemp -d)
+trap 'rm -rf "$WORKDIR"' EXIT
+
+# Decrypt the CA key
+gpg --quiet --decrypt "$CA_KEY_GPG" > "$WORKDIR/ca_user"
+chmod 600 "$WORKDIR/ca_user"
+
+# Write public keys
+cat > "$WORKDIR/gpg.pub" <<'EOF'
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDo1N5E6qkb3McJOvv0PqI7E8iYLAcjil5RWc+zeTtN/
+EOF
+
+cat > "$WORKDIR/yubikey1.pub" <<'EOF'
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDFQm2OJ8PlnDHfI7FV3hddXP0t2jgKAiCnnuWIc+LK4dnyGmlC/ihIe9KhSENZEnzVAXnYAMOoOvpkVa5p0Itf1n0anCK3k2vDq0Jz9nY3ZXmkSHE09QGCpSG8kU6j+zWJPo2jWYNtxYMRmmHAuzzOdlPY9Q199PEvHVaqzpSVhIdhqhEcmap8oqHW6KbJu+17nLGGQB5XiTB1SlTxbg62copA9KMcvQzNGIooKs5QyrU/B0g05EfbogH7xOLbwYAK676DTUBEcKpEUYFMMv+DBcU4cH2EI6UTLxI5ohrS1pxk20zu5nTRMlQRUETpWN4EbEPfOzF8FW1YOwdttfCas8D6Y6t9gA4o8GpylBG9AElVw7VyOFeBR+AtchormH+wH6nZEvzs6wg2d84I8xo5qYGUJIQS7OYxypjlY01IFCCa/7rjzXGDmdWAP/UEu85ys9FSryn9Ey5DXDQOqhMHguOwQDUyaArWyRCCBzKbx6cPZw2D9bLfDxbnaC2/5dVyxHJXoWmwneX2E/UT5QwtG1nyLShIZhYgO9lfDpO61Mz9Jjap3sj6mJPxHZc5SGye0j47xV6kX4vbSgfoSHHnasaI3fR2ZBS7tnfq1ebxXqFFSPHK6uHjLgDHtkMisvjOVZnybuXB296pjv6K1o2G3qlUnImOqfxZxvuy4Xl/mw== cardno:000607186578
+EOF
+
+cat > "$WORKDIR/yubikey2.pub" <<'EOF'
+sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIAeZ1CMUolsF8Yrg/QXFDshla+nURw22ejM86YaHptxKAAAABHNzaDo= yubikey5
+EOF
+
+# Determine the current serial from existing certs
+OLD_CERTS="$REPO_DIR/ssh-certificates"
+if [ -f "$OLD_CERTS" ]; then
+    OLD_SERIAL=$(ssh-keygen -L -f "$OLD_CERTS" | grep -m1 'Serial:' | awk '{print $2}')
+    echo "Current serial: $OLD_SERIAL"
+else
+    OLD_SERIAL=0
+    echo "No existing certificates found, starting from serial 0"
+fi
+NEW_SERIAL=$((OLD_SERIAL + 1))
+echo "New serial: $NEW_SERIAL"
+
+# Record old fingerprints for comparison
+if [ -f "$OLD_CERTS" ]; then
+    echo ""
+    echo "=== Old certificate details ==="
+    ssh-keygen -L -f "$OLD_CERTS"
+fi
+
+# Sign the keys
+ssh-keygen -s "$WORKDIR/ca_user" -I "yorick@gpg" -n yorick -V +12w -z "$NEW_SERIAL" "$WORKDIR/gpg.pub"
+ssh-keygen -s "$WORKDIR/ca_user" -I "yorick@yubikey1" -n yorick,root -V +12w -z "$NEW_SERIAL" "$WORKDIR/yubikey1.pub"
+ssh-keygen -s "$WORKDIR/ca_user" -I "yorick@yubikey2" -n yorick,root -V +12w -z "$NEW_SERIAL" "$WORKDIR/yubikey2.pub"
+
+# Combine into ssh-certificates
+cat "$WORKDIR"/gpg-cert.pub "$WORKDIR"/yubikey1-cert.pub "$WORKDIR"/yubikey2-cert.pub > "$WORKDIR/ssh-certificates"
+
+# Show new certificate details for verification
+echo ""
+echo "=== New certificate details ==="
+ssh-keygen -L -f "$WORKDIR/ssh-certificates"
+
+# Verify signing CA fingerprint matches between old and new
+if [ -f "$OLD_CERTS" ]; then
+    OLD_CA=$(ssh-keygen -L -f "$OLD_CERTS" | grep -m1 'Signing CA:')
+    NEW_CA=$(ssh-keygen -L -f "$WORKDIR/ssh-certificates" | grep -m1 'Signing CA:')
+    echo ""
+    if [ "$OLD_CA" = "$NEW_CA" ]; then
+        echo "OK: Signing CA fingerprint matches"
+    else
+        echo "WARNING: Signing CA fingerprint CHANGED!"
+        echo "  Old: $OLD_CA"
+        echo "  New: $NEW_CA"
+        exit 1
+    fi
+
+    # Verify public key fingerprints match (same keys, just re-signed)
+    echo ""
+    echo "=== Fingerprint comparison (should match between old and new) ==="
+    OLD_FPS=$(ssh-keygen -L -f "$OLD_CERTS" | grep 'Public key:' | sort)
+    NEW_FPS=$(ssh-keygen -L -f "$WORKDIR/ssh-certificates" | grep 'Public key:' | sort)
+    if [ "$OLD_FPS" = "$NEW_FPS" ]; then
+        echo "OK: All public key fingerprints match"
+    else
+        echo "WARNING: Public key fingerprints differ!"
+        echo "Old:"
+        echo "$OLD_FPS"
+        echo "New:"
+        echo "$NEW_FPS"
+        exit 1
+    fi
+fi
+
+# Install
+cp "$WORKDIR/ssh-certificates" "$REPO_DIR/ssh-certificates"
+echo ""
+echo "Updated $REPO_DIR/ssh-certificates (serial $NEW_SERIAL)"
