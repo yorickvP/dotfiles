@@ -42,6 +42,7 @@ in
     services.openssh.extraConfig = ''
       Match User git
         AuthorizedKeysFile %h/.ssh/authorized_keys /etc/ssh/authorized_keys.d/%u
+      Match all
     '';
     services.forgejo = {
       enable = true;
