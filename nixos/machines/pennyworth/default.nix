@@ -140,6 +140,11 @@ in
     enable = true;
     configFile = config.age.secrets.yobot.path;
   };
+  services.wpex = {
+    enable = true;
+    openFirewall = true;
+    allowedKeys = builtins.attrValues (import ../../vpn.nix).keys;
+  };
   services.play-nijmegen-calendar.enable = true;
   services.actual = {
     enable = true;

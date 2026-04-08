@@ -71,7 +71,7 @@ in
     peers = [
       {
         publicKey = vpn.keys.pennyworth;
-        endpoint = "pennyworth.yori.cc:31790";
+        endpoint = "pennyworth.yori.cc:40000";
         allowedIPs = [ "10.209.0.0/24" ];
         persistentKeepalive = 30;
       }
