@@ -19,26 +19,17 @@
   networking.hostId = "c7736638";
 
   networking.useDHCP = false;
-  networking.interfaces.enp10s0.useDHCP = true;
+  networking.interfaces.enp9s0.useDHCP = true;
   # systemd.network.links."98-namepolicy" = {
   #   matchConfig.OriginalName = "*";
   #   linkConfig.NamePolicy = "mac kernel database onboard slot path";
   # };
   environment.systemPackages = [
     pkgs.openrgb
-    pkgs.egl-wayland
   ];
   services.xserver.videoDrivers = [
     "modesetting"
-    "nvidia"
   ];
-  hardware.nvidia.open = false; # TODO(2511): see if prime works
-  hardware.nvidia.powerManagement.finegrained = true;
-  hardware.nvidia.prime.offload.enable = true;
-  hardware.nvidia.prime = {
-    nvidiaBusId = "PCI:5:0:0";
-    amdgpuBusId = "PCI:15:0:0";
-  };
   hardware.cpu.amd = {
     ryzen-smu.enable = true;
     updateMicrocode = true;

@@ -56,7 +56,6 @@ in
     storageDriver = "overlay2";
   };
   virtualisation.oci-containers.backend = "docker";
-  hardware.nvidia-container-toolkit.enable = true;
   users.users.yorick.extraGroups = [ "docker" ];
 
   nix.optimise.automatic = true;
