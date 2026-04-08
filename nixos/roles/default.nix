@@ -68,14 +68,12 @@ in
     privateKeyFile = config.age.secrets.wg.path;
     ips = [ vpn.ips.${machine} ];
     listenPort = 31790;
-    peers = [
-      {
-        publicKey = vpn.keys.pennyworth;
-        endpoint = "pennyworth.yori.cc:40000";
-        allowedIPs = [ "10.209.0.0/24" ];
-        persistentKeepalive = 30;
-      }
-    ];
+    peers = lib.mapAttrsToList (peer: publicKey: {
+      inherit publicKey;
+      endpoint = "pennyworth.yori.cc:40000";
+      allowedIPs = [ "${vpn.ips.${peer}}/32" ];
+      persistentKeepalive = 30;
+    }) (lib.filterAttrs (peer: _: peer != machine) vpn.keys);
     postSetup = "ip link set dev wg-y mtu 1371";
   };
   services.wg-restarter = {

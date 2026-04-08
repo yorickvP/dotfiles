@@ -15,23 +15,7 @@ in
 
     services.prometheus.exporters.wireguard.enable = true;
 
-    networking = {
-      firewall = {
-        allowedUDPPorts = [ 31790 ]; # wg
-        interfaces.wg-y.allowedTCPPorts = [ 9586 ]; # wireguard exporter
-      };
-      wireguard.interfaces.wg-y.peers =
-        let
-          vpn = import ../vpn.nix;
-        in
-        lib.mkForce (
-          lib.mapAttrsToList (machine: publicKey: {
-            inherit publicKey;
-            allowedIPs = [ "${vpn.ips.${machine}}/32" ];
-          }) vpn.keys
-        );
-    };
-    boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+    networking.firewall.interfaces.wg-y.allowedTCPPorts = [ 9586 ]; # wireguard exporter
 
     services.wg-restarter.enable = lib.mkForce false;
   };
