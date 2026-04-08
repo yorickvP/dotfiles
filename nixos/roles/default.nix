@@ -25,6 +25,7 @@ in
     ../modules/selfsigned.nix
     ../modules/vlagent.nix
     ../modules/wg-restarter.nix
+    ../modules/wpex.nix
     ../services
   ];
   age.secrets = {
