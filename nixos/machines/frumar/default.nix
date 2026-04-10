@@ -54,6 +54,7 @@
         lib.mkMerge [
           {
             onlySSL = true;
+            quic = true;
             useACMEHost = "wildcard.yori.cc";
             locations."/" = {
               inherit proxyPass;

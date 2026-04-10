@@ -15,12 +15,26 @@
       serverTokens = false;
       sslDhparam = "/etc/nginx/dhparam.pem";
       virtualHosts."${config.networking.hostName}.yori.cc" = {
+        quic = true;
         enableACME = true;
         forceSSL = true;
         default = true;
       };
       commonHttpConfig = ''
         proxy_set_header X-Middleware-Subrequest "";
+        map $scheme $hsts_header {
+            https   "max-age=604800; includeSubdomains";
+        }
+        add_header Strict-Transport-Security $hsts_header;
+        # Enable CSP for your services.
+        #add_header Content-Security-Policy "script-src 'self'; object-src 'none'; base-uri 'none';" always;
+        add_header 'Referrer-Policy' 'origin-when-cross-origin';
+        add_header X-Frame-Options DENY;
+
+        # Prevent injection of code in other mime types (XSS Attacks)
+        add_header X-Content-Type-Options nosniff;
+
+        proxy_cookie_path / "/; secure; HttpOnly; SameSite=lax";
       '';
     };
     networking.firewall.allowedTCPPorts = [

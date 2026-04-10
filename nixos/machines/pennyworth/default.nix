@@ -6,6 +6,7 @@ let
     x:
     {
       forceSSL = true;
+      quic = true;
       useACMEHost = "wildcard.yori.cc";
     }
     // x;
@@ -49,6 +50,7 @@ in
       nginx = {
         enableACME = true;
         forceSSL = true;
+        quic = true;
       };
     };
     git = {
