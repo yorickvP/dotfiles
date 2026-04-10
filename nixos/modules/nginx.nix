@@ -13,6 +13,8 @@
       recommendedProxySettings = true;
       recommendedOptimisation = true;
       serverTokens = false;
+      # TODO(26.05 / nginx 1.29.3): switch to `add_header_inherit merge` if gixy supports it
+      additionalModules = [ pkgs.nginxModules.moreheaders ];
       sslDhparam = "/etc/nginx/dhparam.pem";
       virtualHosts."${config.networking.hostName}.yori.cc" = {
         quic = true;
@@ -25,14 +27,14 @@
         map $scheme $hsts_header {
             https   "max-age=604800; includeSubdomains";
         }
-        add_header Strict-Transport-Security $hsts_header;
+        more_set_headers "Strict-Transport-Security: $hsts_header";
         # Enable CSP for your services.
-        #add_header Content-Security-Policy "script-src 'self'; object-src 'none'; base-uri 'none';" always;
-        add_header 'Referrer-Policy' 'origin-when-cross-origin';
-        add_header X-Frame-Options DENY;
+        #more_set_headers "Content-Security-Policy: \"script-src 'self'; object-src 'none'; base-uri 'none';\" always";
+        more_set_headers "Referrer-Policy: 'origin-when-cross-origin'";
+        more_set_headers "X-Frame-Options: DENY";
 
         # Prevent injection of code in other mime types (XSS Attacks)
-        add_header X-Content-Type-Options nosniff;
+        more_set_headers "X-Content-Type-Options: nosniff";
 
         proxy_cookie_path / "/; secure; HttpOnly; SameSite=lax";
       '';
