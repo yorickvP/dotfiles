@@ -372,6 +372,7 @@ in
     natscli
 
     yscripts.uv-landrun
+    beads
     claude-box
   ];
 

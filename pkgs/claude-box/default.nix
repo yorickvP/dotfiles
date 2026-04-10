@@ -49,6 +49,7 @@
   proquint,
   forgejo-cli,
   gh,
+  beads,
 }:
 let
   uid = "1000";
@@ -158,6 +159,7 @@ let
       less
       forgejo-cli
       gh
+      beads
       entrypoint
     ];
   };
