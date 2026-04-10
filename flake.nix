@@ -56,6 +56,10 @@
       url = "github:fmap/muflax65ngodyewp.onion";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mcp-nixos = {
+      url = "github:utensils/mcp-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-fast-build = {
       url = "github:Mic92/nix-fast-build";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -167,6 +171,7 @@
           flake-inputs = inputs;
           inherit (final.pkgs-unstable) govee2mqtt;
           inherit (final.llm-agents) claude-code;
+          mcp-nixos = inputs.mcp-nixos.packages.${final.stdenv.system}.default;
           gws = inputs.google-workspace-cli.packages.${final.stdenv.system}.default;
         })
         (import ./fixups.nix)

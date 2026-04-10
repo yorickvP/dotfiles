@@ -32,6 +32,7 @@
   libxcrypt-legacy,
   systemd,
   uv,
+  mcp-nixos,
   runCommand,
   zstd,
   stdenv,
@@ -151,6 +152,7 @@ let
       which
       xxd
       uv
+      mcp-nixos
       ghostty.terminfo
       openssh
       less
