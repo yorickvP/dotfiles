@@ -50,6 +50,10 @@
   forgejo-cli,
   gh,
   beads,
+  python3,
+  ps,
+  nodejs,
+  nix-index-with-db,
 }:
 let
   uid = "1000";
@@ -160,6 +164,10 @@ let
       forgejo-cli
       gh
       beads
+      python3
+      ps
+      nodejs
+      nix-index-with-db
       entrypoint
     ];
   };
@@ -189,6 +197,7 @@ writeShellScriptBin "claude-box" ''
     --bind="$PWD" \
     --chdir="$PWD" \
     --tmpfs=/home/claude:uid=${uid},gid=${gid},mode=0755 \
+    --bind=/dev/kvm \
     --bind="$HOME/.claude.json":/home/claude/.claude.json \
     --bind="$HOME/.claudebox":/home/claude/.claude \
     --bind="$HOME/.claude/.credentials.json":/home/claude/.claude/.credentials.json \

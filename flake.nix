@@ -171,6 +171,7 @@
           flake-inputs = inputs;
           inherit (final.pkgs-unstable) govee2mqtt;
           inherit (final.llm-agents) claude-code;
+          inherit (inputs.nix-index-database.packages.${final.stdenv.system}) nix-index-with-db;
           mcp-nixos = inputs.mcp-nixos.packages.${final.stdenv.system}.default;
           gws = inputs.google-workspace-cli.packages.${final.stdenv.system}.default;
         })
