@@ -106,7 +106,7 @@ let
           };
           system.stateVersion = "25.11";
 
-          security.sudo = {
+          security.sudo-rs = {
             enable = true;
             wheelNeedsPassword = false;
           };

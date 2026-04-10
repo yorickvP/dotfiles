@@ -21,6 +21,10 @@
     openssh.authorizedKeys.keys = with (import ../sshkeys.nix); yorick;
     createHome = true;
   };
+  security.sudo-rs = {
+    enable = true;
+    execWheelOnly = true;
+  };
 
   # Nix
   nix.extraOptions = ''
