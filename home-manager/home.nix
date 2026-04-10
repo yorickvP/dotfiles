@@ -134,7 +134,7 @@ in
         nl = "nix log";
         g = "git";
         bc = "bluetoothctl connect ${headphones}";
-        bd = "bluetoothctl disconnect ${headphones}";
+        bcd = "bluetoothctl disconnect ${headphones}";
         bw-personal = "BITWARDENCLI_APPDATA_DIR=~/.config/Bitwarden\\ CLI\\ Personal bw";
         bw-work = "BITWARDENCLI_APPDATA_DIR=~/.config/Bitwarden\\ CLI\\ Work bw";
       };
