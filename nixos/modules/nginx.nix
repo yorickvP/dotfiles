@@ -27,6 +27,9 @@
       80
       443
     ];
+    networking.firewall.allowedUDPPorts = [
+      443 # QUIC
+    ];
     system.activationScripts.nginxdhparams = ''
       bits=4096
       regen=0
