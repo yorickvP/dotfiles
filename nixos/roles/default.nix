@@ -7,7 +7,6 @@
   ...
 }:
 let
-  machine = name;
   vpn = import ../vpn.nix;
 in
 {
@@ -32,19 +31,16 @@ in
     root-user-pass.file = ../../secrets/root-user-pass.age;
     yorick-user-pass.file = ../../secrets/yorick-user-pass.age;
     nix-netrc-yorick.file = ../../secrets/nix-netrc-yorick.age;
+    wg.file = ../../secrets/wg.${name}.age;
   };
 
-  networking.hostName = machine;
-  users.users.root = {
+  networking.hostName = name;
+
+  users.users = {
     # root password is useful from console, ssh has password logins disabled
-    hashedPasswordFile = config.age.secrets.root-user-pass.path; # TODO: generate own
+    root.hashedPasswordFile = config.age.secrets.root-user-pass.path; # TODO: generate own
+    yorick.hashedPasswordFile = config.age.secrets.yorick-user-pass.path;
   };
-  users.users.yorick = {
-    hashedPasswordFile = config.age.secrets.yorick-user-pass.path;
-  };
-
-  # Networking
-  networking.enableIPv6 = true;
 
   environment.systemPackages =
     with pkgs;
@@ -57,23 +53,19 @@ in
       nvme-cli
     ]
     ++ lib.optional (builtins.elem "kvm-amd" config.boot.kernelModules) pkgs.amdgpu_top;
+
   nix.gc.automatic = true;
 
-  services.avahi = {
-    ipv6 = true;
-    hostName = machine;
-  };
-  age.secrets.wg.file = ../../secrets/wg.${machine}.age;
   networking.wireguard.interfaces.wg-y = {
     privateKeyFile = config.age.secrets.wg.path;
-    ips = [ vpn.ips.${machine} ];
+    ips = [ vpn.ips.${name} ];
     listenPort = 31790;
     peers = lib.mapAttrsToList (peer: publicKey: {
       inherit publicKey;
       endpoint = "pennyworth.yori.cc:40000";
       allowedIPs = [ "${vpn.ips.${peer}}/32" ];
       persistentKeepalive = 30;
-    }) (lib.filterAttrs (peer: _: peer != machine) vpn.keys);
+    }) (lib.filterAttrs (peer: _: peer != name) vpn.keys);
     postSetup = "ip link set dev wg-y mtu 1371";
   };
   services.wg-restarter = {
@@ -82,11 +74,13 @@ in
     service = "wireguard-wg-y";
   };
 
-  security.acme.defaults.email = "acme@yori.cc";
-  security.acme.acceptTerms = true;
+  security.acme = {
+    defaults.email = "acme@yori.cc";
+    acceptTerms = true;
+  };
 
-  services.openssh.extraConfig = lib.mkIf (builtins.pathExists ../../host_keys/${machine}-cert.pub) ''
-    HostCertificate ${../../host_keys/${machine}-cert.pub}
+  services.openssh.extraConfig = lib.mkIf (builtins.pathExists ../../host_keys/${name}-cert.pub) ''
+    HostCertificate ${../../host_keys/${name}-cert.pub}
   '';
 
   programs.ssh.knownHosts."yorick-ca-host" = {
@@ -134,11 +128,12 @@ in
     ];
   };
 
-  fonts.fontconfig.subpixel.rgba = "rgb";
-  services.journald.upload.enable = true;
-  services.journald.upload.settings.Upload = {
-    URL = "http://localhost:9429/insert/journald";
-    NetworkTimeoutSec = "5min";
+  services.journald.upload = {
+    enable = true;
+    settings.Upload = {
+      URL = "http://localhost:9429/insert/journald";
+      NetworkTimeoutSec = "5min";
+    };
   };
   services.vlagent = {
     enable = true;
@@ -205,7 +200,6 @@ in
       sendRaw = true;
     };
   };
-  hardware.enableRedistributableFirmware = true;
 
   services.zfs = {
     autoScrub = {

@@ -95,4 +95,6 @@
 
   # enabled by fish, slow
   documentation.man.generateCaches = false;
+
+  hardware.enableRedistributableFirmware = true;
 }

@@ -3,7 +3,6 @@ let
 in
 {
   pkgs,
-  lib,
   ...
 }:
 {
@@ -65,7 +64,8 @@ in
     ip = "10.100.0.4";
   };
   services.postgresql = {
-    enable = lib.mkForce true;
+    enable = true;
+    enableTCPIP = true;
     package = pkgs.postgresql_16;
     extensions = ps: [ ps.pgvector ];
     ensureDatabases = [ "hackerdeck" ];

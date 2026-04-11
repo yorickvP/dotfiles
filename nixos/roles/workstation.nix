@@ -18,10 +18,7 @@
   };
   services.printing = {
     enable = true;
-    drivers = with pkgs; [
-      gutenprint
-      cups-dymo
-    ];
+    drivers = [ pkgs.gutenprint ];
   };
   environment.systemPackages = with pkgs; [
     ghostscript
@@ -43,20 +40,6 @@
     ACTION=="add", SUBSYSTEM=="backlight", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/%k/brightness"
     ACTION=="add", SUBSYSTEM=="backlight", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/%k/brightness"
   '';
-
-  # picoscope
-  services.udev.packages = [
-    (pkgs.writeTextDir "lib/udev/rules.d/95-pico.rules" ''
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="0ce9", TAG+="uaccess"
-    '')
-  ];
-
-  # development
-  services.postgresql = {
-    enable = false;
-    enableTCPIP = true;
-    # package = pkgs.postgresql_15;
-  };
 
   # git
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 1024000000;
@@ -146,13 +129,6 @@
 
   i18n.extraLocaleSettings.LC_TIME = "nl_NL.UTF-8";
 
-  # add service but don't enable by default
-  services.tailscale.enable = true;
-  # https://github.com/tailscale/tailscale/issues/10430
-  systemd.services.tailscaled = {
-    wantedBy = lib.mkForce [ ];
-    serviceConfig.Environment = [ "TS_DEBUG_DISABLE_PORTLIST=true" ];
-  };
   programs.criu.enable = true;
   hardware.logitech.wireless = {
     enable = true;
@@ -174,6 +150,8 @@
     ];
   };
   services.envfs.enable = true;
+
+  fonts.fontconfig.subpixel.rgba = "rgb";
   # screen control
   hardware.i2c.enable = true;
   hardware.bluetooth.enable = true;
