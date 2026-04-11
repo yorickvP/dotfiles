@@ -164,7 +164,6 @@
       };
     };
   systemd.services.nginx.serviceConfig.BindReadOnlyPaths = [
-    "/data/plexmedia/ca"
     "/torrent/sockets"
   ];
   boot.supportedFilesystems = [ "zfs" ];
