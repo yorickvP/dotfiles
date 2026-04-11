@@ -25,23 +25,10 @@
 
   age.secrets.msmtp-mail-pass.file = ../../../secrets/kirei-mail-pass.age;
 
-  services.zfs.autoScrub = {
-    enable = true;
-    interval = "*-*-01 02:00:00"; # monthly + 2 hours
-  };
   programs.msmtp.enable = true;
   services.smartd = {
     enable = true;
-    notifications.mail.enable = true;
     defaults.autodetected = "-n standby"; # don't spin up drives
-  };
-  services.zfs.zed = {
-    enableMail = true;
-    settings = {
-      ZED_NOTIFY_INTERVAL_SECS = 3600;
-      ZED_NOTIFY_VERBOSE = true;
-      ZED_SCRUB_AFTER_RESILVER = true;
-    };
   };
   boot.zfs.extraPools = [ "zpool" ];
   boot.zfs.requestEncryptionCredentials = false;

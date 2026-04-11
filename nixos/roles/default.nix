@@ -198,9 +198,6 @@ in
     sender = "${name}@yori.cc";
     recipient = "yorickvanpelt@gmail.com";
   };
-  services.zfs.zed.settings = {
-    ZED_EMAIL_ADDR = [ "yorickvanpelt@gmail.com" ];
-  };
   services.znapzend = {
     pure = true;
     features = {
@@ -211,8 +208,17 @@ in
   hardware.enableRedistributableFirmware = true;
 
   services.zfs = {
-    autoScrub.enable = true;
+    autoScrub = {
+      enable = true;
+      interval = "*-*-01 02:00:00"; # monthly + 2 hours
+    };
     trim.enable = true;
+    zed.settings = {
+      ZED_EMAIL_ADDR = [ "yorickvanpelt@gmail.com" ];
+      ZED_NOTIFY_INTERVAL_SECS = 3600;
+      ZED_NOTIFY_VERBOSE = true;
+      ZED_SCRUB_AFTER_RESILVER = true;
+    };
   };
   services.nix-ci-puller = {
     enable = true;

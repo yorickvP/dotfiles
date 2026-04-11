@@ -1,0 +1,63 @@
+[SYS]
+
+[[SYS.users]]
+user = "admin"
+password = "$2y$10$TWoKGC7/VKQRnIK163akm.0JRdhSA00lMMVn8fa1tPyKBgbED0BL2"
+
+[default]
+jetstream = "enabled"
+
+[[default.users]]
+user = "yorick"
+password = "$2y$10$EtQh8YX0I91X774PhDxhKOSGSc0IAAvGwZErVKV3z.IfeHTcT1.yy"
+
+[[default.users]]
+user = "iot"
+password = "$2y$10$.JF/0CQ1PYCFPITsSXGj..k5v60rZvDc.LWCIDhZpoc93NyyIa5wS"
+allowed_connection_types = ["MQTT"]
+
+[[default.users]]
+user = "zigbee2mqtt"
+allowed_connection_types = ["MQTT"]
+password = "$2a$11$CC5NVYiTUeoa4A4w94NFMORO/0jhMR60JWgPUgjct8c2vg29wwIGG"
+
+[default.users.permissions.publish]
+allow = ["homeassistant.>", "zigbee2mqtt.>"]
+[default.users.permissions.subscribe]
+allow = [">", "$MQTT.sub.>"]
+
+[[default.users]]
+user = "marvin-tracker"
+password = "$2a$11$V9G2gT52obCsDOBwibHfMudnibwP/s3NwUjwvtsnlHfkn5kJHOOEe"
+allowed_connection_types = ["MQTT"]
+[default.users.permissions.publish]
+allow = ["yorick.marvin.tracking"]
+[default.users.permissions.subscribe]
+allow = ["yorick.marvin.tracking", "$MQTT.sub.>"]
+
+[[default.users]]
+user = "govee2mqtt"
+password = "$2y$10$7EOQkxOjWdHV.hCb.a92JOAU30Qgok0faew/1xU3SJhaXVuKbZ1bm"
+allowed_connection_types = ["MQTT"]
+[default.users.permissions.publish]
+allow = ["homeassistant.>", "gv2mqtt.>"]
+[default.users.permissions.subscribe]
+allow = ["homeassistant.>", "gv2mqtt.>", "$MQTT.sub.>"]
+
+[[default.users]]
+user = "ci"
+password = "$2y$10$BXT8HfMegVz33NMc7WeuOeXXOk6YGyG0IucnWl6gh5RCRTjL4a4xK"
+allowed_connection_types = ["MQTT"]
+[default.users.permissions.publish]
+allow = ["yorick.git.>"]
+[default.users.permissions.subscribe]
+deny = [">"]
+
+[[default.users]]
+user = "ci-puller"
+password = "$2y$10$PufvT5B./pOZo3IhsQmadeZSP/xmIXDY5oB7RHzX7I2i20dxGFQOW"
+allowed_connection_types = ["MQTT"]
+[default.users.permissions.publish]
+allow = ["yorick.ci-puller.status.>"]
+[default.users.permissions.subscribe]
+allow = ["yorick.git.>", "yorick.ci-puller.status.>", "$MQTT.sub.>"]
