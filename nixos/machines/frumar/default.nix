@@ -21,6 +21,8 @@
     preHook = ''
       /run/current-system/sw/bin/zfs destroy ssdpool/root/var@borgbackup || true
       /run/current-system/sw/bin/zfs snapshot ssdpool/root/var@borgbackup
+      sleep 5s
+      ls /var/.zfs/snapshot/borgbackup > /dev/null
     '';
     postCreate = ''
       /run/current-system/sw/bin/zfs destroy ssdpool/root/var@borgbackup
