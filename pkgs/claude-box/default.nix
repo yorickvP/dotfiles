@@ -54,6 +54,8 @@
   ps,
   nodejs,
   nix-index-with-db,
+  # todo: https://github.com/NixOS/nixpkgs/issues/510036
+  getent,
 }:
 let
   uid = "1000";
@@ -186,6 +188,7 @@ writeShellScriptBin "claude-box" ''
   eval "$(${openssh}/bin/ssh-agent)"
   trap '${openssh}/bin/ssh-agent -k' EXIT
   ${openssh}/bin/ssh-add "$HOME/.ssh/id_ed25519_claude"
+  PATH=$PATH:${lib.getBin getent}/bin
 
   sudo ${systemd}/bin/systemd-nspawn \
     -D ${rootfs} \
