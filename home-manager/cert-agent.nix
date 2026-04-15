@@ -24,6 +24,8 @@
     Install.WantedBy = [ "sockets.target" ];
   };
   home.sessionVariablesExtra = lib.mkAfter ''
-    export SSH_AUTH_SOCK="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/ssh-agent"
+    if [ -z "$SSH_CONNECTION" ] || [ -z "$SSH_AUTH_SOCK" ]; then
+      export SSH_AUTH_SOCK="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/ssh-agent"
+    fi
   '';
 }
