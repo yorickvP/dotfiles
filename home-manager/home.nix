@@ -328,7 +328,7 @@ in
     discord
     wayland-push-to-talk-fix
     fanficfare
-    feh
+    imv
     gimp
     gopass
     hledger
