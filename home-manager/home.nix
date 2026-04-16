@@ -220,8 +220,10 @@ in
     appimage-run
     ripgrep
     zip
+    age
 
     ## misc
+    b3sum
     moreutils
     atop
     awscli2
@@ -241,6 +243,7 @@ in
     jless
     jq
     yq
+    yj
     lnav
     magic-wormhole
     man-pages
