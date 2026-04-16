@@ -36,7 +36,7 @@
         # Prevent injection of code in other mime types (XSS Attacks)
         more_set_headers "X-Content-Type-Options: nosniff";
 
-        proxy_cookie_path / "/; secure; HttpOnly; SameSite=lax";
+        proxy_cookie_flags ~ secure samesite=lax;
       '';
     };
     networking.firewall.allowedTCPPorts = [

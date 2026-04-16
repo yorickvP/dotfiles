@@ -108,8 +108,14 @@ in
             extraConfig = "auth_request off;";
             # handles auth using arg
           };
-          locations."/paperless/" =
-            proxyOauth2 "http://127.0.0.1:${toString config.services.paperless.port}/";
+          locations."/paperless/" = lib.mkMerge [
+            (proxyOauth2 "http://127.0.0.1:${toString config.services.paperless.port}/")
+            {
+              extraConfig = ''
+                more_set_headers "X-Frame-Options: SAMEORIGIN";
+              '';
+            }
+          ];
           locations."/transmission/" = proxyOauth2 "http://unix:/torrent/sockets/transmission.sock";
           locations."/transmission/rpc" = lib.mkMerge [
             (proxyOauth2 "http://unix:/torrent/sockets/transmission.sock")
