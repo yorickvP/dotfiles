@@ -62,9 +62,6 @@
     #   }
     # ];
   };
-  age.secrets."wg.dk.archbox.conf" = {
-    file = ../../../secrets/wg.dk.archbox.conf.age;
-  };
   # allow gpg agent forwarding
   services.openssh.settings.StreamLocalBindUnlink = true;
   virtualisation.waydroid.enable = true;
