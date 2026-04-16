@@ -10,11 +10,11 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan git.yori.cc >> ~/.ssh/known_hosts
       - uses: actions/checkout@v4
-      - uses: actions/cache@v5
-        with:
-          path: |
-            /tmp/.cache/nix
-          key: ${{ runner.os }}-nix-cache
+      # - uses: actions/cache@v5
+      #   with:
+      #     path: |
+      #       /tmp/.cache/nix
+      #     key: ${{ runner.os }}-nix-cache
       - run: nix develop .#ci --command sh -c 'echo "PATH=$PATH" >> "$GITHUB_ENV"'
       - run: attic login yorick https://cache.yori.cc "${{ secrets.ATTIC_TOKEN }}"
       - run: nix-fast-build --skip-cached --no-nom --flake ".#hydraJobs" --attic-cache yorick
