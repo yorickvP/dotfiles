@@ -10,8 +10,6 @@ let
   vpn = import ../vpn.nix;
 in
 {
-  # todo: fix maxDiskUsagePerUrl -> maxDiskUsagePerURL
-  disabledModules = [ "services/monitoring/vlagent.nix" ];
   imports = [
     ./base.nix
     inputs.agenix.nixosModules.default
@@ -22,7 +20,6 @@ in
     ../modules/play-nijmegen-calendar.nix
     ../modules/nix-ci-puller.nix
     ../modules/selfsigned.nix
-    ../modules/vlagent.nix
     ../modules/wg-restarter.nix
     ../modules/wpex.nix
     ../services
@@ -139,9 +136,11 @@ in
     enable = true;
     remoteWrite = {
       url = "http://frumar.vpn.yori.cc:9428/internal/insert";
-      maxDiskUsagePerUrl = "500MB";
+      # https://github.com/NixOS/nixpkgs/pull/510600
+      # maxDiskUsagePerUrl = "500MB";
     };
     extraArgs = [
+      "-remoteWrite.maxDiskUsagePerURL=500MB"
       "-remoteWrite.showURL"
       "-journald.streamFields=_HOSTNAME,_SYSTEMD_SLICE,_SYSTEMD_UNIT,SYSLOG_IDENTIFIER"
     ];
