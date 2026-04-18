@@ -139,9 +139,7 @@ in
   };
   networking.extraHosts = ''
     192.168.81.2 microvm
-    192.168.81.3 microvm-round
   '';
-  #systemd.services."microvm@".serviceConfig.StandardOutput = "null";
 
   microvm.vms.microvm = mkMicrovm {
     name = "microvm";
@@ -193,47 +191,6 @@ in
           uv
           yq
           zip
-        ];
-      };
-  };
-
-  microvm.vms.microvm-round = mkMicrovm {
-    name = "microvm-round";
-    tapId = "vm-a2";
-    mac = "02:00:00:00:00:02";
-    ip = "192.168.81.3";
-    varSize = 512;
-    guestConfig =
-      { pkgs, ... }:
-      {
-        services.postgresql = {
-          enable = true;
-          extensions = ps: [ ps.pgvector ];
-        };
-
-        services.redis.servers.default = {
-          enable = true;
-          bind = "0.0.0.0";
-        };
-
-        environment.systemPackages = with pkgs; [
-          fd
-          fzf
-          gcc
-          ghostty.terminfo
-          git
-          gnumake
-          htop
-          jq
-          nodejs
-          openssl
-          pkg-config
-          pnpm
-          python3
-          ripgrep
-          tmux
-          unzip
-          uv
         ];
       };
   };
