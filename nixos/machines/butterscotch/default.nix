@@ -27,6 +27,7 @@ in
   networking.hostId = "d05ee74c";
 
   system.stateVersion = "25.05";
+  # TODO(26.05): bump
   boot.kernelPackages = pkgs.linuxPackages_6_18;
   boot.zfs.package = pkgs.zfs_2_4;
 

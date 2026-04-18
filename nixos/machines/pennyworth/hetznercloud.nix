@@ -7,7 +7,7 @@
 {
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest; # todo: remove
   boot.initrd.availableKernelModules = [
     "ata_piix"
     "uhci_hcd"

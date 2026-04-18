@@ -9,7 +9,6 @@
     ./xps9360-hardware-config.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "i8k" ];
   boot.extraModprobeConfig = ''
     options i8k ignore_dmi=1
@@ -35,7 +34,6 @@
     "CPU_SCALING_GOVERNOR_ON_AC" = "performance";
     "CPU_SCALING_GOVERNOR_ON_BAT" = "powersave";
   };
-  services.libinput.enable = true;
 
   networking.wireless.iwd = {
     enable = true;
@@ -58,8 +56,4 @@
   hardware.bluetooth.enable = true;
 
   hardware.firmware = [ pkgs.wireless-regdb ];
-  # gotta go faster
-  networking.dhcpcd.extraConfig = ''
-    noarp
-  '';
 }
