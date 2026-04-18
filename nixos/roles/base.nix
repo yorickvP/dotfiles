@@ -3,42 +3,61 @@
   lib,
   ...
 }:
+let
+  sshkeys = import ../sshkeys.nix;
+in
 {
-  nix.package = pkgs.lixPackageSets.latest.lix;
+  networking = {
+    domain = "yori.cc";
+    useDHCP = false;
+  };
 
-  networking.domain = "yori.cc";
+  systemd.network.enable = true;
   time.timeZone = "Europe/Amsterdam";
-  users.mutableUsers = false;
-  users.users.root = {
-    openssh.authorizedKeys.keys = with (import ../sshkeys.nix); yorick-root;
+
+  users = {
+    mutableUsers = false;
+    users.root = {
+      openssh.authorizedKeys.keys = sshkeys.yorick-root;
+    };
+    users.yorick = {
+      isNormalUser = true;
+      uid = 1000;
+      extraGroups = [ "wheel" ];
+      group = "users";
+      openssh.authorizedKeys.keys = sshkeys.yorick;
+      createHome = true;
+    };
   };
-  services.timesyncd.enable = true;
-  users.users.yorick = {
-    isNormalUser = true;
-    uid = 1000;
-    extraGroups = [ "wheel" ];
-    group = "users";
-    openssh.authorizedKeys.keys = with (import ../sshkeys.nix); yorick;
-    createHome = true;
-  };
+
   security.sudo-rs = {
     enable = true;
     execWheelOnly = true;
   };
 
-  # Nix
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-    extra-deprecated-features = url-literals
-  '';
+  nix = {
+    package = pkgs.lixPackageSets.latest.lix;
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [ "@wheel" ];
+    };
+  };
 
-  services.openssh = {
-    enable = true;
-    authorizedKeysInHomedir = false;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    # todo: overridden from forgejo
-    settings.AcceptEnv = lib.mkForce "GIT_PROTOCOL COLORTERM TERM_PROGRAM TERM_PROGRAM_VERSION";
+  services = {
+    openssh = {
+      enable = true;
+      authorizedKeysInHomedir = false;
+      settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+        # todo: overridden from forgejo
+        AcceptEnv = lib.mkForce "GIT_PROTOCOL COLORTERM TERM_PROGRAM TERM_PROGRAM_VERSION";
+      };
+    };
+    timesyncd.enable = true;
   };
 
   environment.systemPackages =
@@ -91,13 +110,8 @@
       ])
     );
 
-  nix.settings.trusted-users = [ "@wheel" ];
-
   # enabled by fish, slow
   documentation.man.generateCaches = false;
 
   hardware.enableRedistributableFirmware = true;
-
-  networking.useDHCP = false;
-  systemd.network.enable = true;
 }
