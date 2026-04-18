@@ -52,14 +52,26 @@
     { device = "/dev/disk/by-uuid/f598336a-aafe-4162-aa72-61ece6b57b81"; }
   ];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp2s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp3s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp4s0.useDHCP = lib.mkDefault true;
+  systemd.network = {
+    netdevs."br0".netdevConfig = {
+      Name = "br0";
+      Kind = "bridge";
+    };
+
+    networks = {
+      "10-bridge-members" = {
+        name = "enp2s0 enp3s0";
+        bridge = [ "br0" ];
+        linkConfig.RequiredForOnline = "no";
+      };
+
+      "20-bridge" = {
+        name = "br0";
+        DHCP = "yes";
+        linkConfig.RequiredForOnline = "routable";
+      };
+    };
+  };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = true;

@@ -37,10 +37,24 @@
   };
   services.libinput.enable = true;
 
-  networking.wireless = {
-    enable = false;
-    iwd.enable = true;
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      General.EnableNetworkConfiguration = true;
+      Network.NameResolvingService = "resolvconf";
+      Network.RoutePriorityOffset = 2000;
+    };
   };
+  # DHCP on any USB ethernet
+  systemd.network.networks."80-usb-ethernet" = {
+    matchConfig = {
+      Property = "ID_BUS=usb";
+      Type = "ether";
+    };
+    DHCP = "yes";
+    linkConfig.RequiredForOnline = "no";
+  };
+
   hardware.bluetooth.enable = true;
 
   hardware.firmware = [ pkgs.wireless-regdb ];

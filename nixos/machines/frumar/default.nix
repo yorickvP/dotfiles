@@ -45,6 +45,11 @@
   users.groups.znapzend-blackadder = { };
   system.stateVersion = "15.09";
   networking.hostId = "0702dbe9";
+  systemd.network.networks."10-lan" = {
+    name = "eno1";
+    DHCP = "yes";
+    linkConfig.RequiredForOnline = "routable";
+  };
 
   services.postgresql.package = pkgs.postgresql_15;
 

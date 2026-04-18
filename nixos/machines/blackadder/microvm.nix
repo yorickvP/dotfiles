@@ -75,7 +75,6 @@ let
             }
           ];
           services.resolved.enable = true;
-          networking.useDHCP = false;
           networking.useNetworkd = true;
           networking.tempAddresses = "disabled";
           systemd.network.enable = true;
@@ -120,15 +119,18 @@ in
   imports = [
     inputs.microvm.nixosModules.host
   ];
-  networking.bridges.microbridge.interfaces = [ ];
-  networking.interfaces.microbridge = {
-    useDHCP = false;
-    ipv4.addresses = [
-      {
-        address = "192.168.81.1";
-        prefixLength = 24;
-      }
-    ];
+  systemd.network = {
+    netdevs."20-microbridge".netdevConfig = {
+      Kind = "bridge";
+      Name = "microbridge";
+    };
+    networks."20-microbridge" = {
+      matchConfig.Name = "microbridge";
+      addresses = [ { Address = "192.168.81.1/24"; } ];
+      networkConfig.ConfigureWithoutCarrier = true;
+      linkConfig.RequiredForOnline = "no";
+    };
+
   };
   networking.nat = {
     enable = true;

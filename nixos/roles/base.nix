@@ -97,4 +97,7 @@
   documentation.man.generateCaches = false;
 
   hardware.enableRedistributableFirmware = true;
+
+  networking.useDHCP = false;
+  systemd.network.enable = true;
 }

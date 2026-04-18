@@ -44,12 +44,11 @@
     { device = "/dev/disk/by-uuid/63aa06bb-dde9-4805-a1ee-41bc54126601"; }
   ];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = false;
-  networking.interfaces.enp191s0.useDHCP = true;
+  systemd.network.networks."10-wan" = {
+    matchConfig.Name = "enp191s0";
+    DHCP = "yes";
+    linkConfig.RequiredForOnline = "routable";
+  };
 
   nixpkgs.hostPlatform = "x86_64-linux";
 }

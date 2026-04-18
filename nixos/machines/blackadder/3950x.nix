@@ -18,12 +18,11 @@
   ];
   networking.hostId = "c7736638";
 
-  networking.useDHCP = false;
-  networking.interfaces.enp9s0.useDHCP = true;
-  # systemd.network.links."98-namepolicy" = {
-  #   matchConfig.OriginalName = "*";
-  #   linkConfig.NamePolicy = "mac kernel database onboard slot path";
-  # };
+  systemd.network.networks."10-wan" = {
+    name = "enp9s0";
+    DHCP = "yes";
+    linkConfig.RequiredForOnline = "routable";
+  };
   environment.systemPackages = [
     pkgs.openrgb
   ];
