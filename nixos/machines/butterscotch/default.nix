@@ -1,34 +1,23 @@
+{
+  pkgs,
+  ...
+}:
 let
   sshkeys = import ../../sshkeys.nix;
 in
 {
-  pkgs,
-  inputs,
-  ...
-}:
-
-{
   imports = [
     ../../roles/workstation.nix
-    inputs.nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
-    inputs.nix-amd-npu.nixosModules.default
   ];
 
   yorick.dk-vpn = {
     enable = true;
     ip = "10.100.0.7";
   };
-  services.power-profiles-daemon.enable = true;
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostId = "d05ee74c";
 
   system.stateVersion = "25.05";
-  # TODO(26.05): bump
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
-  boot.zfs.package = pkgs.zfs_2_4;
 
   services.znapzend = {
     enable = true;
@@ -41,11 +30,6 @@ in
       };
     };
   };
-  boot.kernelParams = [
-    #"ttm.pages_limit=25165824" "ttm.page_pool_size=25165824" # 96GiB
-    "ttm.pages_limit=29360128"
-    "ttm.page_pool_size=29360128" # 112GiB
-  ];
 
   users.users = {
     judith = {
@@ -60,12 +44,8 @@ in
         screen
         vim
       ];
-      # packages = with pkgs; [
-      #   git cmake gnumake gcc python3 python3.pkgs.pip screen vim
-      # ];
       extraGroups = [ "video" ];
     };
   };
-  hardware.amd-npu.enable = true;
   environment.systemPackages = [ pkgs.fastflowlm ];
 }
