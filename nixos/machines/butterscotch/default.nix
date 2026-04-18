@@ -10,7 +10,6 @@ in
 {
   imports = [
     ../../roles/workstation.nix
-    ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
     inputs.nix-amd-npu.nixosModules.default
   ];

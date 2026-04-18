@@ -5,7 +5,6 @@
 {
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
-    ./x11-hardware-config.nix
   ];
 
   services.thermald.enable = true;

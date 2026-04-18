@@ -5,7 +5,6 @@
 }:
 {
   imports = [
-    ./3950x-hardware-config.nix
     inputs.nixos-hardware.nixosModules.common-cpu-amd
   ];
 

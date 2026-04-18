@@ -20,7 +20,6 @@ in
 }:
 {
   imports = [
-    ./hetznercloud.nix
     ../../roles/server.nix
     ../../services/backup.nix
     ../../services/email.nix

@@ -5,16 +5,10 @@
 }:
 {
   imports = [
-    ./fractal.nix
     ../../roles/server.nix
     ../../roles/homeserver.nix
-    ./paperless.nix
-    ./media.nix
-    ./home-automation.nix
     ../../services/cache.nix
-    ./gitea-actions-runner.nix
     ../../services/backup.nix
-    ./webserver.nix
   ];
 
   services.borgbackup.jobs.backup = {

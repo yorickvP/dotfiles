@@ -3,7 +3,6 @@
 }:
 {
   imports = [
-    ./xps9360.nix
     ../../roles/workstation.nix
   ];
 

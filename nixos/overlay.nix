@@ -1,5 +1,12 @@
 let
   names = builtins.attrNames (builtins.readDir ./machines);
+  listNixFiles =
+    dir:
+    let
+      entries = builtins.readDir dir;
+      isNixFile = name: entries.${name} == "regular" && builtins.match ".*\\.nix" name != null;
+    in
+    map (name: dir + "/${name}") (builtins.filter isNixFile (builtins.attrNames entries));
 in
 pkgs: super: {
   yorick = (super.yorick or { }) // rec {
@@ -22,11 +29,7 @@ pkgs: super: {
       in
       c.config.system.build // c;
     machine = pkgs.lib.genAttrs names (
-      name:
-      nixos [
-        ./roles
-        (./machines + "/${name}/default.nix")
-      ] { inherit name; }
+      name: nixos ([ ./roles ] ++ listNixFiles (./machines + "/${name}")) { inherit name; }
     );
   };
 }

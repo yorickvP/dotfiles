@@ -5,7 +5,6 @@
 
 {
   imports = [
-    ./x11.nix
     ../../roles/workstation.nix
   ];
 
