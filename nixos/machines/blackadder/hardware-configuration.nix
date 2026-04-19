@@ -54,10 +54,4 @@
   ];
 
   nix.settings.max-jobs = lib.mkDefault 32;
-  # High-DPI console
-  #i18n.consoleFont = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
-  zramSwap = {
-    enable = true;
-    memoryPercent = 15;
-  };
 }
