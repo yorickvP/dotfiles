@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }:
 {
@@ -12,8 +13,9 @@
       "wireshark"
       "dialout"
       "video"
-      "libvirtd"
-    ];
+    ]
+    ++ (lib.optional config.virtualisation.libvirtd.enable "libvirtd")
+    ++ (lib.optional config.virtualisation.docker.enable "docker");
     shell = pkgs.fish;
   };
   services.printing = {
@@ -156,4 +158,7 @@
   hardware.i2c.enable = true;
   hardware.bluetooth.enable = true;
   services.nix-ci-puller.topics = [ "yorick/git/dotfiles/main/yorick-home" ];
+
+  # allow gpg agent forwarding
+  services.openssh.settings.StreamLocalBindUnlink = true;
 }

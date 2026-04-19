@@ -11,14 +11,6 @@
 
   users.users.judith.isNormalUser = true;
 
-  # docker
-  virtualisation.docker = {
-    enable = true;
-    storageDriver = "overlay2";
-  };
-  virtualisation.oci-containers.backend = "docker";
-  users.users.yorick.extraGroups = [ "docker" ];
-
   nix.optimise.automatic = true;
 
   yorick.dk-vpn = {
@@ -37,16 +29,15 @@
         ensureDBOwnership = true;
       }
     ];
-    # ensureDatabases = [ "vierkantle" ];
-    # ensureUsers = [
-    #   {
-    #     name = "vierkantle";
-    #     ensureDBOwnership = true;
-    #   }
-    # ];
   };
-  # allow gpg agent forwarding
-  services.openssh.settings.StreamLocalBindUnlink = true;
-  virtualisation.waydroid.enable = true;
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    waydroid.enable = true;
+    libvirtd.enable = true;
+    docker = {
+      enable = true;
+      storageDriver = "overlay2";
+    };
+    oci-containers.backend = "docker";
+  };
+
 }
