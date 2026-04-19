@@ -110,6 +110,7 @@ in
         frumar.hostname = "frumar.home.yori.cc";
         pennyworth.hostname = "pennyworth.yori.cc";
         smithers.hostname = "10.209.0.8";
+        butterscotch.hostname = "10.209.0.10";
       };
       extraConfig = ''
         Match host "192.168.*.*" exec "ip route get %h | grep -v -q via"
