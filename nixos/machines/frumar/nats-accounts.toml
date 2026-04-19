@@ -61,3 +61,12 @@ allowed_connection_types = ["MQTT"]
 allow = ["yorick.ci-puller.status.>"]
 [default.users.permissions.subscribe]
 allow = ["yorick.git.>", "yorick.ci-puller.status.>", "$MQTT.sub.>"]
+
+[[default.users]]
+user = "connect-idle"
+password = "$2b$05$FEOQzi7mjYl4SM62ygWLr.uxmCSnEC0TR2atwqrO9JJfndhP3/Ara"
+allowed_connection_types = ["MQTT"]
+[default.users.permissions.publish]
+allow = ["homeassistant.>"]
+[default.users.permissions.subscribe]
+deny = [">"]

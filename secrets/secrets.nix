@@ -64,7 +64,13 @@ builtins.mapAttrs
     "kirei-mail-pass-hash.age" = [ pennyworth ];
     "kirei-mail-pass.age" = [ kirei ];
     "zigbee2mqtt.env.age" = [ frumar ];
-    "marvin-tracker.env.age" = [ frumar ];
+    "marvin-tracker.env.age" = [
+      frumar
+      smithers
+      butterscotch
+      blackadder
+      jarvis
+    ];
     "oauth2-proxy.age" = [ frumar ];
     "attic.env.age" = [ frumar ];
     "yobot.toml.age" = [ pennyworth ];
@@ -94,4 +100,10 @@ builtins.mapAttrs
     # ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHN9kE3LBYnT7krCnGI5KLOaBHppXF2eo4IX1+zmSYfD frumar-nixbuildnet
     "frumar-nixbuildnet.age" = [ frumar ];
     "yobot-telegram.age" = [ frumar ];
+    "y-connect-idle.env.age" = [
+      smithers
+      butterscotch
+      blackadder
+      jarvis
+    ];
   }

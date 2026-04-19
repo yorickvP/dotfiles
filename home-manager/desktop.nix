@@ -283,10 +283,10 @@ in
       Restart = "on-failure";
       RestartMaxDelaySec = "10m";
       RestartSteps = 8;
+      EnvironmentFile = "/run/agenix/connect-idle";
       Environment = [
         "MQTT_BROKER=frumar.vpn.yori.cc"
-        "MQTT_USER=iot"
-        "MQTT_PASSWORD=asdf"
+        "MQTT_USER=connect-idle"
       ];
     };
   };

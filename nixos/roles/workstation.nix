@@ -161,4 +161,13 @@
 
   # allow gpg agent forwarding
   services.openssh.settings.StreamLocalBindUnlink = true;
+
+  age.secrets.connect-idle = {
+    file = ../../secrets/y-connect-idle.env.age;
+    owner = "yorick";
+  };
+  age.secrets.marvin-tracker = {
+    file = ../../secrets/marvin-tracker.env.age;
+    owner = "yorick";
+  };
 }
