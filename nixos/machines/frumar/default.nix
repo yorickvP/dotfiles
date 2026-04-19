@@ -8,35 +8,8 @@
     ../../roles/server.nix
     ../../roles/homeserver.nix
     ../../services/cache.nix
-    ../../services/backup.nix
   ];
 
-  services.borgbackup.jobs.backup = {
-    preHook = ''
-      /run/current-system/sw/bin/zfs destroy ssdpool/root/var@borgbackup || true
-      /run/current-system/sw/bin/zfs snapshot ssdpool/root/var@borgbackup
-      sleep 5s
-      ls /var/.zfs/snapshot/borgbackup > /dev/null
-    '';
-    postCreate = ''
-      /run/current-system/sw/bin/zfs destroy ssdpool/root/var@borgbackup
-    '';
-    paths = [
-      "/var/.zfs/snapshot/borgbackup/lib/hass"
-      "/var/.zfs/snapshot/borgbackup/lib/paperless"
-      "/var/.zfs/snapshot/borgbackup/lib/redis-paperless"
-      "/var/.zfs/snapshot/borgbackup/lib/zigbee2mqtt"
-    ];
-  };
-  users.users.znapzend-blackadder = {
-    openssh.authorizedKeys.keys = [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDWwtQA8qAW24b9suTOdkHpQktWRiipoIQUXPnoxm2NHJpVEI24q6cSGsEjYoEs4Vac2bJ7Q93CASVm/qOSm46AMrpURdN2F6oClA/zKHUsZ9MGBkUXvm+HnspE6CpiGFCPtZyK9FpGm2Flwh/U0fd9txVuuNElERgXMY0GDodM/n4JzP6/9yk1F8WLkkhBHgQmqo2gzbEVtYjfpSQ/FyjcShlip0/EoPqhGM7K/WiaGLkbmtXQi5dFWwFwTzLA6NRsGGW2ag12RzR3ok9uwGIVW6Po8Z/XpwFetQTVl8Sfcn3PWQKKtzFzXmFnfwvgTj4f3EDnQNUDgrg8eIZV4B5QGml3CwwhWwup31kmnha7q+soottzMnUTqopa7RY6bcoMZsMpp0/LqyG5jCyFo7sH3E46YwX6xnB98dlP66DLCVvRBIRy/pxajC6XAIFFnfs1W3oDX17Tq4IqUF42gQEdVcYQ95tb/llrT/k1lEr1YuO/Rspwc1BK/e/6WvPR9KM= root@blackadder"
-    ];
-    isSystemUser = true;
-    group = "znapzend-blackadder";
-    useDefaultShell = true;
-  };
-  users.groups.znapzend-blackadder = { };
   system.stateVersion = "15.09";
   networking.hostId = "0702dbe9";
   systemd.network.networks."10-lan" = {
@@ -62,28 +35,6 @@
     interfaces.eno1.allowedTCPPorts = [ 1883 ];
     interfaces.eno1.allowedUDPPorts = [ 1883 ];
   };
-  services.znapzend = {
-    enable = true;
-    zetup = {
-      "frumar-new/userdata" = {
-        plan = "1w=>6h,1m=>1w,1y=>1m,2y=>6m,50y=>1y";
-      };
-      "frumar-new/plexmedia" = {
-        plan = "1w=>6h,1m=>1w,1y=>1m,2y=>6m,50y=>1y";
-      };
-      "ssdpool/root" = {
-        plan = "2d=>1d";
-      };
-      "ssdpool/root/var" = {
-        plan = "1w=>1d";
-        destinations.frumar-new = {
-          dataset = "frumar-new/backup/ssdpool-root-var";
-          plan = "1w=>1d,1m=>1w,1y=>1m,10y=>6m,50y=>1y";
-        };
-      };
-    };
-  };
-
   programs.msmtp.enable = true;
   services.smartd.enable = true;
 

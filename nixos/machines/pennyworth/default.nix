@@ -18,7 +18,6 @@ in
 {
   imports = [
     ../../roles/server.nix
-    ../../services/backup.nix
     ../../services/email.nix
     inputs.yobot.nixosModules.default
     inputs.hackerdeck.nixosModules.default
@@ -26,11 +25,6 @@ in
     ../../services/renovate.nix
   ];
 
-  services.borgbackup.jobs.backup.paths = [
-    "/home"
-    "/root"
-    "/var/lib"
-  ];
   system.stateVersion = "19.03";
 
   services.yorick = {
