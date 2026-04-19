@@ -45,6 +45,7 @@
     marvin-tracker.file = ../../../secrets/marvin-tracker.env.age;
     msmtp-mail-pass.file = ../../../secrets/frumar-mail-pass.age;
     oauth2-proxy.file = ../../../secrets/oauth2-proxy.age;
+    yobot-telegram.file = ../../../secrets/yobot-telegram.age;
     zigbee2mqtt.file = ../../../secrets/zigbee2mqtt.env.age;
   };
   systemd.services.grafana.serviceConfig.EnvironmentFile = config.age.secrets.grafana.path;

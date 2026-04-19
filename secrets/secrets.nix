@@ -93,4 +93,5 @@ builtins.mapAttrs
     ];
     # ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHN9kE3LBYnT7krCnGI5KLOaBHppXF2eo4IX1+zmSYfD frumar-nixbuildnet
     "frumar-nixbuildnet.age" = [ frumar ];
+    "yobot-telegram.age" = [ frumar ];
   }
