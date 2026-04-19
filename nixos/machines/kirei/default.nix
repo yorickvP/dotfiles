@@ -6,12 +6,11 @@
 {
   imports = [
     ../../roles/server.nix
+    ../../roles/homeserver.nix
   ];
 
   system.stateVersion = "24.11";
   networking.hostId = "8425e349";
-
-  networking.firewall.logRefusedConnections = lib.mkForce true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

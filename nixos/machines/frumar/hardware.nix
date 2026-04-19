@@ -74,7 +74,6 @@
   };
 
   nix.settings.max-jobs = 4;
-  services.avahi.allowInterfaces = [ "enp2s0" ];
   hardware.rasdaemon.enable = true;
 }
 ## disk layout
