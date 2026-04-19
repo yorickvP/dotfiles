@@ -31,7 +31,6 @@
     kernelParams = [
       "quiet"
       "udev.log_level=3"
-      "i915.enable_guc=3"
     ];
   };
   boot.loader.timeout = 0;
