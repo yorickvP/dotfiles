@@ -12,8 +12,8 @@ user = "yorick"
 password = "$2y$10$EtQh8YX0I91X774PhDxhKOSGSc0IAAvGwZErVKV3z.IfeHTcT1.yy"
 
 [[default.users]]
-user = "iot"
-password = "$2y$10$.JF/0CQ1PYCFPITsSXGj..k5v60rZvDc.LWCIDhZpoc93NyyIa5wS"
+user = "home-assistant"
+password = "$2b$05$MbQTFpIHRAN.m6E2Si.ZvO.oC3sQce/gNJM.0aeLejvEJ1nomGd8S"
 allowed_connection_types = ["MQTT"]
 
 [[default.users]]
