@@ -192,11 +192,6 @@ in
     enable = true;
     scripts = [ pkgs.mpvScripts.mpris ];
   };
-  services.gpg-agent = {
-    enable = true;
-    enableSshSupport = true;
-    enableExtraSocket = true;
-  };
   services.playerctld.enable = true;
   home.packages = with pkgs; [
     ## utils
@@ -315,6 +310,7 @@ in
     asciiquarium-transparent
     wakeonlan
     mqtt-explorer
+    soco-cli # sonos speakers
 
     ## coins
     electrum
@@ -339,6 +335,10 @@ in
     bitwarden-cli
     #yubioath-flutter
     gnucash
+    thunderbird
+    obsidian
+    element-desktop
+    libreoffice
 
     ## games
     # (prismlauncher.override { jdks = [ jdk21 ] })
@@ -364,23 +364,25 @@ in
     mitmproxy
     magic-wormhole
     difftastic
+    slack
 
     # admin
     nsc
     natscli
 
     yscripts.uv-landrun
+
+    # llm stuff
     beads
     claude-box
+    bubblewrap
+    landrun
+    claude-code
+    llm-agents.ccusage
+
+    # bitwarden-desktop
   ];
 
-  home.file.".gnupg/gpg.conf".text = ''
-    no-greeting
-    require-cross-certification
-    charset utf-8
-    keyserver hkps://keys.openpgp.org
-    #keyserver-options auto-key-retrieve
-  '';
   home.sessionVariables = {
     FLAKE_CONFIG_URI = "/home/yorick/dotfiles#homeConfigurations.${pkgs.stdenv.system}.activationPackage";
   };

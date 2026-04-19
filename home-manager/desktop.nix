@@ -48,7 +48,6 @@ in
       "mode=do-not-disturb".invisible = 1;
     };
   };
-  services.gpg-agent.pinentry.package = pkgs.pinentry-gnome3;
   wayland.windowManager.sway = {
     enable = true;
     checkConfig = false; # looks for wallpapers
@@ -331,6 +330,7 @@ in
     package = pkgs.obs-studio.override { browserSupport = false; };
   };
   # systemd.user.services.kdeconnect-indicator.Unit.After = [ "waybar.service" ];
+  # put desktop-environment deps here
   home.packages = with pkgs; [
     gtk-engine-murrine
     hicolor-icon-theme
@@ -340,13 +340,8 @@ in
     pavucontrol
     playerctl
     vanilla-dmz
-
     libwebp
-    gebaar-libinput
     grim
-    element-desktop
-    libreoffice
-    slack
     slurp
     sway-contrib.grimshot
     swaybg
@@ -356,20 +351,9 @@ in
     waypipe
     wl-clipboard
     wldash
-    zoom-us
     bin.y-cal-widget
-    obsidian
-    thunderbird
-    #xwaylandvideobridge
     easyeffects
-    # bitwarden-desktop
-    soco-cli # sonos speakers
-    bubblewrap
-    landrun
-    claude-code
-    llm-agents.ccusage
     ddcutil
-    bluetui
   ];
   xdg.mimeApps = {
     enable = true;
