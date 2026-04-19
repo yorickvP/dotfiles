@@ -56,6 +56,8 @@
   nix-index-with-db,
   # todo: https://github.com/NixOS/nixpkgs/issues/510036
   getent,
+  iproute2,
+  procps,
 }:
 let
   uid = "1000";
@@ -168,6 +170,8 @@ let
       beads
       python3
       ps
+      procps
+      iproute2
       nodejs
       nix-index-with-db
       entrypoint
