@@ -4,7 +4,6 @@
 }:
 {
 
-  imports = [ ./accounts-email.nix ];
   disabledModules = [ "accounts/email.nix" ];
   config = {
     programs.neomutt = {

@@ -13,12 +13,6 @@ let
   emacsPackages = pkgs.emacsPackagesFor config.programs.emacs.package;
 in
 {
-  imports = [
-    ./cert-agent.nix
-    ./desktop.nix
-    ./emacs.nix
-    ./email.nix
-  ];
   programs = {
     nix-index.enable = true;
     # todo: .aws/config default region

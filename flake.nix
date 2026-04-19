@@ -78,6 +78,7 @@
     }:
     let
       inherit (nixpkgs) lib;
+      inherit (import ./lib.nix) listNixFiles;
       forAllSystems = lib.genAttrs [ "x86_64-linux" ];
       forAllSystemPkgs = f: forAllSystems (system: f self.legacyPackages.${system});
     in
@@ -122,8 +123,7 @@
         pkgs:
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          modules = [
-            ./home-manager/home.nix
+          modules = (listNixFiles ./home-manager) ++ [
             nix-index-database.homeModules.nix-index
             {
               home = {
