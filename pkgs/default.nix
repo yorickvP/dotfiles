@@ -29,13 +29,6 @@ self: super:
       libscrc = pyself.callPackage ./libscrc.nix { };
     };
   };
-  # todo: bump wl-clipboard to master that has this patch
-  wl-clipboard = addPatch super.wl-clipboard (
-    self.fetchpatch {
-      url = "https://puck.moe/up/zapap-suhih.patch";
-      hash = "sha256-YiFDeBN1k2+lxVnWnU5sMpIJ7/zsVPEm5OZf0nHhzJA=";
-    }
-  );
   lib = super.lib.extend (
     _lfinal: _lprev: {
       loadUvScript =
