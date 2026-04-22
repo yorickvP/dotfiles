@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -13,4 +13,9 @@
   };
   services.power-profiles-daemon.enable = true;
   services.tlp.enable = false;
+  services.greetd = {
+    enable = true;
+    useTextGreeter = true;
+    settings.default_session.command = "${pkgs.tuigreet}/bin/tuigreet --cmd sway --time --remember";
+  };
 }
