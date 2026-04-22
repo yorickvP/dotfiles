@@ -49,6 +49,7 @@
     { device = "/dev/disk/by-uuid/f598336a-aafe-4162-aa72-61ece6b57b81"; }
   ];
 
+  # todo: enable wifi
   systemd.network = {
     netdevs."br0".netdevConfig = {
       Name = "br0";

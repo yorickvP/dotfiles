@@ -34,22 +34,23 @@
     "CPU_SCALING_GOVERNOR_ON_BAT" = "powersave";
   };
 
-  networking.wireless.iwd = {
-    enable = true;
-    settings = {
-      General.EnableNetworkConfiguration = true;
-      Network.NameResolvingService = "resolvconf";
-      Network.RoutePriorityOffset = 2000;
+  networking.wireless.iwd.enable = true;
+  systemd.network = {
+    wait-online.anyInterface = true;
+    networks."10-wlan" = {
+      matchConfig.Type = "wlan";
+      DHCP = "yes";
+      linkConfig.RequiredForOnline = "routable";
     };
-  };
-  # DHCP on any USB ethernet
-  systemd.network.networks."80-usb-ethernet" = {
-    matchConfig = {
-      Property = "ID_BUS=usb";
-      Type = "ether";
+    # DHCP on any USB ethernet
+    networks."80-usb-ethernet" = {
+      matchConfig = {
+        Property = "ID_BUS=usb";
+        Type = "ether";
+      };
+      DHCP = "yes";
+      linkConfig.RequiredForOnline = "routable";
     };
-    DHCP = "yes";
-    linkConfig.RequiredForOnline = "no";
   };
 
   hardware.bluetooth.enable = true;
