@@ -39,5 +39,9 @@
     };
     oci-containers.backend = "docker";
   };
+  services.tumbler.enable = true;
+  programs.thunar.enable = true;
+  programs.thunar.plugins = [ pkgs.xfce.thunar-archive-plugin ];
+  services.gvfs.enable = true;
 
 }

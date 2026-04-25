@@ -357,12 +357,44 @@ in
   ];
   xdg.mimeApps = {
     enable = true;
-    defaultApplications = {
-      "application/pdf" = [ "org.pwmt.zathura.desktop" ];
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [ "writer.desktop" ];
-      "x-scheme-handler/http" = [ "firefox.desktop" ];
-      "x-scheme-handler/https" = [ "firefox.desktop" ];
-    };
+    defaultApplications =
+      let
+        imv = map (t: lib.nameValuePair "image/${t}" "imv-dir.desktop") [
+          "jpeg"
+          "png"
+          "gif"
+          "webp"
+          "bmp"
+          "tiff"
+          "svg+xml"
+          "heif"
+          "avif"
+          "x-portable-pixmap"
+        ];
+        mpv = map (t: lib.nameValuePair t "mpv.desktop") [
+          "video/mp4"
+          "video/x-matroska"
+          "video/webm"
+          "video/quicktime"
+          "video/x-msvideo"
+          "video/mpeg"
+          "video/x-flv"
+          "video/ogg"
+          "video/x-ms-wmv"
+          "audio/mpeg"
+          "audio/flac"
+          "audio/ogg"
+          "audio/x-wav"
+          "audio/mp4"
+        ];
+      in
+      (builtins.listToAttrs (imv ++ mpv))
+      // {
+        "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [ "writer.desktop" ];
+        "x-scheme-handler/http" = [ "firefox.desktop" ];
+        "x-scheme-handler/https" = [ "firefox.desktop" ];
+      };
   };
   xdg.configFile."uv/uv.toml".source = (pkgs.formats.toml { }).generate "uv-config" {
     "link-mode" = "clone";
