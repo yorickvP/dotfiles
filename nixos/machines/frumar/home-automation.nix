@@ -92,6 +92,7 @@
       mobile_app = { };
       default_config = { };
       system_log = { };
+      adaptive_lighting = { };
 
       frontend.themes = "!include_dir_merge_named themes";
       frontend.extra_module_url = "/local/card-mod.js";
