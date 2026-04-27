@@ -1,0 +1,31 @@
+From: Yorick van Pelt <yorick@datakami.com>
+Subject: [PATCH] hwmon: emc2305: skip thermal cooling path when not bound
+
+The emc2305 driver routes hwmon PWM writes through the thermal cooling
+device path whenever CONFIG_THERMAL is reachable, which quantizes the
+PWM value to one of `max_state` cooling steps (default 10). This makes
+fine-grained userspace fan control (e.g. fancontrol) impossible and
+causes audible hysteresis when the requested duty cycle rounds to a
+neighbouring step.
+
+Only take the cooling path once the thermal subsystem has actually bound
+to the device and pushed a state (last_thermal_state > 0). Until then,
+fall through to emc2305_set_pwm() and program the requested duty cycle
+directly. last_thermal_state is zero-initialized via devm_kzalloc, so
+when no thermal zone references the chip userspace gets the full 8-bit
+PWM resolution. As soon as the thermal core sets a state, the original
+limiting behaviour resumes.
+
+--- a/drivers/hwmon/emc2305.c
++++ b/drivers/hwmon/emc2305.c
+@@ -409,7 +409,10 @@ emc2305_write(struct device *dev, enum hwmon_sensor_types type, u32 attr, int ch
+ 				if (data->pwm_separate)
+ 					cdev_idx = channel;
+ 				else
+ 					cdev_idx = 0;
++				/* Bypass cooling path until thermal core has bound. */
++				if (!data->cdev_data[cdev_idx].last_thermal_state)
++					return emc2305_set_pwm(dev, val, channel);
+ 				data->cdev_data[cdev_idx].last_hwmon_state =
+ 					EMC2305_PWM_DUTY2STATE(val, data->max_state,
+ 							       EMC2305_FAN_MAX);

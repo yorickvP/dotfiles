@@ -19,6 +19,9 @@
           # static configfile and ignores structuredExtraConfig. Fix it there
           # so this can be done with a normal .override.
           mono-gateway-kernel = prev.mono-gateway-kernel.overrideAttrs (old: {
+            patches = (old.patches or [ ]) ++ [
+              ./emc2305-skip-thermal-when-unbound.patch
+            ];
             postConfigure = (old.postConfigure or "") + ''
               rm $buildRoot/.config
               cp ${old.passthru.configfile} $buildRoot/.config
