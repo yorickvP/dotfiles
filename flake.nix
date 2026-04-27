@@ -58,7 +58,7 @@
     };
     mcp-nixos = {
       url = "github:utensils/mcp-nixos";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nix-fast-build = {
       url = "github:Mic92/nix-fast-build";
