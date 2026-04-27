@@ -62,4 +62,5 @@
       echo 1 > /sys/class/leds/status:white/brightness
     '';
   };
+  services.sshguard.enable = lib.mkForce false; # broken
 }
