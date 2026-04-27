@@ -1,4 +1,25 @@
-(_pkgs: super: {
+(pkgs: super: {
+  # todo: upstream
+  atool = super.atool.overrideAttrs {
+    configureScript = "${pkgs.buildPackages.bash}/bin/bash configure";
+  };
+  # ncdu 2.x needs zig, which doesn't cross-compile cleanly. Fall back to v1.
+  ncdu =
+    if pkgs.stdenv.buildPlatform.canExecute pkgs.stdenv.hostPlatform then super.ncdu else super.ncdu_1;
+  # TODO: development/perl-modules/generic/default.nix:62
+  # use perl instead of perl.mini?
+  perlPackages = super.perlPackages.overrideScope (
+    _pself: psuper: {
+      # cross fix: Makefile.PL transitively `use B`, which the build-host
+      # perl.mini can't load (no dynamic loading). Use full build perl.
+      TextCSV = psuper.TextCSV.overrideAttrs (o: {
+        preConfigure = ''
+          export PATH=${pkgs.buildPackages.perl}/bin:$PATH
+        ''
+        + (o.preConfigure or "");
+      });
+    }
+  );
   electron = super.electron_39;
   electron_38 = super.electron_38.overrideAttrs (o: {
     meta = o.meta // {

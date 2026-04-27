@@ -65,6 +65,7 @@ machines = {
     "smithers": Machine(name="smithers", has_home=True),
     "kirei": Machine(name="kirei", has_home=False),
     "butterscotch": Machine(name="butterscotch", has_home=True),
+    "zazu": Machine(name="zazu", has_home=False, hostname="192.168.2.157"),
 }
 
 

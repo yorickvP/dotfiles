@@ -496,6 +496,26 @@
         "type": "github"
       }
     },
+    "mono": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770916696,
+        "narHash": "sha256-bqgenGlQL6yaUX2UjxQmNrjkCEOS7FmveTxVka+ExCI=",
+        "owner": "we-are-mono",
+        "repo": "nix",
+        "rev": "37d452e35b328dd19535ebabdc77cb6fc15d71e6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "we-are-mono",
+        "repo": "nix",
+        "type": "github"
+      }
+    },
     "muflax-blog": {
       "inputs": {
         "nixpkgs": [
@@ -837,6 +857,7 @@
         "llm-agents": "llm-agents",
         "mcp-nixos": "mcp-nixos",
         "microvm": "microvm",
+        "mono": "mono",
         "muflax-blog": "muflax-blog",
         "nix-amd-npu": "nix-amd-npu",
         "nix-fast-build": "nix-fast-build",

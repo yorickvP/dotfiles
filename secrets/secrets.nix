@@ -7,6 +7,7 @@ let
   jarvis = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKd8oRn7T+NnzDbTLaWyiUGIRZ21n42zdozkuUoHp8IX";
   kirei = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPE2ctlrLLIR78hJ5/TQi6K6/+GckHAdjUwVfAnTuNIL";
   butterscotch = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK6UwASNXJiKdPYBhhM7vM6SIhM4uj0waG7KinW2CGhY";
+  zazu = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIVEgPfSe92Uqtzi/TQma9k3de49hyFJxSRZwOHdKlUy";
 in
 builtins.mapAttrs
   (_x: y: {
@@ -20,6 +21,7 @@ builtins.mapAttrs
     "wg.smithers.age" = [ smithers ];
     "wg.kirei.age" = [ kirei ];
     "wg.butterscotch.age" = [ butterscotch ];
+    "wg.zazu.age" = [ zazu ];
     "wg.mullvad-nl4.age" = [ frumar ];
     "grafana.env.age" = [ frumar ];
     "http.muflax.age" = [ pennyworth ];

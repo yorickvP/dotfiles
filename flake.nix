@@ -64,6 +64,10 @@
       url = "github:Mic92/nix-fast-build";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mono = {
+      url = "github:we-are-mono/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     inputs@{
