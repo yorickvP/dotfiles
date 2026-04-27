@@ -13,7 +13,7 @@ in
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.y-nix-ci-puller;
+      default = pkgs.y-nix-ci-puller.override { nix = config.nix.package; };
       defaultText = "pkgs.y-nix-ci-puller";
       description = "The y-nix-ci-puller package to use";
     };
