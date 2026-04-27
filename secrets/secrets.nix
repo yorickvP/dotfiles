@@ -37,6 +37,7 @@ builtins.mapAttrs
       jarvis
       kirei
       butterscotch
+      zazu
     ];
     "pennyworth_borg_repo.age" = [ pennyworth ];
     "pennyworth_borg_ssh.age" = [ pennyworth ];
@@ -51,6 +52,7 @@ builtins.mapAttrs
       jarvis
       kirei
       butterscotch
+      zazu
     ];
     "root-user-pass.age" = [
       blackadder
@@ -59,6 +61,7 @@ builtins.mapAttrs
       smithers
       jarvis
       butterscotch
+      zazu
     ];
     "kirei-root-user-pass.age" = [ kirei ];
     "frumar-mail-pass-hash.age" = [ pennyworth ];
@@ -98,6 +101,7 @@ builtins.mapAttrs
       jarvis
       kirei
       butterscotch
+      zazu
     ];
     # ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHN9kE3LBYnT7krCnGI5KLOaBHppXF2eo4IX1+zmSYfD frumar-nixbuildnet
     "frumar-nixbuildnet.age" = [ frumar ];
