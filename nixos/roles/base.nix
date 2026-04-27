@@ -73,7 +73,6 @@ in
       psmisc
       lsof
       ncdu
-      attic-client
       btop
 
       # utils

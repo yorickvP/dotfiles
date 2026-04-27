@@ -28,6 +28,7 @@
     glib
     solaar
     v4l-utils
+    attic-client
   ];
   environment.sessionVariables.XDG_DATA_DIRS = with pkgs; [
     "${gnome-themes-extra}/share"
