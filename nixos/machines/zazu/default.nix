@@ -51,4 +51,15 @@
     DHCP = "yes";
     linkConfig.RequiredForOnline = "routable";
   };
+  systemd.services.status-led = {
+    description = "Set status LED to white";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      echo 0 > /sys/class/leds/status:blue/brightness
+      echo 0 > /sys/class/leds/status:green/brightness
+      echo 0 > /sys/class/leds/status:red/brightness
+      echo 1 > /sys/class/leds/status:white/brightness
+    '';
+  };
 }
