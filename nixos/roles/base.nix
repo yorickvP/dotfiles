@@ -15,6 +15,12 @@ in
   systemd.network.enable = true;
   time.timeZone = "Europe/Amsterdam";
 
+  # CVE-2026-31431 (copy.fail): block AF_ALG autoload of algif_aead
+  boot.blacklistedKernelModules = [ "algif_aead" ];
+  boot.extraModprobeConfig = ''
+    install algif_aead /bin/false
+  '';
+
   users = {
     mutableUsers = false;
     users.root = {
