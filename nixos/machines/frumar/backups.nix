@@ -1,23 +1,49 @@
+{ pkgs, ... }:
 {
   imports = [
     ../../services/backup.nix
   ];
 
+  systemd.tmpfiles.rules = [
+    "d /mnt/borgbackup 0755 root root -"
+  ];
+
+  systemd.services.borgbackup-snapshot = {
+    description = "Create and mount ZFS snapshot for borgbackup";
+    path = [
+      pkgs.zfs
+      pkgs.util-linux
+    ];
+    unitConfig = {
+      RequiresMountsFor = [ "/mnt/borgbackup" ];
+      BindsTo = [ "borgbackup-job-backup.service" ];
+    };
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      zfs destroy ssdpool/root/var@borgbackup || true
+      zfs snapshot ssdpool/root/var@borgbackup
+      mountpoint -q /mnt/borgbackup || mount -t zfs ssdpool/root/var@borgbackup /mnt/borgbackup
+    '';
+    preStop = ''
+      umount /mnt/borgbackup || true
+      zfs destroy ssdpool/root/var@borgbackup || true
+    '';
+  };
+
+  systemd.services.borgbackup-job-backup = {
+    requires = [ "borgbackup-snapshot.service" ];
+    after = [ "borgbackup-snapshot.service" ];
+  };
+
   services.borgbackup.jobs.backup = {
-    preHook = ''
-      /run/current-system/sw/bin/zfs destroy ssdpool/root/var@borgbackup || true
-      /run/current-system/sw/bin/zfs snapshot ssdpool/root/var@borgbackup
-      sleep 5s
-      ls /var/.zfs/snapshot/borgbackup > /dev/null
-    '';
-    postCreate = ''
-      /run/current-system/sw/bin/zfs destroy ssdpool/root/var@borgbackup
-    '';
     paths = [
-      "/var/.zfs/snapshot/borgbackup/lib/hass"
-      "/var/.zfs/snapshot/borgbackup/lib/paperless"
-      "/var/.zfs/snapshot/borgbackup/lib/redis-paperless"
-      "/var/.zfs/snapshot/borgbackup/lib/zigbee2mqtt"
+      "/mnt/borgbackup/lib/hass"
+      "/mnt/borgbackup/lib/paperless"
+      "/mnt/borgbackup/lib/redis-paperless"
+      "/mnt/borgbackup/lib/zigbee2mqtt"
     ];
   };
 
