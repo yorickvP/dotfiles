@@ -34,7 +34,7 @@ in
       initialHashedPassword = "$6$q7E6hnTHHt9v.$OHZjuWISanANGwfhznWwfDlHAqbXBjqcr/q0lGe9ff2r.X9xCSoLP4giME5J9WoEUNuWssMLGBPMfXowBjXg70";
       isSystemUser = true;
       shell = "${pkgs.shadow}/bin/nologin";
-      createHome = true;
+      createHome = false;
     };
     users.groups.ads1600w = { };
 
@@ -49,6 +49,12 @@ in
     };
     # todo: back up this dir
     services.paperless.enable = true;
+    services.paperless.consumptionDir = "/var/ads1600w";
+    systemd.tmpfiles.settings."10-paperless"."/var/ads1600w".d = {
+      mode = "0770";
+      user = lib.mkForce "ads1600w";
+      group = lib.mkForce "ads1600w";
+    };
     services.paperless.settings = {
       PAPERLESS_URL = "https://priv.yori.cc";
       PAPERLESS_FORCE_SCRIPT_NAME = "/paperless";
