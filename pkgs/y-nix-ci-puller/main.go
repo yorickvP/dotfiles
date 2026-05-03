@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -12,12 +13,34 @@ import (
 	"strings"
 	"sync"
 	"syscall"
-	"text/tabwriter"
 	"time"
 
+	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss/table"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/fsnotify/fsnotify"
 )
+
+var (
+	cellStyle    = lipgloss.NewStyle().Padding(0, 1)
+	headerStyle  = cellStyle.Bold(true)
+	matchStyle   = cellStyle.Foreground(lipgloss.Color("10"))
+	sectionStyle = lipgloss.NewStyle().Bold(true).Underline(true)
+	hintStyle    = lipgloss.NewStyle().Faint(true)
+)
+
+func styleForStatus(s string) lipgloss.Style {
+	switch s {
+	case "up-to-date":
+		return cellStyle.Foreground(lipgloss.Color("10"))
+	case "PULL NEEDED", "APPLY NEEDED":
+		return cellStyle.Foreground(lipgloss.Color("11"))
+	case "REBOOT NEEDED", "ACTIVATE NEEDED":
+		return cellStyle.Foreground(lipgloss.Color("9"))
+	}
+	return cellStyle
+}
 
 type Config struct {
 	MQTTBroker   string
@@ -27,6 +50,7 @@ type Config struct {
 	MQTTClientID string
 	AllowedSSIDs []string
 	GCRootDir    string
+	NixCacheURL  string
 	Topics       []string
 }
 
@@ -58,6 +82,7 @@ func loadConfig() Config {
 		MQTTPassword: getEnv("MQTT_PASSWORD", ""),
 		MQTTClientID: getEnv("MQTT_CLIENT_ID", fmt.Sprintf("ci-puller-%s", hostname)),
 		GCRootDir:    getEnv("GCROOT_DIR", "/nix/var/nix/gcroots/ci-puller"),
+		NixCacheURL:  getEnv("NIX_CACHE_URL", "https://cache.yori.cc/yorick"),
 	}
 
 	if ssids := getEnv("ALLOWED_SSIDS", ""); ssids != "" {
@@ -650,10 +675,341 @@ func shortenStorePath(p string) string {
 	return p
 }
 
-func runDashboard(config Config) {
-	var mu sync.Mutex
-	machines := make(map[string]*MachineStatus)
+// kernelInfo caches the kernel-related references of a system store path,
+// fetched from the binary cache. nil while a fetch is in flight.
+type kernelInfo struct {
+	refs []string
+	err  error
+	done bool
+}
 
+// dashState is shared between the MQTT goroutines and the renderer.
+type dashState struct {
+	mu       sync.Mutex
+	machines map[string]*MachineStatus
+	expected map[string]string
+	kernels  map[string]*kernelInfo
+}
+
+// snapshot returns shallow copies of the maps, so the renderer can run
+// without holding the lock.
+func (s *dashState) snapshot() (map[string]*MachineStatus, map[string]string, map[string]*kernelInfo) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	m := make(map[string]*MachineStatus, len(s.machines))
+	for k, v := range s.machines {
+		m[k] = v
+	}
+	e := make(map[string]string, len(s.expected))
+	for k, v := range s.expected {
+		e[k] = v
+	}
+	k := make(map[string]*kernelInfo, len(s.kernels))
+	for kk, vv := range s.kernels {
+		k[kk] = vv
+	}
+	return m, e, k
+}
+
+// kernelRefs filters a list of store-path references down to kernel-related
+// ones (anything whose name starts with "linux-" — covers the kernel image and
+// modules). Sorted for stable comparison.
+func kernelRefs(refs []string) []string {
+	var out []string
+	for _, r := range refs {
+		name := strings.TrimPrefix(r, "/nix/store/")
+		if i := strings.IndexByte(name, '-'); i >= 0 && i+1 < len(name) {
+			name = name[i+1:]
+		}
+		if strings.HasPrefix(name, "linux-") {
+			out = append(out, r)
+		}
+	}
+	sort.Strings(out)
+	return out
+}
+
+// queryKernelRefs runs `nix path-info <path> --store <cacheURL> --json` and
+// extracts kernel-related references.
+func queryKernelRefs(ctx context.Context, path, cacheURL string) ([]string, error) {
+	cmd := exec.CommandContext(ctx, "nix", "path-info", path, "--store", cacheURL, "--json")
+	out, err := cmd.Output()
+	if err != nil {
+		return nil, err
+	}
+	// Recent nix emits an array; older or alternate formats may emit an object
+	// keyed by store path. Try both.
+	var arr []struct {
+		References []string `json:"references"`
+	}
+	if err := json.Unmarshal(out, &arr); err == nil && len(arr) > 0 {
+		return kernelRefs(arr[0].References), nil
+	}
+	var obj map[string]struct {
+		References []string `json:"references"`
+	}
+	if err := json.Unmarshal(out, &obj); err == nil {
+		for _, v := range obj {
+			return kernelRefs(v.References), nil
+		}
+	}
+	return nil, fmt.Errorf("unrecognized path-info output")
+}
+
+// ensureKernelRefs kicks off an async fetch for path if not already cached or
+// in flight. notify is called when the fetch completes.
+func (s *dashState) ensureKernelRefs(path, cacheURL string, notify func()) {
+	if path == "" {
+		return
+	}
+	s.mu.Lock()
+	if _, ok := s.kernels[path]; ok {
+		s.mu.Unlock()
+		return
+	}
+	s.kernels[path] = &kernelInfo{} // mark in-flight (done=false)
+	s.mu.Unlock()
+
+	go func() {
+		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cancel()
+		refs, err := queryKernelRefs(ctx, path, cacheURL)
+		s.mu.Lock()
+		s.kernels[path] = &kernelInfo{refs: refs, err: err, done: true}
+		s.mu.Unlock()
+		notify()
+	}()
+}
+
+// waitForKernelRefs synchronously fetches kernel refs for the given paths in
+// parallel. Used in oneshot mode.
+func (s *dashState) waitForKernelRefs(paths []string, cacheURL string) {
+	var wg sync.WaitGroup
+	for _, p := range paths {
+		if p == "" {
+			continue
+		}
+		s.mu.Lock()
+		if ki, ok := s.kernels[p]; ok && ki.done {
+			s.mu.Unlock()
+			continue
+		}
+		s.kernels[p] = &kernelInfo{}
+		s.mu.Unlock()
+
+		wg.Add(1)
+		go func(p string) {
+			defer wg.Done()
+			ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+			defer cancel()
+			refs, err := queryKernelRefs(ctx, p, cacheURL)
+			s.mu.Lock()
+			s.kernels[p] = &kernelInfo{refs: refs, err: err, done: true}
+			s.mu.Unlock()
+		}(p)
+	}
+	wg.Wait()
+}
+
+// rebootHint returns "yes"/"no"/"?"/"" describing whether applying available
+// onto running would require a kernel reboot.
+func rebootHint(running, available string, kernels map[string]*kernelInfo) string {
+	if available == "" || running == "" {
+		return ""
+	}
+	if running == available {
+		return "no"
+	}
+	rk, rok := kernels[running]
+	ak, aok := kernels[available]
+	if !rok || !aok || !rk.done || !ak.done || rk.err != nil || ak.err != nil {
+		return "?"
+	}
+	if strings.Join(rk.refs, ",") == strings.Join(ak.refs, ",") {
+		return "no"
+	}
+	return "yes"
+}
+
+func styleForReboot(s string) lipgloss.Style {
+	switch s {
+	case "no":
+		return cellStyle.Foreground(lipgloss.Color("10"))
+	case "yes":
+		return cellStyle.Foreground(lipgloss.Color("9"))
+	case "?":
+		return cellStyle.Faint(true)
+	}
+	return cellStyle
+}
+
+func renderDashboard(machines map[string]*MachineStatus, expected map[string]string, kernels map[string]*kernelInfo) string {
+	var hosts []string
+	for h := range machines {
+		hosts = append(hosts, h)
+	}
+	sort.Strings(hosts)
+	if len(hosts) == 0 {
+		return "No machines reported status."
+	}
+
+	// NixOS table — keep parallel sysRow slice carrying the full paths so
+	// StyleFunc can compare without re-parsing the displayed (shortened) cells.
+	type sysRow struct {
+		status, reboot                                  string
+		availFull, pulledFull, profileFull, runningFull string
+	}
+	sys := make([]sysRow, 0, len(hosts))
+	sysRows := make([][]string, 0, len(hosts))
+	for _, h := range hosts {
+		m := machines[h]
+		avail := expected[h]
+		pulled := m.PulledPaths[h]
+		status := systemStatus(m.ProfileSystem, m.RunningSystem, pulled, avail)
+		reboot := rebootHint(m.RunningSystem, avail, kernels)
+		lastSeen := m.Timestamp
+		if t, err := time.Parse(time.RFC3339, m.Timestamp); err == nil {
+			lastSeen = fmt.Sprintf("%s ago", time.Since(t).Truncate(time.Second))
+		}
+		sys = append(sys, sysRow{
+			status:      status,
+			reboot:      reboot,
+			availFull:   avail,
+			pulledFull:  pulled,
+			profileFull: m.ProfileSystem,
+			runningFull: m.RunningSystem,
+		})
+		sysRows = append(sysRows, []string{
+			h, status,
+			shortenStorePath(avail),
+			shortenStorePath(pulled),
+			shortenStorePath(m.ProfileSystem),
+			shortenStorePath(m.RunningSystem),
+			reboot,
+			lastSeen,
+		})
+	}
+
+	sysTable := table.New().
+		Border(lipgloss.RoundedBorder()).
+		Headers("HOST", "STATUS", "AVAILABLE", "PULLED", "PROFILE", "RUNNING", "REBOOT?", "LAST SEEN").
+		Rows(sysRows...).
+		StyleFunc(func(row, col int) lipgloss.Style {
+			if row == table.HeaderRow {
+				return headerStyle
+			}
+			r := sys[row]
+			switch col {
+			case 1:
+				return styleForStatus(r.status)
+			case 3, 4, 5:
+				if r.availFull == "" {
+					return cellStyle
+				}
+				var full string
+				switch col {
+				case 3:
+					full = r.pulledFull
+				case 4:
+					full = r.profileFull
+				case 5:
+					full = r.runningFull
+				}
+				if full == r.availFull {
+					return matchStyle
+				}
+			case 6:
+				return styleForReboot(r.reboot)
+			}
+			return cellStyle
+		})
+
+	var b strings.Builder
+	b.WriteString(sectionStyle.Render("NixOS System"))
+	b.WriteString("\n")
+	b.WriteString(sysTable.Render())
+
+	// Home-manager table
+	type hmRow struct {
+		status  string
+		matched bool
+	}
+	var hms []hmRow
+	var hmRows [][]string
+	for _, h := range hosts {
+		for _, hm := range machines[h].HomeManager {
+			st := "up-to-date"
+			if hm.NeedsActivate {
+				st = "ACTIVATE NEEDED"
+			}
+			hms = append(hms, hmRow{status: st, matched: !hm.NeedsActivate})
+			hmRows = append(hmRows, []string{
+				h, hm.User, st,
+				shortenStorePath(hm.PulledPath),
+				shortenStorePath(hm.ActivePath),
+			})
+		}
+	}
+	if len(hms) > 0 {
+		hmTable := table.New().
+			Border(lipgloss.RoundedBorder()).
+			Headers("HOST", "USER", "STATUS", "PULLED", "ACTIVE").
+			Rows(hmRows...).
+			StyleFunc(func(row, col int) lipgloss.Style {
+				if row == table.HeaderRow {
+					return headerStyle
+				}
+				r := hms[row]
+				switch col {
+				case 2:
+					return styleForStatus(r.status)
+				case 3, 4:
+					if r.matched {
+						return matchStyle
+					}
+				}
+				return cellStyle
+			})
+		b.WriteString("\n\n")
+		b.WriteString(sectionStyle.Render("Home Manager"))
+		b.WriteString("\n")
+		b.WriteString(hmTable.Render())
+	}
+
+	// Action hints
+	var actions []string
+	for _, host := range hosts {
+		m := machines[host]
+		switch systemStatus(m.ProfileSystem, m.RunningSystem, m.PulledPaths[host], expected[host]) {
+		case "PULL NEEDED":
+			actions = append(actions, fmt.Sprintf("%s: CI build available but not yet pulled", host))
+		case "APPLY NEEDED":
+			actions = append(actions, fmt.Sprintf("%s: pulled build not yet activated (run y-nix-ci-apply)", host))
+		case "REBOOT NEEDED":
+			actions = append(actions, fmt.Sprintf("%s: profile differs from running system (reboot to apply)", host))
+		}
+		for _, hm := range m.HomeManager {
+			if hm.NeedsActivate {
+				actions = append(actions, fmt.Sprintf("%s: home-manager for %s needs activation (run y-nix-ci-apply)", host, hm.User))
+			}
+		}
+	}
+	if len(actions) > 0 {
+		b.WriteString("\n")
+		for _, a := range actions {
+			b.WriteString("\n  ")
+			b.WriteString(a)
+		}
+	}
+
+	return b.String()
+}
+
+// connectMQTT wires up the dashboard subscriptions. notify is called after every
+// state mutation; in watch mode it's program.Send, in oneshot it's a no-op.
+// onPath is called with each store path observed (running/available) so the
+// caller can opportunistically prefetch kernel refs.
+func connectMQTT(config Config, state *dashState, notify func(), onPath func(string)) (mqtt.Client, error) {
 	opts := mqtt.NewClientOptions()
 	broker := fmt.Sprintf("tcp://%s:%s", config.MQTTBroker, config.MQTTPort)
 	opts.AddBroker(broker)
@@ -668,186 +1024,146 @@ func runDashboard(config Config) {
 	opts.SetProtocolVersion(4)
 
 	opts.SetOnConnectHandler(func(client mqtt.Client) {
-		token := client.Subscribe("yorick/ci-puller/status/+", 1, func(client mqtt.Client, msg mqtt.Message) {
+		client.Subscribe("yorick/ci-puller/status/+", 1, func(_ mqtt.Client, msg mqtt.Message) {
 			var status MachineStatus
 			if err := json.Unmarshal(msg.Payload(), &status); err != nil {
 				log.Printf("Failed to parse status from %s: %v", msg.Topic(), err)
 				return
 			}
-			mu.Lock()
-			machines[status.Hostname] = &status
-			mu.Unlock()
-		})
-		token.Wait()
-		if token.Error() != nil {
-			log.Fatalf("Failed to subscribe: %v", token.Error())
-		}
+			state.mu.Lock()
+			state.machines[status.Hostname] = &status
+			state.mu.Unlock()
+			onPath(status.RunningSystem)
+			notify()
+		}).Wait()
+		client.Subscribe("yorick/git/dotfiles/main/+", 1, func(_ mqtt.Client, msg mqtt.Message) {
+			host := attrFromTopic(msg.Topic())
+			path := strings.TrimSpace(string(msg.Payload()))
+			state.mu.Lock()
+			state.expected[host] = path
+			state.mu.Unlock()
+			onPath(path)
+			notify()
+		}).Wait()
 	})
 
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
-		log.Fatalf("Failed to connect to MQTT: %v", token.Error())
+		return nil, token.Error()
+	}
+	return client, nil
+}
+
+// watchModel is the bubbletea model for the live dashboard.
+type watchModel struct {
+	state *dashState
+}
+
+type tickMsg time.Time
+type updateMsg struct{}
+
+func tickCmd() tea.Cmd {
+	return tea.Tick(time.Second, func(t time.Time) tea.Msg { return tickMsg(t) })
+}
+
+func (m watchModel) Init() tea.Cmd { return tickCmd() }
+
+func (m watchModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	switch msg := msg.(type) {
+	case tea.KeyMsg:
+		switch msg.String() {
+		case "q", "ctrl+c", "esc":
+			return m, tea.Quit
+		}
+	case tickMsg:
+		return m, tickCmd()
+	case updateMsg:
+		// fall through to re-render
+	}
+	return m, nil
+}
+
+func (m watchModel) View() string {
+	machines, expected, kernels := m.state.snapshot()
+	body := renderDashboard(machines, expected, kernels)
+	return body + "\n\n" + hintStyle.Render("press q to quit")
+}
+
+func runDashboard(config Config, watch bool) {
+	state := &dashState{
+		machines: make(map[string]*MachineStatus),
+		expected: make(map[string]string),
+		kernels:  make(map[string]*kernelInfo),
+	}
+
+	var program *tea.Program
+	notify := func() {
+		if program != nil {
+			program.Send(updateMsg{})
+		}
+	}
+
+	// In watch mode, opportunistically prefetch kernel refs as paths arrive.
+	// In oneshot mode we skip live prefetch and run a synchronous batch after
+	// the retained-message wait, to avoid racing the explicit fetch.
+	onPath := func(string) {}
+	if watch {
+		onPath = func(p string) { state.ensureKernelRefs(p, config.NixCacheURL, notify) }
+	}
+
+	client, err := connectMQTT(config, state, notify, onPath)
+	if err != nil {
+		log.Fatalf("Failed to connect to MQTT: %v", err)
 	}
 	defer client.Disconnect(250)
 
-	// Wait for retained messages to arrive
-	fmt.Println("Collecting status from machines...")
-	time.Sleep(2 * time.Second)
-
-	// Also subscribe to the CI build topics to know what's expected
-	// We read the retained messages from yorick/git/dotfiles/main/+
-	expectedPaths := make(map[string]string)
-	subToken := client.Subscribe("yorick/git/dotfiles/main/+", 1, func(client mqtt.Client, msg mqtt.Message) {
-		host := attrFromTopic(msg.Topic())
-		mu.Lock()
-		expectedPaths[host] = strings.TrimSpace(string(msg.Payload()))
-		mu.Unlock()
-	})
-	subToken.Wait()
-
-	// Give time for retained CI messages
-	time.Sleep(1 * time.Second)
-
-	mu.Lock()
-	defer mu.Unlock()
-
-	if len(machines) == 0 {
-		fmt.Println("No machines reported status.")
+	if watch {
+		program = tea.NewProgram(watchModel{state: state}, tea.WithAltScreen())
+		if _, err := program.Run(); err != nil {
+			log.Fatalf("TUI error: %v", err)
+		}
 		return
 	}
 
-	// Sort hostnames
-	var hosts []string
-	for h := range machines {
-		hosts = append(hosts, h)
-	}
-	sort.Strings(hosts)
+	// One-shot: brief wait for retained messages, then fetch kernel refs in
+	// parallel, then render once.
+	fmt.Println(hintStyle.Render("Collecting status from machines..."))
+	time.Sleep(3 * time.Second)
 
-	// NixOS system status. Manual padding (not tabwriter) so ANSI color codes
-	// don't throw off column alignment.
-	fmt.Println("=== NixOS System ===")
-
-	type row struct {
-		host, status, available string
-		m                       *MachineStatus
-	}
-	hostW := len("HOST")
-	statusW := len("STATUS")
-	var rows []row
-	for _, h := range hosts {
-		if len(h) > hostW {
-			hostW = len(h)
+	machines, expected, _ := state.snapshot()
+	pathSet := map[string]bool{}
+	for h, m := range machines {
+		if m.RunningSystem != "" {
+			pathSet[m.RunningSystem] = true
 		}
-		m := machines[h]
-		available := expectedPaths[h]
-		s := systemStatus(m.ProfileSystem, m.RunningSystem, m.PulledPaths[h], available)
-		if len(s) > statusW {
-			statusW = len(s)
+		if a := expected[h]; a != "" {
+			pathSet[a] = true
 		}
-		rows = append(rows, row{h, s, available, m})
 	}
-	const pathW = 9 // width of "AVAILABLE" header, also fits the 8-char hash
-
-	pad := func(s string, w int) string {
-		if len(s) >= w {
-			return s
+	if len(pathSet) > 0 {
+		fmt.Println(hintStyle.Render("Looking up kernel references..."))
+		paths := make([]string, 0, len(pathSet))
+		for p := range pathSet {
+			paths = append(paths, p)
 		}
-		return s + strings.Repeat(" ", w-len(s))
-	}
-	green := func(s string) string { return "\x1b[32m" + s + "\x1b[0m" }
-	cell := func(full, available string) string {
-		p := pad(shortenStorePath(full), pathW)
-		if available != "" && full == available {
-			return green(p)
-		}
-		return p
-	}
-	dashes := func(n int) string { return strings.Repeat("-", n) }
-
-	fmt.Printf("%s  %s  %s  %s  %s  %s  %s\n",
-		pad("HOST", hostW), pad("STATUS", statusW),
-		pad("AVAILABLE", pathW), pad("PULLED", pathW),
-		pad("PROFILE", pathW), pad("RUNNING", pathW),
-		"LAST SEEN")
-	fmt.Printf("%s  %s  %s  %s  %s  %s  %s\n",
-		dashes(hostW), dashes(statusW),
-		dashes(pathW), dashes(pathW),
-		dashes(pathW), dashes(pathW),
-		dashes(len("LAST SEEN")))
-
-	for _, r := range rows {
-		lastSeen := r.m.Timestamp
-		if t, err := time.Parse(time.RFC3339, r.m.Timestamp); err == nil {
-			ago := time.Since(t).Truncate(time.Second)
-			lastSeen = fmt.Sprintf("%s ago", ago)
-		}
-
-		fmt.Printf("%s  %s  %s  %s  %s  %s  %s\n",
-			pad(r.host, hostW), pad(r.status, statusW),
-			pad(shortenStorePath(r.available), pathW),
-			cell(r.m.PulledPaths[r.host], r.available),
-			cell(r.m.ProfileSystem, r.available),
-			cell(r.m.RunningSystem, r.available),
-			lastSeen)
+		state.waitForKernelRefs(paths, config.NixCacheURL)
 	}
 
-	// Home-manager status
-	hasHM := false
-	for _, host := range hosts {
-		if len(machines[host].HomeManager) > 0 {
-			hasHM = true
-			break
-		}
-	}
-	if hasHM {
-		fmt.Println()
-		fmt.Println("=== Home Manager ===")
-		w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-		fmt.Fprintln(w, "HOST\tUSER\tSTATUS\tPULLED\tACTIVE")
-		fmt.Fprintln(w, "----\t----\t------\t------\t------")
-		for _, host := range hosts {
-			for _, hm := range machines[host].HomeManager {
-				hmStatus := "up-to-date"
-				if hm.NeedsActivate {
-					hmStatus = "ACTIVATE NEEDED"
-				}
-				fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n",
-					host,
-					hm.User,
-					hmStatus,
-					shortenStorePath(hm.PulledPath),
-					shortenStorePath(hm.ActivePath),
-				)
-			}
-		}
-		w.Flush()
-	}
-
-	// Print details for machines needing action
-	fmt.Println()
-	for _, host := range hosts {
-		m := machines[host]
-		switch systemStatus(m.ProfileSystem, m.RunningSystem, m.PulledPaths[host], expectedPaths[host]) {
-		case "PULL NEEDED":
-			fmt.Printf("  %s: CI build available but not yet pulled\n", host)
-		case "APPLY NEEDED":
-			fmt.Printf("  %s: pulled build not yet activated (run y-nix-ci-apply)\n", host)
-		case "REBOOT NEEDED":
-			fmt.Printf("  %s: profile differs from running system (reboot to apply)\n", host)
-		}
-		for _, hm := range m.HomeManager {
-			if hm.NeedsActivate {
-				fmt.Printf("  %s: home-manager for %s needs activation (run y-nix-ci-apply)\n", host, hm.User)
-			}
-		}
-	}
+	machines, expected, kernels := state.snapshot()
+	fmt.Println(renderDashboard(machines, expected, kernels))
 }
 
 func main() {
 	config := loadConfig()
 
 	if len(os.Args) > 1 && os.Args[1] == "dashboard" {
-		runDashboard(config)
+		watch := false
+		for _, a := range os.Args[2:] {
+			if a == "--watch" || a == "-w" {
+				watch = true
+			}
+		}
+		runDashboard(config, watch)
 		return
 	}
 
