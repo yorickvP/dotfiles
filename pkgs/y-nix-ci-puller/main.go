@@ -46,8 +46,6 @@ type MachineStatus struct {
 	RunningSystem  string               `json:"running_system"`
 	BootedSystem   string               `json:"booted_system"`
 	ProfileSystem  string               `json:"profile_system"`
-	NeedsReboot    bool                 `json:"needs_reboot"`
-	NeedsSwitch    bool                 `json:"needs_switch"`
 	HomeManager    []HomeManagerStatus  `json:"home_manager"`
 }
 
@@ -363,9 +361,6 @@ func collectStatus(gcrootDir string) MachineStatus {
 	booted := readSymlink("/run/booted-system")
 	profile := resolveProfilePath("/nix/var/nix/profiles/system")
 
-	needsReboot := booted != "" && profile != "" && booted != profile
-	needsSwitch := running != "" && profile != "" && running != profile
-
 	hmStatuses := findHomeManagerStatuses(pulledHM)
 
 	return MachineStatus{
@@ -375,8 +370,6 @@ func collectStatus(gcrootDir string) MachineStatus {
 		RunningSystem: running,
 		BootedSystem:  booted,
 		ProfileSystem: profile,
-		NeedsReboot:   needsReboot,
-		NeedsSwitch:   needsSwitch,
 		HomeManager:   hmStatuses,
 	}
 }
@@ -633,11 +626,26 @@ func runDaemon(config Config) {
 	}
 }
 
-// shortenStorePath extracts the hash + name from a full store path for display.
+// systemStatus reasons about machine state from the four observable values.
+// Order matters: pull is upstream of apply, apply is upstream of reboot.
+func systemStatus(profile, running, pulled, available string) string {
+	if available != "" && pulled != available {
+		return "PULL NEEDED"
+	}
+	if pulled != "" && pulled != profile {
+		return "APPLY NEEDED"
+	}
+	if profile != "" && running != "" && profile != running {
+		return "REBOOT NEEDED"
+	}
+	return "up-to-date"
+}
+
+// shortenStorePath returns a short hash prefix for visual diffing.
 func shortenStorePath(p string) string {
 	p = strings.TrimPrefix(p, "/nix/store/")
-	if len(p) > 40 {
-		return p[:40] + "..."
+	if len(p) > 8 {
+		return p[:8]
 	}
 	return p
 }
@@ -715,51 +723,73 @@ func runDashboard(config Config) {
 	}
 	sort.Strings(hosts)
 
-	// NixOS system status
+	// NixOS system status. Manual padding (not tabwriter) so ANSI color codes
+	// don't throw off column alignment.
 	fmt.Println("=== NixOS System ===")
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-	fmt.Fprintln(w, "HOST\tSTATUS\tPROFILE\tRUNNING\tBOOTED\tLAST SEEN")
-	fmt.Fprintln(w, "----\t------\t-------\t-------\t------\t---------")
 
-	for _, host := range hosts {
-		m := machines[host]
-
-		// Determine status
-		status := "up-to-date"
-		if m.NeedsReboot {
-			status = "REBOOT NEEDED"
-		} else if m.NeedsSwitch {
-			status = "SWITCH NEEDED"
+	type row struct {
+		host, status, available string
+		m                       *MachineStatus
+	}
+	hostW := len("HOST")
+	statusW := len("STATUS")
+	var rows []row
+	for _, h := range hosts {
+		if len(h) > hostW {
+			hostW = len(h)
 		}
-
-		// Check if pulled path matches expected CI output
-		if expected, ok := expectedPaths[host]; ok {
-			if pulled, ok := m.PulledPaths[host]; ok {
-				if pulled != expected {
-					status = "PULL PENDING"
-				}
-			} else {
-				status = "PULL PENDING"
-			}
+		m := machines[h]
+		available := expectedPaths[h]
+		s := systemStatus(m.ProfileSystem, m.RunningSystem, m.PulledPaths[h], available)
+		if len(s) > statusW {
+			statusW = len(s)
 		}
+		rows = append(rows, row{h, s, available, m})
+	}
+	const pathW = 9 // width of "AVAILABLE" header, also fits the 8-char hash
 
-		// Parse and format last seen
-		lastSeen := m.Timestamp
-		if t, err := time.Parse(time.RFC3339, m.Timestamp); err == nil {
+	pad := func(s string, w int) string {
+		if len(s) >= w {
+			return s
+		}
+		return s + strings.Repeat(" ", w-len(s))
+	}
+	green := func(s string) string { return "\x1b[32m" + s + "\x1b[0m" }
+	cell := func(full, available string) string {
+		p := pad(shortenStorePath(full), pathW)
+		if available != "" && full == available {
+			return green(p)
+		}
+		return p
+	}
+	dashes := func(n int) string { return strings.Repeat("-", n) }
+
+	fmt.Printf("%s  %s  %s  %s  %s  %s  %s\n",
+		pad("HOST", hostW), pad("STATUS", statusW),
+		pad("AVAILABLE", pathW), pad("PULLED", pathW),
+		pad("PROFILE", pathW), pad("RUNNING", pathW),
+		"LAST SEEN")
+	fmt.Printf("%s  %s  %s  %s  %s  %s  %s\n",
+		dashes(hostW), dashes(statusW),
+		dashes(pathW), dashes(pathW),
+		dashes(pathW), dashes(pathW),
+		dashes(len("LAST SEEN")))
+
+	for _, r := range rows {
+		lastSeen := r.m.Timestamp
+		if t, err := time.Parse(time.RFC3339, r.m.Timestamp); err == nil {
 			ago := time.Since(t).Truncate(time.Second)
 			lastSeen = fmt.Sprintf("%s ago", ago)
 		}
 
-		fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\t%s\n",
-			host,
-			status,
-			shortenStorePath(m.ProfileSystem),
-			shortenStorePath(m.RunningSystem),
-			shortenStorePath(m.BootedSystem),
-			lastSeen,
-		)
+		fmt.Printf("%s  %s  %s  %s  %s  %s  %s\n",
+			pad(r.host, hostW), pad(r.status, statusW),
+			pad(shortenStorePath(r.available), pathW),
+			cell(r.m.PulledPaths[r.host], r.available),
+			cell(r.m.ProfileSystem, r.available),
+			cell(r.m.RunningSystem, r.available),
+			lastSeen)
 	}
-	w.Flush()
 
 	// Home-manager status
 	hasHM := false
@@ -772,7 +802,7 @@ func runDashboard(config Config) {
 	if hasHM {
 		fmt.Println()
 		fmt.Println("=== Home Manager ===")
-		w = tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
+		w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 		fmt.Fprintln(w, "HOST\tUSER\tSTATUS\tPULLED\tACTIVE")
 		fmt.Fprintln(w, "----\t----\t------\t------\t------")
 		for _, host := range hosts {
@@ -797,10 +827,13 @@ func runDashboard(config Config) {
 	fmt.Println()
 	for _, host := range hosts {
 		m := machines[host]
-		if m.NeedsReboot {
-			fmt.Printf("  %s: profile differs from booted system (reboot to apply)\n", host)
-		} else if m.NeedsSwitch {
-			fmt.Printf("  %s: profile differs from running system (switch or reboot to apply)\n", host)
+		switch systemStatus(m.ProfileSystem, m.RunningSystem, m.PulledPaths[host], expectedPaths[host]) {
+		case "PULL NEEDED":
+			fmt.Printf("  %s: CI build available but not yet pulled\n", host)
+		case "APPLY NEEDED":
+			fmt.Printf("  %s: pulled build not yet activated (run y-nix-ci-apply)\n", host)
+		case "REBOOT NEEDED":
+			fmt.Printf("  %s: profile differs from running system (reboot to apply)\n", host)
 		}
 		for _, hm := range m.HomeManager {
 			if hm.NeedsActivate {
