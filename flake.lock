@@ -358,11 +358,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774112020,
-        "narHash": "sha256-4eQG70HD0ibSJTBEz5bp3AAoXO0o2TLE7ETCMj0spLU=",
+        "lastModified": 1777795438,
+        "narHash": "sha256-oSPcp2RzLndvfQnPUUns/SyeVvIZfoK6wBHSaYSXFwc=",
         "ref": "refs/heads/main",
-        "rev": "13eb6399698f0f0fb12bdc866372d5d5a97870bd",
-        "revCount": 28,
+        "rev": "39246a8b71db62010a46146b74d2a04bbadeff93",
+        "revCount": 37,
         "type": "git",
         "url": "https://git.yori.cc/yorick/hackerdeck"
       },
