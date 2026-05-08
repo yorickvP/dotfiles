@@ -43,5 +43,7 @@
   programs.thunar.enable = true;
   programs.thunar.plugins = [ pkgs.xfce.thunar-archive-plugin ];
   services.gvfs.enable = true;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.preferStaticEmulators = true;
 
 }
