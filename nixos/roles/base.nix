@@ -16,9 +16,18 @@ in
   time.timeZone = "Europe/Amsterdam";
 
   # CVE-2026-31431 (copy.fail): block AF_ALG autoload of algif_aead
-  boot.blacklistedKernelModules = [ "algif_aead" ];
+  # dirtyfrag (no CVE yet): block xfrm-ESP and RxRPC page-cache write modules
+  boot.blacklistedKernelModules = [
+    "algif_aead"
+    "esp4"
+    "esp6"
+    "rxrpc"
+  ];
   boot.extraModprobeConfig = ''
     install algif_aead /bin/false
+    install esp4 /bin/false
+    install esp6 /bin/false
+    install rxrpc /bin/false
   '';
 
   users = {
