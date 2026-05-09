@@ -28,7 +28,17 @@
         devices = [ "nodev" ];
       }
     ];
+    extraConfig = ''
+      serial --unit=1 --speed=115200 --word=8 --parity=no --stop=1
+      terminal_output --append serial
+      terminal_input --append serial
+    '';
   };
+
+  boot.kernelParams = [
+    "console=tty0"
+    "console=ttyS1,115200n8"
+  ];
 
   # fileSystems."/" = {
   #   device = "/dev/disk/by-uuid/ba95c638-f243-48ee-ae81-0c70884e7e74";
