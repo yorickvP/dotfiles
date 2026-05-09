@@ -28,7 +28,13 @@ in
     enable = true;
     openFirewall = true;
   };
-  systemd.services.plex.after = [ "data-plexmedia.mount" ];
+  systemd.services.plex = {
+    requires = [ "network-online.target" ];
+    after = [
+      "data-plexmedia.mount"
+      "network-online.target"
+    ];
+  };
   services.sonarr = {
     enable = true;
     group = "plex";
