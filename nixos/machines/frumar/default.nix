@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 {
@@ -32,14 +33,21 @@
       1883
     ];
     interfaces.wg-y.allowedUDPPorts = [ 1883 ];
-    interfaces.eno1.allowedTCPPorts = [ 1883 ];
-    interfaces.eno1.allowedUDPPorts = [ 1883 ];
+    interfaces.eno1.allowedTCPPorts = [
+      1883
+      8554
+    ];
+    interfaces.eno1.allowedUDPPorts = [
+      1883
+      8554
+    ];
   };
   programs.msmtp.enable = true;
   services.smartd.enable = true;
 
   age.secrets = {
     attic.file = ../../../secrets/attic.env.age;
+    frigate-env.file = ../../../secrets/frigate.env;
     frumar-disk-encryption.file = ../../../secrets/frumar-disk-encryption.age;
     grafana.file = ../../../secrets/grafana.env.age;
     marvin-tracker.file = ../../../secrets/marvin-tracker.env.age;
@@ -130,6 +138,89 @@
           "big-parallel"
         ];
       }
+    ];
+  };
+  services.go2rtc = {
+    enable = true;
+    settings = {
+      rtsp.listen = ":8554";
+      api.origin = "*"; # allow WebSocket upgrades from HA frontend (home-assistant.yori.cc)
+      # camera pushes RTSP into go2rtc, so no source URL here
+      streams."28704e17f84b" = [ ];
+      streams."28704e17f84b_sub" = [ ];
+    };
+  };
+  services.frigate = {
+    enable = true;
+    hostname = "frigate.yori.cc";
+    preCheckConfig = "export FRIGATE_MQTT_PASSWORD=dummy";
+    settings = {
+      mqtt = {
+        enabled = true;
+        host = "localhost";
+        user = "frigate";
+        password = "{FRIGATE_MQTT_PASSWORD}";
+      };
+      go2rtc.streams = config.services.go2rtc.settings.streams;
+      detectors.coral = {
+        type = "edgetpu";
+        device = "usb";
+      };
+      objects.track = [
+        "person"
+        "cat"
+        "bird"
+      ];
+      record = {
+        enabled = true;
+        alerts.retain.days = 14;
+      };
+      ffmpeg.output_args.record = "preset-record-generic-audio-copy";
+      cameras.garden = {
+        live.height = 360;
+        live.streams = {
+          "HD" = "28704e17f84b";
+          "SD" = "28704e17f84b_sub";
+        };
+        ffmpeg.inputs = [
+          {
+            path = "rtsp://127.0.0.1:8554/28704e17f84b";
+            input_args = "preset-rtsp-restream";
+            roles = [ "record" ];
+          }
+          {
+            path = "rtsp://127.0.0.1:8554/28704e17f84b_sub";
+            input_args = "preset-rtsp-restream";
+            roles = [
+              "detect"
+              "audio"
+            ];
+          }
+        ];
+      };
+    };
+  };
+  fileSystems."/var/cache/frigate" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [
+      "size=4G"
+      "mode=0750"
+      "uid=frigate"
+      "gid=frigate"
+    ];
+  };
+  systemd.services.frigate.serviceConfig = {
+    EnvironmentFile = config.age.secrets.frigate-env.path;
+    CacheDirectory = lib.mkForce [
+      "frigate"
+      "frigate-models"
+    ];
+    ExecStartPre = lib.mkAfter [
+      (pkgs.writeShellScript "frigate-link-model-cache" ''
+        rm -rf /var/cache/frigate/model_cache
+        ln -sfn /var/cache/frigate-models /var/cache/frigate/model_cache
+      '')
     ];
   };
 }

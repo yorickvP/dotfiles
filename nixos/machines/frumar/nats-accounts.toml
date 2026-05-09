@@ -17,6 +17,16 @@ password = "$2b$05$MbQTFpIHRAN.m6E2Si.ZvO.oC3sQce/gNJM.0aeLejvEJ1nomGd8S"
 allowed_connection_types = ["MQTT"]
 
 [[default.users]]
+user = "frigate"
+password = "$2b$05$F/8pnK4YbDP7fWntMhh/hOGvrGP67IcNZ0uQZetLCKbj53RbN4aYq"
+allowed_connection_types = ["MQTT"]
+
+[default.users.permissions.publish]
+allow = ["homeassistant.>", "frigate.>"]
+[default.users.permissions.subscribe]
+allow = [">", "$MQTT.sub.>"]
+
+[[default.users]]
 user = "zigbee2mqtt"
 allowed_connection_types = ["MQTT"]
 password = "$2a$11$CC5NVYiTUeoa4A4w94NFMORO/0jhMR60JWgPUgjct8c2vg29wwIGG"

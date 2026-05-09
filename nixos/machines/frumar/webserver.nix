@@ -127,6 +127,18 @@ in
         enableACME = lib.mkForce false;
         inherit (config.security.y-selfsigned) sslCertificate sslCertificateKey;
       };
+      "frigate.yori.cc" = {
+        onlySSL = true;
+        quic = true;
+        useACMEHost = "wildcard.yori.cc";
+        extraConfig = ''
+          allow 127.0.0.1;
+          allow ::1;
+          allow 2a02:a464:5ed:1::/64;
+          allow ::/64;
+          deny all;
+        '';
+      };
     };
   };
   systemd.services.nginx.serviceConfig.BindReadOnlyPaths = [

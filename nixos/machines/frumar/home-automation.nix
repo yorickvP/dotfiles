@@ -80,6 +80,7 @@
       "sonos"
       "matter"
       "wled"
+      "stream"
       #"unifiprotect"
     ];
     customComponents = with pkgs.home-assistant-custom-components; [
@@ -88,6 +89,12 @@
       # todo: adaptive-lighting?
       # sleep_as_android
     ];
+    extraPackages =
+      python3Packages: with python3Packages; [
+        # for frigate HACS integration
+        titlecase
+        hass-web-proxy-lib
+      ];
     config = {
       mobile_app = { };
       default_config = { };

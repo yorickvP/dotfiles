@@ -112,4 +112,5 @@ builtins.mapAttrs
       blackadder
       jarvis
     ];
+    "frigate.env" = [ frumar ];
   }
