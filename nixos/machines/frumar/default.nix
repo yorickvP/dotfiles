@@ -171,6 +171,8 @@
         "cat"
         "bird"
       ];
+      objects.filters.person.mask = "0.214,0.496,0.222,0.408,0.311,0.398,0.327,0.491";
+      motion.contour_area = 25;
       record = {
         enabled = true;
         alerts.retain.days = 14;
