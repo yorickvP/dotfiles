@@ -58,6 +58,7 @@
   getent,
   iproute2,
   procps,
+  file,
 }:
 let
   uid = "1000";
@@ -175,6 +176,7 @@ let
       nodejs
       nix-index-with-db
       entrypoint
+      file
     ];
   };
   # todo: /var/empty?
