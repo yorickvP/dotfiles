@@ -30,6 +30,7 @@ in
       enable = true;
       package = pkgs.calibre-web.overridePythonAttrs (o: {
         dependencies = o.dependencies ++ o.optional-dependencies.kobo;
+        pythonRelaxDeps = (o.pythonRelaxDeps or [ ]) ++ [ "requests" ];
       });
       options = {
         enableBookUploading = true;
