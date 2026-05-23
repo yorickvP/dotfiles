@@ -76,6 +76,19 @@ func (a *Agent) addCert(cert *ssh.Certificate) {
 	a.certs[fp] = append(a.certs[fp], cert)
 }
 
+func (a *Agent) Sign(key ssh.PublicKey, data []byte) (*ssh.Signature, error) {
+	return a.SignWithFlags(key, data, 0)
+}
+
+func (a *Agent) SignWithFlags(key ssh.PublicKey, data []byte, flags sshagent.SignatureFlags) (*ssh.Signature, error) {
+	if parsed, err := ssh.ParsePublicKey(key.Marshal()); err == nil {
+		if cert, ok := parsed.(*ssh.Certificate); ok {
+			key = cert.Key
+		}
+	}
+	return a.ExtendedAgent.SignWithFlags(key, data, flags)
+}
+
 func (a *Agent) List() ([]*sshagent.Key, error) {
 	keys, err := a.ExtendedAgent.List()
 	if err != nil {
