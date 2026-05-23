@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 import locale
+import re
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 from icalendar import Calendar, Event
 import pytz
 import requests
 import sys
-import math
 
 # Set locale to Dutch
 try:
@@ -42,47 +42,59 @@ cal.add('X-WR-TIMEZONE', 'Europe/Amsterdam') # Add Timezone
 # Set timezone
 amsterdam_tz = pytz.timezone('Europe/Amsterdam')
 
-# Find all event divs - updated selector to match current structure
-event_divs = soup.find_all('div', class_='bg-white py-4 md:py-0 w-full rounded-lg md:rounded-bl-3xl overflow-hidden flex shadow-xs cursor-pointer relative')
+# Event cards are divs with an onclick handler navigating to an /event/ URL.
+event_url_re = re.compile(r"window\.location='(https://hipsy\.nl/event/[^']+)'")
+event_divs = [
+    div for div in soup.find_all('div', onclick=True)
+    if event_url_re.search(div.get('onclick', ''))
+]
 
 total_events_added = 0
 
 for event_div in event_divs:
+    event_url = event_url_re.search(event_div.get('onclick', '')).group(1)
 
-    # Extract event details with updated selectors
-    title_elem = event_div.find('a', class_='text-xl')
+    title_elem = event_div.find('a', href=event_url) or event_div.find('a')
     if not title_elem:
-        print("Skipping div, title element not found.", file=sys.stderr)
+        print("Skipping card, title link not found.", file=sys.stderr)
         continue
-
     title = title_elem.text.strip()
 
-    # Extract description
-    description_elem = event_div.find('p', class_='text-sm text-gray-800 py-2')
+    description_elem = event_div.find('p')
     description = description_elem.text.strip() if description_elem else "No description available"
 
-    # Extract date string
-    date_elem = event_div.find('div', class_='text-primary text-sm md:font-bold')
-    if not date_elem:
-        print(f"Skipping event '{title}', date element not found.", file=sys.stderr)
+    tags = [
+        span.text.strip()
+        for span in event_div.find_all('span', class_='bg-secondary-light')
+        if span.text.strip()
+    ]
+
+    # Listing date ("vr. 22 mei - ma. 25 mei") lacks year and times,
+    # so fetch the detail page for the canonical long-form string.
+    try:
+        detail_resp = requests.get(event_url, timeout=15)
+        detail_resp.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"Skipping event '{title}': error fetching detail page: {e}", file=sys.stderr)
         continue
 
-    date_str = date_elem.text.strip()
-
-    # Extract the event URL
-    event_url = title_elem.get('href')
-    if not event_url:
-         print(f"Skipping event '{title}', URL not found in title element.", file=sys.stderr)
-         continue
-    if not event_url.startswith('http'):
-        event_url = "https://hipsy.nl" + event_url
-
-    # Extract and store categories/tags if available - needed for recurring events too
-    tags = []
-    tag_elems = event_div.find_all('span', class_='bg-secondary-light rounded-sm md:rounded-full text-xs md:font-bold text-primary py-0.5 px-1.5 md:px-2.5 md:py-1 whitespace-nowrap')
-    if tag_elems:
-        for tag_elem in tag_elems:
-            tags.append(tag_elem.text.strip())
+    detail_soup = BeautifulSoup(detail_resp.text, 'html.parser')
+    date_container = detail_soup.find('div', class_='flex items-center space-x-3 mt-1 text-gray-800')
+    if not date_container:
+        print(f"Skipping event '{title}', date container not found on detail page.", file=sys.stderr)
+        continue
+    date_divs = date_container.find_all('div', recursive=False)
+    if len(date_divs) < 2:
+        print(f"Skipping event '{title}', unexpected date container layout.", file=sys.stderr)
+        continue
+    # Single-day events split date and time into nested font-bold + text-sm divs;
+    # synthesise the "<date> van <times>" form the parser below understands.
+    bold = date_divs[1].find('div', class_='font-bold')
+    time_div = date_divs[1].find('div', class_='text-sm')
+    if bold and time_div:
+        date_str = f"{bold.get_text(strip=True)} van {time_div.get_text(strip=True)}"
+    else:
+        date_str = date_divs[1].get_text(' ', strip=True)
 
     # Parse date and time
     try:
