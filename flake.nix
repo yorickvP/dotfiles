@@ -98,7 +98,10 @@
             allowUnfree = true;
             # chromium.vaapiSupport = true;
             android_sdk.accept_license = true;
-            permittedInsecurePackages = [ ];
+            permittedInsecurePackages = [
+              "electron-39.8.10"
+              "docker-28.5.2"
+            ];
             joypixels.acceptLicense = true;
           };
           inherit system;

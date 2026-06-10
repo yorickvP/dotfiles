@@ -186,7 +186,7 @@ in
           sshfs-fuse
           stern
           tmux
-          trurl
+          #trurl
           unzip
           uv
           yq

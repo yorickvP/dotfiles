@@ -220,7 +220,7 @@ in
     borgbackup
     bup
     # catdoc
-    trurl
+    # trurl # fixme
     expect
     fzf
     fx
