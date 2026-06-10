@@ -225,4 +225,11 @@
       '')
     ];
   };
+  services.disjoin = {
+    enable = true;
+    audioCodec = "opus";
+    substreamChannel = "video3";
+    substreamFps = 5;
+    openFirewall = true;
+  };
 }

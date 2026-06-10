@@ -13,6 +13,10 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    disjoin = {
+      url = "git+https://git.yori.cc/yorick/disjoin.git";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     nix-amd-npu = {
       url = "github:datakami/nix-amd-npu";
       inputs.nixpkgs.follows = "nixpkgs";
