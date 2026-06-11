@@ -43,12 +43,25 @@
       })
     ];
     crossOverlays = [
-      (_final: prev: {
+      (final: prev: {
         systemd = prev.systemd.override {
           withTpm2Tss = false;
         };
         libnfnetlink = prev.mono-gateway-libnfnetlink;
-        libnetfilter_conntrack = prev.mono-gateway-libnetfilter_conntrack;
+        # 26.05 bumped libnetfilter_conntrack to 1.1.1, whose new
+        # CTA_TIMESTAMP_EVENT takes the netlink id that mono's NXP fast-path
+        # patch assigns to CTA_LAYERSCAPE_FP_ORIG (ids must match the vendor
+        # kernel). Pin 1.0.9 until the patch is rebased upstream.
+        mono-gateway-libnetfilter_conntrack =
+          prev.mono-gateway-libnetfilter_conntrack.overrideAttrs
+            (_old: {
+              version = "1.0.9";
+              src = prev.fetchurl {
+                url = "https://netfilter.org/projects/libnetfilter_conntrack/files/libnetfilter_conntrack-1.0.9.tar.bz2";
+                hash = "sha256-Z72d9J/jTouCFE9t+5OzIPOEqOpZcn6S/40YtfS1eag=";
+              };
+            });
+        libnetfilter_conntrack = final.mono-gateway-libnetfilter_conntrack;
       })
     ];
     config.allowUnfree = true;
