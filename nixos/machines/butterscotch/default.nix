@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   ...
 }:
 let
@@ -47,5 +48,7 @@ in
       extraGroups = [ "video" ];
     };
   };
-  environment.systemPackages = [ pkgs.fastflowlm ];
+  # From the flake's own packages (built against upstream's xrt nixpkgs fork),
+  # not pkgs.fastflowlm — the overlay on our nixpkgs has no xrt.
+  environment.systemPackages = [ inputs.nix-amd-npu.packages.${pkgs.system}.fastflowlm ];
 }

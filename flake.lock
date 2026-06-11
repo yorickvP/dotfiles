@@ -561,20 +561,18 @@
     "nix-amd-npu": {
       "inputs": {
         "flake-parts": "flake-parts_3",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1774350133,
-        "narHash": "sha256-iaV8BKn0VnJ7qLzdVN/L928PW4gmsb7ya2o8R6EIdJw=",
-        "owner": "datakami",
+        "lastModified": 1775660927,
+        "narHash": "sha256-x1EDOW47T7ph8z2AjPHJMkxWivn/Q04ZSr3JBOFEV9s=",
+        "owner": "robcohen",
         "repo": "nix-amd-npu",
-        "rev": "0da9b97b6db00d008a4e7f6e6a5fb5329270808f",
+        "rev": "8848c6f3382852290ac25fbe7634058c4e9c037e",
         "type": "github"
       },
       "original": {
-        "owner": "datakami",
+        "owner": "robcohen",
         "repo": "nix-amd-npu",
         "type": "github"
       }
@@ -661,16 +659,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1780902259,
-        "narHash": "sha256-q8yYEC5f1mFlQO9RGna4LTc9QrcvWunX6FYp83munkQ=",
-        "owner": "nixos",
+        "lastModified": 1775660890,
+        "narHash": "sha256-hZoabmLFqWRyjJwwfzdpaJ+BpbNt5tI2ArkN7bIQCww=",
+        "owner": "robcohen",
         "repo": "nixpkgs",
-        "rev": "bd0ff2d3eac24699c3664d5966b9ef36f388e2ca",
+        "rev": "9233c639efd91157644e73c7026b21e47a2c027c",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "nixos-26.05",
+        "owner": "robcohen",
+        "ref": "vitis-ai",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -721,7 +719,40 @@
         "type": "github"
       }
     },
+    "nixpkgs-vitis-ai": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1775660890,
+        "narHash": "sha256-hZoabmLFqWRyjJwwfzdpaJ+BpbNt5tI2ArkN7bIQCww=",
+        "owner": "robcohen",
+        "repo": "nixpkgs",
+        "rev": "9233c639efd91157644e73c7026b21e47a2c027c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "robcohen",
+        "repo": "nixpkgs",
+        "rev": "9233c639efd91157644e73c7026b21e47a2c027c",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1780902259,
+        "narHash": "sha256-q8yYEC5f1mFlQO9RGna4LTc9QrcvWunX6FYp83munkQ=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "bd0ff2d3eac24699c3664d5966b9ef36f388e2ca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-26.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1766309749,
         "narHash": "sha256-3xY8CZ4rSnQ0NqGhMKAy5vgC+2IVK0NoVEzDoOh4DA4=",
@@ -871,7 +902,8 @@
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixos-mailserver": "nixos-mailserver",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
+        "nixpkgs-vitis-ai": "nixpkgs-vitis-ai",
         "pyproject-build-systems": "pyproject-build-systems",
         "pyproject-nix": "pyproject-nix_2",
         "uv2nix": "uv2nix",
@@ -1046,7 +1078,7 @@
     },
     "yobot": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "pyproject-build-systems": "pyproject-build-systems_2",
         "pyproject-nix": "pyproject-nix_3",
         "uv2nix": "uv2nix_2"

@@ -17,8 +17,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-amd-npu = {
-      url = "github:datakami/nix-amd-npu";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:robcohen/nix-amd-npu";
+      # NOTE: deliberately does NOT follow our nixpkgs. Upstream pins its own
+      # nixpkgs fork (robcohen/nixpkgs:vitis-ai) which is where the xrt
+      # packages live; following our 26.05 nixpkgs would drop xrt and break
+      # the build. Packages are consumed via inputs.nix-amd-npu.packages.
+    };
+    # Same commit nix-amd-npu's nixpkgs is locked to. Imported in butterscotch's
+    # hardware.nix with an overlay to realign the XRT chain (see there for why).
+    nixpkgs-vitis-ai = {
+      url = "github:robcohen/nixpkgs/9233c639efd91157644e73c7026b21e47a2c027c";
+      flake = false;
     };
     nixos-hardware = { };
     llm-agents = {
