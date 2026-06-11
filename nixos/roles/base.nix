@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   ...
 }:
 let
@@ -69,7 +68,12 @@ in
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         # todo: overridden from forgejo
-        AcceptEnv = lib.mkForce "GIT_PROTOCOL COLORTERM TERM_PROGRAM TERM_PROGRAM_VERSION";
+        # the forgejo module adds GIT_PROTOCOL where needed
+        AcceptEnv = [
+          "COLORTERM"
+          "TERM_PROGRAM"
+          "TERM_PROGRAM_VERSION"
+        ];
       };
     };
     timesyncd.enable = true;
@@ -125,7 +129,7 @@ in
     );
 
   # enabled by fish, slow
-  documentation.man.generateCaches = false;
+  documentation.man.cache.enable = false;
 
   hardware.enableRedistributableFirmware = true;
 }

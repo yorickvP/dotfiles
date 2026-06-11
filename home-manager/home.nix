@@ -71,51 +71,49 @@ in
     ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
+      settings = {
         "*" = {
-          controlMaster = "auto";
-          serverAliveInterval = 120;
-          sendEnv = [
+          ControlMaster = "auto";
+          ServerAliveInterval = 120;
+          SendEnv = [
             "COLORTERM"
             "TERM_PROGRAM"
             "TERM_PROGRAM_VERSION"
           ];
-          compression = true;
-          forwardAgent = false;
-          addKeysToAgent = "no";
-          serverAliveCountMax = 3;
-          hashKnownHosts = false;
-          userKnownHostsFile = "~/.ssh/known_hosts";
-          controlPath = "~/.ssh/master-%r@%n:%p";
-          controlPersist = "no";
+          Compression = true;
+          ForwardAgent = false;
+          AddKeysToAgent = "no";
+          ServerAliveCountMax = 3;
+          HashKnownHosts = false;
+          UserKnownHostsFile = "~/.ssh/known_hosts";
+          ControlPath = "~/.ssh/master-%r@%n:%p";
+          ControlPersist = "no";
         };
         "pub.yori.cc" = {
-          user = "public";
-          identityFile = "~/.ssh/id_rsa_pub";
-          identitiesOnly = true;
+          User = "public";
+          IdentityFile = "~/.ssh/id_rsa_pub";
+          IdentitiesOnly = true;
         };
         phassa = {
-          hostname = "karpenoktem.nl";
-          port = 33933;
+          HostName = "karpenoktem.nl";
+          Port = 33933;
         };
         "karpenoktem.nl" = {
-          user = "root";
+          User = "root";
         };
         sankhara = {
-          user = "infra";
-          port = 33931;
-          hostname = "sankhara.karpenoktem.nl";
+          User = "infra";
+          Port = 33931;
+          HostName = "sankhara.karpenoktem.nl";
         };
-        blackadder.hostname = "10.209.0.6";
-        frumar.hostname = "frumar.home.yori.cc";
-        pennyworth.hostname = "pennyworth.yori.cc";
-        smithers.hostname = "10.209.0.8";
-        butterscotch.hostname = "10.209.0.10";
+        blackadder.HostName = "10.209.0.6";
+        frumar.HostName = "frumar.home.yori.cc";
+        pennyworth.HostName = "pennyworth.yori.cc";
+        smithers.HostName = "10.209.0.8";
+        butterscotch.HostName = "10.209.0.10";
+        # no compression on the local network
+        "Match host \"192.168.*.*\" exec \"ip route get %h | grep -v -q via\"".Compression = false;
       };
-      extraConfig = ''
-        Match host "192.168.*.*" exec "ip route get %h | grep -v -q via"
-          Compression no
-      '';
     };
     fish = {
       enable = true;
@@ -238,7 +236,7 @@ in
     magic-wormhole
     man-pages
     mosh
-    neofetch
+    fastfetch
     openssl
     pass
     pv
@@ -273,7 +271,7 @@ in
     ## nix
     nix-tree
     niv
-    nixfmt-rfc-style
+    nixfmt
     patchelf
     nix-prefetch-git
     nix-du

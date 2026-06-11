@@ -150,6 +150,11 @@ in
     email.addresses = "yorickvanpelt@gmail.com";
     redirectURL = "https://priv.yori.cc/oauth2/callback";
     reverseProxy = true;
+    # nginx proxies from the same host
+    trustedProxyIP = [
+      "127.0.0.1"
+      "::1"
+    ];
     keyFile = config.age.secrets.oauth2-proxy.path;
     setXauthrequest = true;
     nginx.virtualHosts."priv.yori.cc" = {

@@ -29,6 +29,12 @@
         auth_style = "AutoDetect";
       };
       auth.disable_login_form = true;
+      # 26.05 requires this to be set explicitly. This is the historical
+      # nixpkgs default the DB secrets are already encrypted with; it only
+      # protects datasource credentials at rest, which we don't store.
+      # To rotate: put GF_SECURITY_SECRET_KEY in grafana.env and re-encrypt,
+      # see https://github.com/erooke/grafana-secretkey-rotation-tool
+      security.secret_key = "SW2YcwTIb9zpOOhoPsMm";
     };
   };
   services.victoriametrics = {

@@ -2,7 +2,8 @@
   stdenv,
   libevdev,
   xdotool,
-  xorg,
+  libx11,
+  xorgproto,
   pkg-config,
   fetchFromGitHub,
 }:
@@ -17,8 +18,8 @@ stdenv.mkDerivation {
   };
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [
-    xorg.libX11
-    xorg.xorgproto
+    libx11
+    xorgproto
     xdotool
     libevdev
   ];

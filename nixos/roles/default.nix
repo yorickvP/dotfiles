@@ -201,6 +201,9 @@ in
     };
   };
 
+  # TODO(26.11): default flips to false, try booting a zfs machine with false
+  boot.zfs.forceImportRoot = lib.mkDefault true;
+
   services.zfs = {
     autoScrub = {
       enable = true;

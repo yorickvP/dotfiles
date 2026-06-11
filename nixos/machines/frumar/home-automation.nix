@@ -119,10 +119,6 @@
         use_x_forwarded_for = true;
         trusted_proxies = [ "::1" ];
       };
-      lovelace = {
-        mode = "storage";
-        dashboards = "!include dashboards.yaml";
-      };
       media_player = "!include media_player.yaml";
       template = [
         {

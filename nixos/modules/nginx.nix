@@ -13,7 +13,8 @@
       recommendedProxySettings = true;
       recommendedOptimisation = true;
       serverTokens = false;
-      # TODO(26.05 / nginx 1.29.3): switch to `add_header_inherit merge` if gixy supports it
+      # TODO(26.11): switch to `add_header_inherit merge` if gixy supports it
+      # (nginx 1.30.2 has the directive, but gixy 0.1.21 doesn't know it yet)
       additionalModules = [ pkgs.nginxModules.moreheaders ];
       sslDhparam = "/etc/nginx/dhparam.pem";
       virtualHosts."${config.networking.hostName}.yori.cc" = {

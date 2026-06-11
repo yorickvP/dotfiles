@@ -1,21 +1,20 @@
 {
   description = "Yoricks dotfiles";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-25.11";
+    nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-26.05";
     nixos-mailserver.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     yobot.url = "git+https://git.yori.cc/yorick/yobot.git";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     disjoin = {
       url = "git+https://git.yori.cc/yorick/disjoin.git";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-amd-npu = {
       url = "github:datakami/nix-amd-npu";
@@ -24,7 +23,7 @@
     nixos-hardware = { };
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     microvm = {
       url = "github:microvm-nix/microvm.nix";
@@ -62,7 +61,7 @@
     };
     mcp-nixos = {
       url = "github:utensils/mcp-nixos";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-fast-build = {
       url = "github:Mic92/nix-fast-build";
@@ -76,7 +75,6 @@
   outputs =
     inputs@{
       nixpkgs,
-      nixpkgs-unstable,
       home-manager,
       emacs-overlay,
       agenix,
@@ -172,12 +170,7 @@
         inputs.llm-agents.overlays.default
         inputs.nix-amd-npu.overlays.default
         (final: _prev: {
-          pkgs-unstable = import nixpkgs-unstable {
-            config.allowUnfree = true;
-            inherit (final.stdenv) system;
-          };
           flake-inputs = inputs;
-          inherit (final.pkgs-unstable) govee2mqtt;
           inherit (final.llm-agents) claude-code;
           inherit (inputs.nix-index-database.packages.${final.stdenv.system}) nix-index-with-db;
           mcp-nixos = inputs.mcp-nixos.packages.${final.stdenv.system}.default;
