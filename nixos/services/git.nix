@@ -2,7 +2,6 @@
   config,
   lib,
   modulesPath,
-  pkgs,
   ...
 }:
 
@@ -47,8 +46,6 @@ in
     services.forgejo = {
       enable = true;
       user = "git";
-      # TODO(26.05) check if this equals lts, if so, remove override
-      package = pkgs.forgejo;
       database.user = "root";
       database.name = "gogs";
       database.createDatabase = false;

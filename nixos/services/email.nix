@@ -30,7 +30,7 @@ in
       "yori.cc"
       "yorickvanpelt.nl"
     ];
-    loginAccounts = {
+    accounts = {
       "yorick@yori.cc" = {
         hashedPasswordFile = config.age.secrets.yorick-mail-pass.path;
         catchAll = domains;
@@ -48,7 +48,8 @@ in
         sendOnly = true;
       };
     };
-    certificateScheme = "acme-nginx";
+    # cert comes from the nginx vhost ${hostName}.yori.cc in modules/nginx.nix
+    x509.useACMEHost = fqdn;
     enableImapSsl = true;
   };
 

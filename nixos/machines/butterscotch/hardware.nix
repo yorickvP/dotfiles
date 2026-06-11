@@ -17,8 +17,8 @@
 
   networking.hostId = "d05ee74c";
 
-  # TODO(26.05): bump
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
+  # TODO(26.11): bump
+  boot.kernelPackages = pkgs.linuxPackages_7_0;
   boot.zfs.package = pkgs.zfs_2_4;
 
   boot.kernelParams = [

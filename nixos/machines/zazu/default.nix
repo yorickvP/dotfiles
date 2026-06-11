@@ -8,7 +8,8 @@
     "${inputs.mono}/configurations/gateway.nix"
     # read-only nixpkgs module: uses cfg.pkgs directly without appendOverlays,
     # so the crossOverlays below don't leak into pkgsBuildBuild.
-    # TODO(26.05): test if this can be removed
+    # TODO(26.11): test if this can be removed (tested on 26.05: still needed,
+    # without it pkgsBuildBuild.systemd loses tpm2-tss)
     "${inputs.nixpkgs}/nixos/modules/misc/nixpkgs/read-only.nix"
   ];
   nixpkgs.pkgs = import inputs.nixpkgs {
@@ -52,6 +53,9 @@
     ];
     config.allowUnfree = true;
   };
+  # 26.05 defaults to systemd stage-1, but mono's hardware.nix still uses
+  # scripted initrd hooks (extraUtilsCommands/postMountCommands)
+  boot.initrd.systemd.enable = false;
   services.strongswan-swanctl.enable = lib.mkForce false;
   networking.hostName = lib.mkForce "zazu";
   services.vmagent.checkConfig = false; # todo: use buildPackages

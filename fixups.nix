@@ -20,12 +20,6 @@
       });
     }
   );
-  electron = super.electron_39;
-  electron_38 = super.electron_38.overrideAttrs (o: {
-    meta = o.meta // {
-      broken = true;
-    };
-  });
   age-plugin-fido2-hmac = super.age-plugin-fido2-hmac.overrideAttrs {
     src = super.fetchFromGitHub {
       owner = "yorickvP";

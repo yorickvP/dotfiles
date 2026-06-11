@@ -93,10 +93,10 @@ in
             "${mod}+Ctrl+Up" = "move workspace to output up";
             "${mod}+Ctrl+Down" = "move workspace to output down";
 
-            "XF86MonBrightnessUp" = exec light "light -T 1.1";
-            "XF86MonBrightnessDown" = exec light "light -T 0.9";
-            "ctrl+XF86MonBrightnessUp" = exec light "light -A 1";
-            "ctrl+XF86MonBrightnessDown" = exec light "light -U 1";
+            "XF86MonBrightnessUp" = exec brightnessctl "brightnessctl -e set +10%";
+            "XF86MonBrightnessDown" = exec brightnessctl "brightnessctl -e set 10%-";
+            "ctrl+XF86MonBrightnessUp" = exec brightnessctl "brightnessctl set +1%";
+            "ctrl+XF86MonBrightnessDown" = exec brightnessctl "brightnessctl set 1%-";
             "XF86AudioLowerVolume" = exec alsa-utils "amixer set Master 1%-";
             "XF86AudioRaiseVolume" = exec alsa-utils "amixer set Master 1%+";
             "XF86AudioMute" = exec alsa-utils "amixer set Master toggle";
@@ -213,6 +213,9 @@ in
   };
 
   programs.firefox.enable = true;
+  # keep profiles in the pre-26.05 location, the new default is
+  # ~/.config/mozilla/firefox and would need a manual move
+  programs.firefox.configPath = ".mozilla/firefox";
 
   home.sessionVariables = {
     MOZ_USE_XINPUT2 = "1";
@@ -335,7 +338,7 @@ in
     gtk-engine-murrine
     hicolor-icon-theme
     libnotify
-    light
+    brightnessctl
     mosquitto
     pavucontrol
     playerctl

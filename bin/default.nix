@@ -47,7 +47,7 @@ lib.mapAttrs (k: f: f k) {
       src = ./uv-landrun;
       buildInputs = [
         landrun
-        pkgs-unstable.uv
+        uv
       ];
       nativeBuildInputs = [ shellcheck-minimal ];
       unpackPhase = "true";
@@ -61,7 +61,7 @@ lib.mapAttrs (k: f: f k) {
         sed -i '2i export PATH="${
           lib.makeBinPath [
             landrun
-            pkgs-unstable.uv
+            uv
           ]
         }:$PATH"' $out/bin/uv-landrun
         ln -s uv-landrun $out/bin/uv
