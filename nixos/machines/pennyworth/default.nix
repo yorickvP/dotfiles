@@ -119,6 +119,7 @@ in
     enable = true;
     settings.APP_URL = "https://pocket-id.yori.cc";
     settings.TRUST_PROXY = true;
+    settings.ENCRYPTION_KEY_FILE = "/var/lib/pocket-id/encryption-key";
   };
   age.secrets.hackerdeck-env.file = ../../../secrets/hackerdeck.env.age;
   services.yorick.hackerdeck = {
