@@ -23,9 +23,11 @@
     };
     Install.WantedBy = [ "sockets.target" ];
   };
-  home.sessionVariablesExtra = lib.mkAfter ''
-    if [ -z "$SSH_CONNECTION" ] || [ -z "$SSH_AUTH_SOCK" ]; then
-      export SSH_AUTH_SOCK="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/ssh-agent"
-    fi
-  '';
+  # Override the SSH_AUTH_SOCK set by services.gpg-agent.enableSshSupport;
+  # the forwarded-agent (SSH_CONNECTION) check is built into this option.
+  sshAuthSock.initialization = lib.mkForce {
+    bash = ''export SSH_AUTH_SOCK="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/ssh-agent"'';
+    fish = "set -gx SSH_AUTH_SOCK $XDG_RUNTIME_DIR/ssh-agent";
+    nushell = ''$env.SSH_AUTH_SOCK = $"($env.XDG_RUNTIME_DIR)/ssh-agent"'';
+  };
 }
