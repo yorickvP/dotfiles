@@ -23,6 +23,6 @@ jobs:
           for link in result-*; do
             attr="${link#result-}"
             path=$(readlink "$link")
-            mosquitto_pub -r -h frumar.vpn.yori.cc -u ci -P "${{ secrets.MQTT_PASSWORD }}" \
+            mosquitto_pub -q 1 -r -h frumar.vpn.yori.cc -u ci -P "${{ secrets.MQTT_PASSWORD }}" \
               -t "yorick/git/dotfiles/${branch}/${attr}" -m "$path"
           done
