@@ -17,7 +17,7 @@ jobs:
       #     key: ${{ runner.os }}-nix-cache
       - run: nix develop .#ci --command sh -c 'echo "PATH=$PATH" >> "$GITHUB_ENV"'
       - run: attic login yorick https://cache.yori.cc "${{ secrets.ATTIC_TOKEN }}"
-      - run: nix-fast-build --skip-cached --no-nom --flake ".#hydraJobs" --attic-cache yorick
+      - run: nix-fast-build --no-nom --flake ".#hydraJobs" --attic-cache yorick
       - run: |
           branch="${GITHUB_REF_NAME}"
           for link in result-*; do
