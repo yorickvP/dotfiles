@@ -9,6 +9,7 @@
   ];
 
   boot.kernelModules = [ "i8k" ];
+  boot.kernelParams = [ "mem_sleep_default=deep" ];
   boot.extraModprobeConfig = ''
     options i8k ignore_dmi=1
   '';
