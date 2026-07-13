@@ -179,10 +179,12 @@
       overlays.default = nixpkgs.lib.composeManyExtensions [
         emacs-overlay.overlay
         agenix.overlays.default
-        inputs.llm-agents.overlays.default
         inputs.nix-amd-npu.overlays.default
         (final: _prev: {
           flake-inputs = inputs;
+          # llm-agents.nix removed its overlay output; expose its packages under
+          # the same pkgs.llm-agents scope the old overlay provided.
+          llm-agents = inputs.llm-agents.packages.${final.stdenv.system};
           inherit (final.llm-agents) claude-code;
           inherit (inputs.nix-index-database.packages.${final.stdenv.system}) nix-index-with-db;
           mcp-nixos = inputs.mcp-nixos.packages.${final.stdenv.system}.default;
